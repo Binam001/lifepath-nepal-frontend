@@ -11,6 +11,7 @@ import ContactSection from "./components/home/ContactSection";
 import Divider3 from "./components/home/Divider3";
 import ProblemSolution from "./components/home/ProblemSolution";
 import Divider from "./components/home/Divider";
+import Divider2 from "./components/home/Divider2";
 // import Footer from "./components/layout/Footer";
 // import FooterCTA from "./components/footerCTA/FooterCTA";
 // import Help from "./components/help/Help";
@@ -22,7 +23,7 @@ export default function Home() {
       <HeroSection />
       <Divider />
       <About />
-      <Divider />
+      <Divider2 />
       {/* <Help2 /> */}
       <ProblemSolution />
       <StorySection />

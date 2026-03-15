@@ -1,7 +1,9 @@
 "use client";
 
+import Image from "next/image";
 import PageTitle from "../ui/PageTitle";
 import { MoveRight } from "lucide-react";
+import { useState } from "react";
 
 const steps = [
   {
@@ -10,6 +12,8 @@ const steps = [
     problem: "Too many choices, no clear direction before enrolling.",
     solution: "We start with career clarity and map what fits you.",
     Icon: MoveRight,
+    leftImg: "/Lifepath/Asset5.png",
+    rightImg: "/Logo/Asset2.png",
   },
   {
     leftTitle: "Unclear strengths",
@@ -17,6 +21,8 @@ const steps = [
     problem: "Uncertain which path matches strengths and interests.",
     solution: "Personal guidance turns into a focused path.",
     Icon: MoveRight,
+    leftImg: "/Lifepath/Asset6.png",
+    rightImg: "/Logo/Asset2.png",
   },
   {
     leftTitle: "Random learning",
@@ -24,6 +30,8 @@ const steps = [
     problem: "Courses feel scattered without a plan or outcomes.",
     solution: "A step-by-step roadmap builds skills in the right order.",
     Icon: MoveRight,
+    leftImg: "/Lifepath/Asset7.png",
+    rightImg: "/Logo/Asset2.png",
   },
   {
     leftTitle: "Unsure what's next steps",
@@ -31,10 +39,14 @@ const steps = [
     problem: "Unsure how to translate skills into opportunities.",
     solution: "Portfolio, jobs, or freelancing with clear next steps.",
     Icon: MoveRight,
+    leftImg: "/Logo/Asset8.png",
+    rightImg: "/Logo/Asset2.png",
   },
 ];
 
 export default function ProblemSolution() {
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
   return (
     <section className="bg-white py-16 md:py-24">
       <div className="max-w-7xl mx-auto px-4 md:px-6">
@@ -55,6 +67,8 @@ export default function ProblemSolution() {
               <div
                 key={index}
                 className="group relative min-h-105 rounded-[28px] overflow-hidden border border-blue-100 bg-linear-to-br from-[#0f172a] via-[#1636b8] to-[#335CFF] p-6 md:p-7 flex flex-col justify-between transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_60px_rgba(51,92,255,0.22)]"
+                onMouseEnter={() => setHoveredIndex(index)}
+                onMouseLeave={() => setHoveredIndex(null)}
               >
                 {/* glow */}
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-[radial-linear(circle_at_top_right,rgba(255,255,255,0.18),transparent_35%)]" />
@@ -74,6 +88,20 @@ export default function ProblemSolution() {
                   <div className="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/10 text-white/80 transition-all duration-500 group-hover:bg-white group-hover:text-[#335CFF]">
                     <Icon size={18} />
                   </div>
+                </div>
+                {/* Center Image */}
+                <div className="flex justify-center py-4 ">
+                  <Image
+                    src={hoveredIndex === index ? item.rightImg : item.leftImg}
+                    alt={
+                      hoveredIndex === index ? item.rightTitle : item.leftTitle
+                    }
+                    width={140}
+                    height={140}
+                    className={`h-24 w-auto object-contain transition-all duration-500 ${
+                      hoveredIndex === index ? "opacity-75" : "opacity-50"
+                    }`}
+                  />
                 </div>
 
                 {/* Content */}

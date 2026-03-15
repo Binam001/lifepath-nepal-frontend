@@ -7,8 +7,6 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 const TEXT =
   "We start with your psychology and strengths, help you build practical skills, and prepare you for future job demand.";
 
-  
-
 export default function Divider() {
   const containerRef = useRef<HTMLDivElement | null>(null);
 
