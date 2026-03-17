@@ -135,7 +135,7 @@ const page = () => {
             title="Lifepath students who found clarity and careers"
             subtitle="Real outcomes from learners who followed the Lifepath clarity framework."
             titleClassName="text-2xl md:text-4xl font-bold text-white mb-4"
-            subtitleClassName="text-lg text-blue-100"
+            subtitleClassName="text-lg text-blue-100 px-1"
             containerClassName="text-center max-w-3xl mx-auto"
           />
         </div>
