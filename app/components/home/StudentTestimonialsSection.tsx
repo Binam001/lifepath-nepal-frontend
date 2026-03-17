@@ -3,11 +3,13 @@
 import { useEffect, useRef, useState } from "react";
 import { Play, ChevronLeft, ChevronRight } from "lucide-react";
 import PageTitle from "../ui/PageTitle";
+import Image from "next/image";
 
 const testimonials = [
   {
     id: 1,
     name: "Alish Maharjan",
+    thumbnail: "/students/Alish.jpeg",
     role: "Creative Designer",
     video: "/videos/Alish-1.mp4",
     quote: "LifePath helped me discover my true potential",
@@ -16,6 +18,7 @@ const testimonials = [
   {
     id: 2,
     name: "Krishma Maharjan",
+    thumbnail: "/students/Krishma.jpeg",
     role: "UX Designer",
     video: "/videos/Krishma.mp4",
     quote: "The personality test was eye-opening",
@@ -24,6 +27,7 @@ const testimonials = [
   {
     id: 3,
     name: "Zidan Chaudary",
+    thumbnail: "/students/Zidan.png",
     role: "Data Analyst",
     video: "/videos/Zidan.mp4",
     quote: "Career guidance at its best",
@@ -105,14 +109,14 @@ export default function StudentTestimonialsSection() {
       : currentIndex * (100 / itemsPerView + 2);
 
   return (
-    <section className="py-8 px-4 md:px-0">
+    <section className="px-4 md:px-0 py-16 md:py-24">
       <div className="max-w-7xl mx-auto mb-16">
         {/* Section Header */}
         <PageTitle
           title=" Real Students. Real Journeys."
           subtitle="Real stories from students who found clarity and direction."
-          titleClassName="text-3xl md:text-4xl  font-semibold text-zinc-900 mb-2"
-          subtitleClassName="text-lg text-zinc-600"
+          titleClassName="text-3xl md:text-5xl font-semibold text-blue-600 mb-3"
+          subtitleClassName="text-base md:text-lg text-zinc-700"
           containerClassName="text-center max-w-3xl mx-auto"
           align="center"
         />
@@ -177,14 +181,21 @@ export default function StudentTestimonialsSection() {
                         muted
                         loop
                         playsInline
-                        autoPlay
                       />
 
                       {/* Enhanced Overlay */}
-                      <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/50 to-black/20"></div>
+                      <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/50 to-black/20">
+                        <Image
+                          alt="Lifepath Nepal"
+                          src={testimonial.thumbnail}
+                          height={1000}
+                          width={500}
+                          className="h-full object-cover"
+                        />
+                      </div>
 
                       {/* Subtle Blue Overlay on Hover */}
-                      <div className="absolute inset-0 bg-blue-600/0 group-hover:bg-blue-600/10 transition-colors duration-300"></div>
+                      {/* <div className="absolute inset-0 bg-blue-600/0 group-hover:bg-blue-600/10 transition-colors duration-300"></div> */}
                     </div>
 
                     {/* Play Button with Enhanced Design */}

@@ -245,7 +245,7 @@ function HoverCard({
             }`}
           >
             <h3
-              className={`text-2xl md:text-3xl pb-3 font-semibold leading-tight max-w-[14ch] ${
+              className={`text-xl md:text-2xl pb-3 font-semibold leading-tight max-w-[14ch] ${
                 textDark ? "text-white" : "text-white"
               }`}
             >

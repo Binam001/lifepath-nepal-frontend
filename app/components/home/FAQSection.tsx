@@ -58,8 +58,8 @@ export default function FAQSection() {
         <PageTitle
           title="Frequently Asked Questions"
           subtitle="Quick answers to help you understand how Lifepath works."
-          titleClassName="text-3xl md:text-4xl font-semibold text-zinc-900 mb-2"
-          subtitleClassName="text-lg text-zinc-600"
+          titleClassName="text-3xl md:text-5xl font-semibold text-blue-600 mb-3"
+          subtitleClassName="text-base md:text-lg text-zinc-700"
           containerClassName="text-center max-w-3xl mx-auto"
           align="center"
         />

@@ -1,11 +1,11 @@
-import Link from "next/link";
-import { ArrowRight, Mail, Phone, Send } from "lucide-react";
+import ContactSection from "../components/home/ContactSection";
 
 export default function ContactUsPage() {
   return (
     <div className="min-h-screen pt-16 bg-zinc-50">
-      <section className="max-w-6xl mx-auto py-16 px-4 md:px-0">
-        <div className="text-center max-w-3xl mx-auto">
+      <ContactSection />
+
+      {/* <div className="text-center max-w-3xl mx-auto">
           <h1 className="text-3xl md:text-5xl font-semibold text-zinc-900">
             Let&apos;s bring your learning goals closer to you.
           </h1>
@@ -105,8 +105,7 @@ export default function ContactUsPage() {
           >
             Explore success stories <ArrowRight size={16} />
           </Link>
-        </div>
-      </section>
+        </div> */}
     </div>
   );
 }

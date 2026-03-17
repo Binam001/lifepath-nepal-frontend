@@ -106,7 +106,7 @@ export default function Footer() {
                 </div> */}
                 <div className="mt-7 max-w-sm">
                   <p className="text-sm font-medium text-zinc-900">
-                    Sign up to receive career tips.
+                    Subscribe to receive career tips.
                   </p>
                   <div className="mt-4 flex gap-2 rounded-full border border-zinc-200 bg-white p-2 sm:flex-row sm:items-center sm:gap-0 sm:rounded-full sm:p-1">
                     <input
@@ -116,9 +116,9 @@ export default function Footer() {
                     />
                     <button
                       type="button"
-                      className="inline-flex h-11 w-auto  items-center justify-center rounded-full bg-zinc-900 px-4 sm:px-5 text-sm font-semibold text-white transition-colors duration-200 hover:bg-zinc-800"
+                      className="inline-flex h-11 w-auto  items-center justify-center rounded-full bg-zinc-400 px-4 sm:px-5 text-sm font-semibold cursor-not-allowed text-white transition-colors duration-200 hover:bg-zinc-400"
                     >
-                      Submit
+                      Subscribe
                     </button>
                   </div>
                   <p className="mt-3 max-w-xs text-xs leading-5 text-zinc-500">
