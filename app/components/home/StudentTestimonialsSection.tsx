@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Play, ChevronLeft, ChevronRight, MoveRight } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Play, ChevronLeft, ChevronRight } from "lucide-react";
 import PageTitle from "../ui/PageTitle";
 
 const testimonials = [
@@ -35,6 +35,8 @@ export default function StudentTestimonialsSection() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState<number | null>(null);
   const [itemsPerView, setItemsPerView] = useState(3);
+  const touchStartX = useRef<number | null>(null);
+  const touchEndX = useRef<number | null>(null);
 
   // Update items per view based on screen size
   useEffect(() => {
@@ -57,16 +59,50 @@ export default function StudentTestimonialsSection() {
   const maxIndex = Math.max(0, testimonials.length - itemsPerView);
 
   const handlePrevious = () => {
+    setIsPlaying(null);
     setCurrentIndex((prev) => Math.max(0, prev - 1));
   };
 
   const handleNext = () => {
+    setIsPlaying(null);
     setCurrentIndex((prev) => Math.min(maxIndex, prev + 1));
   };
 
   const handlePlayVideo = (id: number) => {
     setIsPlaying(id);
   };
+
+  const handleTouchStart = (event: React.TouchEvent<HTMLDivElement>) => {
+    touchStartX.current = event.touches[0]?.clientX ?? null;
+    touchEndX.current = null;
+  };
+
+  const handleTouchMove = (event: React.TouchEvent<HTMLDivElement>) => {
+    touchEndX.current = event.touches[0]?.clientX ?? null;
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStartX.current === null || touchEndX.current === null) {
+      return;
+    }
+
+    const swipeDistance = touchStartX.current - touchEndX.current;
+    const minSwipeDistance = 40;
+
+    if (swipeDistance > minSwipeDistance) {
+      handleNext();
+    } else if (swipeDistance < -minSwipeDistance) {
+      handlePrevious();
+    }
+
+    touchStartX.current = null;
+    touchEndX.current = null;
+  };
+
+  const translatePercentage =
+    itemsPerView === 1
+      ? currentIndex * 100
+      : currentIndex * (100 / itemsPerView + 2);
 
   return (
     <section className="py-8 px-4 md:px-0">
@@ -115,14 +151,16 @@ export default function StudentTestimonialsSection() {
           )}
 
           {/* Testimonials Grid */}
-          <div className="overflow-hidden">
+          <div
+            className="overflow-hidden"
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+          >
             <div
               className="flex transition-transform duration-500 ease-out gap-4 sm:gap-6"
               style={{
-                transform: `tranzincX(-${
-                  currentIndex *
-                  (100 / itemsPerView + (itemsPerView > 1 ? 2 : 0))
-                }%)`,
+                transform: `translateX(-${translatePercentage}%)`,
               }}
             >
               {testimonials.map((testimonial) => (
@@ -132,7 +170,7 @@ export default function StudentTestimonialsSection() {
                 >
                   <div className="group relative h-96 sm:h-125 lg:h-137.5 rounded-2xl sm:rounded-3xl overflow-hidden bg-blue-500 cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-300 border-2 border-transparent hover:border-blue-600/20">
                     {/* Video Background */}
-                    <div className="absolute inset-0 transition-transform duration-500 group-hover:scale-110">
+                    <div className="absolute inset-0 transition-transform duration-500 ">
                       <video
                         src={testimonial.video}
                         className="absolute inset-0 h-[80vh] w-full object-cover"
@@ -174,10 +212,14 @@ export default function StudentTestimonialsSection() {
                       <div className="absolute inset-0 z-20 bg-black/60">
                         <video
                           src={testimonial.video}
-                          className="absolute inset-0 h-full w-full object-cover"
+                          className="absolute inset-0 h-full w-full bg-black object-cover object-top [&:fullscreen]:object-contain"
                           controls
                           autoPlay
                           playsInline
+                          controlsList="nodownload noplaybackrate noremoteplayback"
+                          disablePictureInPicture
+                          disableRemotePlayback
+                          onContextMenu={(event) => event.preventDefault()}
                           onEnded={() => setIsPlaying(null)}
                         />
                       </div>
@@ -223,7 +265,10 @@ export default function StudentTestimonialsSection() {
               {Array.from({ length: maxIndex + 1 }).map((_, index) => (
                 <button
                   key={index}
-                  onClick={() => setCurrentIndex(index)}
+                  onClick={() => {
+                    setIsPlaying(null);
+                    setCurrentIndex(index);
+                  }}
                   className={`h-2 rounded-full transition-all ${
                     index === currentIndex
                       ? "bg-blue-600 w-6 sm:w-8"

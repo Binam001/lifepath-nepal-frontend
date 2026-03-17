@@ -41,7 +41,8 @@ const guideBooks = [
   {
     id: 4,
     title: "Parent Guide to Smarter Career Choices",
-    subtitle: "Support your child with questions, options, and realistic planning.",
+    subtitle:
+      "Support your child with questions, options, and realistic planning.",
     format: "Family guide",
     readingTime: "75 minutes",
     chapters: "8 short chapters",
@@ -79,11 +80,15 @@ export default function GuideBooksPage() {
                 <p className="text-sm text-zinc-600">Focused guide books</p>
               </div>
               <div className="rounded-2xl border border-blue-100 bg-white p-4 shadow-sm">
-                <p className="text-2xl font-semibold text-zinc-900">Templates</p>
+                <p className="text-2xl font-semibold text-zinc-900">
+                  Templates
+                </p>
                 <p className="text-sm text-zinc-600">Worksheets you can use</p>
               </div>
               <div className="rounded-2xl border border-blue-100 bg-white p-4 shadow-sm">
-                <p className="text-2xl font-semibold text-zinc-900">Actionable</p>
+                <p className="text-2xl font-semibold text-zinc-900">
+                  Actionable
+                </p>
                 <p className="text-sm text-zinc-600">Built for real progress</p>
               </div>
             </div>

@@ -106,7 +106,7 @@ export const jobs: Job[] = [
     ],
   },
   {
-    id: 2,
+    id: 4,
     title: "Web Developer Senior",
     company: "WebX Nepal Pvt. Ltd.",
     location: "Kathmandu, Nepal",
@@ -135,7 +135,7 @@ export const jobs: Job[] = [
     ],
   },
   {
-    id: 2,
+    id: 5,
     title: "Web Developer Senior",
     company: "WebX Nepal Pvt. Ltd.",
     location: "Kathmandu, Nepal",
@@ -164,7 +164,7 @@ export const jobs: Job[] = [
     ],
   },
   {
-    id: 2,
+    id: 6,
     title: "Web Developer Senior",
     company: "WebX Nepal Pvt. Ltd.",
     location: "Kathmandu, Nepal",
@@ -193,7 +193,7 @@ export const jobs: Job[] = [
     ],
   },
   {
-    id: 2,
+    id: 7,
     title: "Web Developer Senior",
     company: "WebX Nepal Pvt. Ltd.",
     location: "Kathmandu, Nepal",
@@ -222,7 +222,7 @@ export const jobs: Job[] = [
     ],
   },
   {
-    id: 3,
+    id: 8,
     title: "Full Stack Developer",
     company: "TechVision UAE",
     location: "Dubai, UAE",
@@ -251,7 +251,7 @@ export const jobs: Job[] = [
     ],
   },
   {
-    id: 4,
+    id: 9,
     title: "Frontend Developer",
     company: "Innovation Labs Australia",
     location: "Sydney, Australia",
@@ -280,7 +280,7 @@ export const jobs: Job[] = [
     ],
   },
   {
-    id: 5,
+    id: 10,
     title: "Backend Developer",
     company: "CloudScale USA",
     location: "San Francisco, USA",
@@ -309,7 +309,7 @@ export const jobs: Job[] = [
     ],
   },
   {
-    id: 6,
+    id: 11,
     title: "UI/UX Designer",
     company: "Cursor Inc.",
     location: "Remote",
@@ -338,7 +338,7 @@ export const jobs: Job[] = [
     ],
   },
   {
-    id: 7,
+    id: 12,
     title: "Graphic Designer Junior",
     company: "Logolab Global Pvt. Ltd.",
     location: "Kathmandu, Nepal",
@@ -367,7 +367,7 @@ export const jobs: Job[] = [
     ],
   },
   {
-    id: 8,
+    id: 13,
     title: "Graphic Designer Senior",
     company: "Logolab Global Pvt. Ltd.",
     location: "Kathmandu, Nepal",
@@ -396,7 +396,7 @@ export const jobs: Job[] = [
     ],
   },
   {
-    id: 9,
+    id: 14,
     title: "Creative Designer",
     company: "Adspire Nepal Pvt. Ltd.",
     location: "Lazimpat, Kathmandu, Nepal",
@@ -425,7 +425,7 @@ export const jobs: Job[] = [
     ],
   },
   {
-    id: 10,
+    id: 15,
     title: "Social Media Manager",
     company: "Adspire Nepal Pvt. Ltd.",
     location: "Lazimpat, Kathmandu, Nepal",
@@ -454,7 +454,7 @@ export const jobs: Job[] = [
     ],
   },
   {
-    id: 11,
+    id: 16,
     title: "Digital Marketing Manager",
     company: "Growth Labs Australia",
     location: "Melbourne, Australia",
@@ -483,7 +483,7 @@ export const jobs: Job[] = [
     ],
   },
   {
-    id: 12,
+    id: 17,
     title: "Sales Development Representative",
     company: "SalesForce USA",
     location: "New York, USA",
@@ -512,7 +512,7 @@ export const jobs: Job[] = [
     ],
   },
   {
-    id: 13,
+    id: 18,
     title: "Account Manager",
     company: "ClientSuccess Dubai",
     location: "Dubai, UAE",
@@ -541,7 +541,7 @@ export const jobs: Job[] = [
     ],
   },
   {
-    id: 14,
+    id: 19,
     title: "Web Designer",
     company: "Growth Labs Australia",
     location: "Lazimpat, Kathmandu, Nepal",

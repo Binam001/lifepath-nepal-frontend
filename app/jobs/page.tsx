@@ -1,6 +1,6 @@
 "use client";
 
-import { MapPin, Clock, DollarSign, ArrowRight, Globe } from "lucide-react";
+import { MapPin, Clock, ArrowRight, Globe } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -96,8 +96,8 @@ export default function JobsPage() {
           <div className="">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {filteredJobs.map((job) => (
-                <Link
-                  href={`/jobs/${job.id}`}
+                <div
+                  // href={`/jobs/${job.id}`}
                   key={job.id}
                   className="bg-white/90 backdrop-blur rounded-2xl border border-zinc-200 p-6 shadow-sm hover:shadow-xl hover:border-blue-300 hover:-translate-y-0.5 transition-all duration-300 cursor-pointer group relative overflow-hidden focus-within:ring-2 focus-within:ring-blue-300"
                 >
@@ -159,21 +159,21 @@ export default function JobsPage() {
                       <div className="flex items-center justify-between">
                         <Link
                           href={`/jobs/${job.id}`}
-                          className="text-sm font-semibold text-blue-600 hover:text-blue-700 inline-flex items-center gap-2 transition-colors cursor-pointer"
+                          className="text-xs sm:text-sm font-semibold text-blue-600 hover:text-blue-700 inline-flex items-center gap-2 transition-colors cursor-pointer"
                         >
                           View details
                           <ArrowRight size={16} />
                         </Link>
                         <Link
                           href={`/jobs/${job.id}?apply=true`}
-                          className="text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-full transition-colors cursor-pointer"
+                          className="text-xs sm:text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-full transition-colors cursor-pointer"
                         >
                           Apply now
                         </Link>
                       </div>
                     </div>
                   </div>
-                </Link>
+                </div>
               ))}
             </div>
           </div>

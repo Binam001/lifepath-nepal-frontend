@@ -1,5 +1,5 @@
 import HeroSection from "./components/home/HeroSection";
-import StorySection from "./components/home/StorySection";
+// import StorySection from "./components/home/StorySection";
 // import PathCardsSection from "./components/home/PathCardsSection";
 // import MBTISection from "./components/home/MBTISection";
 import HowItWorksSection from "./components/home/HowItWorksSection";
@@ -8,10 +8,10 @@ import FAQSection from "./components/home/FAQSection";
 // import NewsletterCTA from "./components/home/NewsletterCTA";
 import About from "./components/home/About";
 import ContactSection from "./components/home/ContactSection";
-import Divider3 from "./components/home/Divider3";
+// import Divider3 from "./components/home/Divider3";
 import ProblemSolution from "./components/home/ProblemSolution";
 import Divider from "./components/home/Divider";
-import Divider2 from "./components/home/Divider2";
+// import Divider2 from "./components/home/Divider2";
 // import Footer from "./components/layout/Footer";
 // import FooterCTA from "./components/footerCTA/FooterCTA";
 // import Help from "./components/help/Help";
@@ -21,12 +21,13 @@ export default function Home() {
   return (
     <div>
       <HeroSection />
-      <Divider />
+      <Divider prop={1} />
       <About />
-      <Divider2 />
+      <Divider prop={2} />
       {/* <Help2 /> */}
       <ProblemSolution />
-      <StorySection />
+      {/* <StorySection /> */}
+      <Divider prop={3} />
       {/* <MBTISection /> */}
       <HowItWorksSection />
       {/* <NewsletterCTA
@@ -35,7 +36,7 @@ export default function Home() {
         imageSrc="/heroImages/woman2.png"
         description="Build a career that fits you — one insight at a time."
       /> */}
-      <Divider3 />
+      <Divider prop={4} />
       <StudentTestimonialsSection />
       <FAQSection />
       <ContactSection />

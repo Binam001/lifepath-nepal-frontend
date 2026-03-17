@@ -10,6 +10,7 @@ import {
   BookOpen,
   Contact,
   LocateIcon,
+  FileText,
 } from "lucide-react";
 import Image from "next/image";
 
@@ -32,27 +33,42 @@ const essayEvent = {
   deadline: "July 15, 2026, 11:59 PM",
 };
 
+type EventFormData = {
+  fullName: string;
+  email: string;
+  number: string;
+  address: string;
+  college: string;
+  parentsNumber: string;
+  paymentPhoto: File | null;
+};
+
+const initialFormData: EventFormData = {
+  fullName: "",
+  email: "",
+  number: "",
+  address: "",
+  college: "",
+  parentsNumber: "",
+  paymentPhoto: null,
+};
+
 export default function EssayCompetitionPage() {
-  const [formData, setFormData] = useState({
-    fullName: "",
-    email: "",
-    number: "",
-    address: "",
-    college: "",
-  });
+  const [formData, setFormData] = useState<EventFormData>(initialFormData);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState("");
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    const fieldName = name as Exclude<keyof EventFormData, "paymentPhoto">;
+
+    setFormData((prev) => ({ ...prev, [fieldName]: value }));
   };
 
-  // const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   if (e.target.files && e.target.files.length > 0) {
-  //     setFormData((prev) => ({ ...prev, essayFile: e.target.files![0] }));
-  //   }
-  // };
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] ?? null;
+    setFormData((prev) => ({ ...prev, paymentPhoto: file }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -60,32 +76,35 @@ export default function EssayCompetitionPage() {
     setSubmitMessage("");
 
     // Basic validation
-    if (!formData.fullName || !formData.email || !formData.number || !formData.address) {
+    if (
+      !formData.fullName ||
+      !formData.email ||
+      !formData.number ||
+      !formData.address ||
+      !formData.parentsNumber ||
+      !formData.paymentPhoto
+    ) {
       setSubmitMessage(
-        "Please fill all required fields and upload your essay.",
+        "Please fill all required fields, including parent's phone number, and upload the payment screenshot.",
       );
       setIsSubmitting(false);
       return;
     }
 
-    // Simulate form submission
     await new Promise((resolve) => setTimeout(resolve, 2000));
 
     console.log("Form Data:", formData);
     setSubmitMessage("Thank you! Your submission has been received.");
-    setIsSubmitting(false);
-    setFormData({
-      fullName: "",
-      email: "",
-      college: "",
-      number: "",
-      address: "",
-    });
-    // Reset file input visually
-    const fileInput = document.getElementById("essayFile") as HTMLInputElement;
+    setFormData(initialFormData);
+
+    const fileInput = document.getElementById(
+      "paymentPhoto",
+    ) as HTMLInputElement | null;
     if (fileInput) {
       fileInput.value = "";
     }
+
+    setIsSubmitting(false);
   };
 
   return (
@@ -94,12 +113,20 @@ export default function EssayCompetitionPage() {
         {/* Header */}
         <div className="w-full">
           <Image
-            src={"/essay.png"}
+            src="/assets/essay_small.jpeg"
             alt="Essay Competition"
             height={400}
-            width={1300} 
+            width={1300}
             priority
-            className="bg-blue-200 rounded-4xl h-100 w-full object-cover object-center"
+            className="bg-blue-200 rounded-4xl h-50 w-full object-cover   md:hidden"
+          />
+          <Image
+            src="/assets/essay_big.jpeg"
+            alt="Essay Competition"
+            height={400}
+            width={1300}
+            priority
+            className="hidden bg-blue-200 rounded-4xl h-100 w-full object-cover md:block"
           />
         </div>
         {/* <div className="mb-12 text-center">
@@ -125,7 +152,7 @@ export default function EssayCompetitionPage() {
                 <Info size={24} className="text-blue-500" />
                 Rules & Guidelines
               </h2>
-              <ul className="list-inside list-disc space-y-2 text-zinc-600">
+              <ul className="list-outside list-disc space-y-2 text-zinc-600 px-6">
                 {essayEvent.rules.map((rule, index) => (
                   <li key={index}>{rule}</li>
                 ))}
@@ -136,7 +163,7 @@ export default function EssayCompetitionPage() {
                 <Award size={24} className="text-blue-500" />
                 Prizes
               </h2>
-              <ul className="list-inside list-disc space-y-2 text-zinc-600">
+              <ul className="list-outside list-disc space-y-2 text-zinc-600 px-6">
                 {essayEvent.prizes.map((prize, index) => (
                   <li key={index}>{prize}</li>
                 ))}
@@ -212,7 +239,7 @@ export default function EssayCompetitionPage() {
               </div>
               <div>
                 <label
-                  htmlFor="email"
+                  htmlFor="number"
                   className="mb-1 block text-sm font-medium text-zinc-700"
                 >
                   Phone Number
@@ -223,7 +250,7 @@ export default function EssayCompetitionPage() {
                     size={18}
                   />
                   <input
-                    type="number"
+                    type="tel"
                     id="number"
                     name="number"
                     value={formData.number}
@@ -236,7 +263,31 @@ export default function EssayCompetitionPage() {
               </div>
               <div>
                 <label
-                  htmlFor="email"
+                  htmlFor="parentsNumber"
+                  className="mb-1 block text-sm font-medium text-zinc-700"
+                >
+                  Parent/Guardian Phone Number
+                </label>
+                <div className="relative">
+                  <Contact
+                    className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400"
+                    size={18}
+                  />
+                  <input
+                    type="tel"
+                    id="parentsNumber"
+                    name="parentsNumber"
+                    value={formData.parentsNumber}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full rounded-lg border-zinc-300 py-2.5 pl-10 pr-3 focus:border-blue-500 focus:ring-blue-500"
+                    placeholder="9800000000"
+                  />
+                </div>
+              </div>
+              <div>
+                <label
+                  htmlFor="address"
                   className="mb-1 block text-sm font-medium text-zinc-700"
                 >
                   Address
@@ -248,7 +299,7 @@ export default function EssayCompetitionPage() {
                   />
                   <input
                     type="text"
-                    id="text"
+                    id="address"
                     name="address"
                     value={formData.address}
                     onChange={handleInputChange}
@@ -301,10 +352,10 @@ export default function EssayCompetitionPage() {
                       >
                         <span>Upload a file</span>
                         <input
-                          id="essayFile"
-                          name="essayFile"
+                          id="paymentPhoto"
+                          name="paymentPhoto"
                           type="file"
-                          accept=".pdf"
+                          accept=".png,.jpg,.jpeg,image/png,image/jpeg"
                           onChange={handleFileChange}
                           required
                           className="sr-only"
@@ -320,6 +371,52 @@ export default function EssayCompetitionPage() {
                   </div>
                 </div>
               </div> */}
+              <div>
+                <label
+                  htmlFor="paymentPhoto"
+                  className="mb-1 block text-sm font-medium text-zinc-700"
+                >
+                  Upload Payment Screenshot
+                </label>
+                <div className="relative mt-1 flex justify-center rounded-lg border-2 border-dashed border-zinc-300 px-6 pt-5 pb-6">
+                  <div className="space-y-1 text-center">
+                    <FileText
+                      className="mx-auto h-12 w-12 text-zinc-400"
+                      strokeWidth={1}
+                    />
+                    <div className="flex text-sm text-zinc-600">
+                      <label
+                        htmlFor="paymentPhoto"
+                        className="relative cursor-pointer rounded-md bg-white font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-2"
+                      >
+                        <span>Upload a file</span>
+                        <input
+                          id="paymentPhoto"
+                          name="paymentPhoto"
+                          type="file"
+                          accept=".png,.jpg,.jpeg,image/png,image/jpeg"
+                          onChange={handleFileChange}
+                          required
+                          className="sr-only"
+                        />
+                      </label>
+                      <p className="pl-1">or drag and drop</p>
+                    </div>
+                    <div className="text-xs text-zinc-500">
+                      {formData.paymentPhoto ? (
+                        formData.paymentPhoto.name
+                      ) : (
+                        <div className="flex flex-col gap-1">
+                          <p>Photo upto 2MB</p>
+                          <p className="text-[8px] tracking-wider">
+                            (png, jpg, jpeg)
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
               <button
                 type="submit"
                 disabled={isSubmitting}

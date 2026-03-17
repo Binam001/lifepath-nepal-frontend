@@ -3,55 +3,111 @@
 import Image from "next/image";
 import PageTitle from "../ui/PageTitle";
 import { MoveRight } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+// const steps = [
+//   {
+//     leftTitle: "Confused student",
+//     rightTitle: "Career clarity & guidance",
+//     problem: "Too many choices, no clear direction before enrolling.",
+//     solution: "We start with career clarity and map what fits you.",
+//     Icon: MoveRight,
+//     leftImg: "/assets/Asset5(1).svg",
+//     rightImg: "/Logo/Asset2.png",
+//   },
+//   {
+//     leftTitle: "Unclear strengths",
+//     rightTitle: "Personalized direction",
+//     problem: "Uncertain which path matches strengths and interests.",
+//     solution: "Personal guidance turns into a focused path.",
+//     Icon: MoveRight,
+//     leftImg: "/assets/Asset6(1).svg",
+//     rightImg: "/Logo/Asset2.png",
+//   },
+//   {
+//     leftTitle: "Random learning",
+//     rightTitle: "Structured learning",
+//     problem: "Courses feel scattered without a plan or outcomes.",
+//     solution: "A step-by-step roadmap builds skills in the right order.",
+//     Icon: MoveRight,
+//     leftImg: "/assets/Asset7(1).svg",
+//     rightImg: "/Logo/Asset2.png",
+//   },
+//   {
+//     leftTitle: "Unsure what's next steps",
+//     rightTitle: "Confident next steps",
+//     problem: "Unsure how to translate skills into opportunities.",
+//     solution: "Portfolio, jobs, or freelancing with clear next steps.",
+//     Icon: MoveRight,
+//     leftImg: "/assets/Asset8(1).svg",
+//     rightImg: "/Logo/Asset2.png",
+//   },
+// ];
 
 const steps = [
   {
     leftTitle: "Confused student",
     rightTitle: "Career clarity & guidance",
     problem: "Too many choices, no clear direction before enrolling.",
-    solution: "We start with career clarity and map what fits you.",
+    solution:
+      "We begin by helping you understand your interests and strengths, then guide you toward a clear career direction that truly fits you.",
     Icon: MoveRight,
-    leftImg: "/Lifepath/Asset5.png",
+    leftImg: "/assets/Asset5(1).svg",
     rightImg: "/Logo/Asset2.png",
   },
   {
     leftTitle: "Unclear strengths",
     rightTitle: "Personalized direction",
     problem: "Uncertain which path matches strengths and interests.",
-    solution: "Personal guidance turns into a focused path.",
+    solution:
+      "Through mentorship and guidance, we help you identify your strengths and turn them into a focused learning path.",
     Icon: MoveRight,
-    leftImg: "/Lifepath/Asset6.png",
+    leftImg: "/assets/Asset6(1).svg",
     rightImg: "/Logo/Asset2.png",
   },
   {
     leftTitle: "Random learning",
     rightTitle: "Structured learning",
     problem: "Courses feel scattered without a plan or outcomes.",
-    solution: "A step-by-step roadmap builds skills in the right order.",
+    solution:
+      "We provide a structured roadmap so you can build practical skills step-by-step with clarity and purpose.",
     Icon: MoveRight,
-    leftImg: "/Lifepath/Asset7.png",
+    leftImg: "/assets/Asset7(1).svg",
     rightImg: "/Logo/Asset2.png",
   },
   {
     leftTitle: "Unsure what's next steps",
     rightTitle: "Confident next steps",
     problem: "Unsure how to translate skills into opportunities.",
-    solution: "Portfolio, jobs, or freelancing with clear next steps.",
+    solution:
+      "From portfolios to jobs or freelancing, we guide you on the exact next steps to turn your skills into real opportunities.",
     Icon: MoveRight,
-    leftImg: "/Logo/Asset8.png",
+    leftImg: "/assets/Asset8(1).svg",
     rightImg: "/Logo/Asset2.png",
   },
 ];
 
 export default function ProblemSolution() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const updateIsMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    updateIsMobile();
+    window.addEventListener("resize", updateIsMobile);
+
+    return () => window.removeEventListener("resize", updateIsMobile);
+  }, []);
 
   return (
     <section className="bg-white py-16 md:py-24">
       <div className="max-w-7xl mx-auto px-4 md:px-6">
         <PageTitle
-          title="From confusion to career clarity"
+          title="From confusion to clarity"
           subtitle="LifePath helps students decide first, then learn with confidence."
           titleClassName="text-3xl md:text-5xl font-semibold text-blue-600 mb-3"
           subtitleClassName="text-base md:text-lg text-zinc-700"
@@ -62,44 +118,76 @@ export default function ProblemSolution() {
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5 mt-14">
           {steps.map((item, index) => {
             const Icon = item.Icon;
+            const isOpen = hoveredIndex === index || activeIndex === index;
 
             return (
               <div
                 key={index}
                 className="group relative min-h-105 rounded-[28px] overflow-hidden border border-blue-100 bg-linear-to-br from-[#0f172a] via-[#1636b8] to-[#335CFF] p-6 md:p-7 flex flex-col justify-between transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_60px_rgba(51,92,255,0.22)]"
-                onMouseEnter={() => setHoveredIndex(index)}
-                onMouseLeave={() => setHoveredIndex(null)}
+                onMouseEnter={() => {
+                  if (!isMobile) {
+                    setHoveredIndex(index);
+                  }
+                }}
+                onMouseLeave={() => {
+                  if (!isMobile) {
+                    setHoveredIndex(null);
+                  }
+                }}
+                onClick={() => {
+                  if (isMobile) {
+                    setActiveIndex((prev) => (prev === index ? null : index));
+                  }
+                }}
               >
                 {/* glow */}
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-[radial-linear(circle_at_top_right,rgba(255,255,255,0.18),transparent_35%)]" />
+                <div
+                  className={`absolute inset-0 transition-opacity duration-500 bg-[radial-linear(circle_at_top_right,rgba(255,255,255,0.18),transparent_35%)] ${
+                    isOpen ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+                  }`}
+                />
 
                 {/* Top Label */}
                 <div className="relative z-10 flex items-start justify-between">
                   {/* Problem label */}
-                  <span className="inline-flex rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs md:text-sm font-medium text-blue-100 backdrop-blur-sm transition-all duration-500 group-hover:opacity-0">
+                  <span
+                    className={`inline-flex rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs md:text-sm font-medium text-blue-100 backdrop-blur-sm transition-all duration-500 ${
+                      isOpen ? "opacity-0" : "group-hover:opacity-0"
+                    }`}
+                  >
                     Problem {index + 1}
                   </span>
 
                   {/* Solution label */}
-                  <span className="absolute rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs md:text-sm font-medium text-blue-100 backdrop-blur-sm opacity-0 transition-all duration-500 group-hover:opacity-100">
+                  <span
+                    className={`absolute rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs md:text-sm font-medium text-blue-100 backdrop-blur-sm transition-all duration-500 ${
+                      isOpen
+                        ? "opacity-100"
+                        : "opacity-0 group-hover:opacity-100"
+                    }`}
+                  >
                     Solution {index + 1}
                   </span>
 
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/10 text-white/80 transition-all duration-500 group-hover:bg-white group-hover:text-[#335CFF]">
+                  <div
+                    className={`flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/10 text-white/80 transition-all duration-500 ${
+                      isOpen
+                        ? "bg-white text-[#335CFF]"
+                        : "group-hover:bg-white group-hover:text-[#335CFF]"
+                    }`}
+                  >
                     <Icon size={18} />
                   </div>
                 </div>
                 {/* Center Image */}
                 <div className="flex justify-center py-4 ">
                   <Image
-                    src={hoveredIndex === index ? item.rightImg : item.leftImg}
-                    alt={
-                      hoveredIndex === index ? item.rightTitle : item.leftTitle
-                    }
+                    src={isOpen ? item.rightImg : item.leftImg}
+                    alt={isOpen ? item.rightTitle : item.leftTitle}
                     width={140}
                     height={140}
                     className={`h-24 w-auto object-contain transition-all duration-500 ${
-                      hoveredIndex === index ? "opacity-75" : "opacity-50"
+                      isOpen ? "opacity-75" : "opacity-50"
                     }`}
                   />
                 </div>
@@ -107,7 +195,13 @@ export default function ProblemSolution() {
                 {/* Content */}
                 <div className="relative z-10 mt-auto">
                   {/* Problem content */}
-                  <div className="transition-all duration-500 group-hover:opacity-0 group-hover:-translate-y-6">
+                  <div
+                    className={`transition-all duration-500 ${
+                      isOpen
+                        ? "opacity-0 -translate-y-8"
+                        : "group-hover:opacity-0 group-hover:-translate-y-8"
+                    }`}
+                  >
                     <h3 className="text-2xl md:text-3xl font-semibold text-white mb-3">
                       {item.leftTitle}
                     </h3>
@@ -120,14 +214,20 @@ export default function ProblemSolution() {
                   </div>
 
                   {/* Solution content */}
-                  <div className="absolute inset-0 translate-y-8 opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
+                  <div
+                    className={`absolute inset-0 transition-all duration-500 ${
+                      isOpen
+                        ? "-translate-y-14 opacity-100"
+                        : "translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100"
+                    }`}
+                  >
                     <h3 className="text-2xl md:text-3xl font-semibold text-white mb-3">
                       {item.rightTitle}
                     </h3>
 
                     <div className="h-px w-12 bg-white/30 mb-4" />
 
-                    <p className="text-sm md:text-[15px] text-blue-50/90 leading-6">
+                    <p className="text-sm md:text-[15px] text-blue-50/90 leading-6 ">
                       {item.solution}
                     </p>
                   </div>

@@ -7,7 +7,15 @@ const footerGroups = [
     links: [
       { label: "Home", href: "/" },
       { label: "Personality Test", href: "/personality-test" },
-      { label: "Sign Up", href: "/signup" },
+      // { label: "Sign Up", href: "/signup" },
+    ],
+  },
+  {
+    title: "Learn",
+    links: [
+      // { label: "Guide Books", href: "/guide-books" },
+      { label: "Success Stories", href: "/success-stories" },
+      { label: "About Us", href: "/about-us" },
     ],
   },
   {
@@ -18,19 +26,12 @@ const footerGroups = [
       { label: "Events", href: "/events" },
     ],
   },
-  {
-    title: "Learn",
-    links: [
-      { label: "Guide Books", href: "/guide-books" },
-      { label: "Success Stories", href: "/success-stories" },
-      { label: "About Us", href: "/about-us" },
-    ],
-  },
+
   {
     title: "Support",
     links: [
       { label: "Contact Us", href: "/contact-us" },
-      { label: "Login", href: "/login" },
+      // { label: "Login", href: "/login" },
     ],
   },
 ];
@@ -81,11 +82,11 @@ export default function Footer() {
                   />
                 </Link>
 
-                <div className="mt-7 max-w-sm">
+                {/* <div className="mt-7 max-w-sm">
                   <p className="text-sm font-medium text-zinc-900">
                     Sign up to receive career tips.
                   </p>
-                  <div className="mt-4 flex w-full max-w-sm items-center rounded-full border border-zinc-200 bg-white p-1">
+                  <div className="mt-4 flex w-full items-center rounded-full border border-zinc-200 bg-white p-1">
                     <input
                       type="email"
                       placeholder="Enter your email"
@@ -93,7 +94,29 @@ export default function Footer() {
                     />
                     <button
                       type="button"
-                      className="inline-flex h-11 items-center justify-center rounded-full bg-zinc-900 px-5 text-sm font-semibold text-white transition-colors duration-200 hover:bg-zinc-800"
+                      className=" h-11 items-center justify-center rounded-full bg-zinc-900 px-5 text-sm font-semibold text-white transition-colors duration-200 hover:bg-zinc-800"
+                    >
+                      Submit
+                    </button>
+                  </div>
+                  <p className="mt-3 sm:max-w-xs text-xs leading-5 text-zinc-500">
+                    Explore the pages on this site to find programs, stories,
+                    guidance, and ways to get in touch.
+                  </p>
+                </div> */}
+                <div className="mt-7 max-w-sm">
+                  <p className="text-sm font-medium text-zinc-900">
+                    Sign up to receive career tips.
+                  </p>
+                  <div className="mt-4 flex gap-2 rounded-full border border-zinc-200 bg-white p-2 sm:flex-row sm:items-center sm:gap-0 sm:rounded-full sm:p-1">
+                    <input
+                      type="email"
+                      placeholder="Enter your email"
+                      className="h-11 w-full bg-transparent px-4 text-sm text-zinc-700 outline-none placeholder:text-zinc-400 sm:flex-1"
+                    />
+                    <button
+                      type="button"
+                      className="inline-flex h-11 w-auto  items-center justify-center rounded-full bg-zinc-900 px-4 sm:px-5 text-sm font-semibold text-white transition-colors duration-200 hover:bg-zinc-800"
                     >
                       Submit
                     </button>
@@ -108,7 +131,7 @@ export default function Footer() {
               <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
                 {footerGroups.map((group) => (
                   <div key={group.title}>
-                    <h3 className="text-[11px] font-semibold uppercase text-zinc-500">
+                    <h3 className="text-sm font-semibold uppercase text-zinc-500">
                       {group.title}
                     </h3>
                     <ul className="mt-4 space-y-3">
@@ -128,7 +151,7 @@ export default function Footer() {
               </div>
             </div>
 
-            <div className="mt-8 flex justify-center gap-12 border-t border-zinc-200 pt-4 text-center text-xs text-zinc-500">
+            <div className="mt-8 flex flex-col gap-4 sm:flex-row justify-between sm:gap-12 border-t border-zinc-200 pt-4 text-center text-xs text-zinc-500">
               <p>
                 &copy; {new Date().getFullYear()} Lifepath Nepal. All rights
                 reserved.

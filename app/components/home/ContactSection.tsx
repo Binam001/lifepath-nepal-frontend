@@ -1,12 +1,13 @@
 "use client";
 
-import Link from "next/link";
+// import Link from "next/link";
 import { Mail, Phone, Send, MapPin } from "lucide-react";
 import PageTitle from "../ui/PageTitle";
 
 export default function ContactSection() {
   return (
-    <section className="py-16 md:py-24 bg-zinc-50 border-t border-zinc-200">
+    // <section className="relative py-16 md:py-24 bg-linear-to-b from-blue-50 to-blue-600/50 border-t border-zinc-200">
+    <section className="relative py-16 md:py-24 bg-linear-to-b from-blue-100 to-blue-600/40 border-t border-zinc-200">
       <div className="max-w-7xl mx-auto px-4 md:px-0">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-start">
           {/* Left Side: Contact Details */}

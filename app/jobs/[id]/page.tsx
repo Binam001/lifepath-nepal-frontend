@@ -218,15 +218,15 @@ export default function JobDetailsPage() {
       </section>
 
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:px-4">
           <div
             className="absolute inset-0 bg-black/40"
             onClick={() => setIsOpen(false)}
           />
-          <div className="relative w-full max-w-2xl bg-white rounded-2xl shadow-xl border border-zinc-200 p-6 flex flex-col max-h-[70vh]">
-            <div className="flex items-start justify-between mb-4">
+          <div className="relative flex max-h-[92vh] w-full max-w-2xl flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white p-4 shadow-xl sm:p-6">
+            <div className="mb-4 flex items-start justify-between gap-4">
               <div>
-                <h3 className="text-xl font-semibold text-zinc-900">
+                <h3 className="text-lg font-semibold text-zinc-900 sm:text-xl">
                   Apply for {job.title}
                 </h3>
                 <p className="text-sm text-zinc-500">{job.company}</p>
@@ -240,8 +240,8 @@ export default function JobDetailsPage() {
               </button>
             </div>
 
-            <form className="space-y-3 flex flex-col">
-              <div className="flex gap-2">
+            <form className="flex flex-1 flex-col space-y-3 overflow-y-auto pr-1">
+              <div className="flex flex-col gap-3 sm:flex-row">
                 <div className="w-full">
                   <label className="text-sm font-semibold text-zinc-700">
                     Full name
@@ -263,7 +263,7 @@ export default function JobDetailsPage() {
                   />
                 </div>
               </div>
-              <div className="flex gap-2">
+              <div className="flex flex-col gap-3 sm:flex-row">
                 <div className="w-full">
                   <label className="text-sm font-semibold text-zinc-700">
                     Phone number
@@ -285,7 +285,7 @@ export default function JobDetailsPage() {
                   />
                 </div>
               </div>
-              <div className="flex gap-2">
+              <div className="flex flex-col gap-3 sm:flex-row">
                 <div className="w-full">
                   <label className="text-sm font-semibold text-zinc-700">
                     Upload CV
@@ -320,7 +320,7 @@ export default function JobDetailsPage() {
             </form>
             <button
               type="button"
-              className="w-full rounded-full bg-blue-600 text-white font-semibold py-2.5 hover:bg-blue-700 transition-colors cursor-pointer mt-4 flex-shrink-0"
+              className="mt-4 w-full shrink-0 rounded-full bg-blue-600 py-2.5 font-semibold text-white transition-colors hover:bg-blue-700 cursor-pointer"
             >
               Submit application
             </button>

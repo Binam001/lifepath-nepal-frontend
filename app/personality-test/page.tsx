@@ -402,18 +402,16 @@ export default function PersonalityTestPage() {
     return () => window.removeEventListener("resize", updateWindowSize);
   }, []);
 
-  // Trigger confetti when result is shown
+  // Stop confetti after a short celebration window.
   useEffect(() => {
-    if (!showResult) {
+    if (!showConfetti) {
       return;
     }
 
-    // Stop confetti after 5 seconds
-    setShowConfetti(true);
     const timer = setTimeout(() => setShowConfetti(false), 5000);
 
     return () => clearTimeout(timer);
-  }, [showResult]);
+  }, [showConfetti]);
 
   const handleAnswer = (value: number) => {
     setAnswers({ ...answers, [questions[currentQuestion].id]: value });
@@ -462,6 +460,7 @@ export default function PersonalityTestPage() {
       (scores.J > scores.P ? "J" : "P");
 
     setResult(type);
+    setShowConfetti(true);
     setShowResult(true);
   };
 
@@ -472,6 +471,7 @@ export default function PersonalityTestPage() {
   // Testing function to jump to results
   const jumpToResults = () => {
     setResult("INTJ"); // Set a sample personality type
+    setShowConfetti(true);
     setShowResult(true);
   };
 
@@ -509,6 +509,7 @@ export default function PersonalityTestPage() {
             {/* Back Button */}
             <button
               onClick={() => {
+                setShowConfetti(false);
                 setShowResult(false);
                 setCurrentQuestion(0);
                 setAnswers({});
@@ -531,10 +532,10 @@ export default function PersonalityTestPage() {
               </div>
               <div>
                 <div className="flex items-center gap-3 mb-2">
-                  <h1 className="text-3xl md:text-4xl font-bold text-zinc-900">
+                  <h1 className="text-3xl md:text-4xl font-bold text-zinc-100 sm:text-zinc-900">
                     {personality.name}
                   </h1>
-                  <div className="px-4 py-1.5 bg-blue-600 text-white text-xl font-bold rounded-lg">
+                  <div className="px-4 py-1.5 bg-blue-600 text-white text-lg sm:text-xl font-bold rounded-lg">
                     {result}
                   </div>
                 </div>
@@ -633,7 +634,7 @@ export default function PersonalityTestPage() {
             <h2 className="text-lg font-bold text-zinc-900 mb-4">
               Your 8 Cognitive Functions
             </h2>
-            <div className="grid grid-cols-4 gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               {/* Se - Experience */}
               <div className="bg-white rounded-lg p-3 text-center border border-zinc-200">
                 <div className="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-2">
@@ -838,7 +839,7 @@ export default function PersonalityTestPage() {
       </section>
 
       {/* Test Section */}
-      <section className="max-w-6xl mx-auto  h-[80vh] flex flex-col justify-center px-4 sm:px-6">
+      <section className="max-w-6xl mx-auto h-screen sm:h-[80vh] flex flex-col justify-center px-4 sm:px-6">
         {/* Progress Bar */}
         <div className="mb-6 max-w-2xl mx-auto w-full">
           <div className="flex justify-between items-center mb-3">

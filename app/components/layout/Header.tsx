@@ -107,7 +107,7 @@ export default function Header() {
                 key={item.href}
                 href={item.href}
                 onClick={() => setIsMenuOpen(false)}
-                className={`block rounded-xl px-4 py-2 text-2xl font-medium transition-colors ${
+                className={`block rounded-xl px-4 py-2 text-lg font-medium transition-colors ${
                   isActive(item.href)
                     ? "bg-blue-50 text-blue-700"
                     : "text-zinc-700 hover:bg-zinc-50"
@@ -123,13 +123,13 @@ export default function Header() {
             >
               Find Your Lifepath
             </Link>
-            <Link
+            {/* <Link
               href="/#how-it-works"
               onClick={() => setIsMenuOpen(false)}
               className="block rounded-full border border-blue-200 bg-blue-50 px-4 py-3 text-center text-lg font-semibold text-blue-700 hover:bg-blue-100"
             >
               Know Yourself
-            </Link>
+            </Link> */}
           </div>
         </div>
       )}

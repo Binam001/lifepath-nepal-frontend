@@ -17,11 +17,11 @@ export default function HeroSection() {
     videoRef.current!.currentTime = 0; // optional: reset video
   };
   return (
-    <section className="overflow-hidden bg-white px-4 pt-16 pb-14 md:px-0 h-screen">
+    <section className="overflow-hidden bg-white px-4 pt-16 pb-14 md:px-0 min-h-screen">
       <div className="max-w-7xl mx-auto grid items-center gap-12 lg:min-h-[calc(100vh-6rem)] lg:grid-cols-[1.05fr_0.95fr]">
         <div className="max-w-3xl space-y-6">
           <div className="space-y-4">
-            <h1 className="text-4xl font-semibold font-montserrat text-blue-700 sm:text-5xl lg:text-5xl">
+            <h1 className="text-4xl font-semibold font-montserrat text-blue-700 sm:text-5xl lg:text-5xl pt-8 sm:pt-8">
               Don&apos;t Just Choose a Career. Discover Your Direction.
             </h1>
             <p className="max-w-2xl text-base leading-relaxed text-zinc-700 font-medium md:text-base">
