@@ -32,7 +32,8 @@ const stories: Story[] = [
     company: "WebX Nepal",
     before: "Did not know how websites and apps are designed",
     after: "Now works as a UI/UX Designer at WebX Nepal",
-    quote: "The learning path was simple, practical, and easy to follow.",
+    quote:
+      "The learning path was simple, practical, easy to follow, and made everything feel manageable.",
     story:
       "She started by learning wireframes, layouts, colors, and user flow. Then she worked on small design projects and case studies. This helped her understand how to design screens that look good and are easy to use.",
     img: "/students/krishma.jpeg",
