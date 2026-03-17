@@ -18,7 +18,7 @@ const testimonials = [
   {
     id: 2,
     name: "Krishma Maharjan",
-    thumbnail: "/students/Krishma.jpeg",
+    thumbnail: "/students/krishma.jpeg",
     role: "UX Designer",
     video: "/videos/Krishma.mp4",
     quote: "The personality test was eye-opening",
