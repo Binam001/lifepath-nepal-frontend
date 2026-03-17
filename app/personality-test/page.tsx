@@ -803,12 +803,12 @@ export default function PersonalityTestPage() {
       <section className="bg-linear-to-l from-blue-600 to-black text-white">
         <div className="max-w-6xl mx-auto py-8 md:py-12 px-4 relative">
           {/* Test Toggle Button */}
-          <button
+          {/* <button
             onClick={jumpToResults}
             className="absolute top-4 right-4 px-4 py-2 bg-yellow-400 hover:bg-yellow-500 text-black text-xs font-bold rounded-full transition-all shadow-lg hover:shadow-xl cursor-pointer"
           >
             Jump to Results
-          </button>
+          </button> */}
 
           <div className="text-center max-w-3xl mx-auto">
             <div className="flex items-center justify-center gap-3 mb-4">
