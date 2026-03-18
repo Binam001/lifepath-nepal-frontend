@@ -8,7 +8,7 @@ import {
   CheckCircle,
   ArrowDown,
 } from "lucide-react";
-import NewsletterCTA from "../components/home/NewsletterCTA";
+import NewsletterCTA from "../../components/home/NewsletterCTA";
 import Image from "next/image";
 
 export default function WhyLifePathPage() {

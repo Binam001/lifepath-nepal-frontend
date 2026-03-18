@@ -370,7 +370,7 @@ function MobileCardFace({
         </button>
       </div>
 
-      <div className="relative z-10 flex justify-center py-4">
+      <div className="relative z-10 flex justify-center pt-12 sm:pt-0 py-4">
         <Image
           src={image}
           alt={imageAlt}

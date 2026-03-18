@@ -4,6 +4,7 @@ import Image from "next/image";
 // import { MoveRight } from "lucide-react";
 import PageTitle from "../ui/PageTitle";
 import { useEffect, useState } from "react";
+import { ChevronUp } from "lucide-react";
 
 const steps = [
   {
@@ -186,8 +187,6 @@ function HoverCard({
   description,
   image,
   className = "",
-  darkOverlay = false,
-  greenOverlay = false,
   textDark = false,
   textLight = false,
   isOpen = false,
@@ -199,13 +198,7 @@ function HoverCard({
       onClick={onToggle}
     >
       <div
-        className={`absolute inset-0 ${
-          darkOverlay
-            ? "bg-linear-to-br from-[#0f172a] via-[#1636b8] to-[#335CFF]"
-            : greenOverlay
-              ? "bg-linear-to-br from-[#0b3b7a] via-[#0f7ae5] to-[#35b6ff]"
-              : "bg-linear-to-br from-[#0f172a]/80 via-[#1636b8] to-[#335CFF]"
-        }`}
+        className={`absolute inset-0 bg-linear-to-br from-[#0f172a]/80 via-[#1636b8] to-[#335CFF] `}
       />
 
       <div className="absolute inset-0 bg-linear-to-t from-black/30 to-transparent" />
@@ -215,6 +208,7 @@ function HoverCard({
           src={image}
           alt={title}
           fill
+          sizes="100vw"
           className={`z-10 pb-12 sm:pb-0 sm:object-contain sm:object-top transition-transform duration-700 ${
             isOpen ? "scale-105" : "group-hover:scale-105"
           }`}
@@ -222,23 +216,25 @@ function HoverCard({
       )}
 
       <div className="absolute inset-0 p-4 flex flex-col justify-between z-20">
-        <span
+        <p
           className={`w-fit rounded-full border border-white/15 bg-white/10 p-1 text-sm font-semibold tracking-wide backdrop-blur-md ${
             textDark ? "text-white" : textLight ? "text-white" : "text-white"
           }`}
         >
           {step}
-        </span>
+        </p>
       </div>
       {/* Card Content */}
+
       <div className="absolute inset-0 z-30 flex items-end p-2 pointer-events-none overflow-hidden ">
+        <div className="flex items-center justify-center"></div>
         <div
           className={`relative w-full max-w-full rounded-[24px] border border-white/15 bg-white/10 px-4 py-4 backdrop-blur-md transition-all duration-500 ${
             isOpen ? "min-h-36" : "min-h-28 group-hover:min-h-36"
           }`}
         >
           <div
-            className={`transition-all duration-500 ${
+            className={`transition-all duration-500 flex justify-between items-center text-white ${
               isOpen
                 ? "-translate-y-6 opacity-0"
                 : "group-hover:-translate-y-6 group-hover:opacity-0"
@@ -251,6 +247,7 @@ function HoverCard({
             >
               {title}
             </h3>
+            <ChevronUp />
           </div>
 
           <div
