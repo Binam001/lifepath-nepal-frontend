@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   Calendar,
   Info,
@@ -43,14 +43,14 @@ const formSchema = z.object({
   college: z.string().trim().optional().or(z.literal("")),
 
   paymentPhoto: z
-    .instanceof(File, { message: "Payment screenshot is required." })
+    .instanceof(File, { message: "Essay PDF is required." })
     .refine(
-      (file) => ["image/png", "image/jpeg", "image/jpg"].includes(file.type),
-      "Only PNG, JPG, and JPEG files are allowed.",
+      (file) => file.type === "application/pdf",
+      "Only PDF files are allowed.",
     )
     .refine(
       (file) => file.size <= 2 * 1024 * 1024,
-      "Photo must be 2MB or smaller.",
+      "File must be 2MB or smaller.",
     ),
 });
 
@@ -109,6 +109,8 @@ export default function EssayCompetitionPage() {
   >({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState("");
+  const [isDraggingFile, setIsDraggingFile] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -121,12 +123,41 @@ export default function EssayCompetitionPage() {
     }
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0] ?? null;
+  const updateSelectedFile = (file: File | null) => {
     setFormData((prev) => ({ ...prev, paymentPhoto: file }));
 
     if (errors.paymentPhoto) {
       setErrors((prev) => ({ ...prev, paymentPhoto: "" }));
+    }
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    updateSelectedFile(e.target.files?.[0] ?? null);
+  };
+
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDraggingFile(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDraggingFile(false);
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDraggingFile(false);
+
+    const file = e.dataTransfer.files?.[0] ?? null;
+    if (!file) return;
+
+    updateSelectedFile(file);
+
+    if (fileInputRef.current) {
+      const transfer = new DataTransfer();
+      transfer.items.add(file);
+      fileInputRef.current.files = transfer.files;
     }
   };
 
@@ -459,8 +490,15 @@ export default function EssayCompetitionPage() {
                   </label>
 
                   <div
-                    className={`relative mt-1 flex justify-center rounded-lg border-2 border-dashed px-6 pt-5 pb-6 ${
-                      errors.paymentPhoto ? "border-red-400" : "border-zinc-300"
+                    onDragOver={handleDragOver}
+                    onDragLeave={handleDragLeave}
+                    onDrop={handleDrop}
+                    className={`relative mt-1 flex justify-center rounded-lg border-2 border-dashed px-6 pt-5 pb-6 transition-colors ${
+                      errors.paymentPhoto
+                        ? "border-red-400"
+                        : isDraggingFile
+                          ? "border-blue-500 bg-blue-50"
+                          : "border-zinc-300"
                     }`}
                   >
                     <div className="space-y-1 text-center">
@@ -475,6 +513,7 @@ export default function EssayCompetitionPage() {
                         >
                           <span>Upload a file</span>
                           <input
+                            ref={fileInputRef}
                             id="paymentPhoto"
                             name="paymentPhoto"
                             type="file"
