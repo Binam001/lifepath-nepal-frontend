@@ -1,6 +1,6 @@
 import Image from "next/image";
-import NewsletterCTA from "../components/home/NewsletterCTA";
-import PageTitle from "../components/ui/PageTitle";
+import NewsletterCTA from "../../components/home/NewsletterCTA";
+import PageTitle from "../../components/ui/PageTitle";
 
 type Story = {
   name: string;
