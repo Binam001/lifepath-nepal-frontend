@@ -11,8 +11,10 @@ import {
   LocateIcon,
   FileText,
   CheckCheck,
-  Check,
+  // Check,
   CheckCircle,
+  Award,
+  BookCheck,
 } from "lucide-react";
 import Image from "next/image";
 import { z } from "zod";
@@ -57,20 +59,17 @@ const essayEvent = {
   description:
     "A platform for students to voice their ideas on career development and personal growth. Showcase your writing and win exciting prizes.",
   rules: [
-    "Eligibility: The competition is open to students currently studying in Grade 10 and +2.",
-    "Original Work: All essays must be original work written by the participant.",
-    "No AI Usage: The use of Artificial Intelligence (AI) tools such as ChatGPT or any AI writing software is strictly prohibited.",
-    "Any essay found to be AI-generated or AI-plagiarized will be immediately disqualified.",
-    "Word Limit: Each essay must contain 480 to 500 words only.",
-    "Essays below 480 words or above 500 words will not be accepted.",
-    "Competition Rounds: The competition will consist of multiple rounds, and each round will have a unique essay topic provided by the organizers.",
-    "Topic Announcement: The essay topic will be distributed on April 12, 2026 with deadline.",
-    "Fair Participation: Participants must submit their own independent work without copying from books, websites, or other sources.",
-    "Organizer’s Decision: The decision of the judges and organizers will be final.",
+    "Eligibility: Open to students of Grade 10 and +2.",
+    "Original Work: Essays must be completely original.",
+    "No AI Usage: Use of AI tools (like ChatGPT or similar) is strictly prohibited. Any AI-generated or plagiarized work will be disqualified.",
+    "Word Limit: Essays must be between 480–500 words. Entries outside this range will not be accepted.",
+    "Competition Rounds: The competition will have multiple rounds, each with a unique topic.",
+    "Topic Announcement: Topics will be announced on April 12, 2026, along with submission deadlines.",
+    "Fair Participation: No copying from books, websites, or other sources.",
+    "Final Decision: Judges’ and organizers’ decisions will be final.",
   ],
   prizes: [
     "1st Prize: Rs. 50,000 + Certificate",
-    "2nd – 10th Place: Physical Certificates",
     "All other participants: Digital Certificates",
     "Top 10 entries will be featured on our official blog",
   ],
@@ -201,7 +200,7 @@ export default function EssayCompetitionPage() {
             <div className=" flex flex-col ">
               <div className="flex gap-2">
                 <CheckCircle className="text-blue-500" />
-                <h2 className="text-2xl font-medium">Register here:</h2>
+                <h2 className="text-2xl font-semibold">Register here:</h2>
               </div>
               <Image
                 src="/assets/qrcode.png"
@@ -227,7 +226,7 @@ export default function EssayCompetitionPage() {
 
             <div>
               <h2 className="mb-4 flex items-center gap-3 text-2xl font-semibold text-zinc-800">
-                <Info size={24} className="text-blue-500" />
+                <Award size={24} className="text-blue-500" />
                 Prizes
               </h2>
               <ul className="space-y-3 text-sm text-zinc-600">
@@ -265,7 +264,7 @@ export default function EssayCompetitionPage() {
           <div className="flex flex-col gap-4">
             <div>
               <h2 className="mb-4 flex items-center gap-3 text-2xl font-semibold text-zinc-800">
-                <Info size={24} className="text-blue-500" />
+                <BookCheck size={24} className="text-blue-500" />
                 Submission Guidelines
               </h2>
               <ul className="space-y-3 text-sm text-zinc-600">
