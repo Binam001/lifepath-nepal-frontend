@@ -469,11 +469,11 @@ export default function PersonalityTestPage() {
   const currentAnswer = answers[questions[currentQuestion]?.id];
 
   // Testing function to jump to results
-  const jumpToResults = () => {
-    setResult("INTJ"); // Set a sample personality type
-    setShowConfetti(true);
-    setShowResult(true);
-  };
+  // const jumpToResults = () => {
+  //   setResult("INTJ"); // Set a sample personality type
+  //   setShowConfetti(true);
+  //   setShowResult(true);
+  // };
 
   if (showResult && result) {
     const personality = getPersonalityType(result);
@@ -800,15 +800,9 @@ export default function PersonalityTestPage() {
       id="personalityTest"
     >
       {/* Questions Hero Section */}
-      <section className="bg-linear-to-l from-blue-600 to-black text-white">
+      <section className="bg-linear-to-l from-blue-600 to-black bg-black text-white">
         <div className="max-w-6xl mx-auto py-8 md:py-12 px-4 relative">
           {/* Test Toggle Button */}
-          {/* <button
-            onClick={jumpToResults}
-            className="absolute top-4 right-4 px-4 py-2 bg-yellow-400 hover:bg-yellow-500 text-black text-xs font-bold rounded-full transition-all shadow-lg hover:shadow-xl cursor-pointer"
-          >
-            Jump to Results
-          </button> */}
 
           <div className="text-center max-w-3xl mx-auto">
             <div className="flex items-center justify-center gap-3 mb-4">
@@ -985,6 +979,14 @@ export default function PersonalityTestPage() {
         description="Enroll in our job training programs and unlock your potential."
         imageSrc="/heroImages/woman2.png"
       /> */}
+      <div className="inline-flex items-center justify-center w-full pb-2">
+        <Link
+          href="/mbti-book"
+          className="  px-4 py-2 bg-yellow-400 hover:bg-yellow-500 text-black text-sm font-bold rounded-full transition-all shadow-lg hover:shadow-xl cursor-pointer"
+        >
+          Learn about MBTI
+        </Link>
+      </div>
     </div>
   );
 }

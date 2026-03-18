@@ -49,9 +49,9 @@ export default function HeroSection() {
           </div>
         </div>
 
-        <div className="relative mx-auto w-full max-w-xl h-full">
+        <div className="relative mx-auto w-full max-w-xl h-80 sm:h-full">
           <div
-            className="relative overflow-hidden flex h-full items-center"
+            className="relative sm:overflow-hidden flex h-full items-center"
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
           >
