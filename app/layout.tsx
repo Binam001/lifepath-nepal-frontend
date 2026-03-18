@@ -6,7 +6,7 @@ import "./globals.css";
 import Header from "../components/layout/Header";
 import SmoothScroll from "../components/SmoothScroll";
 import Footer from "../components/layout/Footer";
-import Preloader from "@/components/layout/Preloader";
+// import Preloader from "@/components/layout/Preloader";
 
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
@@ -61,12 +61,12 @@ export default function RootLayout({
       <body
         className={`${poppins.variable} ${montserrat.variable} antialiased bg-white  overflow-x-hidden`}
       >
-        <Preloader>
-          <SmoothScroll />
-          {!isAuthPage && !isLearnPage && <Header />}
-          <main className="min-h-screen">{children}</main>
-          {!isAuthPage && !isLearnPage && <Footer />}
-        </Preloader>
+        {/* <Preloader> */}
+        <SmoothScroll />
+        {!isAuthPage && !isLearnPage && <Header />}
+        <main className="min-h-screen">{children}</main>
+        {!isAuthPage && !isLearnPage && <Footer />}
+        {/* </Preloader> */}
       </body>
     </html>
   );
