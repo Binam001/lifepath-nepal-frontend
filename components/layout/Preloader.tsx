@@ -109,7 +109,7 @@ const Preloader = ({ children }: PreloaderProps) => {
         >
           <div className="flex flex-col items-center gap-20 pt-10">
             <Image
-              src="/Lifepath/asset1.png"
+              src="/Lifepath/Asset1.png"
               alt="Lifepath"
               width={200}
               height={100}
