@@ -11,6 +11,8 @@ import {
   LocateIcon,
   FileText,
   CheckCheck,
+  Check,
+  CheckCircle,
 } from "lucide-react";
 import Image from "next/image";
 import { z } from "zod";
@@ -74,6 +76,11 @@ const essayEvent = {
   ],
   entryFee: "Entry Fee: NPR 500",
   deadline: "May 11 2026, 11:59 PM",
+  submissionGuidelines: [
+    "Participants must upload their essay in PDF format only through the website submission portal.",
+    "Submissions sent through email or other platforms will not be accepted.",
+    "Students must ensure that their PDF file is properly formatted and readable before submission.",
+  ],
 };
 
 type EventFormData = {
@@ -191,6 +198,18 @@ export default function EssayCompetitionPage() {
         <div className="mt-4 grid gap-10 md:mt-16 md:grid-cols-2">
           {/* Left: Details */}
           <div className="space-y-8">
+            <div className=" flex flex-col ">
+              <div className="flex gap-2">
+                <CheckCircle className="text-blue-500" />
+                <h2 className="text-2xl font-medium">Register here:</h2>
+              </div>
+              <Image
+                src="/assets/qrcode.png"
+                alt=""
+                width={300}
+                height={300}
+              ></Image>
+            </div>
             <div>
               <h2 className="mb-4 flex items-center gap-3 text-2xl font-semibold text-zinc-800">
                 <Info size={24} className="text-blue-500" />
@@ -243,254 +262,271 @@ export default function EssayCompetitionPage() {
           </div>
 
           {/* Right: Form */}
-          <div className="rounded-2xl border border-zinc-200 bg-white p-8">
-            <h2 className="mb-6 text-2xl font-semibold text-zinc-800">
-              Register & Submit Your Essay
-            </h2>
+          <div className="flex flex-col gap-4">
+            <div>
+              <h2 className="mb-4 flex items-center gap-3 text-2xl font-semibold text-zinc-800">
+                <Info size={24} className="text-blue-500" />
+                Submission Guidelines
+              </h2>
+              <ul className="space-y-3 text-sm text-zinc-600">
+                {essayEvent.submissionGuidelines.map((rule, index) => (
+                  <li key={index} className="flex items-start gap-3">
+                    <CheckCheck className="mt-0.5 h-4 w-4 text-blue-500 shrink-0" />
+                    <span className="leading-relaxed">{rule}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="rounded-2xl border border-zinc-200 bg-white p-8">
+              <h2 className="mb-6 text-2xl font-semibold text-zinc-800">
+                Submit Your Essay
+              </h2>
 
-            <form onSubmit={handleSubmit} className="space-y-5">
-              <div>
-                <label
-                  htmlFor="fullName"
-                  className="mb-1 block text-sm font-medium text-zinc-700"
-                >
-                  Full Name
-                </label>
-                <div className="relative">
-                  <User
-                    className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-zinc-400"
-                    size={18}
-                  />
-                  <input
-                    type="text"
-                    id="fullName"
-                    name="fullName"
-                    value={formData.fullName}
-                    onChange={handleInputChange}
-                    placeholder="Your full name"
-                    autoFocus
-                    className="w-full rounded-lg border border-zinc-300 py-2.5 pr-3 pl-10 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none"
-                  />
-                </div>
-                {errors.fullName && (
-                  <p className="mt-1 text-sm text-red-400">{errors.fullName}</p>
-                )}
-              </div>
-
-              <div>
-                <label
-                  htmlFor="email"
-                  className="mb-1 block text-sm font-medium text-zinc-700"
-                >
-                  Email Address
-                </label>
-                <div className="relative">
-                  <Mail
-                    className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-zinc-400"
-                    size={18}
-                  />
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    placeholder="Your email address"
-                    className="w-full rounded-lg border border-zinc-300 py-2.5 pr-3 pl-10 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none"
-                  />
-                </div>
-                {errors.email && (
-                  <p className="mt-1 text-sm text-red-600">{errors.email}</p>
-                )}
-              </div>
-
-              <div>
-                <label
-                  htmlFor="number"
-                  className="mb-1 block text-sm font-medium text-zinc-700"
-                >
-                  Phone Number
-                </label>
-                <div className="relative">
-                  <Contact
-                    className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-zinc-400"
-                    size={18}
-                  />
-                  <input
-                    type="tel"
-                    inputMode="numeric"
-                    id="number"
-                    name="number"
-                    placeholder="+977"
-                    value={formData.number}
-                    onChange={handleInputChange}
-                    className="w-full rounded-lg border border-zinc-300 py-2.5 pr-3 pl-10 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none"
-                  />
-                </div>
-                {errors.number && (
-                  <p className="mt-1 text-sm text-red-600">{errors.number}</p>
-                )}
-              </div>
-
-              <div>
-                <label
-                  htmlFor="parentsNumber"
-                  className="mb-1 block text-sm font-medium text-zinc-700"
-                >
-                  Parent/Guardian Phone Number
-                </label>
-                <div className="relative">
-                  <Contact
-                    className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-zinc-400"
-                    size={18}
-                  />
-                  <input
-                    type="tel"
-                    inputMode="numeric"
-                    id="parentsNumber"
-                    name="parentsNumber"
-                    placeholder="+977"
-                    value={formData.parentsNumber}
-                    onChange={handleInputChange}
-                    className="w-full rounded-lg border border-zinc-300 py-2.5 pr-3 pl-10 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none"
-                  />
-                </div>
-                {errors.parentsNumber && (
-                  <p className="mt-1 text-sm text-red-600">
-                    {errors.parentsNumber}
-                  </p>
-                )}
-              </div>
-
-              <div>
-                <label
-                  htmlFor="address"
-                  className="mb-1 block text-sm font-medium text-zinc-700"
-                >
-                  Address
-                </label>
-                <div className="relative">
-                  <LocateIcon
-                    className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-zinc-400"
-                    size={18}
-                  />
-                  <input
-                    type="text"
-                    id="address"
-                    name="address"
-                    placeholder="Your address"
-                    value={formData.address}
-                    onChange={handleInputChange}
-                    className="w-full rounded-lg border border-zinc-300 py-2.5 pr-3 pl-10 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none"
-                  />
-                </div>
-                {errors.address && (
-                  <p className="mt-1 text-sm text-red-600">{errors.address}</p>
-                )}
-              </div>
-
-              <div>
-                <label
-                  htmlFor="college"
-                  className="mb-1 block text-sm font-medium text-zinc-700"
-                >
-                  College/University (Optional)
-                </label>
-                <div className="relative">
-                  <BookOpen
-                    className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-zinc-400"
-                    size={18}
-                  />
-                  <input
-                    type="text"
-                    id="college"
-                    name="college"
-                    placeholder="College/University"
-                    value={formData.college}
-                    onChange={handleInputChange}
-                    className="w-full rounded-lg border border-zinc-300 py-2.5 pr-3 pl-10 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label
-                  htmlFor="paymentPhoto"
-                  className="mb-1 block text-sm font-medium text-zinc-700"
-                >
-                  Upload Payment Screenshot
-                </label>
-
-                <div
-                  className={`relative mt-1 flex justify-center rounded-lg border-2 border-dashed px-6 pt-5 pb-6 ${
-                    errors.paymentPhoto ? "border-red-400" : "border-zinc-300"
-                  }`}
-                >
-                  <div className="space-y-1 text-center">
-                    <FileText
-                      className="mx-auto h-12 w-12 text-zinc-400"
-                      strokeWidth={1}
+              <form onSubmit={handleSubmit} className="space-y-5">
+                <div>
+                  <label
+                    htmlFor="fullName"
+                    className="mb-1 block text-sm font-medium text-zinc-700"
+                  >
+                    Full Name
+                  </label>
+                  <div className="relative">
+                    <User
+                      className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-zinc-400"
+                      size={18}
                     />
-                    <div className="flex text-sm text-zinc-600">
-                      <label
-                        htmlFor="paymentPhoto"
-                        className="relative cursor-pointer rounded-md bg-white font-medium text-blue-600 hover:text-blue-500 focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-2 focus-within:outline-none"
-                      >
-                        <span>Upload a file</span>
-                        <input
-                          id="paymentPhoto"
-                          name="paymentPhoto"
-                          type="file"
-                          accept=".png,.jpg,.jpeg,image/png,image/jpeg"
-                          onChange={handleFileChange}
-                          className="sr-only"
-                        />
-                      </label>
-                      <p className="pl-1">or drag and drop</p>
-                    </div>
+                    <input
+                      type="text"
+                      id="fullName"
+                      name="fullName"
+                      value={formData.fullName}
+                      onChange={handleInputChange}
+                      placeholder="Your full name"
+                      autoFocus
+                      className="w-full rounded-lg border border-zinc-300 py-2.5 pr-3 pl-10 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none"
+                    />
+                  </div>
+                  {errors.fullName && (
+                    <p className="mt-1 text-sm text-red-400">
+                      {errors.fullName}
+                    </p>
+                  )}
+                </div>
 
-                    <div className="text-xs text-zinc-500">
-                      {formData.paymentPhoto ? (
-                        formData.paymentPhoto.name
-                      ) : (
-                        <div className="flex flex-col gap-1">
-                          <p>Photo up to 2MB</p>
-                          <p className="text-[8px] tracking-wider">
-                            (png, jpg, jpeg)
-                          </p>
-                        </div>
-                      )}
-                    </div>
+                <div>
+                  <label
+                    htmlFor="email"
+                    className="mb-1 block text-sm font-medium text-zinc-700"
+                  >
+                    Email Address
+                  </label>
+                  <div className="relative">
+                    <Mail
+                      className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-zinc-400"
+                      size={18}
+                    />
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      placeholder="Your email address"
+                      className="w-full rounded-lg border border-zinc-300 py-2.5 pr-3 pl-10 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none"
+                    />
+                  </div>
+                  {errors.email && (
+                    <p className="mt-1 text-sm text-red-600">{errors.email}</p>
+                  )}
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="number"
+                    className="mb-1 block text-sm font-medium text-zinc-700"
+                  >
+                    Phone Number
+                  </label>
+                  <div className="relative">
+                    <Contact
+                      className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-zinc-400"
+                      size={18}
+                    />
+                    <input
+                      type="tel"
+                      inputMode="numeric"
+                      id="number"
+                      name="number"
+                      placeholder="+977"
+                      value={formData.number}
+                      onChange={handleInputChange}
+                      className="w-full rounded-lg border border-zinc-300 py-2.5 pr-3 pl-10 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none"
+                    />
+                  </div>
+                  {errors.number && (
+                    <p className="mt-1 text-sm text-red-600">{errors.number}</p>
+                  )}
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="parentsNumber"
+                    className="mb-1 block text-sm font-medium text-zinc-700"
+                  >
+                    Parent/Guardian Phone Number
+                  </label>
+                  <div className="relative">
+                    <Contact
+                      className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-zinc-400"
+                      size={18}
+                    />
+                    <input
+                      type="tel"
+                      inputMode="numeric"
+                      id="parentsNumber"
+                      name="parentsNumber"
+                      placeholder="+977"
+                      value={formData.parentsNumber}
+                      onChange={handleInputChange}
+                      className="w-full rounded-lg border border-zinc-300 py-2.5 pr-3 pl-10 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none"
+                    />
+                  </div>
+                  {errors.parentsNumber && (
+                    <p className="mt-1 text-sm text-red-600">
+                      {errors.parentsNumber}
+                    </p>
+                  )}
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="address"
+                    className="mb-1 block text-sm font-medium text-zinc-700"
+                  >
+                    Address
+                  </label>
+                  <div className="relative">
+                    <LocateIcon
+                      className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-zinc-400"
+                      size={18}
+                    />
+                    <input
+                      type="text"
+                      id="address"
+                      name="address"
+                      placeholder="Your address"
+                      value={formData.address}
+                      onChange={handleInputChange}
+                      className="w-full rounded-lg border border-zinc-300 py-2.5 pr-3 pl-10 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none"
+                    />
+                  </div>
+                  {errors.address && (
+                    <p className="mt-1 text-sm text-red-600">
+                      {errors.address}
+                    </p>
+                  )}
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="college"
+                    className="mb-1 block text-sm font-medium text-zinc-700"
+                  >
+                    College/University (Optional)
+                  </label>
+                  <div className="relative">
+                    <BookOpen
+                      className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-zinc-400"
+                      size={18}
+                    />
+                    <input
+                      type="text"
+                      id="college"
+                      name="college"
+                      placeholder="College/University"
+                      value={formData.college}
+                      onChange={handleInputChange}
+                      className="w-full rounded-lg border border-zinc-300 py-2.5 pr-3 pl-10 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none"
+                    />
                   </div>
                 </div>
 
-                {errors.paymentPhoto && (
-                  <p className="mt-1 text-sm text-red-600">
-                    {errors.paymentPhoto}
+                <div>
+                  <label
+                    htmlFor="paymentPhoto"
+                    className="mb-1 block text-sm font-medium text-zinc-700"
+                  >
+                    Upload Your Essay
+                  </label>
+
+                  <div
+                    className={`relative mt-1 flex justify-center rounded-lg border-2 border-dashed px-6 pt-5 pb-6 ${
+                      errors.paymentPhoto ? "border-red-400" : "border-zinc-300"
+                    }`}
+                  >
+                    <div className="space-y-1 text-center">
+                      <FileText
+                        className="mx-auto h-12 w-12 text-zinc-400"
+                        strokeWidth={1}
+                      />
+                      <div className="flex text-sm text-zinc-600">
+                        <label
+                          htmlFor="paymentPhoto"
+                          className="relative cursor-pointer rounded-md bg-white font-medium text-blue-600 hover:text-blue-500 focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-2 focus-within:outline-none"
+                        >
+                          <span>Upload a file</span>
+                          <input
+                            id="paymentPhoto"
+                            name="paymentPhoto"
+                            type="file"
+                            accept=".pdf"
+                            onChange={handleFileChange}
+                            className="sr-only"
+                          />
+                        </label>
+                        <p className="pl-1">or drag and drop</p>
+                      </div>
+
+                      <div className="text-xs text-zinc-500">
+                        {formData.paymentPhoto ? (
+                          formData.paymentPhoto.name
+                        ) : (
+                          <div className="flex flex-col gap-1">
+                            <p className="text-xs tracking-wider">(PDF only)</p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  {errors.paymentPhoto && (
+                    <p className="mt-1 text-sm text-red-600">
+                      {errors.paymentPhoto}
+                    </p>
+                  )}
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="flex w-full justify-center rounded-full bg-blue-600 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-700 disabled:bg-blue-400"
+                >
+                  {isSubmitting ? "Submitting..." : "Submit Application"}
+                </button>
+
+                {submitMessage && (
+                  <p
+                    className={`text-center text-sm ${
+                      submitMessage.includes("Thank you")
+                        ? "text-green-600"
+                        : "text-red-600"
+                    }`}
+                  >
+                    {submitMessage}
                   </p>
                 )}
-              </div>
-
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="flex w-full justify-center rounded-full bg-blue-600 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-700 disabled:bg-blue-400"
-              >
-                {isSubmitting ? "Submitting..." : "Submit Application"}
-              </button>
-
-              {submitMessage && (
-                <p
-                  className={`text-center text-sm ${
-                    submitMessage.includes("Thank you")
-                      ? "text-green-600"
-                      : "text-red-600"
-                  }`}
-                >
-                  {submitMessage}
-                </p>
-              )}
-            </form>
+              </form>
+            </div>
           </div>
         </div>
       </div>
