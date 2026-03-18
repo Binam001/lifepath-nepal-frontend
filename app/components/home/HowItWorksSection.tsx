@@ -195,7 +195,7 @@ function HoverCard({
 }: HoverCardProps) {
   return (
     <div
-      className={`group relative overflow-hidden rounded-[28px] min-h-120 ${className}`}
+      className={`group relative overflow-hidden rounded-[28px] h-80 sm:min-h-120 ${className}`}
       onClick={onToggle}
     >
       <div
@@ -215,7 +215,7 @@ function HoverCard({
           src={image}
           alt={title}
           fill
-          className={`z-10 object-contain object-top transition-transform duration-700 ${
+          className={`z-10 pb-12 sm:pb-0 sm:object-contain sm:object-top transition-transform duration-700 ${
             isOpen ? "scale-105" : "group-hover:scale-105"
           }`}
         />
@@ -245,7 +245,7 @@ function HoverCard({
             }`}
           >
             <h3
-              className={`text-xl md:text-2xl pb-3 font-semibold leading-tight max-w-[14ch] ${
+              className={`text-2xl md:text-3xl pb-3 font-semibold leading-tight max-w-[14ch] ${
                 textDark ? "text-white" : "text-white"
               }`}
             >
