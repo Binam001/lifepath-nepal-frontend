@@ -4,23 +4,13 @@ import { Montserrat, Poppins } from "next/font/google";
 import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
 import "./globals.css";
-import Header from "./components/layout/Header";
-import SmoothScroll from "./components/SmoothScroll";
-import Footer from "./components/layout/Footer";
+import Header from "@/components/layout/Header";
+import SmoothScroll from "@/components/SmoothScroll";
+import Footer from "@/components/layout/Footer";
 
 const SitePreloader = dynamic(() => import("@/components/ui/site-preloader"), {
   ssr: false,
 });
-
-// const geistSans = Geist({
-//   variable: "--font-geist-sans",
-//   subsets: ["latin"],
-// });
-
-// const geistMono = Geist_Mono({
-//   variable: "--font-geist-mono",
-//   subsets: ["latin"],
-// });
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -63,7 +53,7 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/favicon.svg" />
       </head>
       <body
-        className={`${poppins.variable} ${montserrat.variable} antialiased bg-white  overflow-x-hidden`}
+        className={`${poppins.variable} ${montserrat.variable} antialiased bg-white overflow-x-hidden`}
       >
         <SitePreloader />
         <SmoothScroll />

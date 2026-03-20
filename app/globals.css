@@ -147,6 +147,14 @@ body {
   --sidebar-ring: oklch(0.552 0.016 285.938);
 }
 
+.font-montserrat {
+  font-family: var(--font-montserrat);
+}
+
+.font-poppins {
+  font-family: var(--font-poppins);
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
