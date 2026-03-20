@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Calendar,
   Info,
@@ -12,7 +12,6 @@ import {
   FileText,
   CheckCheck,
   // Check,
-  CheckCircle,
   Award,
   BookCheck,
 } from "lucide-react";
@@ -64,7 +63,7 @@ const essayEvent = {
     "No AI Usage: Use of AI tools (like ChatGPT or similar) is strictly prohibited. Any AI-generated or plagiarized work will be disqualified.",
     "Word Limit: Essays must be between 480–500 words. Entries outside this range will not be accepted.",
     "Competition Rounds: The competition will have multiple rounds, each with a unique topic.",
-    "Topic Announcement: Topics will be announced on April 12, 2026, along with submission deadlines.",
+    "Topic Announcement: Topics will be announced on May 13, 2026, along with submission deadlines.",
     "Fair Participation: No copying from books, websites, or other sources.",
     "Final Decision: Judges’ and organizers’ decisions will be final.",
   ],
@@ -102,6 +101,30 @@ const initialFormData: EventFormData = {
   paymentPhoto: null,
 };
 
+const countdownTarget = new Date("2026-05-11T23:59:00+05:45");
+
+const getTimeRemaining = (targetDate: Date) => {
+  const total = targetDate.getTime() - Date.now();
+
+  if (total <= 0) {
+    return {
+      total: 0,
+      days: 0,
+      hours: 0,
+      minutes: 0,
+      seconds: 0,
+    };
+  }
+
+  return {
+    total,
+    days: Math.floor(total / (1000 * 60 * 60 * 24)),
+    hours: Math.floor((total / (1000 * 60 * 60)) % 24),
+    minutes: Math.floor((total / (1000 * 60)) % 60),
+    seconds: Math.floor((total / 1000) % 60),
+  };
+};
+
 export default function EssayCompetitionPage() {
   const [formData, setFormData] = useState<EventFormData>(initialFormData);
   const [errors, setErrors] = useState<
@@ -111,6 +134,19 @@ export default function EssayCompetitionPage() {
   const [submitMessage, setSubmitMessage] = useState("");
   const [isDraggingFile, setIsDraggingFile] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [timeLeft, setTimeLeft] = useState(() =>
+    getTimeRemaining(countdownTarget),
+  );
+
+  useEffect(() => {
+    const intervalId = window.setInterval(() => {
+      setTimeLeft(getTimeRemaining(countdownTarget));
+    }, 1000);
+
+    return () => {
+      window.clearInterval(intervalId);
+    };
+  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -228,31 +264,74 @@ export default function EssayCompetitionPage() {
         <div className="mt-4 grid gap-10 md:mt-16 md:grid-cols-2">
           {/* Left: Details */}
           <div className="space-y-8">
-            <div className=" flex flex-col ">
-              <div className="flex gap-2">
-                <CheckCircle className="text-blue-500" />
-                <h2 className="text-2xl font-semibold">Register here:</h2>
-              </div>
-              <Image
-                src="/assets/qrcode.png"
-                alt=""
-                width={300}
-                height={300}
-              ></Image>
-            </div>
             <div>
               <h2 className="mb-4 flex items-center gap-3 text-2xl font-semibold text-zinc-800">
-                <Info size={24} className="text-blue-500" />
-                Rules & Guidelines
+                <Calendar size={24} className="text-blue-500" />
+                Important Date
               </h2>
-              <ul className="space-y-3 text-sm text-zinc-600">
-                {essayEvent.rules.map((rule, index) => (
-                  <li key={index} className="flex items-start gap-3">
-                    <CheckCheck className="mt-0.5 h-4 w-4 text-blue-500 shrink-0" />
-                    <span className="leading-relaxed">{rule}</span>
-                  </li>
-                ))}
-              </ul>
+              <div className="overflow-hidden rounded-3xl border border-blue-100 bg-linear-to-br from-white via-blue-50 to-zinc-100 shadow-sm">
+                <div className="border-b border-blue-100 px-5 py-4 md:px-6">
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
+                      <p className="text-sm font-semibold tracking-[0.18em] text-blue-600 uppercase">
+                        Registration Deadline
+                      </p>
+                      <p className="mt-2 text-lg font-semibold text-zinc-900 md:text-xl">
+                        {essayEvent.deadline}
+                      </p>
+                    </div>
+                    <div className="mb-4 flex items-center justify-between gap-3">
+                      {timeLeft.total > 0 ? (
+                        <span className="rounded-full bg-blue-600 px-3 py-1 text-xs font-semibold text-white">
+                          Live
+                        </span>
+                      ) : (
+                        <span className="rounded-full bg-zinc-900 px-3 py-1 text-xs font-semibold text-white">
+                          Closed
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="px-5 py-5 md:px-6">
+                  <div className="rounded-2xl bg-white px-4 py-5 text-center shadow-sm ring-1 ring-zinc-100 md:hidden">
+                    <p className="mb-2 text-xs font-semibold tracking-[0.18em] text-zinc-500 uppercase">
+                      Time Remaining
+                    </p>
+                    <div className="text-2xl font-bold tabular-nums tracking-tight text-zinc-900">
+                      {String(timeLeft.days).padStart(2, "0")}:
+                      {String(timeLeft.hours).padStart(2, "0")}:
+                      {String(timeLeft.minutes).padStart(2, "0")}:
+                      {String(timeLeft.seconds).padStart(2, "0")}
+                    </div>
+                    <p className="mt-2 text-xs font-medium tracking-[0.16em] text-zinc-400 uppercase">
+                      dd:hh:mm:ss
+                    </p>
+                  </div>
+
+                  <div className="hidden grid-cols-4 gap-4 md:grid">
+                    {[
+                      { label: "Days", value: timeLeft.days },
+                      { label: "Hours", value: timeLeft.hours },
+                      { label: "Minutes", value: timeLeft.minutes },
+                      { label: "Seconds", value: timeLeft.seconds },
+                    ].map((item) => (
+                      <div
+                        key={item.label}
+                        className="rounded-2xl bg-white px-4 py-4 text-center shadow-sm ring-1 ring-zinc-100"
+                      >
+                        <div className="text-3xl font-bold tabular-nums text-zinc-900">
+                          {String(item.value).padStart(2, "0")}
+                        </div>
+                        <div className="mt-1 text-xs font-semibold tracking-[0.18em] text-zinc-500 uppercase">
+                          {item.label}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
 
             <div>
@@ -260,7 +339,7 @@ export default function EssayCompetitionPage() {
                 <Award size={24} className="text-blue-500" />
                 Prizes
               </h2>
-              <ul className="space-y-3 text-sm text-zinc-600">
+              <ul className="space-y-3 text-md font-medium text-zinc-600">
                 {essayEvent.prizes.map((prizes, index) => (
                   <li key={index} className="flex items-start gap-3">
                     <CheckCheck className="mt-0.5 h-4 w-4 text-blue-500 shrink-0" />
@@ -272,16 +351,19 @@ export default function EssayCompetitionPage() {
 
             <div>
               <h2 className="mb-4 flex items-center gap-3 text-2xl font-semibold text-zinc-800">
-                <Calendar size={24} className="text-blue-500" />
-                Important Date
+                <Info size={24} className="text-blue-500" />
+                Rules & Guidelines
               </h2>
-              <p className="text-zinc-600">
-                Submission Deadline:{" "}
-                <span className="font-semibold text-zinc-800">
-                  {essayEvent.deadline}
-                </span>
-              </p>
+              <ul className="space-y-3 text-md text-zinc-600">
+                {essayEvent.rules.map((rule, index) => (
+                  <li key={index} className="flex items-start gap-3">
+                    <CheckCheck className="mt-0.5 h-4 w-4 text-blue-500 shrink-0" />
+                    <span className="leading-relaxed">{rule}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
+
             <div>
               <h2 className="mb-4 flex items-center gap-3 text-2xl font-semibold text-zinc-800">
                 <p className="font-semibold text-zinc-800">
@@ -298,7 +380,7 @@ export default function EssayCompetitionPage() {
                 <BookCheck size={24} className="text-blue-500" />
                 Submission Guidelines
               </h2>
-              <ul className="space-y-3 text-sm text-zinc-600">
+              <ul className="space-y-3 text-md text-zinc-600">
                 {essayEvent.submissionGuidelines.map((rule, index) => (
                   <li key={index} className="flex items-start gap-3">
                     <CheckCheck className="mt-0.5 h-4 w-4 text-blue-500 shrink-0" />

@@ -1,12 +1,16 @@
 "use client";
 
 import { Montserrat, Poppins } from "next/font/google";
+import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
 import "./globals.css";
-import Header from "../components/layout/Header";
-import SmoothScroll from "../components/SmoothScroll";
-import Footer from "../components/layout/Footer";
-// import Preloader from "@/components/layout/Preloader";
+import Header from "./components/layout/Header";
+import SmoothScroll from "./components/SmoothScroll";
+import Footer from "./components/layout/Footer";
+
+const SitePreloader = dynamic(() => import("@/components/ui/site-preloader"), {
+  ssr: false,
+});
 
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
@@ -61,7 +65,7 @@ export default function RootLayout({
       <body
         className={`${poppins.variable} ${montserrat.variable} antialiased bg-white  overflow-x-hidden`}
       >
-        {/* <Preloader> */}
+        <SitePreloader />
         <SmoothScroll />
         {!isAuthPage && !isLearnPage && <Header />}
         <main className="min-h-screen">{children}</main>
