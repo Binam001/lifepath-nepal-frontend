@@ -76,14 +76,14 @@ type Course = {
 
 const courseData: Record<string, Course> = {
   "graphic-designing-bootcamp": {
-    id: 1,
+    id: 4,
     title: "Graphic Designer",
     slug: "graphic-designing-bootcamp",
     description:
       "Master visual design with real-world projects. Learn branding, layout, typography, and design systems to build a standout portfolio.",
     image: "/job-training/graphic.png",
-    price: 40000,
-    originalPrice: 52000,
+    price: 50000,
+    originalPrice: 60000,
     rating: 4.7,
     totalRatings: 842,
     students: 3120,
@@ -239,14 +239,14 @@ const courseData: Record<string, Course> = {
     },
   },
   "web-development-bootcamp": {
-    id: 2,
+    id: 5,
     title: "Web Designer",
     slug: "web-development-bootcamp",
     description:
       "Master full-stack web development from scratch. Learn HTML, CSS, JavaScript, React, Node.js, and MongoDB to build real-world applications.",
     image: "/job-training/webdev.png",
     price: 50000,
-    originalPrice: 70000,
+    originalPrice: 60000,
     rating: 4.8,
     totalRatings: 1234,
     students: 5678,
@@ -428,8 +428,8 @@ const courseData: Record<string, Course> = {
     description:
       "Learn to grow brands with content, ads, and analytics. Build marketing campaigns that drive real results.",
     image: "/job-training/digital.png",
-    price: 60000,
-    originalPrice: 80000,
+    price: 80000,
+    originalPrice: 100000,
     rating: 4.6,
     totalRatings: 702,
     students: 2890,
@@ -575,14 +575,14 @@ const courseData: Record<string, Course> = {
     },
   },
   "creative-designer": {
-    id: 4,
+    id: 6,
     title: "Creative Designer",
     slug: "creative-designer",
     description:
       "Build core sales skills with real-world practice. Learn prospecting, pitching, negotiation, and relationship management to close deals consistently.",
     image: "/job-training/sales.png",
     price: 50000,
-    originalPrice: 70000,
+    originalPrice: 60000,
     rating: 4.5,
     totalRatings: 518,
     students: 2140,
@@ -730,14 +730,14 @@ const courseData: Record<string, Course> = {
     },
   },
   "full-stack-web-development-bootcamp": {
-    id: 5,
+    id: 2,
     title: "Full Stack Web Developer",
     slug: "full-stack-web-development-bootcamp",
     description:
       "Become a job-ready full stack developer. Build complete web apps with modern front-end and back-end technologies.",
     image: "/job-training/fullstack.png",
-    price: 60000,
-    originalPrice: 80000,
+    price: 80000,
+    originalPrice: 100000,
     rating: 4.7,
     totalRatings: 986,
     students: 4210,
@@ -885,14 +885,14 @@ const courseData: Record<string, Course> = {
     },
   },
   "advanced-digital-marketing-bootcamp": {
-    id: 6,
+    id: 1,
     title: "Brand Developer",
     slug: "advanced-digital-marketing-bootcamp",
     description:
       "Strengthen brand strategy and digital growth. Learn positioning, messaging, and campaign execution for long-term impact.",
     image: "/job-training/brand.png",
-    price: 60000,
-    originalPrice: 80000,
+    price: 80000,
+    originalPrice: 100000,
     rating: 4.6,
     totalRatings: 604,
     students: 2560,

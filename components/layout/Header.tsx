@@ -20,6 +20,7 @@ export default function Header() {
     // { label: "Guide Books", href: "/guide-books" },
     { label: "Success Stories", href: "/success-stories" },
     { label: "Contact Us", href: "/contact-us" },
+    { label: "Books", href: "/books" },
   ];
 
   const mobileNavItems = [
@@ -31,6 +32,7 @@ export default function Header() {
     { label: "Success Stories", href: "/success-stories" },
     // { label: "About Us", href: "/about-us" },
     { label: "Contact Us", href: "/contact-us" },
+    { label: "Books", href: "/books" },
   ];
 
   const isActive = (href: string) => pathname === href;

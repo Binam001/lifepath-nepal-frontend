@@ -276,7 +276,7 @@ export default function EssayCompetitionPage() {
                 Important Date
               </h2>
               <p className="text-zinc-600">
-                Submission Deadline:{" "}
+                Registration Deadline:{" "}
                 <span className="font-semibold text-zinc-800">
                   {essayEvent.deadline}
                 </span>
@@ -489,6 +489,53 @@ export default function EssayCompetitionPage() {
                     Upload Your Essay
                   </label>
 
+                  <div
+                    onDragOver={handleDragOver}
+                    onDragLeave={handleDragLeave}
+                    onDrop={handleDrop}
+                    className={`relative mt-1 flex justify-center rounded-lg border-2 border-dashed px-6 pt-5 pb-6 transition-colors ${
+                      errors.paymentPhoto
+                        ? "border-red-400"
+                        : isDraggingFile
+                          ? "border-blue-500 bg-blue-50"
+                          : "border-zinc-300"
+                    }`}
+                  >
+                    <div className="space-y-1 text-center">
+                      <FileText
+                        className="mx-auto h-12 w-12 text-zinc-400"
+                        strokeWidth={1}
+                      />
+                      <div className="flex text-sm text-zinc-600">
+                        <label
+                          htmlFor="paymentPhoto"
+                          className="relative cursor-pointer rounded-md bg-white font-medium text-blue-600 hover:text-blue-500 focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-2 focus-within:outline-none"
+                        >
+                          <span>Upload a file</span>
+                          <input
+                            ref={fileInputRef}
+                            id="paymentPhoto"
+                            name="paymentPhoto"
+                            type="file"
+                            accept=".pdf"
+                            onChange={handleFileChange}
+                            className="sr-only"
+                          />
+                        </label>
+                        <p className="pl-1">or drag and drop</p>
+                      </div>
+
+                      <div className="text-xs text-zinc-500">
+                        {formData.paymentPhoto ? (
+                          formData.paymentPhoto.name
+                        ) : (
+                          <div className="flex flex-col gap-1">
+                            <p className="text-xs tracking-wider">(PDF only)</p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
                   <div
                     onDragOver={handleDragOver}
                     onDragLeave={handleDragLeave}
