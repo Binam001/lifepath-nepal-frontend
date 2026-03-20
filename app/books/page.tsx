@@ -6,17 +6,6 @@ const booksBySlug = Object.fromEntries(books.map((book) => [book.slug, book]));
 
 const sections = [
   {
-    title: "Lifebook",
-    subtitle:
-      "Core reads for self-awareness, direction, and steady personal growth.",
-    slugs: [
-      "light-the-path",
-      "rooted-in-resilience",
-      "the-architecture-of-you",
-      "the-light-from-within",
-    ],
-  },
-  {
     title: "Job",
     subtitle:
       "Books that sharpen decision-making, confidence, and readiness for work.",
