@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Star } from "lucide-react";
+import { Star, ShoppingCart } from "lucide-react";
 
 type BookCardProps = {
   slug: string;
@@ -20,96 +20,68 @@ export default function BookCard({
   slug,
   title,
   author,
-  // description,
-  category,
-  // genre,
   image,
+  description,
   priceNpr,
-  // isbn,
   isBestSeller,
-  // pageImageCount,
 }: BookCardProps) {
   return (
-    <article className="flex flex-col px-2 py-4 h-full w-80  transition-transform duration-200 hover:-translate-y-1">
-      {/* Book Image */}
-      <div className="relative mb-5 h-100 w-80 ">
+    <Link
+      href={`/books/${slug}`}
+      className="group relative flex w-64 flex-col overflow-hidden  bg-white p-3 transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/10"
+    >
+      {/* Image Container */}
+      <div className="relative aspect-3/4 w-full overflow-hidden  bg-gray-100 shadow-sm">
         <Image
           src={image}
           alt={title}
           fill
-          className="object-fit object-bottom"
+          className="object-cover transition-transform duration-500 group-hover:scale-105"
+          sizes="(max-width: 768px) 100vw, 256px"
         />
-      </div>
-      {/* Category & Best Seller */}
-      <div className="flex items-start justify-between gap-3 ">
-        <span className="rounded-full  px-3 py-1 text-xs font-semibold text-slate-600 ">
-          {category}
-        </span>
-        {isBestSeller && (
-          <span className="inline-flex items-center gap-1 rounded-full  px-3 py-1 text-xs font-semibold text-yellow-500">
-            <Star className="h-3.5 w-3.5 fill-current" />
-            Bestseller
-          </span>
-        )}
-      </div>
-      <section className="flex flex-1 flex-col gap-4 px-2">
-        {/* Book Title */}
 
-        <div className="pt-4">
-          <h3 className=" font-montserrat text-2xl font-bold text-slate-800">
+        {/* Bestseller Badge - Overlayed for better UX */}
+        {/* {isBestSeller && (
+          <div className="absolute left-2 top-2 flex items-center gap-1 rounded-full bg-white/90 px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-yellow-600 backdrop-blur-md shadow-sm">
+            <Star className="h-3 w-3 fill-yellow-500" />
+            Bestseller
+          </div>
+        )} */}
+
+        {/* Quick Add Overlay (UX Touch) */}
+        <div className="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+          <span className="rounded-full bg-white px-4 py-2 text-xs font-bold text-slate-900 shadow-xl">
+            View Details
+          </span>
+        </div>
+      </div>
+
+      {/* Content Section */}
+      <div className="flex flex-1 flex-col pt-4">
+        <div className="mb-1">
+          <h3 className="line-clamp-1 font-sans text-lg font-bold leading-tight text-slate-900 transition-colors group-hover:text-blue-600">
             {title}
           </h3>
-          <p className="text-sm font-medium text-zinc-600">
-            <span className="text-xs">by&nbsp;</span>
-            {author}
-          </p>
+          <p className="text-sm font-medium text-zinc-500">{author}</p>
         </div>
 
-        {/* Description */}
-
-        {/* <p className="flex-1 text-sm leading-6 text-zinc-700">{description}</p> */}
-
-        <div className="mt-auto">
-          {/* Bottom Info */}
-
-          <div className="flex  justify-between gap-3 text-sm text-zinc-600">
-            <div className=" ">
-              <p className=" flex gap-2 items-baseline  font-semibold text-zinc-900">
-                <span className="text-md">NPR</span>{" "}
-                <span className="text-2xl text-blue-800">{priceNpr}</span>
-              </p>
-            </div>
-            <Link
-              href={`/books/${slug}`}
-              className=" w-auto flex items-center justify-center gap-2 rounded-full bg-blue-600 px-5 py-2 text-sm font-semibold text-white shadow-lg shadow-blue-600/20 transition-all hover:bg-blue-700 hover:shadow-blue-600/30"
-            >
-              View Book
-              <ArrowRight className="h-4 w-4" />
-            </Link>
-            {/* <div className="flex items-center gap-2 ">
-              <p className="text-xs uppercase tracking-wide text-zinc-400">
-                Pages
-              </p>
-              <p className=" font-semibold text-zinc-900">{pageImageCount}</p>
-            </div> */}
-            {/* <div className=" ">
-              <p className="text-xs uppercase tracking-wide text-zinc-400">
-                Genre
-              </p>
-              <p className="mt-1 font-semibold text-zinc-900">{genre}</p>
-            </div> */}
-            {/* <div className=" ">
-              <p className="text-xs uppercase tracking-wide text-zinc-400">
-                ISBN
-              </p>
-              <p className="mt-1 font-semibold text-zinc-900">{isbn}</p>
-            </div> */}
+        <div className="mt-auto flex items-center justify-between pt-3">
+          <div className="flex flex-col">
+            <span className="text-[10px] font-bold uppercase tracking-tight text-zinc-400">
+              Price
+            </span>
+            <p className="flex items-center font-bold text-slate-900">
+              <span className="mr-0.5 text-xs text-blue-600">Rs.</span>
+              <span className="text-xl">{priceNpr.toLocaleString()}</span>
+            </p>
           </div>
-          {/* CTA Button */}
 
-          <div className="pt-4"></div>
+          {/* Subtle Action Icon */}
+          <div className="rounded-full bg-slate-50 p-2 text-slate-400 transition-colors group-hover:bg-blue-600 group-hover:text-white">
+            <ShoppingCart className="h-5 w-5" />
+          </div>
         </div>
-      </section>
-    </article>
+      </div>
+    </Link>
   );
 }
