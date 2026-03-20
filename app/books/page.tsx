@@ -55,7 +55,7 @@ export default function BooksPage() {
 
       <section className="mx-auto max-w-7xl px-4 py-10 md:px-0 md:py-14">
         <div className="space-y-14">
-          {sections.map((section, index) => {
+          {sections.map((section) => {
             const sectionBooks = section.slugs
               .map((slug) => booksBySlug[slug])
               .filter(Boolean);
