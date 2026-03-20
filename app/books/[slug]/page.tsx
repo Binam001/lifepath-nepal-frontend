@@ -7,7 +7,7 @@ import {
   BookOpen,
   Calendar,
   Check,
-  MessageCircle,
+  // MessageCircle,
   ShoppingBag,
   Star,
 } from "lucide-react";
@@ -103,7 +103,7 @@ export default async function BookDetailPage({ params }: BookDetailPageProps) {
       </section>
 
       <section className="mx-auto mt-8 max-w-7xl px-4 md:px-0">
-        <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
+        <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
           <div>
             <div className="relative overflow-hidden rounded-[2rem] p-6 ">
               {book.isBestSeller ? (
@@ -123,55 +123,8 @@ export default async function BookDetailPage({ params }: BookDetailPageProps) {
                 />
               </div>
             </div>
-          </div>
 
-          <div className="max-w-2xl">
-            <div className="flex flex-wrap gap-2">
-              <span className="rounded-full bg-blue-50 px-4 py-1.5 text-sm font-semibold text-blue-700">
-                {book.category}
-              </span>
-              <span className="rounded-full bg-zinc-100 px-4 py-1.5 text-sm font-semibold text-zinc-700">
-                {book.genre}
-              </span>
-            </div>
-
-            <h1 className="mt-5 font-montserrat text-4xl font-bold tracking-[-0.04em] text-slate-950 md:text-5xl">
-              {book.title}
-            </h1>
-            <p className="mt-3 text-base font-medium text-zinc-600 md:text-lg">
-              by {book.author}
-            </p>
-
-            <p className="mt-6 max-w-2xl text-sm leading-8 text-zinc-700 md:text-base">
-              {book.description}
-            </p>
-
-            <div className="mt-8 flex flex-wrap items-end gap-6 border-y border-zinc-200 py-6">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-zinc-500">
-                  Price
-                </p>
-                <p className="mt-2 font-montserrat text-4xl font-bold tracking-[-0.04em] text-blue-700">
-                  NPR {book.priceNpr}
-                </p>
-              </div>
-            </div>
-
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <button className="inline-flex items-center justify-center gap-2 rounded-full border border-zinc-300 bg-white px-6 py-3 text-sm font-semibold text-zinc-900 transition-all hover:border-blue-600 hover:text-blue-700">
-                <BookOpen className="h-4 w-4" />
-                Preview Book
-              </button>
-              <Link
-                href={`/books/${book.slug}/read?page=1`}
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-blue-700"
-              >
-                <ShoppingBag className="h-4 w-4" />
-                Purchase Book
-              </Link>
-            </div>
-
-            <div className="mt-10 grid gap-4 border-t border-zinc-200 pt-8 sm:grid-cols-3">
+            <div className="mt-6 grid gap-4 border-t border-zinc-200 pt-5 sm:grid-cols-3">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-zinc-500">
                   Published
@@ -200,12 +153,60 @@ export default async function BookDetailPage({ params }: BookDetailPageProps) {
                 </p>
               </div>
             </div>
+          </div>
 
-            <div className="mt-10">
+          <div className="max-w-2xl">
+            <div className="flex flex-wrap gap-2">
+              <span className="rounded-full bg-blue-50 px-4 py-1.5 text-sm font-semibold text-blue-700">
+                {book.category}
+              </span>
+              <span className="rounded-full bg-zinc-100 px-4 py-1.5 text-sm font-semibold text-zinc-700">
+                {book.genre}
+              </span>
+            </div>
+
+            <h1 className="mt-5 font-montserrat text-4xl font-bold tracking-[-0.04em] text-slate-950 md:text-5xl">
+              {book.title}
+            </h1>
+            <p className="mt-3 text-base font-medium text-zinc-600 md:text-lg">
+              by {book.author}
+            </p>
+
+            <p className="mt-6 max-w-2xl text-sm leading-8 text-zinc-700 md:text-base">
+              {book.description}
+            </p>
+
+            <div className="mt-6 flex flex-wrap items-end gap-5 border-y border-zinc-200 py-5">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-zinc-500">
+                  Price
+                </p>
+                <p className="mt-2 font-montserrat text-4xl font-bold flex items-baseline gap-2 tracking-[-0.04em] text-blue-700">
+                  <span className="text-lg ">NPR</span>
+                  <span className="text-4xl">{book.priceNpr}</span>
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+              <button className="inline-flex items-center justify-center gap-2 rounded-full border border-zinc-300 bg-white px-6 py-3 text-sm font-semibold text-zinc-900 transition-all hover:border-blue-600 hover:text-blue-700">
+                <BookOpen className="h-4 w-4" />
+                Preview Book
+              </button>
+              <Link
+                href={`/books/${book.slug}/read?page=1`}
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-blue-700"
+              >
+                <ShoppingBag className="h-4 w-4" />
+                Purchase Book
+              </Link>
+            </div>
+
+            <div className="mt-8">
               <h2 className="font-montserrat text-2xl font-bold tracking-[-0.03em] text-slate-950">
                 Why this book works
               </h2>
-              <div className="mt-5 space-y-4">
+              <div className="mt-4 space-y-3">
                 {highlights.map((item) => (
                   <div key={item} className="flex items-start gap-3">
                     <div className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-blue-600">

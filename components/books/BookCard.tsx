@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Star, ShoppingCart } from "lucide-react";
+import { ShoppingCart } from "lucide-react";
 
 type BookCardProps = {
   slug: string;
@@ -21,9 +21,9 @@ export default function BookCard({
   title,
   author,
   image,
-  description,
+  // description,
   priceNpr,
-  isBestSeller,
+  // isBestSeller,
 }: BookCardProps) {
   return (
     <Link
@@ -36,19 +36,9 @@ export default function BookCard({
           src={image}
           alt={title}
           fill
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
+          className="object-fit transition-transform duration-500 group-hover:scale-105"
           sizes="(max-width: 768px) 100vw, 256px"
         />
-
-        {/* Bestseller Badge - Overlayed for better UX */}
-        {/* {isBestSeller && (
-          <div className="absolute left-2 top-2 flex items-center gap-1 rounded-full bg-white/90 px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-yellow-600 backdrop-blur-md shadow-sm">
-            <Star className="h-3 w-3 fill-yellow-500" />
-            Bestseller
-          </div>
-        )} */}
-
-        {/* Quick Add Overlay (UX Touch) */}
         <div className="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
           <span className="rounded-full bg-white px-4 py-2 text-xs font-bold text-slate-900 shadow-xl">
             View Details
@@ -71,8 +61,10 @@ export default function BookCard({
               Price
             </span>
             <p className="flex items-center font-bold text-slate-900">
-              <span className="mr-0.5 text-xs text-blue-600">Rs.</span>
-              <span className="text-xl">{priceNpr.toLocaleString()}</span>
+              <span className="mr-0.5 text-sm ">Rs.&nbsp;</span>
+              <span className="text-xl text-blue-600">
+                {priceNpr.toLocaleString()}
+              </span>
             </p>
           </div>
 
