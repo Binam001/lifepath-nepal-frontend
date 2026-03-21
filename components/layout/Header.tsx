@@ -37,7 +37,7 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 border-b border-zinc-200 bg-white/95 px-4 backdrop-blur-2xl transition-transform duration-300 md:px-0 ${
+      className={`fixed top-0 left-0 right-0 z-50 border-b border-zinc-200 bg-white/95 px-4 backdrop-blur-2xl transition-transform duration-300 lg:px-0 ${
         isVisible ? "translate-y-0" : "-translate-y-full"
       }`}
     >
