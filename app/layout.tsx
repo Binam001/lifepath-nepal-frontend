@@ -7,6 +7,7 @@ import "./globals.css";
 import Header from "@/components/layout/Header";
 import SmoothScroll from "@/components/SmoothScroll";
 import Footer from "@/components/layout/Footer";
+import Tracker from "@/components/Tracker/Tracker";
 
 const SitePreloader = dynamic(() => import("@/components/ui/site-preloader"), {
   ssr: false,
@@ -55,9 +56,12 @@ export default function RootLayout({
       <body
         className={`${poppins.variable} ${montserrat.variable} antialiased bg-white overflow-x-hidden`}
       >
+        {/* <Tracker /> */}
+        {/* <Preloader> */}
         <SitePreloader />
         <SmoothScroll />
         {!isAuthPage && !isLearnPage && <Header />}
+        <Tracker />
         <main className="min-h-screen">{children}</main>
         {!isAuthPage && !isLearnPage && <Footer />}
         {/* </Preloader> */}
