@@ -17,26 +17,30 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { z } from "zod";
+import { submitEssay } from "@/lib/api";
 
 const formSchema = z.object({
   fullName: z
     .string()
     .trim()
-    .min(2, "Full name must be at least 2 characters."),
+    .min(6, "Full name must be at least 6 characters."),
 
   email: z.string().trim().email("Enter a valid email."),
 
   number: z
     .string()
-    .regex(/^\d{10}$/, "Phone number must be exactly 10 digits."),
+    .regex(
+      /^9\d{9}$/,
+      "Must be a valid 10-digit Nepali number starting with 9",
+    ),
 
   address: z.string().trim().min(3, "Address is required."),
 
   parentsNumber: z
     .string()
     .regex(
-      /^\d{10}$/,
-      "Parent/Guardian phone number must be exactly 10 digits.",
+      /^9\d{9}$/,
+      "Must be a valid 10-digit Nepali number starting with 9",
     ),
 
   college: z.string().trim().optional().or(z.literal("")),
@@ -50,6 +54,17 @@ const formSchema = z.object({
     .refine(
       (file) => file.size <= 2 * 1024 * 1024,
       "File must be 2MB or smaller.",
+    ),
+
+  screenshotFile: z
+    .instanceof(File, { message: "Payment screenshot is required." })
+    .refine(
+      (file) => ["image/jpeg", "image/png", "image/webp"].includes(file.type),
+      "Only JPG, PNG, or WEBP images are allowed.",
+    )
+    .refine(
+      (file) => file.size <= 5 * 1024 * 1024,
+      "File must be 5MB or smaller.",
     ),
 });
 
@@ -89,6 +104,7 @@ type EventFormData = {
   college: string;
   parentsNumber: string;
   paymentPhoto: File | null;
+  screenshotFile: File | null;
 };
 
 const initialFormData: EventFormData = {
@@ -99,6 +115,7 @@ const initialFormData: EventFormData = {
   college: "",
   parentsNumber: "",
   paymentPhoto: null,
+  screenshotFile: null,
 };
 
 const countdownTarget = new Date("2026-05-11T23:59:00+05:45");
@@ -134,6 +151,8 @@ export default function EssayCompetitionPage() {
   const [submitMessage, setSubmitMessage] = useState("");
   const [isDraggingFile, setIsDraggingFile] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [isDraggingScreenshot, setIsDraggingScreenshot] = useState(false);
+  const screenshotInputRef = useRef<HTMLInputElement | null>(null);
   const [timeLeft, setTimeLeft] = useState(() =>
     getTimeRemaining(countdownTarget),
   );
@@ -150,7 +169,10 @@ export default function EssayCompetitionPage() {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    const fieldName = name as Exclude<keyof EventFormData, "paymentPhoto">;
+    const fieldName = name as Exclude<
+      keyof EventFormData,
+      "paymentPhoto" | "screenshotFile"
+    >;
 
     setFormData((prev) => ({ ...prev, [fieldName]: value }));
 
@@ -197,6 +219,43 @@ export default function EssayCompetitionPage() {
     }
   };
 
+  const updateSelectedScreenshot = (file: File | null) => {
+    setFormData((prev) => ({ ...prev, screenshotFile: file }));
+    if (errors.screenshotFile) {
+      setErrors((prev) => ({ ...prev, screenshotFile: "" }));
+    }
+  };
+
+  const handleScreenshotChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    updateSelectedScreenshot(e.target.files?.[0] ?? null);
+  };
+
+  const handleScreenshotDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDraggingScreenshot(true);
+  };
+
+  const handleScreenshotDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDraggingScreenshot(false);
+  };
+
+  const handleScreenshotDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDraggingScreenshot(false);
+
+    const file = e.dataTransfer.files?.[0] ?? null;
+    if (!file) return;
+
+    updateSelectedScreenshot(file);
+
+    if (screenshotInputRef.current) {
+      const transfer = new DataTransfer();
+      transfer.items.add(file);
+      screenshotInputRef.current.files = transfer.files;
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -221,9 +280,41 @@ export default function EssayCompetitionPage() {
       return;
     }
 
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    const data = new FormData();
+    const { paymentPhoto, screenshotFile, number, parentsNumber, ...fields } =
+      validationResult.data;
+    Object.entries(fields).forEach(([key, val]) => {
+      if (val !== undefined) data.append(key, val);
+    });
+    data.append("phoneNumber", number);
+    data.append("parentPhoneNumber", parentsNumber);
+    data.append("essayFile", paymentPhoto);
+    data.append("screenshotFile", screenshotFile);
 
-    console.log("Validated Form Data:", validationResult.data);
+    const result = await submitEssay(data);
+
+    if (!result.success) {
+      if (result.errors) {
+        // map backend field names back to frontend field names
+        const backendFieldMap: Record<string, keyof EventFormData> = {
+          phoneNumber: "number",
+          parentPhoneNumber: "parentsNumber",
+          essayFile: "paymentPhoto",
+        };
+        const mappedErrors: Partial<Record<keyof EventFormData, string>> = {};
+        for (const [key, messages] of Object.entries(result.errors)) {
+          const frontendKey =
+            backendFieldMap[key] ?? (key as keyof EventFormData);
+          mappedErrors[frontendKey] = (messages as string[])[0];
+        }
+        setErrors(mappedErrors);
+      }
+      setSubmitMessage(
+        result.message ?? "Something went wrong. Please try again.",
+      );
+      setIsSubmitting(false);
+      return;
+    }
 
     setSubmitMessage("Thank you! Your submission has been received.");
     setFormData(initialFormData);
@@ -231,10 +322,12 @@ export default function EssayCompetitionPage() {
     const fileInput = document.getElementById(
       "paymentPhoto",
     ) as HTMLInputElement | null;
+    if (fileInput) fileInput.value = "";
 
-    if (fileInput) {
-      fileInput.value = "";
-    }
+    const screenshotInput = document.getElementById(
+      "screenshotFile",
+    ) as HTMLInputElement | null;
+    if (screenshotInput) screenshotInput.value = "";
 
     setIsSubmitting(false);
   };
@@ -374,7 +467,7 @@ export default function EssayCompetitionPage() {
           </div>
 
           {/* Right: Form */}
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 bg-blue-50 border border-blue-200 rounded-2xl p-4">
             <div>
               <h2 className="mb-4 flex items-center gap-3 text-2xl font-semibold text-zinc-800">
                 <BookCheck size={24} className="text-blue-500" />
@@ -389,7 +482,7 @@ export default function EssayCompetitionPage() {
                 ))}
               </ul>
             </div>
-            <div className="rounded-2xl border border-zinc-200 bg-white p-8">
+            <div className="rounded-2xl border border-zinc-200 bg-white/90 p-8">
               <h2 className="mb-6 text-2xl font-semibold text-zinc-800">
                 Submit Your Essay
               </h2>
@@ -469,7 +562,7 @@ export default function EssayCompetitionPage() {
                       inputMode="numeric"
                       id="number"
                       name="number"
-                      placeholder="+977"
+                      placeholder="98XXXXXXXX"
                       value={formData.number}
                       onChange={handleInputChange}
                       className="w-full rounded-lg border border-zinc-300 py-2.5 pr-3 pl-10 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none"
@@ -497,7 +590,7 @@ export default function EssayCompetitionPage() {
                       inputMode="numeric"
                       id="parentsNumber"
                       name="parentsNumber"
-                      placeholder="+977"
+                      placeholder="98XXXXXXXX"
                       value={formData.parentsNumber}
                       onChange={handleInputChange}
                       className="w-full rounded-lg border border-zinc-300 py-2.5 pr-3 pl-10 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none"
@@ -622,6 +715,78 @@ export default function EssayCompetitionPage() {
                   {errors.paymentPhoto && (
                     <p className="mt-1 text-sm text-red-600">
                       {errors.paymentPhoto}
+                    </p>
+                  )}
+                </div>
+
+                <div className="">
+                  <Image
+                    src={"/assets/qr.jpeg"}
+                    alt="Lifepath"
+                    height={600}
+                    width={500}
+                    className="object-contain"
+                  />
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="screenshotFile"
+                    className="mb-1 block text-sm font-medium text-zinc-700"
+                  >
+                    Payment Screenshot
+                  </label>
+
+                  <div
+                    onDragOver={handleScreenshotDragOver}
+                    onDragLeave={handleScreenshotDragLeave}
+                    onDrop={handleScreenshotDrop}
+                    className={`relative mt-1 flex justify-center rounded-lg border-2 border-dashed px-6 pt-5 pb-6 transition-colors ${
+                      errors.screenshotFile
+                        ? "border-red-400"
+                        : isDraggingScreenshot
+                          ? "border-blue-500 bg-blue-50"
+                          : "border-zinc-300"
+                    }`}
+                  >
+                    <div className="space-y-1 text-center">
+                      <FileText
+                        className="mx-auto h-12 w-12 text-zinc-400"
+                        strokeWidth={1}
+                      />
+                      <div className="flex text-sm text-zinc-600">
+                        <label
+                          htmlFor="screenshotFile"
+                          className="relative cursor-pointer rounded-md bg-white font-medium text-blue-600 hover:text-blue-500 focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-2 focus-within:outline-none"
+                        >
+                          <span>Upload a file</span>
+                          <input
+                            ref={screenshotInputRef}
+                            id="screenshotFile"
+                            name="screenshotFile"
+                            type="file"
+                            accept="image/jpeg,image/png,image/webp"
+                            onChange={handleScreenshotChange}
+                            className="sr-only"
+                          />
+                        </label>
+                        <p className="pl-1">or drag and drop</p>
+                      </div>
+                      <div className="text-xs text-zinc-500">
+                        {formData.screenshotFile ? (
+                          formData.screenshotFile.name
+                        ) : (
+                          <p className="text-xs tracking-wider">
+                            (JPG, PNG, JPG, PNG — max 5MB)
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  {errors.screenshotFile && (
+                    <p className="mt-1 text-sm text-red-600">
+                      {errors.screenshotFile}
                     </p>
                   )}
                 </div>
