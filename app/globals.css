@@ -177,6 +177,60 @@ body {
   animation: spin-slow 3s linear infinite;
 }
 
+.events-nav-shell,
+.events-nav-shell-mobile {
+  position: relative;
+  display: inline-flex;
+  overflow: hidden;
+  border-radius: 9999px;
+  padding: 1px;
+}
+
+.events-nav-shell-mobile {
+  display: block;
+  border-radius: 0.75rem;
+}
+
+.events-nav-rotator,
+.events-nav-rotator-mobile {
+  position: absolute;
+  inset: -120%;
+  background: conic-gradient(
+    from 0deg,
+    rgba(59, 130, 246, 0) 0deg,
+    rgba(59, 130, 246, 0) 220deg,
+    rgba(59, 130, 246, 0.95) 280deg,
+    rgba(96, 165, 250, 1) 320deg,
+    rgba(59, 130, 246, 0) 360deg
+  );
+  animation: spin-slow 2.8s linear infinite;
+}
+
+.events-nav-link,
+.events-nav-link-mobile {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  border-radius: inherit;
+  background: transparent;
+}
+
+.events-nav-link {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: color 150ms ease;
+}
+
+.events-nav-link-mobile {
+  display: block;
+  border-radius: 0.7rem;
+  padding: 0.5rem 1rem;
+  font-size: 1.125rem;
+  font-weight: 500;
+  transition: color 150ms ease;
+}
+
 @keyframes gradient {
   0%, 100% {
     background-position: 0% 50%;
