@@ -15,8 +15,8 @@ export default function JobTrainingPage() {
       title: "Brand Developer",
       img: "/job-training/brand.png",
       duration: "5 months",
-      price: "100000",
-      originalPrice: "80000",
+      price: "80000",
+      originalPrice: "100000",
       includes: [
         "Psychology class",
         "Personality Development",
@@ -32,8 +32,8 @@ export default function JobTrainingPage() {
       title: "Full Stack Web Developer",
       img: "/job-training/fullstack.png",
       duration: "5 months",
-      price: "100000",
-      originalPrice: "80000",
+      price: "80000",
+      originalPrice: "100000",
       includes: [
         "Psychology class",
         "Personality Development",
@@ -43,15 +43,14 @@ export default function JobTrainingPage() {
         "Placement Opportunity",
       ],
     },
-
     {
       id: 3,
       slug: "digital-marketing-bootcamp",
       title: "Social Media Manager",
       img: "/job-training/social.png",
       duration: "5 months",
-      price: "100000",
-      originalPrice: "80000",
+      price: "80000",
+      originalPrice: "100000",
       includes: [
         "Psychology class",
         "Personality Development",

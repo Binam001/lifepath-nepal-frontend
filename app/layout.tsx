@@ -1,22 +1,17 @@
 "use client";
 
 import { Montserrat, Poppins } from "next/font/google";
+import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
 import "./globals.css";
-import Header from "../components/layout/Header";
-import SmoothScroll from "../components/SmoothScroll";
-import Footer from "../components/layout/Footer";
-// import Preloader from "@/components/layout/Preloader";
+import Header from "@/components/layout/Header";
+import SmoothScroll from "@/components/SmoothScroll";
+import Footer from "@/components/layout/Footer";
+import Tracker from "@/components/Tracker/Tracker";
 
-// const geistSans = Geist({
-//   variable: "--font-geist-sans",
-//   subsets: ["latin"],
-// });
-
-// const geistMono = Geist_Mono({
-//   variable: "--font-geist-mono",
-//   subsets: ["latin"],
-// });
+const SitePreloader = dynamic(() => import("@/components/ui/site-preloader"), {
+  ssr: false,
+});
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -59,11 +54,14 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/favicon.svg" />
       </head>
       <body
-        className={`${poppins.variable} ${montserrat.variable} antialiased bg-white  overflow-x-hidden`}
+        className={`${poppins.variable} ${montserrat.variable} antialiased bg-white overflow-x-hidden`}
       >
+        {/* <Tracker /> */}
         {/* <Preloader> */}
+        <SitePreloader />
         <SmoothScroll />
         {!isAuthPage && !isLearnPage && <Header />}
+        <Tracker />
         <main className="min-h-screen">{children}</main>
         {!isAuthPage && !isLearnPage && <Footer />}
         {/* </Preloader> */}
