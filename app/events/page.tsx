@@ -471,7 +471,7 @@ export default function EssayCompetitionPage() {
               <LucideScrollText size={24} className="text-blue-500" />
               Title
             </h2>
-            <div className="group relative flex flex-col items-center justify-center py-4 overflow-hidden rounded-[2rem] border border-blue-100  mb-8 select-none">
+            <div className="group relative flex flex-col items-center justify-center py-4 overflow-hidden rounded-[2rem] border border-blue-400  mb-8 select-none">
               <div
                 className="absolute inset-0 flex flex-col p-8 md:p-10 blur-xl opacity-90 pointer-events-none"
                 aria-hidden="true"
@@ -549,9 +549,9 @@ export default function EssayCompetitionPage() {
           </div>
 
           {/* Right: Form */}
-          <div className="flex flex-col gap-4   rounded-2xl p-4">
-            <div className="bg-blue-50 rounded-3xl p-4">
-              <div className="rounded-2xl border border-zinc-200 bg-white/90 p-8">
+          <div className="flex flex-col gap-4   rounded-2xl sm:p-4">
+            <div className="bg-blue-50 rounded-3xl sm:p-4">
+              <div className="rounded-2xl border border-zinc-200 bg-white/90 p-4 sm:p-8">
                 <h2 className="mb-6 text-2xl font-semibold text-zinc-800">
                   Register Here
                 </h2>
