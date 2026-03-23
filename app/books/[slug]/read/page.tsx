@@ -1,8 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
-import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowRight, BookOpen } from "lucide-react";
+import { ArrowLeft, ArrowRight, LayoutGrid, X } from "lucide-react";
 import { booksBySlug } from "@/constants/books";
+import { notFound } from "next/navigation";
+import JumpToPage from "@/components/books/JumpToPage";
 
 type BookReaderPageProps = {
   params: Promise<{
@@ -34,80 +35,108 @@ export default async function BookReaderPage({
   const hasNextPage = currentPage < book.pages.length;
 
   return (
-    <main className="bg-white pt-24 pb-16">
-      <section className="mx-auto max-w-6xl px-4 md:px-0">
-        <Link
-          href={`/books/${book.slug}`}
-          className="inline-flex items-center gap-2 text-sm font-semibold text-zinc-600 transition-colors hover:text-blue-700"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          Back to book details
-        </Link>
-        <div className="p-6 md:p-10">
-          <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-            <div>
-              <h1 className="mt-4 font-montserrat text-4xl font-semibold text-blue-700 md:text-5xl">
-                {book.title}
-              </h1>
-              <p className="mt-3 text-sm font-medium text-zinc-600">
-                {book.author}
-              </p>
-              <p className="mt-4 max-w-3xl text-sm leading-7 font-medium text-zinc-700 md:text-base">
-                {book.description}
-              </p>
-            </div>
+    <main className="min-h-screen bg-white mt-10">
+      {notFound()}
+      {/* Top Navigation Bar */}
+      <header className="px-6 py-8 flex items-center justify-between border-b mx-4 md:mx-8 border-zinc-100">
+        <div className="flex items-center gap-6">
+          <Link
+            href={`/books/${book.slug}`}
+            className="text-zinc-400 hover:text-zinc-900 transition-colors"
+            title="Exit reader"
+          >
+            <X className="h-5 w-5" />
+          </Link>
+          <div className="hidden sm:block">
+            <h1 className="text-sm text-zinc-900 tracking-wide">
+              {book.title}
+            </h1>
+            <p className="text-xs text-zinc-400 mt-0.5">{book.author}</p>
+          </div>
+        </div>
 
-            <div className="rounded-3xl bg-blue-50 ring-1 ring-blue-100">
-              <p className="inline-flex items-center gap-2 rounded-full bg-blue-50 px-4 py-2 text-sm font-semibold text-blue-700">
-                <BookOpen className="h-4 w-4" />
-                Reading Page {currentPage} of {book.pages.length}
-              </p>
-            </div>
+        <div className="flex items-center gap-8 text-sm text-zinc-400">
+          <JumpToPage
+            bookSlug={book.slug}
+            currentPage={currentPage}
+            totalPages={book.pages.length}
+          />
+          <Link
+            href={`/books/${book.slug}`}
+            className="hidden sm:flex hover:text-zinc-900 transition-colors"
+          >
+            <LayoutGrid className="h-4 w-4" />
+          </Link>
+        </div>
+      </header>
+
+      {/* Page Content */}
+      <section className="flex flex-col items-center justify-center p-6 py-12 relative w-full">
+        <div className="relative w-full max-w-4xl mx-auto flex items-center justify-center gap-12 lg:gap-24">
+          {hasPreviousPage ? (
+            <Link
+              href={`/books/${book.slug}/read?page=${currentPage - 1}`}
+              className="p-4 text-zinc-300 hover:text-zinc-900 transition-colors hidden sm:block"
+            >
+              <ArrowLeft className="h-6 w-6" strokeWidth={1.5} />
+            </Link>
+          ) : (
+            <div className="w-14 hidden sm:block" />
+          )}
+
+          <div className="relative aspect-3/4 w-full max-w-xl mx-auto border border-zinc-100 bg-white">
+            <Image
+              src={currentPageData.image}
+              alt={`${book.title} page ${currentPage}`}
+              fill
+              priority
+              quality={90}
+              className="object-contain"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            />
           </div>
 
-          <div className="mt-10 rounded-[2rem] bg-blue-50 p-3 ring-1 ring-blue-100 md:p-6">
-            <div className="relative mx-auto aspect-[3/4] w-full max-w-3xl overflow-hidden rounded-[1.5rem] bg-white shadow-md">
-              <Image
-                src={currentPageData.image}
-                alt={`${book.title} page ${currentPage}`}
-                fill
-                priority
-                className="object-contain"
-              />
-            </div>
-          </div>
+          {hasNextPage ? (
+            <Link
+              href={`/books/${book.slug}/read?page=${currentPage + 1}`}
+              className="p-4 text-zinc-300 hover:text-zinc-900 transition-colors hidden sm:block"
+            >
+              <ArrowRight className="h-6 w-6" strokeWidth={1.5} />
+            </Link>
+          ) : (
+            <div className="w-14 hidden sm:block" />
+          )}
+        </div>
 
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            {hasPreviousPage ? (
-              <Link
-                href={`/books/${book.slug}/read?page=${currentPage - 1}`}
-                className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-zinc-300 bg-white px-5 py-3 text-sm font-semibold text-blue-600 transition-all hover:border-blue-600 hover:bg-blue-50 hover:text-blue-600"
-              >
-                <ArrowLeft className="h-4 w-4" />
-                Previous Page
-              </Link>
-            ) : (
-              <div />
-            )}
+        {/* Mobile Nav */}
+        <div className="mt-12 flex items-center justify-between sm:hidden pt-8 w-full max-w-xs mx-auto">
+          {hasPreviousPage ? (
+            <Link
+              href={`/books/${book.slug}/read?page=${currentPage - 1}`}
+              className="text-zinc-900 p-2 border border-zinc-200"
+            >
+              <ArrowLeft className="h-5 w-5" strokeWidth={1.5} />
+            </Link>
+          ) : (
+            <div className="w-9" />
+          )}
 
-            {hasNextPage ? (
-              <Link
-                href={`/books/${book.slug}/read?page=${currentPage + 1}`}
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-600/20 transition-all hover:bg-blue-700 hover:shadow-blue-600/30"
-              >
-                Next Page
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            ) : (
-              <Link
-                href={`/books/${book.slug}`}
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-600/20 transition-all hover:bg-blue-700 hover:shadow-blue-600/30"
-              >
-                Back to details
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            )}
-          </div>
+          <JumpToPage
+            bookSlug={book.slug}
+            currentPage={currentPage}
+            totalPages={book.pages.length}
+          />
+
+          {hasNextPage ? (
+            <Link
+              href={`/books/${book.slug}/read?page=${currentPage + 1}`}
+              className="text-zinc-900 p-2 border border-zinc-200"
+            >
+              <ArrowRight className="h-5 w-5" strokeWidth={1.5} />
+            </Link>
+          ) : (
+            <div className="w-9" />
+          )}
         </div>
       </section>
     </main>

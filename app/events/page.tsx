@@ -414,7 +414,7 @@ export default function EssayCompetitionPage() {
         </div>
 
         <div className="mt-8 md:mt-12 max-w-7xl px-2">
-          <h1 className="text-3xl md:text-3xl font-bold  text-blue-500 tracking-tight mb-4">
+          <h1 className="text-3xl md:text-3xl font-semibold  text-blue-500 tracking-tight mb-4">
             {essayEvent.title}
           </h1>
           <div className="space-y-4 text-zinc-600 text-[15px] md:text-lg leading-relaxed">
@@ -471,7 +471,7 @@ export default function EssayCompetitionPage() {
               <LucideScrollText size={24} className="text-blue-500" />
               Title
             </h2>
-            <div className="group relative flex flex-col items-center justify-center py-4 overflow-hidden rounded-[2rem] border border-blue-100  mb-8 select-none">
+            <div className="group relative flex flex-col items-center justify-center py-4 overflow-hidden rounded-[2rem] border-2 border-blue-400  mb-8 select-none">
               <div
                 className="absolute inset-0 flex flex-col p-8 md:p-10 blur-xl opacity-90 pointer-events-none"
                 aria-hidden="true"

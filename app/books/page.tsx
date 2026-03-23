@@ -1,6 +1,7 @@
 import BookCard from "@/components/books/BookCard";
 import PageTitle from "@/components/ui/PageTitle";
 import { books } from "@/constants/books";
+import { notFound } from "next/navigation";
 
 const booksBySlug = Object.fromEntries(books.map((book) => [book.slug, book]));
 
@@ -43,6 +44,7 @@ const sections = [
 export default function BooksPage() {
   return (
     <main className="bg-white pt-16">
+      {notFound()}
       <div className="flex flex-col gap-2 bg-linear-to-r from-blue-600 to-black px-4 py-8 text-white md:px-0">
         <PageTitle
           title="Shape your future with lifebook."
@@ -52,7 +54,6 @@ export default function BooksPage() {
           containerClassName="text-center max-w-3xl mx-auto"
         />
       </div>
-
       <section className="mx-auto max-w-7xl px-4 py-10 md:px-0 md:py-14">
         <div className="space-y-14">
           {sections.map((section) => {

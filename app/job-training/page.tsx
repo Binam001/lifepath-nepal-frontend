@@ -4,6 +4,7 @@ import { Timer, UserCheck } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 
 export default function JobTrainingPage() {
   const [searchQuery] = useState("");
@@ -119,6 +120,7 @@ export default function JobTrainingPage() {
 
   return (
     <div className="min-h-screen pt-16 bg-zinc-100">
+      {notFound()}
       {/* Hero Section */}
       <section className="bg-linear-to-l from-blue-600 to-black text-white">
         <div className="max-w-6xl mx-auto py-8 px-4 md:px-0">

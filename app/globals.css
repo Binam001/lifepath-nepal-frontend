@@ -25,7 +25,7 @@ html.lenis body {
 
 
 
-@custom-variant dark (&:is(.dark *));
+/* @custom-variant dark (&:is(.dark *)); */
 
 :root {
   --font-montserrat: var(--font-montserrat);
@@ -206,13 +206,20 @@ body {
   animation: spin-slow 2.8s linear infinite;
 }
 
+.events-nav-fill,
+.events-nav-fill-mobile {
+  position: absolute;
+  inset: 1px;
+  z-index: 1;
+  border-radius: inherit;
+}
+
 .events-nav-link,
 .events-nav-link-mobile {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   display: inline-flex;
   border-radius: inherit;
-  background: transparent;
 }
 
 .events-nav-link {

@@ -14,25 +14,29 @@ export default function Header() {
 
   const navItems = [
     { label: "Home", href: "/" },
-    { label: "Job Training", href: "/job-training" },
+    // { label: "Job Training", href: "/job-training" },
+    { label: "Future", href: "/future" },
     { label: "Best Jobs", href: "/jobs" },
     { label: "Events", href: "/events" },
     // { label: "Guide Books", href: "/guide-books" },
-    { label: "Success Stories", href: "/success-stories" },
+    { label: "Reviews", href: "/reviews" },
     { label: "Contact Us", href: "/contact-us" },
-    { label: "Books", href: "/books" },
+    // { label: "Books", href: "/books" },
+    { label: "Growth", href: "/growth" },
   ];
 
   const mobileNavItems = [
     { label: "Home", href: "/" },
-    { label: "Job Training", href: "/job-training" },
+    // { label: "Job Training", href: "/job-training" },
+    { label: "Future", href: "/future" },
     { label: "Best Jobs", href: "/jobs" },
     { label: "Events", href: "/events" },
     // { label: "Guide Books", href: "/guide-books" },
-    { label: "Success Stories", href: "/success-stories" },
+    { label: "Reviews", href: "/reviews" },
     // { label: "About Us", href: "/about-us" },
     { label: "Contact Us", href: "/contact-us" },
-    { label: "Books", href: "/books" },
+    // { label: "Books", href: "/books" },
+    { label: "Growth", href: "/growth" },
   ];
 
   const isActive = (href: string) => pathname === href;
@@ -56,38 +60,19 @@ export default function Header() {
           </Link>
 
           <div className="ml-6 hidden items-center gap-1 lg:flex">
-            {navItems.map((item) =>
-              item.href === "/events" ? (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className="events-nav-shell"
-                >
-                  <span className="events-nav-rotator" aria-hidden="true" />
-                  <span
-                    className={`events-nav-link ${
-                      isActive(item.href)
-                        ? "bg-zinc-50 text-blue-700"
-                        : "text-zinc-700 hover:text-zinc-900"
-                    }`}
-                  >
-                    {item.label}
-                  </span>
-                </Link>
-              ) : (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={`rounded-full px-3 py-2 text-sm font-medium transition-colors ${
-                    isActive(item.href)
-                      ? "bg-blue-100 text-blue-700"
-                      : "text-zinc-700 hover:bg-zinc-50 hover:text-zinc-900"
-                  }`}
-                >
-                  {item.label}
-                </Link>
-              ),
-            )}
+            {navItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`rounded-full px-3 py-2 text-sm font-medium transition-colors ${
+                  isActive(item.href)
+                    ? "bg-blue-100 text-blue-700"
+                    : "text-zinc-700 hover:bg-zinc-50 hover:text-zinc-900"
+                }`}
+              >
+                {item.label}
+              </Link>
+            ))}
           </div>
 
           <div className="ml-auto hidden items-center gap-2 sm:flex">
@@ -123,41 +108,20 @@ export default function Header() {
       {isMenuOpen && (
         <div className="border-t border-zinc-200 bg-white lg:hidden">
           <div className="mx-auto h-screen max-w-6xl space-y-2 py-4">
-            {mobileNavItems.map((item) =>
-              item.href === "/events" ? (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  onClick={() => setIsMenuOpen(false)}
-                  className="events-nav-shell-mobile"
-                >
-                  <span
-                    className="events-nav-rotator-mobile"
-                    aria-hidden="true"
-                  />
-                  <span
-                    className={`events-nav-link-mobile ${
-                      isActive(item.href) ? "text-blue-700" : "text-zinc-700"
-                    }`}
-                  >
-                    {item.label}
-                  </span>
-                </Link>
-              ) : (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  onClick={() => setIsMenuOpen(false)}
-                  className={`block rounded-xl px-4 py-2 text-lg font-medium transition-colors ${
-                    isActive(item.href)
-                      ? "bg-blue-50 text-blue-700"
-                      : "text-zinc-700 hover:bg-zinc-50"
-                  }`}
-                >
-                  {item.label}
-                </Link>
-              ),
-            )}
+            {mobileNavItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={() => setIsMenuOpen(false)}
+                className={`block rounded-xl px-4 py-2 text-lg font-medium transition-colors ${
+                  isActive(item.href)
+                    ? "bg-blue-50 text-blue-700"
+                    : "text-zinc-700 hover:bg-zinc-50"
+                }`}
+              >
+                {item.label}
+              </Link>
+            ))}
             <Link
               href="/personality-test"
               onClick={() => setIsMenuOpen(false)}

@@ -5,11 +5,13 @@ import {
   ArrowLeft,
   ArrowRight,
   BookOpen,
-  Calendar,
-  Check,
-  // MessageCircle,
-  ShoppingBag,
+  // Calendar,
+  CheckCircle2,
+  // ShoppingBag,
   Star,
+  // Layers,
+  // FileText,
+  // BadgeCheck,
 } from "lucide-react";
 import { books, booksBySlug } from "@/constants/books";
 import BookCard from "@/components/books/BookCard";
@@ -91,170 +93,169 @@ export default async function BookDetailPage({ params }: BookDetailPageProps) {
   ];
 
   return (
-    <main className="bg-white pb-16 pt-20">
-      <section className="mx-auto max-w-7xl px-4 md:px-0">
+    <main className="min-h-screen bg-white pb-32 pt-24 text-zinc-900">
+      {notFound()}
+      <div className="mx-auto max-w-5xl px-4 md:px-8">
+        {/* Breadcrumb */}
         <Link
           href="/books"
-          className="inline-flex items-center gap-2 text-sm font-medium text-zinc-600 transition-colors hover:text-blue-700"
+          className="inline-flex items-center gap-3 text-sm text-zinc-500 hover:text-blue-600 mb-16 transition-colors"
         >
           <ArrowLeft className="h-4 w-4" />
-          Back to all books
+          Browse all books
         </Link>
-      </section>
 
-      <section className="mx-auto mt-8 max-w-7xl px-4 md:px-0">
-        <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
-          <div>
-            <div className="relative overflow-hidden rounded-[2rem] p-6 ">
-              {book.isBestSeller ? (
-                <div className="mb-5 inline-flex items-center gap-1 rounded-full bg-amber-50 px-3 py-1.5 text-xs font-semibold text-amber-700 ring-1 ring-amber-200">
-                  <Star className="h-3.5 w-3.5 fill-current" />
+        {/* Main Content Grid */}
+        <div className="grid gap-16 lg:grid-cols-[3fr_4fr] lg:gap-24 lg:items-start">
+          {/* Left Column: Cover */}
+          <div className="flex flex-col">
+            <div className="relative w-full">
+              {book.isBestSeller && (
+                <div className="mb-6 inline-flex items-center gap-2 text-xs uppercase tracking-widest text-zinc-500">
+                  <Star className="h-3.5 w-3.5" />
                   Bestseller
                 </div>
-              ) : null}
-
-              <div className="relative mx-auto aspect-3/4 w-full max-w-[380px]">
+              )}
+              <div className="relative mx-auto aspect-3/4 w-full max-w-[360px] lg:max-w-full">
                 <Image
                   src={book.image}
                   alt={book.title}
                   fill
                   priority
-                  className="object-contain"
+                  className="object-cover"
                 />
               </div>
             </div>
 
-            <div className="mt-6 grid gap-4 border-t border-zinc-200 pt-5 sm:grid-cols-3">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-zinc-500">
+            {/* Quick Stats Grid under image */}
+            <div className="mt-12 grid grid-cols-3 gap-8 border-t border-zinc-200 pt-8">
+              <div className="flex flex-col gap-2 items-start">
+                <span className="text-[10px] uppercase tracking-widest text-zinc-400">
                   Published
-                </p>
-                <p className="mt-2 inline-flex items-center gap-2 text-sm font-semibold text-slate-900">
-                  <Calendar className="h-4 w-4 text-blue-600" />
+                </span>
+                <span className="text-sm text-zinc-900">
                   {formattedPublishedAt}
-                </p>
+                </span>
               </div>
-
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-zinc-500">
-                  Pages
-                </p>
-                <p className="mt-2 text-sm font-semibold text-slate-900">
-                  {book.pages.length} preview pages
-                </p>
-              </div>
-
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-zinc-500">
+              <div className="flex flex-col gap-2 items-start overflow-hidden">
+                <span className="text-[10px] uppercase tracking-widest text-zinc-400">
                   ISBN
-                </p>
-                <p className="mt-2 text-sm font-semibold text-slate-900">
+                </span>
+                <span
+                  className="text-sm text-zinc-900  w-full"
+                  title={book.isbn}
+                >
                   {book.isbn}
-                </p>
+                </span>
+              </div>
+              <div className="flex flex-col gap-2 items-start">
+                <span className="text-[10px] uppercase tracking-widest text-zinc-400">
+                  Pages
+                </span>
+                <span className="text-sm text-zinc-900">
+                  {book.pages.length}
+                </span>
               </div>
             </div>
           </div>
 
-          <div className="max-w-2xl">
-            <div className="flex flex-wrap gap-2">
-              <span className="rounded-full bg-blue-50 px-4 py-1.5 text-sm font-semibold text-blue-700">
-                {book.category}
-              </span>
-              <span className="rounded-full bg-zinc-100 px-4 py-1.5 text-sm font-semibold text-zinc-700">
-                {book.genre}
-              </span>
+          {/* Right Column: Book Info */}
+          <div className="flex flex-col">
+            <div className="flex items-center gap-4 text-xs tracking-widest text-zinc-400 uppercase">
+              <span>{book.category}</span>
+              <span className="h-1 w-1 rounded-full bg-zinc-200"></span>
+              <span>{book.genre}</span>
             </div>
 
-            <h1 className="mt-5 font-montserrat text-4xl font-bold tracking-[-0.04em] text-slate-950 md:text-5xl">
+            <h1 className="mt-6 text-4xl font-normal leading-tight text-zinc-900 md:text-5xl lg:text-[3.5rem] tracking-tight">
               {book.title}
             </h1>
-            <p className="mt-3 text-base font-medium text-zinc-600 md:text-lg">
-              by {book.author}
+
+            <p className="mt-4 text-xl text-zinc-400">
+              by <span className="text-zinc-900">{book.author}</span>
             </p>
 
-            <p className="mt-6 max-w-2xl text-sm leading-8 text-zinc-700 md:text-base">
+            <div className="mt-10 text-base leading-relaxed text-zinc-600">
               {book.description}
-            </p>
+            </div>
 
-            <div className="mt-6 flex flex-wrap items-end gap-5 border-y border-zinc-200 py-5">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-zinc-500">
-                  Price
-                </p>
-                <p className="mt-2 font-montserrat text-4xl font-bold flex items-baseline gap-2 tracking-[-0.04em] text-blue-700">
-                  <span className="text-lg ">NPR</span>
-                  <span className="text-4xl">{book.priceNpr}</span>
-                </p>
+            {/* Actions */}
+            <div className="mt-12 border-t border-zinc-200 pt-10">
+              <div className="flex items-baseline gap-2 mb-8">
+                <span className="text-xl text-zinc-400">Rs.</span>
+                <span className="text-3xl font-light text-zinc-900">
+                  {book.priceNpr.toLocaleString()}
+                </span>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Link
+                  href={`/books/${book.slug}/read?page=1`}
+                  className="inline-flex items-center rounded-full justify-center gap-3 bg-blue-600 px-8 py-4 text-sm text-white transition-colors hover:bg-blue-700 w-full sm:w-auto"
+                >
+                  Get Access
+                </Link>
+                <Link
+                  href={`/books/${book.slug}/read?page=1`}
+                  className="inline-flex items-center rounded-full justify-center gap-3 border border-blue-200 bg-transparent px-8 py-4 text-sm text-blue-600 transition-colors hover:bg-blue-50 w-full sm:w-auto"
+                >
+                  <BookOpen className="h-4 w-4 text-blue-500" />
+                  Read Free Preview
+                </Link>
               </div>
             </div>
 
-            <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-              <button className="inline-flex items-center justify-center gap-2 rounded-full border border-zinc-300 bg-white px-6 py-3 text-sm font-semibold text-zinc-900 transition-all hover:border-blue-600 hover:text-blue-700">
-                <BookOpen className="h-4 w-4" />
-                Preview Book
-              </button>
-              <Link
-                href={`/books/${book.slug}/read?page=1`}
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-blue-700"
-              >
-                <ShoppingBag className="h-4 w-4" />
-                Purchase Book
-              </Link>
-            </div>
-
-            <div className="mt-8">
-              <h2 className="font-montserrat text-2xl font-bold tracking-[-0.03em] text-slate-950">
-                Why this book works
-              </h2>
-              <div className="mt-4 space-y-3">
-                {highlights.map((item) => (
-                  <div key={item} className="flex items-start gap-3">
-                    <div className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-blue-600">
-                      <Check className="h-4 w-4 text-white" />
-                    </div>
-                    <p className="text-sm leading-7 text-zinc-700">{item}</p>
+            {/* Highlights Section */}
+            <div className="mt-16 border-t border-zinc-200 pt-12">
+              <h2 className="text-lg text-zinc-900 mb-8">Why read this book</h2>
+              <div className="flex flex-col gap-6">
+                {highlights.map((item, idx) => (
+                  <div key={idx} className="flex items-start gap-4">
+                    <CheckCircle2
+                      className="mt-0.5 h-5 w-5 shrink-0 text-blue-500"
+                      strokeWidth={1.5}
+                    />
+                    <p className="text-zinc-600 leading-relaxed">{item}</p>
                   </div>
                 ))}
               </div>
             </div>
           </div>
         </div>
-      </section>
+      </div>
 
-      <section className="mx-auto mt-16 max-w-7xl px-4 md:px-0">
-        <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <h2 className="font-montserrat text-3xl font-bold tracking-[-0.04em] text-blue-500">
-              You Might Also Like
+      {/* Related Books */}
+      <section className="mx-auto mt-32 max-w-5xl px-4 md:px-8">
+        <div className="border-t border-zinc-200 pt-16">
+          <div className="flex items-center justify-between mb-12">
+            <h2 className="text-2xl font-light text-zinc-900 tracking-tight">
+              Similar selections
             </h2>
-            <p className="mt-2 text-sm leading-7 text-zinc-600 md:text-base">
-              More books with a similar tone, theme, or direction.
-            </p>
+            <Link
+              href="/books"
+              className="inline-flex items-center gap-3 text-sm text-blue-600 hover:text-blue-700 transition-colors"
+            >
+              Browse all
+              <ArrowRight className="h-4 w-4" />
+            </Link>
           </div>
 
-          <Link
-            href="/books"
-            className="inline-flex items-center gap-2 text-sm font-semibold text-zinc-700 transition-colors hover:text-blue-700"
-          >
-            Browse all books
-            <ArrowRight className="h-4 w-4" />
-          </Link>
-        </div>
-
-        <div className="grid gap-12 md:grid-cols-2 xl:grid-cols-3">
-          {relatedBooks.map((relatedBook) => (
-            <BookCard
-              key={relatedBook.id}
-              slug={relatedBook.slug}
-              title={relatedBook.title}
-              author={relatedBook.author}
-              category={relatedBook.category}
-              image={relatedBook.image}
-              priceNpr={relatedBook.priceNpr}
-              isBestSeller={relatedBook.isBestSeller}
-              pageImageCount={relatedBook.pages.length}
-            />
-          ))}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-16">
+            {relatedBooks.map((relatedBook) => (
+              <div key={relatedBook.id} className="w-full flex justify-center">
+                <BookCard
+                  slug={relatedBook.slug}
+                  title={relatedBook.title}
+                  author={relatedBook.author}
+                  category={relatedBook.category}
+                  image={relatedBook.image}
+                  priceNpr={relatedBook.priceNpr}
+                  isBestSeller={relatedBook.isBestSeller}
+                  pageImageCount={relatedBook.pages.length}
+                />
+              </div>
+            ))}
+          </div>
         </div>
       </section>
     </main>

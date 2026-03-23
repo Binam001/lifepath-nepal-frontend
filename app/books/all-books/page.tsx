@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, Star } from "lucide-react";
 import { bestSellerBooks, books, genres, newBooks } from "@/constants/books";
+import { notFound } from "next/navigation";
 
 type AllBooksPageProps = {
   searchParams: Promise<{
@@ -60,6 +61,7 @@ export default async function AllBooksPage({
 
   return (
     <main className="bg-white pt-24 pb-16">
+      {notFound()}
       <section className="mx-auto max-w-7xl px-4 md:px-0">
         <div className="pb-6">
           <Link
@@ -129,8 +131,8 @@ export default async function AllBooksPage({
                           : "Full Catalog"}
                   </p>
                   <p className="mt-2 text-sm leading-6 text-zinc-700">
-                    Use the filter groups below to narrow the collection
-                    without leaving the page.
+                    Use the filter groups below to narrow the collection without
+                    leaving the page.
                   </p>
                 </div>
               </div>
