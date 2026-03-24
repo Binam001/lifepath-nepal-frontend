@@ -8,23 +8,36 @@ import {
   ScatterChart,
 } from "@mui/x-charts";
 import {
+  bankingFinanceEvidence,
+  businessEntrepreneurshipEvidence,
   businessEvidence,
   changeSignals,
   designEvidence,
   educationEvidence,
+  energyHydropowerEvidence,
+  engineeringConstructionEvidence,
   healthEvidence,
   infrastructureEvidence,
+  legalLawEvidence,
   marketingEvidence,
+  manufacturingProductionEvidence,
+  mediaEntertainmentEvidence,
   otherEvidence,
+  researchDevelopmentEvidence,
+  salesMarketingEvidence,
+  sectorPerformance,
+  securityServicesEvidence,
   technologyEvidence,
+  tourismHospitalityEvidence,
+  transportLogisticsEvidence,
+  freelancingRemoteEvidence,
   type FutureSectorKey,
 } from "@/constants/future-infographics";
-import { chartPalette, chartSx } from "@/components/future/infographic/chart-config";
 import {
-  Card,
-  InsightList,
-  RankedList,
-} from "@/components/future/infographic/Primitives";
+  chartPalette,
+  chartSx,
+} from "@/components/future/infographic/chart-config";
+import { Card, InsightList } from "@/components/future/infographic/Primitives";
 
 type SkillPoint = {
   label: string;
@@ -48,14 +61,143 @@ type SectorVisualsProps = {
   sectorDemandDistribution: Array<{ id: string; value: number; label: string }>;
 };
 
+function getSectorEvidence(activeSector: FutureSectorKey) {
+  switch (activeSector) {
+    case "banking-finance":
+      return bankingFinanceEvidence;
+    case "technology":
+      return technologyEvidence;
+    case "design":
+      return designEvidence;
+    case "marketing":
+      return marketingEvidence;
+    case "business":
+      return businessEvidence;
+    case "health":
+      return healthEvidence;
+    case "education":
+      return educationEvidence;
+    case "infrastructure":
+      return infrastructureEvidence;
+    case "other":
+      return otherEvidence;
+    case "tourism-hospitality":
+      return tourismHospitalityEvidence;
+    case "sales-marketing":
+      return salesMarketingEvidence;
+    case "engineering-construction":
+      return engineeringConstructionEvidence;
+    case "transport-logistics":
+      return transportLogisticsEvidence;
+    case "manufacturing-production":
+      return manufacturingProductionEvidence;
+    case "energy-hydropower":
+      return energyHydropowerEvidence;
+    case "legal-law":
+      return legalLawEvidence;
+    case "media-entertainment":
+      return mediaEntertainmentEvidence;
+    case "business-entrepreneurship":
+      return businessEntrepreneurshipEvidence;
+    case "freelancing-remote":
+      return freelancingRemoteEvidence;
+    case "research-development":
+      return researchDevelopmentEvidence;
+    case "security-services":
+      return securityServicesEvidence;
+    default:
+      return technologyEvidence;
+  }
+}
+
+function getServiceSectorVisualConfig(activeSector: FutureSectorKey) {
+  switch (activeSector) {
+    case "tourism-hospitality":
+      return {
+        scatterTitle: "Experience opportunity map",
+        scatterSubtitle:
+          "Tourism and hospitality reward specialization, guest trust, and service quality more than generic service work.",
+        pieTitle: "Path mix",
+        pieSubtitle:
+          "Tourism, hospitality, travel, and premium service work take the largest share here.",
+        pieData: [
+          { id: 0, value: 30, label: "Tourism" },
+          { id: 1, value: 26, label: "Hospitality" },
+          { id: 2, value: 19, label: "Guiding" },
+          { id: 3, value: 15, label: "Travel planning" },
+          { id: 4, value: 10, label: "General service" },
+        ],
+        xAxisLabel: "Flexibility",
+        yAxisLabel: "Income upside",
+      };
+    case "freelancing-remote":
+      return {
+        scatterTitle: "Remote opportunity map",
+        scatterSubtitle:
+          "Freelancing and remote work reward proof of work, communication quality, and client trust more than credentials.",
+        pieTitle: "Work mix",
+        pieSubtitle:
+          "Creative, writing, assistant, and remote support paths form the current mix.",
+        pieData: [
+          { id: 0, value: 28, label: "Graphic design" },
+          { id: 1, value: 24, label: "Writing" },
+          { id: 2, value: 20, label: "Virtual assistance" },
+          { id: 3, value: 16, label: "Remote support" },
+          { id: 4, value: 12, label: "Other freelance work" },
+        ],
+        xAxisLabel: "Global reach",
+        yAxisLabel: "Income upside",
+      };
+    case "security-services":
+      return {
+        scatterTitle: "Security opportunity map",
+        scatterSubtitle:
+          "Security work is steadier than flashy, with better upside in supervisory, surveillance, and system-based roles.",
+        pieTitle: "Role mix",
+        pieSubtitle:
+          "The sector spans frontline guarding, monitoring, coordination, and response support.",
+        pieData: [
+          { id: 0, value: 36, label: "Guarding" },
+          { id: 1, value: 24, label: "Surveillance" },
+          { id: 2, value: 18, label: "Supervision" },
+          { id: 3, value: 12, label: "Response support" },
+          { id: 4, value: 10, label: "Access control" },
+        ],
+        xAxisLabel: "Accessibility",
+        yAxisLabel: "Income upside",
+      };
+    default:
+      return {
+        scatterTitle: "Niche opportunity map",
+        scatterSubtitle:
+          "This sector is fragmented, service-led, and highly specialization-driven rather than standardized.",
+        pieTitle: "Path mix",
+        pieSubtitle:
+          "This category blends specialized service, coordination, and flexible work paths.",
+        pieData: [
+          { id: 0, value: 30, label: "Specialized service" },
+          { id: 1, value: 26, label: "Operations" },
+          { id: 2, value: 19, label: "Freelance service" },
+          { id: 3, value: 15, label: "Coordination" },
+          { id: 4, value: 10, label: "General support" },
+        ],
+        xAxisLabel: "Flexibility",
+        yAxisLabel: "Income upside",
+      };
+  }
+}
+
 export function SectorVisuals({
   activeSector,
   demandItems,
-  declineItems,
   currentSkills,
   sectorComparison,
   sectorDemandDistribution,
 }: SectorVisualsProps) {
+  const evidenceItems = getSectorEvidence(activeSector);
+  const sectorTitle = sectorPerformance[activeSector].title;
+  const serviceSectorConfig = getServiceSectorVisualConfig(activeSector);
+
   switch (activeSector) {
     case "all":
       return (
@@ -70,8 +212,16 @@ export function SectorVisuals({
               dataset={sectorComparison}
               xAxis={[{ scaleType: "band", dataKey: "label" }]}
               series={[
-                { dataKey: "demandScore", label: "Demand", color: chartPalette[0] },
-                { dataKey: "declineScore", label: "Decline", color: chartPalette[2] },
+                {
+                  dataKey: "demandScore",
+                  label: "Demand",
+                  color: chartPalette[0],
+                },
+                {
+                  dataKey: "declineScore",
+                  label: "Decline",
+                  color: chartPalette[2],
+                },
               ]}
               yAxis={[{ min: 0, max: 100 }]}
               grid={{ horizontal: true }}
@@ -80,7 +230,7 @@ export function SectorVisuals({
           </Card>
           <Card
             title="Demand distribution"
-            subtitle="Which sectors are carrying the strongest demand in the current market."
+            subtitle="Top sectors with highest demand on the market."
             className="lg:col-span-5"
           >
             <PieChart
@@ -104,11 +254,28 @@ export function SectorVisuals({
           >
             <LineChart
               height={320}
-              xAxis={[{ scaleType: "point", data: ["2022", "2023", "2024", "2025", "2026"] }]}
+              xAxis={[
+                {
+                  scaleType: "point",
+                  data: ["2022", "2023", "2024", "2025", "2026"],
+                },
+              ]}
               series={[
-                { data: [44, 51, 63, 71, 82], label: "Skill-led demand", color: chartPalette[0] },
-                { data: [26, 31, 39, 52, 68], label: "Remote leverage", color: chartPalette[2] },
-                { data: [64, 59, 51, 43, 36], label: "Routine work resilience", color: chartPalette[5] },
+                {
+                  data: [44, 51, 63, 71, 82],
+                  label: "Skill-led demand",
+                  color: chartPalette[0],
+                },
+                {
+                  data: [26, 31, 39, 52, 68],
+                  label: "Remote leverage",
+                  color: chartPalette[2],
+                },
+                {
+                  data: [64, 59, 51, 43, 36],
+                  label: "Routine work resilience",
+                  color: chartPalette[5],
+                },
               ]}
               grid={{ horizontal: true }}
               sx={chartSx()}
@@ -126,15 +293,10 @@ export function SectorVisuals({
               }))}
             />
           </Card>
-          <div className="lg:col-span-6">
-            <RankedList title="Top 5 demand" items={demandItems} tone="up" />
-          </div>
-          <div className="lg:col-span-6">
-            <RankedList title="Top 5 declining" items={declineItems} tone="down" />
-          </div>
         </div>
       );
     case "technology":
+    case "research-development":
       return (
         <div className="grid gap-6 lg:grid-cols-12">
           <Card
@@ -144,12 +306,33 @@ export function SectorVisuals({
           >
             <LineChart
               height={320}
-              xAxis={[{ scaleType: "point", data: ["2022", "2023", "2024", "2025", "2026"] }]}
+              xAxis={[
+                {
+                  scaleType: "point",
+                  data: ["2022", "2023", "2024", "2025", "2026"],
+                },
+              ]}
               series={[
-                { data: [48, 58, 67, 79, 90], label: "Software + AI", color: chartPalette[0] },
-                { data: [34, 41, 52, 63, 74], label: "Electrical + energy systems", color: chartPalette[2] },
-                { data: [37, 44, 51, 57, 66], label: "Mechanical + infra engineering", color: chartPalette[3] },
-                { data: [61, 52, 42, 30, 21], label: "Routine digital work", color: chartPalette[5] },
+                {
+                  data: [48, 58, 67, 79, 90],
+                  label: "Software + AI",
+                  color: chartPalette[0],
+                },
+                {
+                  data: [34, 41, 52, 63, 74],
+                  label: "Electrical + energy systems",
+                  color: chartPalette[2],
+                },
+                {
+                  data: [37, 44, 51, 57, 66],
+                  label: "Mechanical + infra engineering",
+                  color: chartPalette[3],
+                },
+                {
+                  data: [61, 52, 42, 30, 21],
+                  label: "Routine digital work",
+                  color: chartPalette[5],
+                },
               ]}
               grid={{ horizontal: true }}
               sx={chartSx()}
@@ -161,10 +344,18 @@ export function SectorVisuals({
             className="lg:col-span-4"
           >
             <div className="flex items-center justify-center">
-              <Gauge width={260} height={250} value={86} startAngle={-110} endAngle={110} />
+              <Gauge
+                width={260}
+                height={250}
+                value={86}
+                startAngle={-110}
+                endAngle={110}
+              />
             </div>
             <p className="text-center text-sm leading-6 text-zinc-600">
-              Software tends to travel globally faster, while energy, manufacturing, and infrastructure engineering stay more project and site dependent.
+              Software tends to travel globally faster, while energy,
+              manufacturing, and infrastructure engineering stay more project
+              and site dependent.
             </p>
           </Card>
           <Card
@@ -205,12 +396,12 @@ export function SectorVisuals({
             />
           </Card>
           <Card
-            title="Source-backed technology read"
-            subtitle="Current evidence behind the broader technology definition."
+            title={`Source-backed ${sectorTitle} read`}
+            subtitle="Current evidence behind this sector's direction."
             className="lg:col-span-12"
           >
             <InsightList
-              items={technologyEvidence.map((item) => ({
+              items={evidenceItems.map((item) => ({
                 title: item.title,
                 text: `${item.text} ${item.source}.`,
               }))}
@@ -219,6 +410,7 @@ export function SectorVisuals({
         </div>
       );
     case "design":
+    case "media-entertainment":
       return (
         <div className="grid gap-6 lg:grid-cols-12">
           <Card
@@ -270,19 +462,13 @@ export function SectorVisuals({
               sx={chartSx()}
             />
           </Card>
-          <div className="lg:col-span-6">
-            <RankedList title="Top 5 demand" items={demandItems} tone="up" />
-          </div>
-          <div className="lg:col-span-6">
-            <RankedList title="Top 5 declining" items={declineItems} tone="down" />
-          </div>
           <Card
-            title="Source-backed design read"
-            subtitle="Current evidence behind the broader design definition."
+            title={`Source-backed ${sectorTitle} read`}
+            subtitle="Current evidence behind this sector's direction."
             className="lg:col-span-12"
           >
             <InsightList
-              items={designEvidence.map((item) => ({
+              items={evidenceItems.map((item) => ({
                 title: item.title,
                 text: `${item.text} ${item.source}.`,
               }))}
@@ -291,6 +477,7 @@ export function SectorVisuals({
         </div>
       );
     case "marketing":
+    case "sales-marketing":
       return (
         <div className="grid gap-6 lg:grid-cols-12">
           <Card
@@ -300,12 +487,33 @@ export function SectorVisuals({
           >
             <LineChart
               height={320}
-              xAxis={[{ scaleType: "point", data: ["2022", "2023", "2024", "2025", "2026"] }]}
+              xAxis={[
+                {
+                  scaleType: "point",
+                  data: ["2022", "2023", "2024", "2025", "2026"],
+                },
+              ]}
               series={[
-                { data: [38, 49, 61, 74, 86], label: "Performance / acquisition", color: chartPalette[0] },
-                { data: [24, 36, 49, 66, 82], label: "Creator / content systems", color: chartPalette[3] },
-                { data: [33, 41, 52, 63, 73], label: "Research + analytics", color: chartPalette[2] },
-                { data: [69, 60, 51, 42, 34], label: "Traditional campaign-only work", color: chartPalette[5] },
+                {
+                  data: [38, 49, 61, 74, 86],
+                  label: "Performance / acquisition",
+                  color: chartPalette[0],
+                },
+                {
+                  data: [24, 36, 49, 66, 82],
+                  label: "Creator / content systems",
+                  color: chartPalette[3],
+                },
+                {
+                  data: [33, 41, 52, 63, 73],
+                  label: "Research + analytics",
+                  color: chartPalette[2],
+                },
+                {
+                  data: [69, 60, 51, 42, 34],
+                  label: "Traditional campaign-only work",
+                  color: chartPalette[5],
+                },
               ]}
               grid={{ horizontal: true }}
               sx={chartSx()}
@@ -355,7 +563,17 @@ export function SectorVisuals({
             <BarChart
               height={300}
               layout="horizontal"
-              yAxis={[{ scaleType: "band", data: ["Awareness", "Consideration", "Conversion", "Retention"] }]}
+              yAxis={[
+                {
+                  scaleType: "band",
+                  data: [
+                    "Awareness",
+                    "Consideration",
+                    "Conversion",
+                    "Retention",
+                  ],
+                },
+              ]}
               xAxis={[{ min: 0, max: 100 }]}
               series={[{ data: [62, 71, 84, 76], color: chartPalette[3] }]}
               grid={{ vertical: true }}
@@ -363,12 +581,12 @@ export function SectorVisuals({
             />
           </Card>
           <Card
-            title="Source-backed marketing read"
-            subtitle="Current evidence behind the stronger marketing definition."
+            title={`Source-backed ${sectorTitle} read`}
+            subtitle="Current evidence behind this sector's direction."
             className="lg:col-span-12"
           >
             <InsightList
-              items={marketingEvidence.map((item) => ({
+              items={evidenceItems.map((item) => ({
                 title: item.title,
                 text: `${item.text} ${item.source}.`,
               }))}
@@ -377,6 +595,9 @@ export function SectorVisuals({
         </div>
       );
     case "business":
+    case "banking-finance":
+    case "business-entrepreneurship":
+    case "legal-law":
       return (
         <div className="grid gap-6 lg:grid-cols-12">
           <Card
@@ -399,7 +620,13 @@ export function SectorVisuals({
             className="lg:col-span-5"
           >
             <div className="flex items-center justify-center">
-              <Gauge width={260} height={250} value={72} startAngle={-110} endAngle={110} />
+              <Gauge
+                width={260}
+                height={250}
+                value={72}
+                startAngle={-110}
+                endAngle={110}
+              />
             </div>
           </Card>
           <Card
@@ -409,23 +636,40 @@ export function SectorVisuals({
           >
             <LineChart
               height={300}
-              xAxis={[{ scaleType: "point", data: ["Entry", "Year 1", "Year 2", "Year 3", "Year 4"] }]}
+              xAxis={[
+                {
+                  scaleType: "point",
+                  data: ["Entry", "Year 1", "Year 2", "Year 3", "Year 4"],
+                },
+              ]}
               series={[
-                { data: [41, 52, 63, 72, 79], label: "Operations / analysis path", color: chartPalette[2] },
-                { data: [33, 37, 43, 48, 56], label: "Relationship-led generalist path", color: chartPalette[3] },
-                { data: [29, 31, 36, 42, 51], label: "Legacy admin path", color: chartPalette[5] },
+                {
+                  data: [41, 52, 63, 72, 79],
+                  label: "Operations / analysis path",
+                  color: chartPalette[2],
+                },
+                {
+                  data: [33, 37, 43, 48, 56],
+                  label: "Relationship-led generalist path",
+                  color: chartPalette[3],
+                },
+                {
+                  data: [29, 31, 36, 42, 51],
+                  label: "Legacy admin path",
+                  color: chartPalette[5],
+                },
               ]}
               grid={{ horizontal: true }}
               sx={chartSx()}
             />
           </Card>
           <Card
-            title="Source-backed business read"
-            subtitle="Current evidence behind the stronger business definition."
+            title={`Source-backed ${sectorTitle} read`}
+            subtitle="Current evidence behind this sector's direction."
             className="lg:col-span-12"
           >
             <InsightList
-              items={businessEvidence.map((item) => ({
+              items={evidenceItems.map((item) => ({
                 title: item.title,
                 text: `${item.text} ${item.source}.`,
               }))}
@@ -478,23 +722,40 @@ export function SectorVisuals({
           >
             <LineChart
               height={300}
-              xAxis={[{ scaleType: "point", data: ["2022", "2023", "2024", "2025", "2026"] }]}
+              xAxis={[
+                {
+                  scaleType: "point",
+                  data: ["2022", "2023", "2024", "2025", "2026"],
+                },
+              ]}
               series={[
-                { data: [62, 66, 71, 76, 82], label: "Clinical + advanced care demand", color: chartPalette[2] },
-                { data: [47, 53, 59, 64, 71], label: "Digital health support", color: chartPalette[1] },
-                { data: [35, 33, 31, 27, 24], label: "Paper-admin handling", color: chartPalette[5] },
+                {
+                  data: [62, 66, 71, 76, 82],
+                  label: "Clinical + advanced care demand",
+                  color: chartPalette[2],
+                },
+                {
+                  data: [47, 53, 59, 64, 71],
+                  label: "Digital health support",
+                  color: chartPalette[1],
+                },
+                {
+                  data: [35, 33, 31, 27, 24],
+                  label: "Paper-admin handling",
+                  color: chartPalette[5],
+                },
               ]}
               grid={{ horizontal: true }}
               sx={chartSx()}
             />
           </Card>
           <Card
-            title="Source-backed health read"
-            subtitle="Current evidence behind the stronger health definition."
+            title={`Source-backed ${sectorTitle} read`}
+            subtitle="Current evidence behind this sector's direction."
             className="lg:col-span-12"
           >
             <InsightList
-              items={healthEvidence.map((item) => ({
+              items={evidenceItems.map((item) => ({
                 title: item.title,
                 text: `${item.text} ${item.source}.`,
               }))}
@@ -512,12 +773,33 @@ export function SectorVisuals({
           >
             <LineChart
               height={320}
-              xAxis={[{ scaleType: "point", data: ["2022", "2023", "2024", "2025", "2026"] }]}
+              xAxis={[
+                {
+                  scaleType: "point",
+                  data: ["2022", "2023", "2024", "2025", "2026"],
+                },
+              ]}
               series={[
-                { data: [31, 39, 52, 63, 77], label: "Digital delivery", color: chartPalette[0] },
-                { data: [47, 51, 54, 58, 62], label: "Coaching / training", color: chartPalette[3] },
-                { data: [44, 49, 56, 63, 71], label: "Higher education demand", color: chartPalette[2] },
-                { data: [74, 68, 61, 54, 45], label: "Theory-only formats", color: chartPalette[5] },
+                {
+                  data: [31, 39, 52, 63, 77],
+                  label: "Digital delivery",
+                  color: chartPalette[0],
+                },
+                {
+                  data: [47, 51, 54, 58, 62],
+                  label: "Coaching / training",
+                  color: chartPalette[3],
+                },
+                {
+                  data: [44, 49, 56, 63, 71],
+                  label: "Higher education demand",
+                  color: chartPalette[2],
+                },
+                {
+                  data: [74, 68, 61, 54, 45],
+                  label: "Theory-only formats",
+                  color: chartPalette[5],
+                },
               ]}
               grid={{ horizontal: true }}
               sx={chartSx()}
@@ -562,12 +844,12 @@ export function SectorVisuals({
             />
           </Card>
           <Card
-            title="Source-backed education read"
-            subtitle="Current evidence behind the stronger education definition."
+            title={`Source-backed ${sectorTitle} read`}
+            subtitle="Current evidence behind this sector's direction."
             className="lg:col-span-12"
           >
             <InsightList
-              items={educationEvidence.map((item) => ({
+              items={evidenceItems.map((item) => ({
                 title: item.title,
                 text: `${item.text} ${item.source}.`,
               }))}
@@ -576,6 +858,10 @@ export function SectorVisuals({
         </div>
       );
     case "infrastructure":
+    case "engineering-construction":
+    case "transport-logistics":
+    case "manufacturing-production":
+    case "energy-hydropower":
       return (
         <div className="grid gap-6 lg:grid-cols-12">
           <Card
@@ -598,7 +884,13 @@ export function SectorVisuals({
             className="lg:col-span-5"
           >
             <div className="flex items-center justify-center">
-              <Gauge width={260} height={250} value={54} startAngle={-110} endAngle={110} />
+              <Gauge
+                width={260}
+                height={250}
+                value={54}
+                startAngle={-110}
+                endAngle={110}
+              />
             </div>
           </Card>
           <Card
@@ -608,23 +900,40 @@ export function SectorVisuals({
           >
             <LineChart
               height={300}
-              xAxis={[{ scaleType: "point", data: ["Phase 1", "Phase 2", "Phase 3", "Phase 4", "Phase 5"] }]}
+              xAxis={[
+                {
+                  scaleType: "point",
+                  data: ["Phase 1", "Phase 2", "Phase 3", "Phase 4", "Phase 5"],
+                },
+              ]}
               series={[
-                { data: [26, 39, 52, 63, 74], label: "Civil + facilities growth", color: chartPalette[3] },
-                { data: [34, 45, 56, 68, 81], label: "Energy + grid demand", color: chartPalette[2] },
-                { data: [51, 47, 42, 37, 31], label: "Unskilled dependency", color: chartPalette[5] },
+                {
+                  data: [26, 39, 52, 63, 74],
+                  label: "Civil + facilities growth",
+                  color: chartPalette[3],
+                },
+                {
+                  data: [34, 45, 56, 68, 81],
+                  label: "Energy + grid demand",
+                  color: chartPalette[2],
+                },
+                {
+                  data: [51, 47, 42, 37, 31],
+                  label: "Unskilled dependency",
+                  color: chartPalette[5],
+                },
               ]}
               grid={{ horizontal: true }}
               sx={chartSx()}
             />
           </Card>
           <Card
-            title="Source-backed infrastructure read"
-            subtitle="Current evidence behind the stronger infrastructure definition."
+            title={`Source-backed ${sectorTitle} read`}
+            subtitle="Current evidence behind this sector's direction."
             className="lg:col-span-12"
           >
             <InsightList
-              items={infrastructureEvidence.map((item) => ({
+              items={evidenceItems.map((item) => ({
                 title: item.title,
                 text: `${item.text} ${item.source}.`,
               }))}
@@ -633,11 +942,14 @@ export function SectorVisuals({
         </div>
       );
     case "other":
+    case "tourism-hospitality":
+    case "freelancing-remote":
+    case "security-services":
       return (
         <div className="grid gap-6 lg:grid-cols-12">
           <Card
-            title="Niche opportunity map"
-            subtitle="Other sectors are fragmented, service-led, and highly specialization-driven rather than standardized."
+            title={serviceSectorConfig.scatterTitle}
+            subtitle={serviceSectorConfig.scatterSubtitle}
             className="lg:col-span-7"
           >
             <ScatterChart
@@ -655,14 +967,18 @@ export function SectorVisuals({
                   color: chartPalette[0],
                 },
               ]}
-              xAxis={[{ min: 0, max: 100, label: "Flexibility" }]}
-              yAxis={[{ min: 0, max: 100, label: "Income upside" }]}
+              xAxis={[
+                { min: 0, max: 100, label: serviceSectorConfig.xAxisLabel },
+              ]}
+              yAxis={[
+                { min: 0, max: 100, label: serviceSectorConfig.yAxisLabel },
+              ]}
               sx={chartSx()}
             />
           </Card>
           <Card
-            title="Path mix"
-            subtitle="Tourism, hospitality, travel, and specialized service work take a larger share here."
+            title={serviceSectorConfig.pieTitle}
+            subtitle={serviceSectorConfig.pieSubtitle}
             className="lg:col-span-5"
           >
             <PieChart
@@ -670,13 +986,7 @@ export function SectorVisuals({
               colors={chartPalette}
               series={[
                 {
-                  data: [
-                    { id: 0, value: 30, label: "Tourism" },
-                    { id: 1, value: 26, label: "Hospitality" },
-                    { id: 2, value: 19, label: "Freelance service" },
-                    { id: 3, value: 15, label: "Travel planning" },
-                    { id: 4, value: 10, label: "General service" },
-                  ],
+                  data: serviceSectorConfig.pieData,
                 },
               ]}
               sx={chartSx()}
@@ -697,12 +1007,12 @@ export function SectorVisuals({
             />
           </Card>
           <Card
-            title="Source-backed niche-sector read"
-            subtitle="Current evidence behind the broader Other category."
+            title={`Source-backed ${sectorTitle} read`}
+            subtitle="Current evidence behind this sector's direction."
             className="lg:col-span-12"
           >
             <InsightList
-              items={otherEvidence.map((item) => ({
+              items={evidenceItems.map((item) => ({
                 title: item.title,
                 text: `${item.text} ${item.source}.`,
               }))}

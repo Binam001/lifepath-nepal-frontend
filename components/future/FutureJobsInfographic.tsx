@@ -6,6 +6,7 @@ import {
   coreSkills,
   marketPulse,
   sectorNotices,
+  sectorOptions,
   sectorPerformance,
   type FutureSectorKey,
 } from "@/constants/future-infographics";
@@ -19,6 +20,7 @@ import { OverviewSection } from "@/components/future/infographic/OverviewSection
 import {
   Card,
   InsightList,
+  RankedList,
 } from "@/components/future/infographic/Primitives";
 import { SectorVisuals } from "@/components/future/infographic/SectorVisuals";
 import { SimpleExplanationSection } from "@/components/future/infographic/SimpleExplanationSection";
@@ -54,20 +56,24 @@ export default function FutureJobsInfographic() {
 
   const sectorComparison = useMemo(
     () =>
-      Object.entries(sectorPerformance)
-        .filter(([key]) => key !== "all")
-        .map(([key, current], index) => ({
-          key,
-          label: current.title,
-          demandScore: Math.min(
-            95,
-            45 + current.increasing.length * 9 + current.skills.length * 4,
-          ),
-          declineScore: Math.min(
-            90,
-            18 + current.declining.length * 14 + index,
-          ),
-        })),
+      sectorOptions
+        .filter((sector) => sector.key !== "all")
+        .map((sector, index) => {
+          const current = sectorPerformance[sector.key];
+
+          return {
+            key: sector.key,
+            label: sector.label,
+            demandScore: Math.min(
+              95,
+              45 + current.increasing.length * 9 + current.skills.length * 4,
+            ),
+            declineScore: Math.min(
+              90,
+              18 + current.declining.length * 14 + index,
+            ),
+          };
+        }),
     [],
   );
 
@@ -82,6 +88,7 @@ export default function FutureJobsInfographic() {
   const sectorDemandDistribution = sectorComparison
     .slice()
     .sort((a, b) => b.demandScore - a.demandScore)
+    .slice(0, 5)
     .map((sector) => ({
       id: sector.key,
       value: sector.demandScore,
@@ -97,21 +104,18 @@ export default function FutureJobsInfographic() {
       ? {
           title: "Key Takeaways",
           points: [
-            "🚀 Tech jobs (software, AI, web development) are growing VERY FAST - highest salaries and global opportunities",
-            "💼 Healthcare, tourism, and energy jobs are GROWING - stable and increasing demand",
-            "📊 Education, government, and banking jobs are STABLE - still important but high competition",
-            "📉 Low-skill jobs, farming, and repetitive work are DECLINING - automation and low pay",
-            "💡 KEY INSIGHT: Learn digital skills + English = More opportunities + Higher income",
+            " Tech jobs (software, AI, web development) are growing VERY FAST - highest salaries and global opportunities",
+            " Healthcare, tourism, and energy jobs are GROWING - stable and increasing demand",
+            " Education, government, and banking jobs are STABLE - still important but high competition",
+            " Low-skill jobs, farming, and repetitive work are DECLINING - automation and low pay",
+            " KEY INSIGHT: Learn digital skills + English = More opportunities + Higher income",
           ],
         }
       : null;
 
   return (
     <section className="mx-auto max-w-7xl px-4 py-10 md:px-0 md:py-16">
-      <SectorSelector
-        activeSector={activeSector}
-        onSelect={setActiveSector}
-      />
+      <SectorSelector activeSector={activeSector} onSelect={setActiveSector} />
 
       <OverviewSection
         activeSector={activeSector}
@@ -122,6 +126,15 @@ export default function FutureJobsInfographic() {
         leadSkillItems={leadSkillItems}
         currentMetrics={currentMetrics}
       />
+
+      <div className="mt-8 grid gap-6 lg:grid-cols-12">
+        <div className="lg:col-span-6">
+          <RankedList title="Top 5 growing" items={demandItems} tone="up" />
+        </div>
+        <div className="lg:col-span-6">
+          <RankedList title="Top 5 declining" items={declineItems} tone="down" />
+        </div>
+      </div>
 
       <div className="mt-8">
         <SectorVisuals

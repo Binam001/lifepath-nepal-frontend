@@ -8,6 +8,47 @@ type Metric = {
   source?: string;
 };
 
+function getMetricAccent(metric: Metric) {
+  const text = `${metric.label} ${metric.value}`.toLowerCase();
+
+  if (
+    text.includes("growth") ||
+    text.includes("growing") ||
+    text.includes("demand") ||
+    text.includes("added") ||
+    text.includes("opportunity")
+  ) {
+    return {
+      shell: "bg-emerald-50/80 border-emerald-100",
+      value: "text-emerald-700",
+      label: "text-emerald-900",
+      source: "text-emerald-500",
+    };
+  }
+
+  if (
+    text.includes("pressure") ||
+    text.includes("decline") ||
+    text.includes("competitive") ||
+    text.includes("hybrid") ||
+    text.includes("mixed")
+  ) {
+    return {
+      shell: "bg-amber-50/80 border-amber-100",
+      value: "text-amber-700",
+      label: "text-amber-900",
+      source: "text-amber-500",
+    };
+  }
+
+  return {
+    shell: "bg-blue-50/70 border-blue-100",
+    value: "text-blue-700",
+    label: "text-zinc-900",
+    source: "text-blue-500",
+  };
+}
+
 export function OverviewSection({
   activeSector,
   sectorTitle,
@@ -68,22 +109,29 @@ export function OverviewSection({
           </div>
         </div>
 
-        <div className="grid gap-4 rounded-3xl bg-blue-50/45 p-5 md:p-6">
-          {currentMetrics.slice(0, 3).map((metric) => (
-            <div key={metric.label} className="border-t border-zinc-200 pt-4">
-              <p className="text-3xl font-semibold tracking-[-0.04em] text-zinc-950">
+        <div className="grid gap-4 rounded-[2rem] bg-zinc-50/80 p-5 md:p-6">
+          {currentMetrics.slice(0, 3).map((metric) => {
+            const accent = getMetricAccent(metric);
+
+            return (
+            <div
+              key={metric.label}
+              className={`rounded-2xl border p-4 backdrop-blur-sm ${accent.shell}`}
+            >
+              <p className={`text-3xl font-semibold tracking-[-0.04em] ${accent.value}`}>
                 {metric.value}
               </p>
-              <p className="mt-2 text-sm font-medium text-zinc-700">
+              <p className={`mt-2 text-sm font-medium ${accent.label}`}>
                 {metric.label}
               </p>
               {metric.source ? (
-                <p className="mt-2 text-[11px] font-semibold tracking-[0.18em] text-zinc-400 uppercase">
+                <p className={`mt-2 text-[11px] font-semibold tracking-[0.18em] uppercase ${accent.source}`}>
                   {metric.source}
                 </p>
               ) : null}
             </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

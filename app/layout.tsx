@@ -2,17 +2,13 @@
 
 import localFont from "next/font/local";
 import { Montserrat, Poppins, Playfair_Display } from "next/font/google";
-import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import SmoothScroll from "@/components/SmoothScroll";
 import Footer from "@/components/layout/Footer";
 import Tracker from "@/components/Tracker/Tracker";
-
-const SitePreloader = dynamic(() => import("@/components/ui/site-preloader"), {
-  ssr: false,
-});
+import SitePreloader from "@/components/ui/site-preloader";
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",

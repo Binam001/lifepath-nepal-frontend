@@ -14,6 +14,11 @@ type FormData = {
   message: string;
 };
 
+type EmailJsError = {
+  status?: number;
+  text?: string;
+};
+
 const initialForm: FormData = {
   firstName: "",
   lastName: "",
@@ -78,12 +83,19 @@ export default function ContactSection() {
       setStatus("Your message has been sent successfully.");
       setStatusType("success");
       setForm(initialForm);
-    } catch (error: any) {
-      console.error("EmailJS full error:", error);
-      console.error("Status:", error?.status);
-      console.error("Text:", error?.text);
+    } catch (error: unknown) {
+      const emailError =
+        typeof error === "object" && error !== null
+          ? (error as EmailJsError)
+          : null;
 
-      setStatus(error?.text || "Failed to send message. Please try again.");
+      console.error("EmailJS full error:", error);
+      console.error("Status:", emailError?.status);
+      console.error("Text:", emailError?.text);
+
+      setStatus(
+        emailError?.text || "Failed to send message. Please try again.",
+      );
       setStatusType("error");
     } finally {
       setLoading(false);
