@@ -1,5 +1,5 @@
-// This events page is for registration purpose only
 "use client";
+// This events page is for registration purpose only
 
 import { useEffect, useRef, useState } from "react";
 import {
@@ -48,17 +48,6 @@ const formSchema = z.object({
 
   college: z.string().trim().optional().or(z.literal("")),
 
-  //   paymentPhoto: z
-  //     .instanceof(File, { message: "Essay PDF is required." })
-  //     .refine(
-  //       (file) => file.type === "application/pdf",
-  //       "Only PDF files are allowed.",
-  //     )
-  //     .refine(
-  //       (file) => file.size <= 2 * 1024 * 1024,
-  //       "File must be 2MB or smaller.",
-  //     ),
-
   screenshotFile: z
     .instanceof(File, { message: "Payment screenshot is required." })
     .refine(
@@ -85,7 +74,7 @@ const essayEvent = {
     "Competition Rounds: The competition will consist of multiple rounds, and each round will have a unique essay topic provided by the organizers.",
     "Topic Announcement: The essay topic will be distributed on May 13, 2026 with deadline.",
     "Fair Participation: Participants must submit their own independent work without copying from books, websites, or other sources.",
-    "Organizer’s Decision: The decision of the judges and organizers will be final.",
+    "Organizer's Decision: The decision of the judges and organizers will be final.",
     "Language: English / Nepali",
   ],
   prizes: [
@@ -109,7 +98,6 @@ type EventFormData = {
   address: string;
   college: string;
   parentsNumber: string;
-  //   paymentPhoto: File | null;
   screenshotFile: File | null;
 };
 
@@ -155,6 +143,7 @@ export default function EssayCompetitionPage() {
   >({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState("");
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
   // const [isDraggingFile, setIsDraggingFile] = useState(false);
   // const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [isDraggingScreenshot, setIsDraggingScreenshot] = useState(false);
@@ -176,10 +165,7 @@ export default function EssayCompetitionPage() {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    const fieldName = name as Exclude<
-      keyof EventFormData,
-      "paymentPhoto" | "screenshotFile"
-    >;
+    const fieldName = name as Exclude<keyof EventFormData, "screenshotFile">;
 
     setFormData((prev) => ({ ...prev, [fieldName]: value }));
 
@@ -306,7 +292,7 @@ export default function EssayCompetitionPage() {
         const backendFieldMap: Record<string, keyof EventFormData> = {
           phoneNumber: "number",
           parentPhoneNumber: "parentsNumber",
-          // essayFile: "paymentPhoto",
+          email: "email",
         };
         const mappedErrors: Partial<Record<keyof EventFormData, string>> = {};
         for (const [key, messages] of Object.entries(result.errors)) {
@@ -316,6 +302,19 @@ export default function EssayCompetitionPage() {
         }
         setErrors(mappedErrors);
       }
+
+      // surface duplicate email as an inline field error
+      const msg: string = result.message ?? "";
+      if (
+        msg.toLowerCase().includes("email") &&
+        msg.toLowerCase().includes("already")
+      ) {
+        setErrors((prev) => ({
+          ...prev,
+          email: "This email is already registered.",
+        }));
+      }
+
       setSubmitMessage(
         result.message ?? "Something went wrong. Please try again.",
       );
@@ -323,13 +322,8 @@ export default function EssayCompetitionPage() {
       return;
     }
 
-    setSubmitMessage("Thank you! Your submission has been received.");
+    setShowSuccessModal(true);
     setFormData(initialFormData);
-
-    const fileInput = document.getElementById(
-      "paymentPhoto",
-    ) as HTMLInputElement | null;
-    if (fileInput) fileInput.value = "";
 
     const screenshotInput = document.getElementById(
       "screenshotFile",
@@ -900,16 +894,50 @@ export default function EssayCompetitionPage() {
 
                   {submitMessage && (
                     <p
-                      className={`text-center text-sm ${
-                        submitMessage.includes("Thank you")
-                          ? "text-green-600"
-                          : "text-red-600"
-                      }`}
+                      className={`text-center text-sm ${submitMessage.includes("Thank you") ? "text-green-600" : "text-red-600"}`}
                     >
                       {submitMessage}
                     </p>
                   )}
                 </form>
+
+                {/* Success Modal */}
+                {showSuccessModal && (
+                  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
+                    <div className="relative w-full max-w-md rounded-2xl bg-white p-8 shadow-xl text-center">
+                      <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
+                        <CheckCheck className="h-8 w-8 text-green-600" />
+                      </div>
+                      <h3 className="mb-2 text-xl font-semibold text-zinc-800">
+                        Application Submitted!
+                      </h3>
+                      <p className="mb-1 text-zinc-600 text-sm">
+                        Thank you for registering for the{" "}
+                        <span className="font-semibold text-zinc-800">
+                          National Essay Competition 2026
+                        </span>
+                        .
+                      </p>
+                      <p className="mb-6 text-zinc-500 text-sm">
+                        We have received your application and payment. You will
+                        be notified about the next steps via email.
+                      </p>
+                      <a
+                        href="mailto:lifepathnepal@gmail.com"
+                        className="mb-4 flex items-center justify-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-4 py-2.5 text-sm font-medium text-blue-600 hover:bg-blue-100 transition-colors"
+                      >
+                        <Mail size={16} />
+                        Contact us at lifepathnepal@gmail.com
+                      </a>
+                      <button
+                        onClick={() => setShowSuccessModal(false)}
+                        className="w-full rounded-full bg-blue-600 py-2.5 text-sm font-semibold text-white hover:bg-blue-700 transition-colors"
+                      >
+                        Done
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
