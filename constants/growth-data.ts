@@ -15,7 +15,7 @@ export const growthData: GrowthDataItem[] = [
     title: "Embrace the Unknown",
     content: "Growth happens at the edge of your comfort zone. Today, try one thing that scares you slightly.",
     author: "Lifepath Team",
-    image: "https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=2070&auto=format&fit=crop",
+    image: "/Growth/Image1.jpeg",
     date: "2026-03-21"
   },
   {
@@ -24,7 +24,7 @@ export const growthData: GrowthDataItem[] = [
     title: "Persistence",
     content: "It does not matter how slowly you go as long as you do not stop.",
     author: "Confucius",
-    image: "https://images.unsplash.com/photo-1493612276216-ee3925520721?q=80&w=1964&auto=format&fit=crop",
+    image: "/Growth/Image2.jpeg",
     date: "2026-03-21"
   },
   {
@@ -33,7 +33,7 @@ export const growthData: GrowthDataItem[] = [
     title: "The 2-Minute Rule",
     content: "If a task takes less than two minutes, do it now. This prevents small tasks from piling up and causing stress.",
     author: "David Allen",
-    image: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?q=80&w=2072&auto=format&fit=crop",
+    image: "/Growth/Quotes_01.png",
     date: "2026-03-21"
   },
   {
@@ -42,7 +42,7 @@ export const growthData: GrowthDataItem[] = [
     title: "Mindful Breathing",
     content: "Take five deep breaths whenever you feel overwhelmed. It anchors you in the present moment.",
     author: "Lifepath Team",
-    image: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?q=80&w=1999&auto=format&fit=crop",
+    image: "/Growth/Quotes_02-01.png",
     date: "2026-03-22"
   },
   {
@@ -51,7 +51,7 @@ export const growthData: GrowthDataItem[] = [
     title: "Self-Belief",
     content: "Believe you can and you're halfway there.",
     author: "Theodore Roosevelt",
-    image: "https://images.unsplash.com/photo-1494173853739-c21f58b16055?q=80&w=1965&auto=format&fit=crop",
+    image: "/Growth/Image1.jpeg",
     date: "2026-03-22"
   },
   {
@@ -69,7 +69,7 @@ export const growthData: GrowthDataItem[] = [
     title: "Gratitude Journaling",
     content: "Write down three things you are grateful for every evening. It shifts your focus to the positive aspects of life.",
     author: "Lifepath Team",
-    image: "/Growth/Quotes_02-01.png",
+    image: "/Growth/Quotes_01.png",
     date: "2026-03-23"
   },
   {
@@ -78,7 +78,7 @@ export const growthData: GrowthDataItem[] = [
     title: "Kindness",
     content: "No act of kindness, no matter how small, is ever wasted.",
     author: "Aesop",
-    image: "/Growth/Image2.jpeg",
+    image: "/Growth/Quotes_02-01.png",
     date: "2026-03-23"
   },
   {
@@ -89,5 +89,32 @@ export const growthData: GrowthDataItem[] = [
     author: "Francesco Cirillo",
     image: "/Growth/Image1.jpeg",
     date: "2026-03-23"
+  },
+  {
+    id: "10",
+    type: "advice",
+    title: "Prioritize Sleep",
+    content: "Quality sleep is the foundation of high performance. Aim for 7-8 hours to recharge your brain and body for the day ahead.",
+    author: "Lifepath Team",
+    image: "/Growth/Image2.jpeg",
+    date: "2026-03-24"
+  },
+  {
+    id: "11",
+    type: "quote",
+    title: "Consistency",
+    content: "Success is the sum of small efforts, repeated day in and day out.",
+    author: "Robert Collier",
+    image: "/Growth/Quotes_01.png",
+    date: "2026-03-24"
+  },
+  {
+    id: "12",
+    type: "solution",
+    title: "The 80/20 Rule",
+    content: "Identify the 20% of your tasks that produce 80% of your results. Focus your energy there to maximize productivity.",
+    author: "Vilfredo Pareto",
+    image: "/Growth/Quotes_02-01.png",
+    date: "2026-03-24"
   }
 ];

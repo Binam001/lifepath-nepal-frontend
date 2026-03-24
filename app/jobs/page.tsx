@@ -28,7 +28,7 @@ export default function JobsPage() {
     <div className="min-h-screen pt-16 bg-zinc-100">
       {/* Hero Section */}
       <section className="bg-linear-to-l from-blue-600 to-black text-white">
-        <div className="max-w-6xl mx-auto py-8 px-4 md:px-0">
+        <div className="max-w-7xl mx-auto py-8 px-4 md:px-0">
           <PageTitle
             title="Find Your Dream Job"
             subtitle="Discover high-paying opportunities in Nepal and remote positions"
@@ -38,8 +38,8 @@ export default function JobsPage() {
           />
 
           {/* Search Bar */}
-          <div className="w-full overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            <div className="mx-auto inline-flex min-w-max rounded-full border-2 border-white/20 bg-white/20 p-1">
+          <div className="w-full flex sm:items-center sm:justify-center pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <div className="mx-auto inline-flex  rounded-full border-2 border-white/20 bg-white/20 p-1">
               <button
                 onClick={() => setActiveRegion("nepal")}
                 className={`flex shrink-0 items-center gap-2 rounded-full px-3 py-2 text-sm font-semibold shadow-sm transition-colors cursor-pointer sm:px-5 sm:py-2.5 sm:text-base ${
