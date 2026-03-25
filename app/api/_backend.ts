@@ -58,7 +58,10 @@ export async function proxyToBackend(
     cookie: req.headers.get("cookie") ?? "",
   };
 
-  if (body !== undefined) {
+  const isFormDataBody =
+    typeof FormData !== "undefined" && body instanceof FormData;
+
+  if (body !== undefined && !isFormDataBody) {
     headers["content-type"] =
       req.headers.get("content-type") ?? "application/json";
   }

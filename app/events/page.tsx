@@ -1,5 +1,5 @@
-"use client";
 // This events page is for registration purpose only
+"use client";
 
 import { useEffect, useRef, useState } from "react";
 import {
@@ -20,7 +20,8 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { z } from "zod";
-import { submitEventRegistration } from "@/lib/api";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
+import { useEventRegistrationMutation } from "@/hooks/useEventRegistrationMutation";
 
 const e164PhoneRegex = /^\+[1-9]\d{7,14}$/;
 
@@ -30,7 +31,7 @@ const formSchema = z.object({
     .trim()
     .min(6, "Full name must be at least 6 characters."),
 
-  email: z.string().trim().email("Enter a valid email."),
+  email: z.email("Enter a valid email."),
 
   number: z
     .string()
@@ -48,7 +49,7 @@ const formSchema = z.object({
       "Must be a valid phone number with country code, like +9779812345678",
     ),
 
-  college: z.string().trim().optional().or(z.literal("")),
+  college: z.string().trim().min(2, "College name is required."),
 
   screenshotFile: z
     .instanceof(File, { message: "Payment screenshot is required." })
@@ -103,6 +104,14 @@ type EventFormData = {
   screenshotFile: File | null;
 };
 
+type SubmissionModalState = {
+  isOpen: boolean;
+  tone: "success" | "error";
+  title: string;
+  description: string;
+  detail?: string;
+};
+
 const initialFormData: EventFormData = {
   fullName: "",
   email: "",
@@ -143,9 +152,12 @@ export default function EssayCompetitionPage() {
   const [errors, setErrors] = useState<
     Partial<Record<keyof EventFormData, string>>
   >({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitMessage, setSubmitMessage] = useState("");
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [submissionModal, setSubmissionModal] = useState<SubmissionModalState>({
+    isOpen: false,
+    tone: "success",
+    title: "",
+    description: "",
+  });
   // const [isDraggingFile, setIsDraggingFile] = useState(false);
   // const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [isDraggingScreenshot, setIsDraggingScreenshot] = useState(false);
@@ -154,6 +166,12 @@ export default function EssayCompetitionPage() {
   const [timeLeft, setTimeLeft] = useState(() =>
     getTimeRemaining(countdownTarget),
   );
+  const { executeRecaptcha } = useGoogleReCaptcha();
+  const eventRegistrationMutation = useEventRegistrationMutation();
+
+  const openSubmissionModal = (modal: SubmissionModalState) => {
+    setSubmissionModal(modal);
+  };
 
   useEffect(() => {
     const intervalId = window.setInterval(() => {
@@ -253,8 +271,6 @@ export default function EssayCompetitionPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    setSubmitMessage("");
     setErrors({});
 
     const validationResult = formSchema.safeParse(formData);
@@ -270,24 +286,45 @@ export default function EssayCompetitionPage() {
       });
 
       setErrors(fieldErrors);
-      setSubmitMessage("Please fill all the required fields.");
-      setIsSubmitting(false);
       return;
     }
 
-    const data = new FormData();
-    const { screenshotFile, number, parentsNumber, ...fields } =
-      validationResult.data;
-    Object.entries(fields).forEach(([key, val]) => {
-      if (val !== undefined) data.append(key, val);
-    });
-    data.append("number", number);
-    data.append("parentsNumber", parentsNumber);
-    data.append("screenshotFile", screenshotFile);
+    if (!executeRecaptcha) {
+      openSubmissionModal({
+        isOpen: true,
+        tone: "error",
+        title: "Verification Unavailable",
+        description:
+          "reCAPTCHA is still loading. Please wait a moment and try again.",
+      });
+      return;
+    }
 
-    const result = await submitEventRegistration(data);
+    let recaptchaToken = "";
+
+    try {
+      recaptchaToken = await executeRecaptcha("event_registration_submit");
+    } catch {
+      openSubmissionModal({
+        isOpen: true,
+        tone: "error",
+        title: "Verification Failed",
+        description:
+          "We could not verify your submission with reCAPTCHA. Please try again.",
+      });
+      return;
+    }
+
+    const result = await eventRegistrationMutation.mutateAsync({
+      payload: validationResult.data,
+      recaptchaToken,
+    });
 
     if (!result.success) {
+      let modalTitle = "Submission Failed";
+      let modalDescription =
+        result.message ?? "Something went wrong. Please try again.";
+
       if (result.errors) {
         // map backend field names back to frontend field names
         const backendFieldMap: Record<string, keyof EventFormData> = {
@@ -314,24 +351,39 @@ export default function EssayCompetitionPage() {
           ...prev,
           email: "This email is already registered.",
         }));
+        modalTitle = "Email Already Registered";
+        modalDescription =
+          "A registration with this email already exists for this event.";
       }
 
-      setSubmitMessage(
-        result.message ?? "Something went wrong. Please try again.",
-      );
-      setIsSubmitting(false);
+      openSubmissionModal({
+        isOpen: true,
+        tone: "error",
+        title: modalTitle,
+        description: modalDescription,
+        detail:
+          modalTitle === "Email Already Registered"
+            ? "Use a different email address or contact us if you believe this is a mistake."
+            : "Please review the form fields and try again. If the issue continues, contact us.",
+      });
       return;
     }
 
-    setShowSuccessModal(true);
+    openSubmissionModal({
+      isOpen: true,
+      tone: "success",
+      title: "Application Submitted!",
+      description:
+        "Thank you for registering for the National Essay Competition 2026.",
+      detail:
+        "We have received your application and payment. You will be notified about the next steps via email.",
+    });
     setFormData(initialFormData);
 
     const screenshotInput = document.getElementById(
       "screenshotFile",
     ) as HTMLInputElement | null;
     if (screenshotInput) screenshotInput.value = "";
-
-    setIsSubmitting(false);
   };
 
   return (
@@ -887,42 +939,42 @@ export default function EssayCompetitionPage() {
 
                   <button
                     type="submit"
-                    disabled={isSubmitting}
+                    disabled={eventRegistrationMutation.isPending}
                     className="flex w-full justify-center rounded-full bg-blue-600 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-700 disabled:bg-blue-400"
                   >
-                    {isSubmitting ? "Submitting..." : "Submit Application"}
+                    {eventRegistrationMutation.isPending
+                      ? "Submitting..."
+                      : "Submit Application"}
                   </button>
-
-                  {submitMessage && (
-                    <p
-                      className={`text-center text-sm ${submitMessage.includes("Thank you") ? "text-green-600" : "text-red-600"}`}
-                    >
-                      {submitMessage}
-                    </p>
-                  )}
                 </form>
 
-                {/* Success Modal */}
-                {showSuccessModal && (
+                {submissionModal.isOpen && (
                   <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
                     <div className="relative w-full max-w-md rounded-2xl bg-white p-8 shadow-xl text-center">
-                      <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
-                        <CheckCheck className="h-8 w-8 text-green-600" />
+                      <div
+                        className={`mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full ${
+                          submissionModal.tone === "success"
+                            ? "bg-green-100"
+                            : "bg-red-100"
+                        }`}
+                      >
+                        {submissionModal.tone === "success" ? (
+                          <CheckCheck className="h-8 w-8 text-green-600" />
+                        ) : (
+                          <X className="h-8 w-8 text-red-600" />
+                        )}
                       </div>
                       <h3 className="mb-2 text-xl font-semibold text-zinc-800">
-                        Application Submitted!
+                        {submissionModal.title}
                       </h3>
                       <p className="mb-1 text-zinc-600 text-sm">
-                        Thank you for registering for the{" "}
-                        <span className="font-semibold text-zinc-800">
-                          National Essay Competition 2026
-                        </span>
-                        .
+                        {submissionModal.description}
                       </p>
-                      <p className="mb-6 text-zinc-500 text-sm">
-                        We have received your application and payment. You will
-                        be notified about the next steps via email.
-                      </p>
+                      {submissionModal.detail ? (
+                        <p className="mb-6 text-zinc-500 text-sm">
+                          {submissionModal.detail}
+                        </p>
+                      ) : null}
                       <a
                         href="mailto:lifepathnepal@gmail.com"
                         className="mb-4 flex items-center justify-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-4 py-2.5 text-sm font-medium text-blue-600 hover:bg-blue-100 transition-colors"
@@ -931,10 +983,15 @@ export default function EssayCompetitionPage() {
                         Contact us at lifepathnepal@gmail.com
                       </a>
                       <button
-                        onClick={() => setShowSuccessModal(false)}
+                        onClick={() =>
+                          setSubmissionModal((prev) => ({
+                            ...prev,
+                            isOpen: false,
+                          }))
+                        }
                         className="w-full rounded-full bg-blue-600 py-2.5 text-sm font-semibold text-white hover:bg-blue-700 transition-colors"
                       >
-                        Done
+                        {submissionModal.tone === "success" ? "Done" : "Close"}
                       </button>
                     </div>
                   </div>

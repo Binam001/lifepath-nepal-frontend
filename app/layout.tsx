@@ -7,7 +7,7 @@ import "./globals.css";
 import Header from "@/components/layout/Header";
 import SmoothScroll from "@/components/SmoothScroll";
 import Footer from "@/components/layout/Footer";
-import { QueryProvider } from "@/components/providers/QueryProvider";
+import { QueryProvider } from "@/app/providers/QueryProvider";
 import { RecaptchaProvider } from "@/components/providers/RecaptchaProvider";
 // import Tracker from "@/components/Tracker/Tracker";
 
