@@ -376,7 +376,7 @@ export default function EssayCompetitionPage() {
       description:
         "Thank you for registering for the National Essay Competition 2026.",
       detail:
-        "We have received your application and payment. You will be notified about the next steps via email.",
+        "We have received your application and payment. You will be notified about the next steps via email after your payment is confirmed.",
     });
     setFormData(initialFormData);
 
@@ -697,7 +697,7 @@ export default function EssayCompetitionPage() {
                     <div className="col-span-2 sm:col-span-1">
                       <label
                         htmlFor="parentsNumber"
-                        className="mb-1 block text-sm font-medium text-zinc-700"
+                        className="mb-1 block text-sm font-medium text-zinc-700 truncate"
                       >
                         Parent/Guardian Number
                       </label>
