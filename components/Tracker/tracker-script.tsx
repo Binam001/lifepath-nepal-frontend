@@ -3,11 +3,11 @@
  * Add this to your lifepathnepal.com frontend (Next.js layout or _app)
  *
  * Required env var in lifepathnepal.com .env:
- *   NEXT_PUBLIC_API_URL=https://api.lifepathnepal.com
+ *   BACKEND_API_URL=https://api.lifepathnepal.com/api/v1/lifepath
  *   NEXT_PUBLIC_HEARTBEAT_INTERVAL=30000
  */
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "https://api.lifepathnepal.com";
+const API_PROXY_PATH = "/backend";
 const HEARTBEAT_INTERVAL = parseInt(
   process.env.NEXT_PUBLIC_HEARTBEAT_INTERVAL ?? "30000",
   10
@@ -26,7 +26,7 @@ function initTracker(): void {
   }
 
   function sendHeartbeat(): void {
-    fetch(`${API_URL}/api/track/heartbeat`, {
+    fetch(`${API_PROXY_PATH}/api/track/heartbeat`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

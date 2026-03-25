@@ -20,7 +20,10 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { z } from "zod";
-import { submitEssay } from "@/lib/api";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
+import { useEventRegistrationMutation } from "@/hooks/useEventRegistrationMutation";
+
+const e164PhoneRegex = /^\+[1-9]\d{7,14}$/;
 
 const formSchema = z.object({
   fullName: z
@@ -28,13 +31,13 @@ const formSchema = z.object({
     .trim()
     .min(6, "Full name must be at least 6 characters."),
 
-  email: z.string().trim().email("Enter a valid email."),
+  email: z.email("Enter a valid email."),
 
   number: z
     .string()
     .regex(
-      /^9\d{9}$/,
-      "Must be a valid 10-digit Nepali number starting with 9",
+      e164PhoneRegex,
+      "Must be a valid phone number with country code, like +9779812345678",
     ),
 
   address: z.string().trim().min(3, "Address is required."),
@@ -42,22 +45,11 @@ const formSchema = z.object({
   parentsNumber: z
     .string()
     .regex(
-      /^9\d{9}$/,
-      "Must be a valid 10-digit Nepali number starting with 9",
+      e164PhoneRegex,
+      "Must be a valid phone number with country code, like +9779812345678",
     ),
 
-  college: z.string().trim().optional().or(z.literal("")),
-
-  //   paymentPhoto: z
-  //     .instanceof(File, { message: "Essay PDF is required." })
-  //     .refine(
-  //       (file) => file.type === "application/pdf",
-  //       "Only PDF files are allowed.",
-  //     )
-  //     .refine(
-  //       (file) => file.size <= 2 * 1024 * 1024,
-  //       "File must be 2MB or smaller.",
-  //     ),
+  college: z.string().trim().min(2, "College name is required."),
 
   screenshotFile: z
     .instanceof(File, { message: "Payment screenshot is required." })
@@ -85,7 +77,7 @@ const essayEvent = {
     "Competition Rounds: The competition will consist of multiple rounds, and each round will have a unique essay topic provided by the organizers.",
     "Topic Announcement: The essay topic will be distributed on May 13, 2026 with deadline.",
     "Fair Participation: Participants must submit their own independent work without copying from books, websites, or other sources.",
-    "Organizer’s Decision: The decision of the judges and organizers will be final.",
+    "Organizer's Decision: The decision of the judges and organizers will be final.",
     "Language: English / Nepali",
   ],
   prizes: [
@@ -109,17 +101,24 @@ type EventFormData = {
   address: string;
   college: string;
   parentsNumber: string;
-  //   paymentPhoto: File | null;
   screenshotFile: File | null;
+};
+
+type SubmissionModalState = {
+  isOpen: boolean;
+  tone: "success" | "error";
+  title: string;
+  description: string;
+  detail?: string;
 };
 
 const initialFormData: EventFormData = {
   fullName: "",
   email: "",
-  number: "",
+  number: "+977",
   address: "",
   college: "",
-  parentsNumber: "",
+  parentsNumber: "+977",
   //   paymentPhoto: null,
   screenshotFile: null,
 };
@@ -153,8 +152,12 @@ export default function EssayCompetitionPage() {
   const [errors, setErrors] = useState<
     Partial<Record<keyof EventFormData, string>>
   >({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitMessage, setSubmitMessage] = useState("");
+  const [submissionModal, setSubmissionModal] = useState<SubmissionModalState>({
+    isOpen: false,
+    tone: "success",
+    title: "",
+    description: "",
+  });
   // const [isDraggingFile, setIsDraggingFile] = useState(false);
   // const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [isDraggingScreenshot, setIsDraggingScreenshot] = useState(false);
@@ -163,6 +166,12 @@ export default function EssayCompetitionPage() {
   const [timeLeft, setTimeLeft] = useState(() =>
     getTimeRemaining(countdownTarget),
   );
+  const { executeRecaptcha } = useGoogleReCaptcha();
+  const eventRegistrationMutation = useEventRegistrationMutation();
+
+  const openSubmissionModal = (modal: SubmissionModalState) => {
+    setSubmissionModal(modal);
+  };
 
   useEffect(() => {
     const intervalId = window.setInterval(() => {
@@ -176,10 +185,7 @@ export default function EssayCompetitionPage() {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    const fieldName = name as Exclude<
-      keyof EventFormData,
-      "paymentPhoto" | "screenshotFile"
-    >;
+    const fieldName = name as Exclude<keyof EventFormData, "screenshotFile">;
 
     setFormData((prev) => ({ ...prev, [fieldName]: value }));
 
@@ -265,8 +271,6 @@ export default function EssayCompetitionPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    setSubmitMessage("");
     setErrors({});
 
     const validationResult = formSchema.safeParse(formData);
@@ -282,31 +286,51 @@ export default function EssayCompetitionPage() {
       });
 
       setErrors(fieldErrors);
-      setSubmitMessage("Please fill all the required fields.");
-      setIsSubmitting(false);
       return;
     }
 
-    const data = new FormData();
-    const { screenshotFile, number, parentsNumber, ...fields } =
-      validationResult.data;
-    Object.entries(fields).forEach(([key, val]) => {
-      if (val !== undefined) data.append(key, val);
-    });
-    data.append("phoneNumber", number);
-    data.append("parentPhoneNumber", parentsNumber);
-    // data.append("essayFile", paymentPhoto);
-    data.append("screenshotFile", screenshotFile);
+    if (!executeRecaptcha) {
+      openSubmissionModal({
+        isOpen: true,
+        tone: "error",
+        title: "Verification Unavailable",
+        description:
+          "reCAPTCHA is still loading. Please wait a moment and try again.",
+      });
+      return;
+    }
 
-    const result = await submitEssay(data);
+    let recaptchaToken = "";
+
+    try {
+      recaptchaToken = await executeRecaptcha("event_registration_submit");
+    } catch {
+      openSubmissionModal({
+        isOpen: true,
+        tone: "error",
+        title: "Verification Failed",
+        description:
+          "We could not verify your submission with reCAPTCHA. Please try again.",
+      });
+      return;
+    }
+
+    const result = await eventRegistrationMutation.mutateAsync({
+      payload: validationResult.data,
+      recaptchaToken,
+    });
 
     if (!result.success) {
+      let modalTitle = "Submission Failed";
+      let modalDescription =
+        result.message ?? "Something went wrong. Please try again.";
+
       if (result.errors) {
         // map backend field names back to frontend field names
         const backendFieldMap: Record<string, keyof EventFormData> = {
-          phoneNumber: "number",
-          parentPhoneNumber: "parentsNumber",
-          // essayFile: "paymentPhoto",
+          number: "number",
+          parentsNumber: "parentsNumber",
+          email: "email",
         };
         const mappedErrors: Partial<Record<keyof EventFormData, string>> = {};
         for (const [key, messages] of Object.entries(result.errors)) {
@@ -316,27 +340,50 @@ export default function EssayCompetitionPage() {
         }
         setErrors(mappedErrors);
       }
-      setSubmitMessage(
-        result.message ?? "Something went wrong. Please try again.",
-      );
-      setIsSubmitting(false);
+
+      // surface duplicate email as an inline field error
+      const msg: string = result.message ?? "";
+      if (
+        msg.toLowerCase().includes("email") &&
+        msg.toLowerCase().includes("already")
+      ) {
+        setErrors((prev) => ({
+          ...prev,
+          email: "This email is already registered.",
+        }));
+        modalTitle = "Email Already Registered";
+        modalDescription =
+          "A registration with this email already exists for this event.";
+      }
+
+      openSubmissionModal({
+        isOpen: true,
+        tone: "error",
+        title: modalTitle,
+        description: modalDescription,
+        detail:
+          modalTitle === "Email Already Registered"
+            ? "Use a different email address or contact us if you believe this is a mistake."
+            : "Please review the form fields and try again. If the issue continues, contact us.",
+      });
       return;
     }
 
-    setSubmitMessage("Thank you! Your submission has been received.");
+    openSubmissionModal({
+      isOpen: true,
+      tone: "success",
+      title: "Application Submitted!",
+      description:
+        "Thank you for registering for the National Essay Competition 2026.",
+      detail:
+        "We have received your application and payment. You will be notified about the next steps via email after your payment is confirmed.",
+    });
     setFormData(initialFormData);
-
-    const fileInput = document.getElementById(
-      "paymentPhoto",
-    ) as HTMLInputElement | null;
-    if (fileInput) fileInput.value = "";
 
     const screenshotInput = document.getElementById(
       "screenshotFile",
     ) as HTMLInputElement | null;
     if (screenshotInput) screenshotInput.value = "";
-
-    setIsSubmitting(false);
   };
 
   return (
@@ -471,7 +518,7 @@ export default function EssayCompetitionPage() {
               <LucideScrollText size={24} className="text-blue-500" />
               Title
             </h2>
-            <div className="group relative flex flex-col items-center justify-center py-4 overflow-hidden rounded-[2rem] border-2 border-blue-400  mb-8 select-none">
+            <div className="group relative flex flex-col items-center justify-center py-4 overflow-hidden rounded-[2rem] border border-blue-400  mb-8 select-none">
               <div
                 className="absolute inset-0 flex flex-col p-8 md:p-10 blur-xl opacity-90 pointer-events-none"
                 aria-hidden="true"
@@ -549,9 +596,9 @@ export default function EssayCompetitionPage() {
           </div>
 
           {/* Right: Form */}
-          <div className="flex flex-col gap-4   rounded-2xl p-4">
-            <div className="bg-blue-50 rounded-3xl p-4">
-              <div className="rounded-2xl border border-zinc-200 bg-white/90 p-8">
+          <div className="flex flex-col gap-4   rounded-2xl sm:p-4">
+            <div className="bg-blue-50 rounded-3xl sm:p-4">
+              <div className="rounded-2xl border border-zinc-200 bg-white/90 p-4 sm:p-8">
                 <h2 className="mb-6 text-2xl font-semibold text-zinc-800">
                   Register Here
                 </h2>
@@ -631,10 +678,10 @@ export default function EssayCompetitionPage() {
                         />
                         <input
                           type="tel"
-                          inputMode="numeric"
+                          inputMode="tel"
                           id="number"
                           name="number"
-                          placeholder="98XXXXXXXX"
+                          placeholder="+9779812345678"
                           value={formData.number}
                           onChange={handleInputChange}
                           className=" placeholder-gray-400 w-full rounded-lg border border-zinc-300 py-2.5 pr-3 pl-10 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none"
@@ -650,7 +697,7 @@ export default function EssayCompetitionPage() {
                     <div className="col-span-2 sm:col-span-1">
                       <label
                         htmlFor="parentsNumber"
-                        className="mb-1 block text-sm font-medium text-zinc-700"
+                        className="mb-1 block text-sm font-medium text-zinc-700 truncate"
                       >
                         Parent/Guardian Number
                       </label>
@@ -661,10 +708,10 @@ export default function EssayCompetitionPage() {
                         />
                         <input
                           type="tel"
-                          inputMode="numeric"
+                          inputMode="tel"
                           id="parentsNumber"
                           name="parentsNumber"
-                          placeholder="98XXXXXXXX"
+                          placeholder="+9779812345678"
                           value={formData.parentsNumber}
                           onChange={handleInputChange}
                           className="placeholder-gray-400 w-full rounded-lg border border-zinc-300 py-2.5 pr-3 pl-10 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none"
@@ -712,7 +759,6 @@ export default function EssayCompetitionPage() {
                         className="mb-1 block text-sm font-medium text-zinc-700"
                       >
                         College/University{" "}
-                        <span className="text-zinc-400">(Optional)</span>
                       </label>
                       <div className="relative">
                         <BookOpen
@@ -892,24 +938,63 @@ export default function EssayCompetitionPage() {
 
                   <button
                     type="submit"
-                    disabled={isSubmitting}
+                    disabled={eventRegistrationMutation.isPending}
                     className="flex w-full justify-center rounded-full bg-blue-600 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-700 disabled:bg-blue-400"
                   >
-                    {isSubmitting ? "Submitting..." : "Submit Application"}
+                    {eventRegistrationMutation.isPending
+                      ? "Submitting..."
+                      : "Submit Application"}
                   </button>
-
-                  {submitMessage && (
-                    <p
-                      className={`text-center text-sm ${
-                        submitMessage.includes("Thank you")
-                          ? "text-green-600"
-                          : "text-red-600"
-                      }`}
-                    >
-                      {submitMessage}
-                    </p>
-                  )}
                 </form>
+
+                {submissionModal.isOpen && (
+                  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
+                    <div className="relative w-full max-w-md rounded-2xl bg-white p-8 shadow-xl text-center">
+                      <div
+                        className={`mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full ${
+                          submissionModal.tone === "success"
+                            ? "bg-green-100"
+                            : "bg-red-100"
+                        }`}
+                      >
+                        {submissionModal.tone === "success" ? (
+                          <CheckCheck className="h-8 w-8 text-green-600" />
+                        ) : (
+                          <X className="h-8 w-8 text-red-600" />
+                        )}
+                      </div>
+                      <h3 className="mb-2 text-xl font-semibold text-zinc-800">
+                        {submissionModal.title}
+                      </h3>
+                      <p className="mb-1 text-zinc-600 text-sm">
+                        {submissionModal.description}
+                      </p>
+                      {submissionModal.detail ? (
+                        <p className="mb-6 text-zinc-500 text-sm">
+                          {submissionModal.detail}
+                        </p>
+                      ) : null}
+                      <a
+                        href="mailto:lifepathnepal@gmail.com"
+                        className="mb-4 flex items-center justify-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-4 py-2.5 text-sm font-medium text-blue-600 hover:bg-blue-100 transition-colors"
+                      >
+                        <Mail size={16} />
+                        Contact us at lifepathnepal@gmail.com
+                      </a>
+                      <button
+                        onClick={() =>
+                          setSubmissionModal((prev) => ({
+                            ...prev,
+                            isOpen: false,
+                          }))
+                        }
+                        className="w-full rounded-full bg-blue-600 py-2.5 text-sm font-semibold text-white hover:bg-blue-700 transition-colors"
+                      >
+                        {submissionModal.tone === "success" ? "Done" : "Close"}
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
