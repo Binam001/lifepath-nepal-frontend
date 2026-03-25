@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { Mail, Phone, Send, MapPin } from "lucide-react";
 import PageTitle from "../ui/PageTitle";
-import emailjs from "@emailjs/browser";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
+import { useContactMutation } from "@/hooks/useContactMutation";
 
 type FormData = {
   firstName: string;
@@ -25,9 +26,10 @@ const initialForm: FormData = {
 
 export default function ContactSection() {
   const [form, setForm] = useState<FormData>(initialForm);
-  const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState("");
   const [statusType, setStatusType] = useState<"success" | "error" | "">("");
+  const { executeRecaptcha } = useGoogleReCaptcha();
+  const contactMutation = useContactMutation();
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -41,52 +43,37 @@ export default function ContactSection() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setLoading(true);
     setStatus("");
     setStatusType("");
 
-    const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
-    const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
-    const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
-
-    if (!serviceId || !templateId || !publicKey) {
-      setStatus("Email service is not configured correctly.");
+    if (!executeRecaptcha) {
+      setStatus("reCAPTCHA is still loading. Please try again.");
       setStatusType("error");
-      setLoading(false);
       return;
     }
 
     try {
-      const response = await emailjs.send(
-        serviceId,
-        templateId,
-        {
-          firstName: form.firstName,
-          lastName: form.lastName,
-          email: form.email,
-          phone: form.phone,
-          address: form.address,
-          message: form.message,
-        },
-        {
-          publicKey,
-        },
-      );
+      const recaptchaToken = await executeRecaptcha("contact_submit");
+      const response = await contactMutation.mutateAsync({
+        payload: form,
+        recaptchaToken,
+      });
 
-      console.log("EmailJS success:", response);
+      if (!response.success) {
+        throw new Error(response.message || "Failed to send message.");
+      }
 
       setStatus("Your message has been sent successfully.");
       setStatusType("success");
       setForm(initialForm);
-    } catch (error: any) {
-      console.error("EmailJS full error:", error);
-      console.error("Status:", error?.status);
-      console.error("Text:", error?.text);
+    } catch (error: unknown) {
+      const fallbackMessage =
+        error instanceof Error
+          ? error.message
+          : "Failed to send message. Please try again.";
 
-      setStatus(error?.text || "Failed to send message. Please try again.");
+      setStatus(fallbackMessage);
       setStatusType("error");
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -257,10 +244,10 @@ export default function ContactSection() {
 
               <button
                 type="submit"
-                disabled={loading}
+                disabled={contactMutation.isPending}
                 className="w-full py-3.5 bg-blue-600 hover:bg-blue-700 disabled:opacity-60 disabled:cursor-not-allowed text-white font-semibold rounded-full transition-all flex items-center justify-center gap-2 shadow-lg hover:shadow-blue-600/20 cursor-pointer"
               >
-                {loading ? "Sending..." : "Send Message"}
+                {contactMutation.isPending ? "Sending..." : "Send Message"}
                 <Send size={18} />
               </button>
 
@@ -273,6 +260,10 @@ export default function ContactSection() {
                   {status}
                 </p>
               )}
+
+              <p className="text-xs leading-5 text-zinc-500">
+                This form is protected by Google reCAPTCHA.
+              </p>
             </form>
           </div>
         </div>

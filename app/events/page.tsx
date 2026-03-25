@@ -20,7 +20,9 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { z } from "zod";
-import { submitEssay } from "@/lib/api";
+import { submitEventRegistration } from "@/lib/api";
+
+const e164PhoneRegex = /^\+[1-9]\d{7,14}$/;
 
 const formSchema = z.object({
   fullName: z
@@ -33,8 +35,8 @@ const formSchema = z.object({
   number: z
     .string()
     .regex(
-      /^9\d{9}$/,
-      "Must be a valid 10-digit Nepali number starting with 9",
+      e164PhoneRegex,
+      "Must be a valid phone number with country code, like +9779812345678",
     ),
 
   address: z.string().trim().min(3, "Address is required."),
@@ -42,8 +44,8 @@ const formSchema = z.object({
   parentsNumber: z
     .string()
     .regex(
-      /^9\d{9}$/,
-      "Must be a valid 10-digit Nepali number starting with 9",
+      e164PhoneRegex,
+      "Must be a valid phone number with country code, like +9779812345678",
     ),
 
   college: z.string().trim().optional().or(z.literal("")),
@@ -279,19 +281,18 @@ export default function EssayCompetitionPage() {
     Object.entries(fields).forEach(([key, val]) => {
       if (val !== undefined) data.append(key, val);
     });
-    data.append("phoneNumber", number);
-    data.append("parentPhoneNumber", parentsNumber);
-    // data.append("essayFile", paymentPhoto);
+    data.append("number", number);
+    data.append("parentsNumber", parentsNumber);
     data.append("screenshotFile", screenshotFile);
 
-    const result = await submitEssay(data);
+    const result = await submitEventRegistration(data);
 
     if (!result.success) {
       if (result.errors) {
         // map backend field names back to frontend field names
         const backendFieldMap: Record<string, keyof EventFormData> = {
-          phoneNumber: "number",
-          parentPhoneNumber: "parentsNumber",
+          number: "number",
+          parentsNumber: "parentsNumber",
           email: "email",
         };
         const mappedErrors: Partial<Record<keyof EventFormData, string>> = {};
@@ -625,10 +626,10 @@ export default function EssayCompetitionPage() {
                         />
                         <input
                           type="tel"
-                          inputMode="numeric"
+                          inputMode="tel"
                           id="number"
                           name="number"
-                          placeholder="98XXXXXXXX"
+                          placeholder="+9779812345678"
                           value={formData.number}
                           onChange={handleInputChange}
                           className=" placeholder-gray-400 w-full rounded-lg border border-zinc-300 py-2.5 pr-3 pl-10 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none"
@@ -655,10 +656,10 @@ export default function EssayCompetitionPage() {
                         />
                         <input
                           type="tel"
-                          inputMode="numeric"
+                          inputMode="tel"
                           id="parentsNumber"
                           name="parentsNumber"
-                          placeholder="98XXXXXXXX"
+                          placeholder="+9779812345678"
                           value={formData.parentsNumber}
                           onChange={handleInputChange}
                           className="placeholder-gray-400 w-full rounded-lg border border-zinc-300 py-2.5 pr-3 pl-10 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none"

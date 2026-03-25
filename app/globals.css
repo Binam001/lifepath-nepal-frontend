@@ -364,3 +364,7 @@ body {
     animation-iteration-count: 1 !important;
   }
 }
+
+.grecaptcha-badge {
+  visibility: hidden;
+}

@@ -5,7 +5,7 @@
  * Drop this into your lifepathnepal.com frontend.
  *
  * 1. Add to your frontend .env:
- *    NEXT_PUBLIC_API_URL=https://api.lifepathnepal.com
+ *    BACKEND_API_URL=https://api.lifepathnepal.com/api/v1/lifepath
  *
  * 2. Add <Tracker /> inside your root layout.tsx (inside <body>)
  */
@@ -13,7 +13,7 @@
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "";
+const API_PROXY_PATH = "/backend";
 const INTERVAL_MS = 30_000;
 
 function getSessionId(): string {
@@ -26,8 +26,7 @@ function getSessionId(): string {
 }
 
 function sendHeartbeat(page: string): void {
-  if (!API_URL) return;
-  fetch(`${API_URL}/api/track/heartbeat`, {
+  fetch(`${API_PROXY_PATH}/api/track/heartbeat`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ sessionId: getSessionId(), page }),
