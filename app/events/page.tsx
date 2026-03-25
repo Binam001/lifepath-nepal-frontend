@@ -115,10 +115,10 @@ type SubmissionModalState = {
 const initialFormData: EventFormData = {
   fullName: "",
   email: "",
-  number: "",
+  number: "+977",
   address: "",
   college: "",
-  parentsNumber: "",
+  parentsNumber: "+977",
   //   paymentPhoto: null,
   screenshotFile: null,
 };

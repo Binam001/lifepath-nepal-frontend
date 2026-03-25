@@ -27,7 +27,7 @@ const initialForm: FormData = {
   firstName: "",
   lastName: "",
   email: "",
-  phone: "",
+  phone: "+977",
   address: "",
   message: "",
 };
