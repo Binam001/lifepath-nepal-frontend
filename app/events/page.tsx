@@ -759,7 +759,6 @@ export default function EssayCompetitionPage() {
                         className="mb-1 block text-sm font-medium text-zinc-700"
                       >
                         College/University{" "}
-                        <span className="text-zinc-400">(Optional)</span>
                       </label>
                       <div className="relative">
                         <BookOpen
