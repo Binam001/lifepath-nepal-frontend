@@ -17,6 +17,7 @@ import {
   X,
   LockKeyholeIcon,
   LucideScrollText,
+  InfoIcon,
 } from "lucide-react";
 import Image from "next/image";
 import { z } from "zod";
@@ -391,7 +392,7 @@ export default function EssayCompetitionPage() {
       <div className="mx-auto max-w-7xl px-4 lg:px-0">
         <div className="w-full relative flex flex-col">
           <Image
-            src="/assets/essay_small.jpeg"
+            src="/essay/essay_mobile.jpeg"
             alt="Essay Competition"
             height={400}
             width={1300}
@@ -399,7 +400,7 @@ export default function EssayCompetitionPage() {
             className="h-50 w-full rounded-4xl bg-blue-200 object-cover md:hidden"
           />
           <Image
-            src="/assets/essay_big.jpeg"
+            src="/essay/essay_desktop.jpeg"
             alt="Essay Competition"
             height={400}
             width={1300}
@@ -873,6 +874,14 @@ export default function EssayCompetitionPage() {
                           height={300}
                           className="mx-auto rounded-lg object-contain"
                         />
+                        <p className="text-sm  py-4 flex gap-2 ">
+                          {" "}
+                          <InfoIcon className="text-red-500" size={20} />
+                          <span>
+                            Please put the participant&apos;s name in the
+                            payment remarks.
+                          </span>
+                        </p>
                         <button
                           type="button"
                           onClick={() => setShowQR(false)}
