@@ -1,3 +1,5 @@
+import axios from "axios";
+import { api } from "@/config/axios.config";
 import type { GetGrowLatestResponse, GrowCategoryGroup, GrowItem } from "@/types/grow";
 
 type GetGrowAllResponse = {
@@ -39,23 +41,14 @@ function groupGrowsByCategory(items: GrowItem[], limitPerCategory: number) {
 }
 
 async function getJson<T>(url: string) {
-  const response = await fetch(url, {
-    method: "GET",
-    credentials: "include",
-    cache: "no-store",
-  });
-
-  if (!response.ok) {
-    throw new Error(`Request failed with status ${response.status}`);
-  }
-
-  return (await response.json()) as T;
+  const response = await api.get<T>(url);
+  return response.data;
 }
 
 export async function getGrowLatest(limitPerCategory = 5) {
   try {
     const response = await getJson<GetGrowLatestResponse>(
-      `/backend/grow/latest?limitPerCategory=${limitPerCategory}`,
+      `/grow/latest?limitPerCategory=${limitPerCategory}`,
     );
 
     return {
@@ -67,7 +60,7 @@ export async function getGrowLatest(limitPerCategory = 5) {
   } catch (error) {
     try {
       const fallback = await getJson<GetGrowAllResponse>(
-        "/backend/grow/get-all?page=1&limit=200&search=&category=&dateFrom=&dateTo=&includeUnpublished=true",
+        "/grow/get-all?page=1&limit=200&search=&category=&dateFrom=&dateTo=&includeUnpublished=true",
       );
 
       const liveItems = fallback.data.grows.filter(
@@ -83,7 +76,15 @@ export async function getGrowLatest(limitPerCategory = 5) {
         },
         cached: fallback.cached,
       };
-    } catch {
+    } catch (fallbackError) {
+      if (axios.isAxiosError(fallbackError) && fallbackError.response) {
+        return {
+          success: false,
+          status: fallbackError.response.status,
+          data: undefined,
+        };
+      }
+
       return {
         success: false,
         status: 500,
