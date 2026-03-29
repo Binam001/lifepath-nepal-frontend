@@ -48,6 +48,8 @@ export async function proxyToBackend(
   method: ProxyMethod,
   body?: BodyInit,
 ) {
+  // Preserve selected client headers and optional recaptcha state while
+  // forwarding the request to the upstream Lifepath API.
   const recaptchaToken =
     req.headers.get("x-recaptcha-token") ??
     req.headers.get("X-Recaptcha-Token") ??
@@ -110,6 +112,7 @@ export async function proxyJson(
   path: string,
   method: Exclude<ProxyMethod, "GET">,
 ) {
+  // Read JSON/text bodies once here so the shared proxy helper can forward them.
   const body = await req.text();
   return proxyToBackend(req, path, method, body);
 }

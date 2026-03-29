@@ -13,7 +13,7 @@ export function Card({
 }) {
   return (
     <section className={`border-t border-zinc-200 pt-6 ${className}`}>
-      <p className="text-[11px] font-semibold tracking-[0.18em] text-blue-600 uppercase">
+      <p className="text-[12px] font-semibold tracking-[0.18em] text-blue-600 uppercase">
         {title}
       </p>
       {subtitle ? (

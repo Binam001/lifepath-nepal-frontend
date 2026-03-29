@@ -23,6 +23,7 @@ function buildTargetUrl(path: string[], request: NextRequest) {
 function buildHeaders(request: NextRequest) {
   const headers = new Headers(request.headers);
 
+  // Strip hop-by-hop and origin-specific headers before forwarding upstream.
   headers.delete("host");
   headers.delete("origin");
   headers.delete("referer");
@@ -40,6 +41,8 @@ async function proxyRequest(
   context: { params: Promise<{ path: string[] }> },
 ) {
   const { path } = await context.params;
+  // This catch-all route mirrors the incoming request to BACKEND_API_URL while
+  // preserving method, query string, headers, and request body.
   const targetUrl = buildTargetUrl(path, request);
   const method = request.method;
   const headers = buildHeaders(request);

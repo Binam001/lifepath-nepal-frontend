@@ -20,9 +20,9 @@ export default function Header() {
     { label: "Events", href: "/events" },
     // { label: "Guide Books", href: "/guide-books" },
     { label: "Reviews", href: "/reviews" },
-    { label: "Contact Us", href: "/contact-us" },
+    { label: "Support", href: "/support" },
     // { label: "Books", href: "/books" },
-    { label: "Growth", href: "/growth" },
+    { label: "Grow", href: "/grow" },
   ];
 
   const mobileNavItems = [
@@ -34,9 +34,9 @@ export default function Header() {
     // { label: "Guide Books", href: "/guide-books" },
     { label: "Reviews", href: "/reviews" },
     // { label: "About Us", href: "/about-us" },
-    { label: "Contact Us", href: "/contact-us" },
+    { label: "Support", href: "/support" },
     // { label: "Books", href: "/books" },
-    { label: "Growth", href: "/growth" },
+    { label: "Grow", href: "/grow" },
   ];
 
   const isActive = (href: string) => pathname === href;

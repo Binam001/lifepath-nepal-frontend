@@ -4,9 +4,16 @@ import { useState } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight, Info } from "lucide-react";
 import PageTitle from "@/components/ui/PageTitle";
-import { growthData, type GrowthDataItem } from "@/constants/growth-data";
+import {
+  growthData,
+  type GrowthContentType,
+  type GrowthDataItem,
+} from "@/constants/growth-data";
 
-type SectionType = GrowthDataItem["type"];
+type SectionType = Extract<
+  GrowthContentType,
+  "advice" | "solution" | "value of the day"
+>;
 
 const sections: Array<{
   title: string;
@@ -26,10 +33,10 @@ const sections: Array<{
     type: "solution",
   },
   {
-    title: "Quote of the day",
+    title: "Value of the day",
     subtitle:
-      "A powerful line to shift your mindset and keep you moving forward.",
-    type: "quote",
+      "A grounded daily value to shape your mindset and decisions.",
+    type: "value of the day",
   },
 ];
 
@@ -45,7 +52,7 @@ const contentByType = sections.reduce<Record<SectionType, GrowthDataItem[]>>(
   {
     advice: [],
     solution: [],
-    quote: [],
+    "value of the day": [],
   },
 );
 
@@ -53,14 +60,14 @@ export default function GrowthPage() {
   const [indices, setIndices] = useState<Record<SectionType, number>>({
     advice: Math.max(contentByType.advice.length - 1, 0),
     solution: Math.max(contentByType.solution.length - 1, 0),
-    quote: Math.max(contentByType.quote.length - 1, 0),
+    "value of the day": Math.max(contentByType["value of the day"].length - 1, 0),
   });
   const [mobileInfoOpen, setMobileInfoOpen] = useState<
     Record<SectionType, boolean>
   >({
     advice: false,
     solution: false,
-    quote: false,
+    "value of the day": false,
   });
 
   const moveIndex = (type: SectionType, direction: -1 | 1) => {
@@ -85,7 +92,7 @@ export default function GrowthPage() {
       <div className="bg-linear-to-r from-blue-600 to-black px-4 py-8 text-white md:px-0">
         <PageTitle
           title="Improve yourself 1% a day"
-          subtitle="Daily advice, practical solutions, and strong quotes presented one section at a time."
+          subtitle="Daily advice, practical solutions, and grounded values presented one section at a time."
           titleClassName="text-2xl md:text-4xl font-bold text-white mb-4"
           subtitleClassName="text-lg text-blue-100 mb-6"
           containerClassName="text-center max-w-3xl mx-auto"
