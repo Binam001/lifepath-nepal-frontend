@@ -43,6 +43,11 @@ export type FutureStat = {
   source?: string;
 };
 
+export type FutureRoleReasonGroup = {
+  increasing: Record<string, string>;
+  declining: Record<string, string>;
+};
+
 export const sectorOptions: Array<{ key: FutureSectorKey; label: string }> = [
   { key: "all", label: "All Sectors" },
   { key: "banking-finance", label: "Banking & Finance" },
@@ -1737,5 +1742,416 @@ export const sectorPerformance: Record<
       "Self-learning",
       "Adaptability",
     ],
+  },
+};
+
+export const sectorRoleReasons: Partial<
+  Record<FutureSectorKey, FutureRoleReasonGroup>
+> = {
+  all: {
+    increasing: {
+      "Software Developer":
+        "Businesses in Nepal and abroad keep shifting services online, so people who can build apps, websites, and internal tools are in steady demand.",
+      "AI / Data Analyst":
+        "Companies increasingly want people who can turn data into decisions and use AI tools to improve speed, planning, and customer experience.",
+      "UI/UX Designer":
+        "As more products go digital, teams need designers who can make apps and websites easier to use and more conversion-friendly.",
+      "Digital Marketer":
+        "Growth now depends heavily on social media, search, paid ads, and measurable online performance rather than offline promotion alone.",
+      "Healthcare Workers":
+        "Healthcare demand stays strong because patient care, diagnostics, and support services grow with population needs and system pressure.",
+      "Cybersecurity Specialist":
+        "More digital systems mean more security risk, so companies need people who can protect networks, accounts, and customer data.",
+      "Cloud Engineer":
+        "Modern software teams rely on cloud infrastructure for hosting, scaling, and reliability, making this a strong enabling role.",
+      "Content Creator":
+        "Brands, educators, and independent professionals all need consistent digital content to build trust, reach audiences, and sell online.",
+      "E-commerce Operator":
+        "Online selling is growing, so businesses need people who can manage listings, operations, orders, and customer flow across digital channels.",
+      "EdTech / Trainer":
+        "Learners increasingly want practical and flexible online education, which creates demand for trainers who can teach in digital formats.",
+      "Hydropower Technician":
+        "Energy investment and plant operations create practical demand for technical roles that keep generation systems running safely.",
+      "Renewable Energy Engineer":
+        "Clean energy projects are expanding, and employers value engineers who can support solar, hydropower, and modern energy systems.",
+    },
+    declining: {
+      "Traditional Farming (declining interest)":
+        "This path is under pressure because younger workers are moving toward service, migration, and digital income options with higher upside.",
+      "Low-skill Labor (declining locally)":
+        "Work that depends mostly on physical effort is facing low pay, heavy competition, and weaker long-term growth inside Nepal.",
+      "Manufacturing Jobs (weak growth)":
+        "Routine factory work is not disappearing instantly, but growth is limited compared with sectors that reward technical or digital skill.",
+      "Clerical Jobs (automation risk)":
+        "Many repetitive office tasks can now be handled faster by software, which reduces hiring growth for purely clerical positions.",
+      "Manual accounting":
+        "Accounting work is shifting toward software, reporting, and analysis, so roles based only on manual entries are losing value.",
+      "Basic data entry":
+        "This work is highly repetitive and easy to automate, making it one of the most exposed roles to software replacement.",
+      "Traditional print/media jobs":
+        "Audience attention and advertising have moved online, which weakens demand for print-first and legacy-media-only roles.",
+    },
+  },
+  "banking-finance": {
+    increasing: {
+      "Bank Officers":
+        "Banks still need relationship-driven and decision-making roles that go beyond routine counter work.",
+      "Financial Analysts":
+        "Firms value people who can interpret numbers, assess risk, and guide smarter business or investment decisions.",
+      "Insurance Agents":
+        "Insurance grows with awareness, urbanization, and the need for trusted advisory-driven sales.",
+      "Risk & Compliance Roles":
+        "Financial institutions are becoming more regulated and digital, which increases demand for control and compliance work.",
+      "Digital Banking Support":
+        "Customer behavior is moving toward mobile and online banking, creating demand for digital operations support.",
+    },
+    declining: {
+      "Routine teller work":
+        "Basic branch transactions are increasingly handled by apps, ATMs, and more efficient digital systems.",
+      "Manual accounting":
+        "Software now handles much of the entry and reconciliation work that used to require manual accounting labor.",
+      "Paper-heavy branch processing":
+        "Banks are pushing faster digital workflows, so paperwork-heavy processes have less long-term growth.",
+    },
+  },
+  technology: {
+    increasing: {
+      "Software Developer":
+        "Software remains a core builder role as startups, outsourcing firms, and traditional companies all need digital products.",
+      "AI / Data Analyst":
+        "Data and AI are becoming cross-functional tools for planning, automation, and smarter decision-making.",
+      "Electrical Engineer":
+        "Demand rises with infrastructure, grids, electronics, and energy-system expansion.",
+      "Mechanical Engineer":
+        "Mechanical talent supports manufacturing, maintenance, systems design, and industrial problem-solving.",
+      "Renewable Energy Engineer":
+        "Clean-energy buildout needs engineers who can design and maintain modern energy systems.",
+      "Cybersecurity Specialist":
+        "Digital growth increases exposure to threats, which raises the need for security-focused specialists.",
+      "Cloud Engineer":
+        "Cloud platforms are central to how modern software is hosted, scaled, and operated.",
+      "Civil / Environmental Engineer":
+        "Infrastructure and sustainability work both create demand for engineers who can design durable systems.",
+    },
+    declining: {
+      "Basic data entry":
+        "It is repetitive, easy to automate, and rarely creates strategic value compared with higher-skill tech roles.",
+      "Routine manual QA":
+        "Testing is increasingly supported by automation, which reduces demand for purely repetitive QA work.",
+      "Low-complexity repetitive IT support":
+        "Simple support tasks are being standardized, documented, and partially automated.",
+      "Legacy print production workflows":
+        "Digital distribution has overtaken older print-first technical workflows.",
+    },
+  },
+  education: {
+    increasing: {
+      "Postsecondary Teacher":
+        "Higher education and specialized instruction stay relevant when teachers bring practical expertise and stronger delivery.",
+      "EdTech / Trainer":
+        "Digital learning tools and skill-based teaching formats are expanding beyond traditional classrooms.",
+      "Online Tutor":
+        "Flexible, remote teaching creates more access for students and more opportunity for tutors with niche expertise.",
+      "Learning Designer":
+        "Courses increasingly need structured digital content, assessments, and better learner experience design.",
+      "Skills Coach":
+        "Students and job seekers want outcome-focused coaching tied to employability, not only theory.",
+    },
+    declining: {
+      "Theory-only instruction":
+        "Teaching that lacks practical application is losing appeal in a job market focused on usable skill.",
+      "Static curriculum delivery":
+        "Learners expect updated, interactive, and adaptable content instead of fixed one-way delivery.",
+      "Low-tech classroom-only dependence":
+        "Education is becoming more hybrid, so instructors who cannot work with digital tools face pressure.",
+    },
+  },
+  health: {
+    increasing: {
+      "Nurse Practitioner":
+        "Advanced care roles are growing because health systems need more capable frontline providers.",
+      "Registered Nurse":
+        "Patient care demand remains durable, making nursing one of the more resilient career paths.",
+      "Health Technician":
+        "Diagnostics, equipment support, and specialized care processes all rely on trained technical staff.",
+      "Medical Records Specialist":
+        "Healthcare still needs organized information workers, especially those comfortable with digital records systems.",
+      "Lab Support":
+        "Testing and diagnostics create steady demand for lab-adjacent support work.",
+      "Nursing Support Roles":
+        "Care delivery depends on support teams that keep daily patient operations moving.",
+    },
+    declining: {
+      "Paper-based admin handling":
+        "Hospitals and clinics are steadily moving to digital records and workflow systems.",
+      "Manual coding-only workflows":
+        "Coding work still exists, but roles limited to repetitive manual handling are under more efficiency pressure.",
+      "Low-digital support processes":
+        "Healthcare organizations increasingly expect staff to work inside digital systems, not manual-only processes.",
+    },
+  },
+  "tourism-hospitality": {
+    increasing: {
+      "Hotel Staff":
+        "Tourism recovery and service-quality expectations keep demand active across hospitality operations.",
+      "Tour Guides":
+        "Visitors value guided local knowledge, especially when experiences are personalized and high quality.",
+      "Trekking Guides":
+        "Nepal's trekking economy continues to create demand for experienced, trusted field guides.",
+      "Travel Agents":
+        "Trip planning is becoming more specialized, especially for higher-value or more complex travel experiences.",
+      "Hospitality Managers":
+        "As guest expectations rise, strong management becomes more valuable than generic service labor alone.",
+    },
+    declining: {
+      "Low-skill generic service roles":
+        "Basic service roles face competition and limited wage growth unless paired with stronger customer or language skills.",
+      "Undifferentiated booking-only work":
+        "Simple booking tasks are easier to replace with online tools and self-service systems.",
+      "Basic front-desk repetition":
+        "Hospitality rewards higher-touch service and coordination more than repetitive desk-only functions.",
+    },
+  },
+  "sales-marketing": {
+    increasing: {
+      "Sales Executives":
+        "Revenue roles stay valuable when they can build relationships and convert demand into real business.",
+      "Digital Marketers":
+        "Marketing performance increasingly depends on online channels, audience targeting, and measurable results.",
+      "Brand Managers":
+        "Companies want stronger positioning and clearer differentiation in crowded markets.",
+      "Performance Marketing Specialists":
+        "Paid media and growth tracking reward specialists who can tie spend directly to outcomes.",
+      "CRM / Lifecycle Roles":
+        "Retention and repeat customer value are becoming more important, which raises demand for lifecycle thinking.",
+    },
+    declining: {
+      "Traditional campaign-only work":
+        "Campaign execution without analytics or digital capability no longer covers what modern teams need.",
+      "Posting-only roles":
+        "Simply publishing content is less valuable than strategy, testing, and performance insight.",
+      "Manual ad execution":
+        "Ad platforms automate more setup and optimization, reducing value in purely manual workflows.",
+    },
+  },
+  "engineering-construction": {
+    increasing: {
+      "Civil Engineers":
+        "Infrastructure and construction projects continue to need formal technical planning and oversight.",
+      "Architects":
+        "Built-environment work increasingly values design, compliance, and coordinated project thinking.",
+      "Site Supervisors":
+        "Construction quality depends on strong on-site coordination, execution, and accountability.",
+      "Project Engineers":
+        "Projects need people who can bridge technical requirements with daily delivery.",
+      "Construction Coordinators":
+        "Large and mid-sized projects rely on tighter coordination across teams, timelines, and materials.",
+    },
+    declining: {
+      "Low-skill manual dependency":
+        "Purely manual roles face wage pressure and offer less leverage than supervised technical work.",
+      "Paper-based site tracking":
+        "Construction is slowly adopting more structured digital coordination and reporting.",
+      "Unsupervised labor-only roles":
+        "Teams increasingly prefer workers who can follow systems, safety standards, and managed processes.",
+    },
+  },
+  "transport-logistics": {
+    increasing: {
+      Drivers:
+        "Transport demand remains practical and steady as goods and people continue moving across the country.",
+      Pilots:
+        "Air travel and specialized transport keep aviation roles valuable despite high entry barriers.",
+      "Logistics Managers":
+        "Supply movement becomes more efficient when managed well, which makes coordination talent more important.",
+      "Fleet Coordinators":
+        "Companies need better visibility over vehicles, schedules, and delivery reliability.",
+      "Supply Chain Operators":
+        "E-commerce and organized distribution create more need for end-to-end movement support.",
+    },
+    declining: {
+      "Low-tech dispatch work":
+        "Dispatch functions are becoming more software-assisted and process-driven.",
+      "Manual route tracking":
+        "GPS, apps, and digital monitoring reduce the need for manual tracking methods.",
+      "Basic transport support roles":
+        "Support work with little systems knowledge is easier to replace or compress.",
+    },
+  },
+  "manufacturing-production": {
+    increasing: {
+      "Production Managers":
+        "Factories increasingly value people who can improve output, quality, and workflow consistency.",
+      "Quality Control Roles":
+        "Quality matters more when production systems compete on reliability and standards.",
+      "Factory Supervisors":
+        "Managed teams and process discipline are more valuable than unmanaged labor pools.",
+      "Process Technicians":
+        "Technical oversight helps keep equipment and production systems efficient.",
+      "Maintenance Coordinators":
+        "Production downtime is costly, so maintenance planning has stronger practical value.",
+    },
+    declining: {
+      "Repetitive factory labor":
+        "Routine line work faces tighter margins and more efficiency pressure than technician-led work.",
+      "Manual line work":
+        "The more repetitive the task, the easier it is to standardize or replace.",
+      "Low-skill production support":
+        "Growth is stronger in supervised and technical roles than in generic support labor.",
+    },
+  },
+  "energy-hydropower": {
+    increasing: {
+      "Electrical Engineers":
+        "Power systems, plants, and grid work all depend on strong electrical expertise.",
+      "Hydropower Technicians":
+        "Operating and maintaining hydropower assets requires practical technical talent on the ground.",
+      "Grid Technicians":
+        "Energy expansion increases the need for transmission, distribution, and systems maintenance work.",
+      "Plant Operations Roles":
+        "Plants need disciplined operators who can keep systems safe, stable, and efficient.",
+      "Energy Systems Coordinators":
+        "As projects scale, coordination roles become more important across operations and infrastructure.",
+    },
+    declining: {
+      "Low-skill site-only work":
+        "Simple site labor has less long-term leverage than technical and safety-oriented roles.",
+      "Manual plant logging":
+        "Plants increasingly rely on structured monitoring and digital reporting tools.",
+      "Generic maintenance support":
+        "Maintenance is stronger as a technical discipline than as generic support work.",
+    },
+  },
+  "legal-law": {
+    increasing: {
+      Lawyers:
+        "Advisory, dispute handling, and interpretation work remain valuable because they depend on judgment and trust.",
+      Judges:
+        "Formal legal systems continue to rely on experienced decision-makers with institutional credibility.",
+      "Legal Advisors":
+        "Businesses and individuals increasingly need guidance on regulation, contracts, and compliance.",
+      "Compliance Roles":
+        "Regulatory expectations are rising across finance, business, and formal organizations.",
+      "Regulatory Support":
+        "Organizations need people who can help them navigate documentation and policy requirements.",
+    },
+    declining: {
+      "Pure paperwork-only legal support":
+        "Work limited to forms and routine documentation has weaker growth than advisory or analytical legal work.",
+      "Low-complexity filing roles":
+        "Simple filing tasks are easier to standardize and digitize.",
+      "Routine document processing":
+        "Legal value is shifting toward interpretation and higher-trust work rather than repetitive handling.",
+    },
+  },
+  "media-entertainment": {
+    increasing: {
+      Journalists:
+        "Journalism still matters when it adapts to digital formats, faster storytelling, and audience relevance.",
+      "Content Creators":
+        "Creator-led media continues to grow because audiences increasingly follow people and niche voices online.",
+      "Video Editors":
+        "Short-form and long-form video both need editors who can shape attention and narrative quality.",
+      Influencers:
+        "Brands increasingly work with trusted personalities who already have audience connection.",
+      "Media Producers":
+        "Production roles stay important when teams need organized content pipelines and higher-quality output.",
+    },
+    declining: {
+      "Traditional print/media jobs":
+        "Legacy media structures face shrinking attention and weaker ad economics compared with digital channels.",
+      "Low-value generic content work":
+        "Basic output without originality or distribution strategy is easier to replace.",
+      "Single-format legacy media roles":
+        "The market now favors people who can work across platforms, formats, and audiences.",
+    },
+  },
+  "business-entrepreneurship": {
+    increasing: {
+      "Startup Founders":
+        "There is strong upside for founders who solve real problems and execute with discipline.",
+      Traders:
+        "Commerce remains active for people who understand demand, margins, and disciplined decision-making.",
+      "Small Business Owners":
+        "Well-run businesses can still grow when they stay close to customer needs and execution quality.",
+      Operators:
+        "Operational roles matter because businesses need people who can turn plans into repeatable systems.",
+      "Growth-Focused Founders":
+        "Founders who measure traction and adapt quickly have a stronger edge than idea-only entrepreneurs.",
+    },
+    declining: {
+      "Unclear generalist ventures":
+        "Businesses with weak positioning or no clear customer value struggle to sustain momentum.",
+      "Poorly run small businesses":
+        "Execution gaps, weak cash-flow control, and lack of systems make these businesses vulnerable.",
+      "Low-discipline trading attempts":
+        "Undisciplined trading is risky and often fails without strong market judgment and controls.",
+    },
+  },
+  "freelancing-remote": {
+    increasing: {
+      "Graphic Designers":
+        "Remote clients consistently need design support, especially when portfolios show clear commercial value.",
+      Writers:
+        "Online businesses need copy, scripts, educational content, and brand communication across many channels.",
+      "Virtual Assistants":
+        "Small teams and founders often hire remote assistants to handle coordination, support, and admin operations.",
+      "Remote Support Roles":
+        "Global teams increasingly hire distributed workers for support, operations, and delivery functions.",
+      "Freelance Creators":
+        "Creators with proof of work can access clients and audiences beyond Nepal's local market.",
+    },
+    declining: {
+      "Low-value gig work":
+        "Commodity gig work faces price pressure and weak long-term income growth.",
+      "Undifferentiated freelancing":
+        "Freelancers without a niche, portfolio, or communication edge struggle in crowded marketplaces.",
+      "Weak-communication remote roles":
+        "Remote work rewards clarity and trust, so poor communication directly reduces opportunity.",
+    },
+  },
+  "research-development": {
+    increasing: {
+      Scientists:
+        "Research roles stay valuable where deep expertise and structured investigation matter.",
+      Analysts:
+        "Organizations need people who can make sense of evidence and support better decisions.",
+      "Policy Researchers":
+        "Governance, development, and institutions all rely on credible policy analysis.",
+      "Data Researchers":
+        "Data-heavy work is growing where evidence quality and interpretation matter.",
+      "Lab Researchers":
+        "Specialized research environments continue to require careful technical and experimental support.",
+    },
+    declining: {
+      "Low-rigor reporting work":
+        "Surface-level reporting has less value when organizations want evidence-backed insight.",
+      "Generic desk research":
+        "Research without depth, method, or domain expertise is easier to replace.",
+      "Unstructured analysis roles":
+        "Teams increasingly expect disciplined methods and clearer analytical standards.",
+    },
+  },
+  "security-services": {
+    increasing: {
+      "Private Security":
+        "Security demand remains steady in commercial, residential, and institutional environments.",
+      Guards:
+        "Guarding continues to offer practical employment, especially where reliability matters.",
+      "Supervisory Security Roles":
+        "There is more upside in roles that manage teams, procedures, and accountability.",
+      "Surveillance Operators":
+        "Security systems and monitoring tools create demand beyond physical guarding alone.",
+      "Response Coordinators":
+        "Coordinated response and communication are increasingly important in organized security setups.",
+    },
+    declining: {
+      "Basic untrained guard roles":
+        "Entry-level roles without training or systems knowledge have limited wage and growth potential.",
+      "Manual watch-only work":
+        "Security work increasingly includes surveillance tools and structured reporting, not only passive observation.",
+      "Low-skill perimeter support":
+        "The weakest security roles face pressure unless workers move toward responsibility and system use.",
+    },
   },
 };

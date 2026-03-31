@@ -25,10 +25,12 @@ import {
   Wifi,
   type LucideIcon,
   ChevronUp,
+  ChevronDown,
 } from "lucide-react";
 import {
   sectorOptions,
   sectorPerformance,
+  sectorRoleReasons,
   coreSkills,
   type FutureSectorKey,
 } from "@/constants/future-infographics";
@@ -331,11 +333,13 @@ interface JobCardProps {
   title: string;
   index: number;
   tone: "up" | "down";
+  reason: string;
 }
 
-function JobCard({ title, index, tone }: JobCardProps) {
+function JobCard({ title, index, tone, reason }: JobCardProps) {
   const isUp = tone === "up";
   const barWidth = Math.max(38, 98 - index * 13);
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <motion.div
@@ -346,7 +350,12 @@ function JobCard({ title, index, tone }: JobCardProps) {
         isUp ? "bg-emerald-50 border-emerald-100" : "bg-rose-50 border-rose-100"
       }`}
     >
-      <div className="flex items-start gap-3">
+      <button
+        type="button"
+        onClick={() => setIsOpen((prev) => !prev)}
+        className="flex w-full items-start gap-3 text-left cursor-pointer"
+        aria-expanded={isOpen}
+      >
         <div
           className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 mt-0.5 ${
             isUp ? "bg-emerald-100" : "bg-rose-100"
@@ -367,13 +376,20 @@ function JobCard({ title, index, tone }: JobCardProps) {
             >
               {title}
             </p>
-            <span
-              className={`text-xs font-bold ml-2 shrink-0 ${
-                isUp ? "text-emerald-600" : "text-rose-500"
-              }`}
-            >
-              {barWidth}%
-            </span>
+            <div className="ml-2 flex shrink-0 items-center gap-2">
+              <span
+                className={`text-xs font-bold ${
+                  isUp ? "text-emerald-600" : "text-rose-500"
+                }`}
+              >
+                {barWidth}%
+              </span>
+              <ChevronDown
+                className={`h-4 w-4 transition-transform ${
+                  isOpen ? "rotate-180" : ""
+                } ${isUp ? "text-emerald-600" : "text-rose-500"}`}
+              />
+            </div>
           </div>
           <div
             className={`h-1.5 rounded-full ${
@@ -394,7 +410,28 @@ function JobCard({ title, index, tone }: JobCardProps) {
             />
           </div>
         </div>
-      </div>
+      </button>
+      <AnimatePresence initial={false}>
+        {isOpen ? (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.25, ease: "easeOut" }}
+            className="overflow-hidden"
+          >
+            <div
+              className={`mt-3 rounded-xl border px-4 py-3 text-sm leading-relaxed ${
+                isUp
+                  ? "border-emerald-200 bg-white/70 text-emerald-950"
+                  : "border-rose-200 bg-white/70 text-rose-950"
+              }`}
+            >
+              {reason}
+            </div>
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
     </motion.div>
   );
 }
@@ -535,6 +572,20 @@ function SectorDeepDive({ activeSector }: SectorDeepDiveProps) {
   const canViewMoreGrowing = visibleGrowingJobCount < sector.increasing.length;
   const canViewMoreDeclining =
     visibleDecliningJobCount < sector.declining.length;
+  const roleReasons = sectorRoleReasons[activeSector];
+
+  const getRoleReason = (jobTitle: string, tone: "up" | "down") => {
+    const reason =
+      tone === "up"
+        ? roleReasons?.increasing[jobTitle]
+        : roleReasons?.declining[jobTitle];
+
+    if (reason) return reason;
+
+    return tone === "up"
+      ? `${jobTitle} is gaining momentum because ${sector.summary.toLowerCase()}`
+      : `${jobTitle} is under pressure because ${sector.summary.toLowerCase()}`;
+  };
 
   return (
     <AnimatePresence mode="wait">
@@ -593,7 +644,13 @@ function SectorDeepDive({ activeSector }: SectorDeepDiveProps) {
             </div>
             <div className="space-y-2">
               {visibleGrowingJobs.map((job, i) => (
-                <JobCard key={job} title={job} index={i} tone="up" />
+                <JobCard
+                  key={job}
+                  title={job}
+                  index={i}
+                  tone="up"
+                  reason={getRoleReason(job, "up")}
+                />
               ))}
             </div>
             {sector.increasing.length > 4 && (
@@ -678,7 +735,13 @@ function SectorDeepDive({ activeSector }: SectorDeepDiveProps) {
             </div>
             <div className="space-y-2">
               {visibleDecliningJobs.map((job, i) => (
-                <JobCard key={job} title={job} index={i} tone="down" />
+                <JobCard
+                  key={job}
+                  title={job}
+                  index={i}
+                  tone="down"
+                  reason={getRoleReason(job, "down")}
+                />
               ))}
             </div>
             {sector.declining.length > 4 && (
