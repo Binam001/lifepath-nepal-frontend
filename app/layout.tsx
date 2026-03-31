@@ -37,22 +37,22 @@ const playfair = Playfair_Display({
 const helvetica = localFont({
   src: [
     {
-      path: "../public/fonts/Helvetica.ttf",
+      path: "./fonts/Helvetica.ttf",
       weight: "400",
       style: "normal",
     },
     {
-      path: "../public/fonts/Helvetica-Bold.ttf",
+      path: "./fonts/Helvetica-Bold.ttf",
       weight: "700",
       style: "normal",
     },
     {
-      path: "../public/fonts/Helvetica-Oblique.ttf",
+      path: "./fonts/Helvetica-Oblique.ttf",
       weight: "400",
       style: "italic",
     },
     {
-      path: "../public/fonts/Helvetica-BoldOblique.ttf",
+      path: "./fonts/Helvetica-BoldOblique.ttf",
       weight: "700",
       style: "italic",
     },
