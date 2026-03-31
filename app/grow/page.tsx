@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
+import { useQuery } from "@tanstack/react-query";
 import {
   ChevronLeft,
   ChevronRight,
@@ -108,45 +109,29 @@ const EMPTY_REACTIONS: ItemReactions = {
 const TODAY = new Date().toISOString().slice(0, 10);
 
 export default function GrowthPage() {
-  const [groups, setGroups] = useState<Record<SectionType, GrowItem[]>>({
-    "advice-of-the-day": [],
-    "solution-of-the-day": [],
-    "value-of-the-day": [],
-    "reminder-of-the-day": [],
-    "positivity-of-the-day": [],
-    "purpose-of-the-day": [],
-  });
-  const [indices, setIndices] = useState<Record<SectionType, number>>({
-    "advice-of-the-day": 0,
-    "solution-of-the-day": 0,
-    "value-of-the-day": 0,
-    "reminder-of-the-day": 0,
-    "positivity-of-the-day": 0,
-    "purpose-of-the-day": 0,
-  });
+  const preloadedImagesRef = useRef(new Set<string>());
+  const [indexOverrides, setIndexOverrides] = useState<
+    Partial<Record<SectionType, number>>
+  >({});
   const [reactions, setReactions] = useState<Record<string, ItemReactions>>({});
-  const [isLoading, setIsLoading] = useState(true);
-  const [hasError, setHasError] = useState(false);
+  const {
+    data: growResponse,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["grow-latest", 5],
+    queryFn: () => getGrowLatest(5),
+    staleTime: 30 * 60 * 1000,
+    gcTime: 60 * 60 * 1000,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+  });
 
-  useEffect(() => {
-    let active = true;
-
-    async function loadGrowData() {
-      setIsLoading(true);
-      setHasError(false);
-
-      const result = await getGrowLatest(5);
-      if (!active) return;
-
-      if (!result.success || !result.data) {
-        setHasError(true);
-        setIsLoading(false);
-        return;
-      }
-
-      const nextGroups = sections.reduce<Record<SectionType, GrowItem[]>>(
+  const groups = useMemo(
+    () =>
+      sections.reduce<Record<SectionType, GrowItem[]>>(
         (acc, section) => {
-          const category = result.data?.categories.find(
+          const category = growResponse?.data?.categories.find(
             (item: GrowCategoryGroup) => item.slug === section.slug,
           );
           acc[section.slug] = [...(category?.items ?? [])]
@@ -162,39 +147,42 @@ export default function GrowthPage() {
           "positivity-of-the-day": [],
           "purpose-of-the-day": [],
         },
-      );
-
-      setGroups(nextGroups);
-      setIndices({
-        "advice-of-the-day": Math.max(nextGroups["advice-of-the-day"].length - 1, 0),
-        "solution-of-the-day": Math.max(nextGroups["solution-of-the-day"].length - 1, 0),
-        "value-of-the-day": Math.max(nextGroups["value-of-the-day"].length - 1, 0),
-        "reminder-of-the-day": Math.max(nextGroups["reminder-of-the-day"].length - 1, 0),
-        "positivity-of-the-day": Math.max(nextGroups["positivity-of-the-day"].length - 1, 0),
-        "purpose-of-the-day": Math.max(nextGroups["purpose-of-the-day"].length - 1, 0),
-      });
-      setIsLoading(false);
-    }
-
-    loadGrowData();
-
-    return () => {
-      active = false;
-    };
-  }, []);
+      ),
+    [growResponse],
+  );
 
   const visibleSections = useMemo(
     () => sections.filter((section) => groups[section.slug].length > 0),
     [groups],
   );
 
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    for (const section of visibleSections) {
+      const items = groups[section.slug];
+      for (const image of items.map((item) => item.image).filter(Boolean)) {
+        if (preloadedImagesRef.current.has(image)) continue;
+
+        const img = new window.Image();
+        img.src = image;
+        preloadedImagesRef.current.add(image);
+      }
+    }
+  }, [groups, indexOverrides, visibleSections]);
+
   const moveIndex = (type: SectionType, direction: -1 | 1) => {
     const items = groups[type];
     if (items.length === 0) return;
 
-    setIndices((prev) => ({
+    const currentIndex = Math.min(
+      indexOverrides[type] ?? Math.max(items.length - 1, 0),
+      Math.max(items.length - 1, 0),
+    );
+
+    setIndexOverrides((prev) => ({
       ...prev,
-      [type]: Math.min(Math.max(prev[type] + direction, 0), items.length - 1),
+      [type]: Math.min(Math.max(currentIndex + direction, 0), items.length - 1),
     }));
   };
 
@@ -261,7 +249,7 @@ export default function GrowthPage() {
           <div className="py-16 text-center text-sm text-zinc-500">
             Loading daily growth content...
           </div>
-        ) : hasError ? (
+        ) : isError || !growResponse?.success || !growResponse.data ? (
           <div className="py-16 text-center text-sm text-rose-600">
             Failed to load daily growth content.
           </div>
@@ -273,7 +261,10 @@ export default function GrowthPage() {
           <div className="grid gap-6 sm:gap-8 md:gap-10 md:grid-cols-2 xl:grid-cols-3">
           {visibleSections.map((section, idx) => {
             const items = groups[section.slug];
-            const currentIndex = indices[section.slug];
+            const currentIndex = Math.min(
+              indexOverrides[section.slug] ?? Math.max(items.length - 1, 0),
+              Math.max(items.length - 1, 0),
+            );
             const currentItem = items[currentIndex];
             const SectionIcon = section.icon;
 
@@ -296,10 +287,10 @@ export default function GrowthPage() {
                   <AnimatePresence mode="wait">
                     <motion.div
                       key={`${section.slug}-${currentIndex}`}
-                      initial={{ opacity: 0, scale: 1.1 }}
+                      initial={{ opacity: 0, scale: 1.02 }}
                       animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.95 }}
-                      transition={{ duration: 0.6 }}
+                      exit={{ opacity: 0, scale: 0.99 }}
+                      transition={{ duration: 0.18 }}
                       className="relative text-center"
                     >
                       <div>
@@ -318,10 +309,10 @@ export default function GrowthPage() {
                   <AnimatePresence mode="wait">
                     <motion.div
                       key={`${section.slug}-${currentIndex}`}
-                      initial={{ opacity: 0, scale: 1.1 }}
+                      initial={{ opacity: 0, scale: 1.02 }}
                       animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.95 }}
-                      transition={{ duration: 0.6 }}
+                      exit={{ opacity: 0, scale: 0.99 }}
+                      transition={{ duration: 0.18 }}
                       className="relative"
                     >
                       <div className="relative mx-auto h-[340px] w-full sm:h-[380px] sm:w-[380px] md:h-[430px] md:w-[400px] max-w-full overflow-hidden rounded-2xl sm:rounded-[1.6em] border border-zinc-100 bg-zinc-100">
@@ -329,6 +320,8 @@ export default function GrowthPage() {
                           src={currentItem.image}
                           alt={section.title}
                           fill
+                          priority
+                          loading="eager"
                           className="object-cover transition-transform duration-700"
                         />
                       </div>

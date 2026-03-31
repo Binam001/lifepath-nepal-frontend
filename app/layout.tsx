@@ -1,6 +1,5 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import localFont from "next/font/local";
 import { Montserrat, Poppins, Playfair_Display } from "next/font/google";
 import { usePathname } from "next/navigation";
@@ -10,11 +9,8 @@ import SmoothScroll from "@/components/SmoothScroll";
 import Footer from "@/components/layout/Footer";
 import { QueryProvider } from "@/app/providers/QueryProvider";
 import { RecaptchaProvider } from "@/components/providers/RecaptchaProvider";
+import SitePreloader from "@/components/ui/site-preloader";
 // import Tracker from "@/components/Tracker/Tracker";
-
-const SitePreloader = dynamic(() => import("@/components/ui/site-preloader"), {
-  ssr: false,
-});
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
