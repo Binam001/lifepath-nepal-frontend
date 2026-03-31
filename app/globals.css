@@ -25,7 +25,7 @@ html.lenis body {
 
 
 
-@custom-variant dark (&:is(.dark *));
+/* @custom-variant dark (&:is(.dark *)); */
 
 :root {
   --font-montserrat: var(--font-montserrat);
@@ -107,6 +107,7 @@ html.lenis body {
   --radius-2xl: calc(var(--radius) + 8px);
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
+  --font-playfair: var(--font-playfair);
 }
 
 body {
@@ -153,6 +154,24 @@ body {
 
 .font-poppins {
   font-family: var(--font-poppins);
+}
+
+.font-playfair {
+  font-family: var(--font-playfair);
+}
+
+.glass-morphism {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass-morphism-dark {
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 @layer base {
@@ -206,13 +225,20 @@ body {
   animation: spin-slow 2.8s linear infinite;
 }
 
+.events-nav-fill,
+.events-nav-fill-mobile {
+  position: absolute;
+  inset: 1px;
+  z-index: 1;
+  border-radius: inherit;
+}
+
 .events-nav-link,
 .events-nav-link-mobile {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   display: inline-flex;
   border-radius: inherit;
-  background: transparent;
 }
 
 .events-nav-link {

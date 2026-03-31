@@ -30,7 +30,7 @@ const footerGroups = [
   {
     title: "Support",
     links: [
-      { label: "Contact Us", href: "/contact-us" },
+      { label: "Support", href: "/support" },
       // { label: "Login", href: "/login" },
     ],
   },
@@ -61,7 +61,7 @@ export default function Footer() {
                 Start Now
               </Link>
               <Link
-                href="/contact-us"
+                href="/support"
                 className="inline-flex min-h-11 items-center justify-center rounded-full border border-zinc-200 bg-white/85 px-6 text-sm font-semibold text-zinc-800 shadow-sm backdrop-blur transition-colors duration-200 hover:bg-white"
               >
                 Contact Us

@@ -2,8 +2,6 @@
 
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
-import Link from "next/link";
-import Image from "next/image";
 import PageTitle from "../ui/PageTitle";
 
 const faqs = [
@@ -99,7 +97,7 @@ export default function FAQSection() {
 
         {/* <div className="mt-12 text-center">
           <p className="text-zinc-600 mb-4">Still have questions?</p>
-          <Link href="/contact-us">
+          <Link href="/support">
             <button className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-full hover:bg-blue-700 transition-colors shadow-sm cursor-pointer">
               Contact Support
             </button>

@@ -462,7 +462,7 @@ export default function EssayCompetitionPage() {
         </div>
 
         <div className="mt-8 md:mt-12 max-w-7xl px-2">
-          <h1 className="text-3xl md:text-3xl font-bold  text-blue-500 tracking-tight mb-4">
+          <h1 className="text-3xl md:text-3xl font-semibold  text-blue-500 tracking-tight mb-4">
             {essayEvent.title}
           </h1>
           <div className="space-y-4 text-zinc-600 text-[15px] md:text-lg leading-relaxed">

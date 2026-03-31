@@ -1,7 +1,8 @@
 "use client";
 
-import { Montserrat, Poppins } from "next/font/google";
 import dynamic from "next/dynamic";
+import localFont from "next/font/local";
+import { Montserrat, Poppins, Playfair_Display } from "next/font/google";
 import { usePathname } from "next/navigation";
 import "./globals.css";
 import Header from "@/components/layout/Header";
@@ -25,6 +26,38 @@ const poppins = Poppins({
   variable: "--font-poppins",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],
+});
+
+const playfair = Playfair_Display({
+  variable: "--font-playfair",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800", "900"],
+});
+
+const helvetica = localFont({
+  src: [
+    {
+      path: "../public/fonts/Helvetica.ttf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../public/fonts/Helvetica-Bold.ttf",
+      weight: "700",
+      style: "normal",
+    },
+    {
+      path: "../public/fonts/Helvetica-Oblique.ttf",
+      weight: "400",
+      style: "italic",
+    },
+    {
+      path: "../public/fonts/Helvetica-BoldOblique.ttf",
+      weight: "700",
+      style: "italic",
+    },
+  ],
+  variable: "--font-helvetica",
 });
 
 export default function RootLayout({
@@ -56,7 +89,7 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/favicon.svg" />
       </head>
       <body
-        className={`${poppins.variable} ${montserrat.variable} antialiased bg-white overflow-x-hidden`}
+        className={`${poppins.variable} ${montserrat.variable} ${helvetica.variable} ${playfair.variable} antialiased bg-white overflow-x-hidden`}
       >
         <QueryProvider>
           <RecaptchaProvider>

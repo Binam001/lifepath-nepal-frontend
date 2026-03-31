@@ -26,29 +26,27 @@ const rawBase =
   process.env.BACKEND_API_URL ||
   "";
 
-if (!rawBase) {
-  throw new Error(
-    "API base URL is not configured. Set NEXT_PUBLIC_API_URL or NEXT_PUBLIC_API_BASE_URL in .env.",
-  );
-}
-
 export const API_PREFIX = normalizePrefix(
   process.env.NEXT_PUBLIC_API_PREFIX || DEFAULT_API_PREFIX,
 );
 
-export const API_BASE_URL = stripPrefixFromBase(rawBase, API_PREFIX);
-export const DIRECT_API_URL = `${API_BASE_URL}${API_PREFIX}`;
+export const API_BASE_URL = rawBase
+  ? stripPrefixFromBase(rawBase, API_PREFIX)
+  : "";
+export const DIRECT_API_URL = API_BASE_URL
+  ? `${API_BASE_URL}${API_PREFIX}`
+  : "";
 
-// Proxy mode is disabled. Keep this block only as reference if same-origin
-// proxying is needed again later.
+// Browser-side proxy config is retained as a reference path for environments
+// where the frontend and API are served from the same origin again.
 // const DEFAULT_BROWSER_API_PROXY_PREFIX = "/api";
 // const shouldUseBrowserProxy = () => {
 //   if (typeof window === "undefined") return false;
-//
+
 //   const explicit = process.env.NEXT_PUBLIC_USE_API_PROXY;
 //   if (explicit === "true") return true;
 //   if (explicit === "false") return false;
-//
+
 //   return process.env.NODE_ENV === "development";
 // };
 // export const BROWSER_API_PROXY_PREFIX = normalizePrefix(

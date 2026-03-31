@@ -57,7 +57,7 @@ export async function getGrowLatest(limitPerCategory = 5) {
       data: response.data,
       cached: response.cached,
     };
-  } catch (error) {
+  } catch {
     try {
       const fallback = await getJson<GetGrowAllResponse>(
         "/grow/get-all?page=1&limit=200&search=&category=&dateFrom=&dateTo=&includeUnpublished=true",
@@ -84,7 +84,6 @@ export async function getGrowLatest(limitPerCategory = 5) {
           data: undefined,
         };
       }
-
       return {
         success: false,
         status: 500,

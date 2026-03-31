@@ -101,7 +101,7 @@ export default function GuideBooksPage() {
                 Find Your Lifepath
               </Link>
               <Link
-                href="/contact-us"
+                href="/support"
                 className="inline-flex items-center justify-center rounded-full border border-blue-200 bg-white px-6 py-3 text-sm font-semibold text-blue-700 transition-colors hover:bg-blue-50"
               >
                 Ask about bulk access
@@ -233,7 +233,7 @@ export default function GuideBooksPage() {
 
                 <div className="flex gap-3">
                   <Link
-                    href="/contact-us"
+                    href="/support"
                     className="inline-flex flex-1 items-center justify-center rounded-full bg-blue-600 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-700"
                   >
                     Get Guide Book

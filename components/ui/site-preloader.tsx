@@ -8,16 +8,17 @@ const DISPLAY_MS = 3000;
 const EXIT_MS = 250;
 
 export default function SitePreloader() {
-  const [shouldRender, setShouldRender] = useState(() => {
-    if (typeof window === "undefined") {
-      return false;
-    }
-
-    return window.sessionStorage.getItem(SESSION_KEY) !== "true";
-  });
+  const [shouldRender, setShouldRender] = useState(true);
   const [isLeaving, setIsLeaving] = useState(false);
 
   useEffect(() => {
+    const alreadyShown = window.sessionStorage.getItem(SESSION_KEY) === "true";
+
+    if (alreadyShown) {
+      setShouldRender(false);
+      return;
+    }
+
     if (!shouldRender) {
       return;
     }

@@ -14,24 +14,28 @@ export default function Header() {
 
   const navItems = [
     { label: "Home", href: "/" },
-    { label: "Job Training", href: "/job-training" },
+    // { label: "Job Training", href: "/job-training" },
+    { label: "Future", href: "/future" },
     { label: "Best Jobs", href: "/jobs" },
     { label: "Events", href: "/events" },
     // { label: "Guide Books", href: "/guide-books" },
     { label: "Reviews", href: "/reviews" },
-    { label: "Contact Us", href: "/contact-us" },
+    { label: "Support", href: "/support" },
+    // { label: "Books", href: "/books" },
     { label: "Grow", href: "/grow" },
   ];
 
   const mobileNavItems = [
     { label: "Home", href: "/" },
-    { label: "Job Training", href: "/job-training" },
+    // { label: "Job Training", href: "/job-training" },
+    { label: "Future", href: "/future" },
     { label: "Best Jobs", href: "/jobs" },
     { label: "Events", href: "/events" },
     // { label: "Guide Books", href: "/guide-books" },
     { label: "Reviews", href: "/reviews" },
     // { label: "About Us", href: "/about-us" },
-    { label: "Contact Us", href: "/contact-us" },
+    { label: "Support", href: "/support" },
+    // { label: "Books", href: "/books" },
     { label: "Grow", href: "/grow" },
   ];
 
