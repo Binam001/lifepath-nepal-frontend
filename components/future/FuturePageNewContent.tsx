@@ -143,24 +143,36 @@ function getSectorHeat(
 
 const HEAT_CONFIG = {
   hot: {
-    label: "🔥 Hot",
+    label: "Hot",
+    emoji: "🔥",
+    description: "Strong upside with clear momentum and role expansion.",
     badge: "text-emerald-700 bg-emerald-50 border-emerald-200",
     activeBadge: "text-white bg-white/20 border-white/30",
+    dot: "bg-emerald-500",
   },
   growing: {
-    label: "📈 Growing",
+    label: "Growing",
+    emoji: "📈",
+    description: "Healthy demand with more upside than downside.",
     badge: "text-blue-700 bg-blue-50 border-blue-200",
     activeBadge: "text-white bg-white/20 border-white/30",
+    dot: "bg-blue-500",
   },
   stable: {
-    label: "📊 Stable",
+    label: "Stable",
+    emoji: "📊",
+    description: "Reliable sector, but growth is steadier and less explosive.",
     badge: "text-amber-700 bg-amber-50 border-amber-200",
     activeBadge: "text-white bg-white/20 border-white/30",
+    dot: "bg-amber-500",
   },
   shifting: {
-    label: "⚠️ Shifting",
+    label: "Shifting",
+    emoji: "⚠️",
+    description: "Mixed signals. Opportunity exists, but the structure is changing.",
     badge: "text-rose-700 bg-rose-50 border-rose-200",
     activeBadge: "text-white bg-white/20 border-white/30",
+    dot: "bg-rose-500",
   },
 };
 
@@ -288,41 +300,101 @@ function SectorCard({ sectorKey, label, active, onClick }: SectorCardProps) {
       ? "growing"
       : getSectorHeat(sectorKey as FutureSectorKey);
   const heatCfg = HEAT_CONFIG[heat];
+  const sectorData = sectorPerformance[sectorKey as FutureSectorKey];
+  const risingCount = sectorData?.increasing.length ?? 0;
+  const decliningCount = sectorData?.declining.length ?? 0;
+  const summary =
+    sectorKey === "all"
+      ? "A fast read on where the broader market is leaning."
+      : sectorData?.summary ?? "Sector outlook and role direction.";
 
   return (
     <motion.button
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.97 }}
       onClick={onClick}
-      className={`relative text-left w-full rounded-2xl border-2 p-4 transition-all duration-200 cursor-pointer ${
+      className={`relative w-full rounded-2xl border-2 p-4 text-left transition-all duration-200 cursor-pointer ${
         active
           ? "border-blue-600 bg-blue-600 text-white shadow-lg shadow-blue-200"
           : "border-zinc-200 bg-white text-zinc-700 hover:border-zinc-300 hover:shadow-sm"
       }`}
     >
-      <div
-        className={`w-9 h-9 rounded-xl flex items-center justify-center mb-3 ${
-          active ? "bg-white/20" : "bg-zinc-100"
-        }`}
-      >
-        <IconComponent
-          className={`w-5 h-5 ${active ? "text-white" : "text-zinc-600"}`}
-        />
+      <div className="mb-3 flex items-start justify-between gap-2">
+        <div
+          className={`flex h-9 w-9 items-center justify-center rounded-xl ${
+            active ? "bg-white/20" : "bg-zinc-100"
+          }`}
+        >
+          <IconComponent
+            className={`h-5 w-5 ${active ? "text-white" : "text-zinc-600"}`}
+          />
+        </div>
+        <span
+          className={`inline-flex items-center gap-1.5 rounded-full border px-2 py-1 text-[10px] font-bold ${
+            active ? heatCfg.activeBadge : heatCfg.badge
+          }`}
+        >
+          <span className={`h-2 w-2 rounded-full ${active ? "bg-white" : heatCfg.dot}`} />
+          <span>{heatCfg.label}</span>
+        </span>
       </div>
+
       <p
-        className={`text-sm font-semibold leading-snug mb-2.5 ${
+        className={`text-sm font-semibold leading-snug mb-2 ${
           active ? "text-white" : "text-zinc-800"
         }`}
       >
         {label}
       </p>
-      <span
-        className={`inline-block text-[10px] font-bold px-2 py-0.5 rounded-full border ${
-          active ? heatCfg.activeBadge : heatCfg.badge
+      <p
+        className={`min-h-10 text-xs leading-relaxed ${
+          active ? "text-blue-100" : "text-zinc-500"
         }`}
       >
-        {heatCfg.label}
-      </span>
+        {summary}
+      </p>
+
+      <div
+        className={`mt-3 flex items-center gap-3 rounded-xl border px-3 py-2 ${
+          active
+            ? "border-white/15 bg-white/10"
+            : "border-zinc-200 bg-zinc-50"
+        }`}
+      >
+        <div className="min-w-0 flex-1">
+          <p
+            className={`text-[10px] font-bold uppercase tracking-[0.16em] ${
+              active ? "text-white/60" : "text-zinc-400"
+            }`}
+          >
+            Rising
+          </p>
+          <p
+            className={`mt-0.5 text-sm font-semibold ${
+              active ? "text-white" : "text-zinc-900"
+            }`}
+          >
+            {risingCount}
+          </p>
+        </div>
+        <div className={`h-8 w-px ${active ? "bg-white/15" : "bg-zinc-200"}`} />
+        <div className="min-w-0 flex-1">
+          <p
+            className={`text-[10px] font-bold uppercase tracking-[0.16em] ${
+              active ? "text-white/60" : "text-zinc-400"
+            }`}
+          >
+            Cooling
+          </p>
+          <p
+            className={`mt-0.5 text-sm font-semibold ${
+              active ? "text-white" : "text-zinc-900"
+            }`}
+          >
+            {decliningCount}
+          </p>
+        </div>
+      </div>
     </motion.button>
   );
 }
@@ -1029,20 +1101,53 @@ export default function FuturePageNew() {
           </div>
 
           {/* Heat legend */}
-          <div className="flex flex-wrap gap-2 mb-10 justify-center">
+          <div className="mb-10 rounded-2xl border border-zinc-200 bg-zinc-50 p-4 sm:p-5">
+            <div className="mb-4 flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
+              <div>
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-blue-600">
+                  Heat Legend
+                </p>
+                <p className="mt-1 text-sm text-zinc-600">
+                  A quick read on how strong each sector&apos;s momentum looks right now.
+                </p>
+              </div>
+              <div className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white px-3 py-1.5 text-xs font-medium text-zinc-500">
+                <Info className="h-3.5 w-3.5 text-blue-500" />
+                Based on rising vs cooling role signals
+              </div>
+            </div>
+
+            <div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
             {(
               Object.entries(HEAT_CONFIG) as [
                 keyof typeof HEAT_CONFIG,
                 (typeof HEAT_CONFIG)[keyof typeof HEAT_CONFIG],
               ][]
             ).map(([, cfg]) => (
-              <span
+              <div
                 key={cfg.label}
-                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-semibold ${cfg.badge}`}
+                className="rounded-xl border border-zinc-200 bg-white p-3"
               >
-                {cfg.label}
-              </span>
+                <div className="flex items-center gap-2.5">
+                  <span className="text-base leading-none">{cfg.emoji}</span>
+                  <div>
+                    <p className="text-sm font-semibold text-zinc-900">
+                      {cfg.label}
+                    </p>
+                    <div className="mt-1 flex items-center gap-1.5">
+                      <span className={`h-2.5 w-2.5 rounded-full ${cfg.dot}`} />
+                      <span className="text-[11px] font-medium uppercase tracking-[0.16em] text-zinc-500">
+                        Market signal
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <p className="mt-3 text-sm leading-relaxed text-zinc-600">
+                  {cfg.description}
+                </p>
+              </div>
             ))}
+          </div>
           </div>
 
           <div className="sticky top-0 z-20 mb-8 hidden lg:block">
