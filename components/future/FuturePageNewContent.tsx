@@ -33,6 +33,7 @@ import {
   sectorRoleReasons,
   coreSkills,
   type FutureSectorKey,
+  type FutureStat,
 } from "@/constants/future-infographics";
 import { SectorVisuals } from "./infographic/SectorVisuals";
 
@@ -127,17 +128,80 @@ const PATH_CARDS = [
 
 // ─── Heat scoring ─────────────────────────────────────────────────────────────
 
+function clamp(value: number, min: number, max: number) {
+  return Math.max(min, Math.min(max, value));
+}
+
+function extractPercentSignals(stats: FutureStat[]) {
+  return stats.flatMap((stat) => {
+    const rawValue = String(stat.value);
+    if (!rawValue.includes("%")) return [];
+
+    const matches = rawValue.match(/-?\d+(?:\.\d+)?/g);
+    return matches ? matches.map(Number) : [];
+  });
+}
+
+function getSectorMomentum(key: FutureSectorKey) {
+  if (key === "all") {
+    return {
+      demandScore: 74,
+      declineScore: 28,
+      momentumScore: 46,
+      growthRatio: 0.63,
+    };
+  }
+
+  const sector = sectorPerformance[key];
+  const increasingCount = sector.increasing.length;
+  const decliningCount = sector.declining.length;
+  const totalRoles = increasingCount + decliningCount;
+  const growthRatio = totalRoles > 0 ? increasingCount / totalRoles : 0.5;
+
+  const percentSignals = extractPercentSignals(sector.stats);
+  const averagePercent =
+    percentSignals.length > 0
+      ? percentSignals.reduce((sum, value) => sum + value, 0) /
+        percentSignals.length
+      : 0;
+  const strongestPercent =
+    percentSignals.length > 0 ? Math.max(...percentSignals) : 0;
+
+  const evidenceBoost = Math.min(
+    20,
+    averagePercent * 1.1 +
+      Math.max(0, strongestPercent - averagePercent) * 0.35,
+  );
+  const breadthBoost = increasingCount * 4 - decliningCount * 3;
+  const skillBoost = Math.min(8, sector.skills.length);
+
+  const demandScore = Math.round(
+    clamp(40 + evidenceBoost + breadthBoost + skillBoost, 18, 95),
+  );
+  const declineScore = Math.round(
+    clamp(
+      52 + decliningCount * 7 - increasingCount * 4 - evidenceBoost * 0.8,
+      10,
+      88,
+    ),
+  );
+
+  return {
+    demandScore,
+    declineScore,
+    momentumScore: demandScore - declineScore,
+    growthRatio,
+  };
+}
+
 function getSectorHeat(
   key: FutureSectorKey,
 ): "hot" | "growing" | "stable" | "shifting" {
-  if (key === "all") return "growing";
-  const sector = sectorPerformance[key];
-  const total = sector.increasing.length + sector.declining.length;
-  if (total === 0) return "stable";
-  const ratio = sector.increasing.length / total;
-  if (ratio >= 0.7) return "hot";
-  if (ratio >= 0.55) return "growing";
-  if (ratio >= 0.4) return "stable";
+  const { momentumScore, growthRatio } = getSectorMomentum(key);
+
+  if (momentumScore >= 38 || growthRatio >= 0.72) return "hot";
+  if (momentumScore >= 22 || growthRatio >= 0.6) return "growing";
+  if (momentumScore >= 8 || growthRatio >= 0.45) return "stable";
   return "shifting";
 }
 
@@ -145,7 +209,8 @@ const HEAT_CONFIG = {
   hot: {
     label: "Hot",
     emoji: "🔥",
-    description: "Strong upside with clear momentum and role expansion.",
+    short: "Fast momentum",
+    description: "Strong upside with lots of rising roles.",
     badge: "text-emerald-700 bg-emerald-50 border-emerald-200",
     activeBadge: "text-white bg-white/20 border-white/30",
     dot: "bg-emerald-500",
@@ -153,7 +218,8 @@ const HEAT_CONFIG = {
   growing: {
     label: "Growing",
     emoji: "📈",
-    description: "Healthy demand with more upside than downside.",
+    short: "Healthy demand",
+    description: "More roles are rising than cooling.",
     badge: "text-blue-700 bg-blue-50 border-blue-200",
     activeBadge: "text-white bg-white/20 border-white/30",
     dot: "bg-blue-500",
@@ -161,7 +227,8 @@ const HEAT_CONFIG = {
   stable: {
     label: "Stable",
     emoji: "📊",
-    description: "Reliable sector, but growth is steadier and less explosive.",
+    short: "Steady outlook",
+    description: "Reliable sector with slower, steadier movement.",
     badge: "text-amber-700 bg-amber-50 border-amber-200",
     activeBadge: "text-white bg-white/20 border-white/30",
     dot: "bg-amber-500",
@@ -169,7 +236,8 @@ const HEAT_CONFIG = {
   shifting: {
     label: "Shifting",
     emoji: "⚠️",
-    description: "Mixed signals. Opportunity exists, but the structure is changing.",
+    short: "Mixed signals",
+    description: "Opportunity exists, but the market is changing shape.",
     badge: "text-rose-700 bg-rose-50 border-rose-200",
     activeBadge: "text-white bg-white/20 border-white/30",
     dot: "bg-rose-500",
@@ -300,20 +368,13 @@ function SectorCard({ sectorKey, label, active, onClick }: SectorCardProps) {
       ? "growing"
       : getSectorHeat(sectorKey as FutureSectorKey);
   const heatCfg = HEAT_CONFIG[heat];
-  const sectorData = sectorPerformance[sectorKey as FutureSectorKey];
-  const risingCount = sectorData?.increasing.length ?? 0;
-  const decliningCount = sectorData?.declining.length ?? 0;
-  const summary =
-    sectorKey === "all"
-      ? "A fast read on where the broader market is leaning."
-      : sectorData?.summary ?? "Sector outlook and role direction.";
 
   return (
     <motion.button
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.97 }}
       onClick={onClick}
-      className={`relative w-full rounded-2xl border-2 p-4 text-left transition-all duration-200 cursor-pointer ${
+      className={`relative text-left w-full rounded-2xl border-2 p-4 transition-all duration-200 cursor-pointer ${
         active
           ? "border-blue-600 bg-blue-600 text-white shadow-lg shadow-blue-200"
           : "border-zinc-200 bg-white text-zinc-700 hover:border-zinc-300 hover:shadow-sm"
@@ -321,80 +382,32 @@ function SectorCard({ sectorKey, label, active, onClick }: SectorCardProps) {
     >
       <div className="mb-3 flex items-start justify-between gap-2">
         <div
-          className={`flex h-9 w-9 items-center justify-center rounded-xl ${
+          className={`w-9 h-9 rounded-xl flex items-center justify-center ${
             active ? "bg-white/20" : "bg-zinc-100"
           }`}
         >
           <IconComponent
-            className={`h-5 w-5 ${active ? "text-white" : "text-zinc-600"}`}
+            className={`w-5 h-5 ${active ? "text-white" : "text-zinc-600"}`}
           />
         </div>
         <span
-          className={`inline-flex items-center gap-1.5 rounded-full border px-2 py-1 text-[10px] font-bold ${
+          className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[10px] font-bold ${
             active ? heatCfg.activeBadge : heatCfg.badge
           }`}
         >
-          <span className={`h-2 w-2 rounded-full ${active ? "bg-white" : heatCfg.dot}`} />
+          <span
+            className={`h-2 w-2 rounded-full ${active ? "bg-white" : heatCfg.dot}`}
+          />
           <span>{heatCfg.label}</span>
         </span>
       </div>
-
       <p
-        className={`text-sm font-semibold leading-snug mb-2 ${
+        className={`text-sm font-semibold leading-snug mb-2.5 ${
           active ? "text-white" : "text-zinc-800"
         }`}
       >
         {label}
       </p>
-      <p
-        className={`min-h-10 text-xs leading-relaxed ${
-          active ? "text-blue-100" : "text-zinc-500"
-        }`}
-      >
-        {summary}
-      </p>
-
-      <div
-        className={`mt-3 flex items-center gap-3 rounded-xl border px-3 py-2 ${
-          active
-            ? "border-white/15 bg-white/10"
-            : "border-zinc-200 bg-zinc-50"
-        }`}
-      >
-        <div className="min-w-0 flex-1">
-          <p
-            className={`text-[10px] font-bold uppercase tracking-[0.16em] ${
-              active ? "text-white/60" : "text-zinc-400"
-            }`}
-          >
-            Rising
-          </p>
-          <p
-            className={`mt-0.5 text-sm font-semibold ${
-              active ? "text-white" : "text-zinc-900"
-            }`}
-          >
-            {risingCount}
-          </p>
-        </div>
-        <div className={`h-8 w-px ${active ? "bg-white/15" : "bg-zinc-200"}`} />
-        <div className="min-w-0 flex-1">
-          <p
-            className={`text-[10px] font-bold uppercase tracking-[0.16em] ${
-              active ? "text-white/60" : "text-zinc-400"
-            }`}
-          >
-            Cooling
-          </p>
-          <p
-            className={`mt-0.5 text-sm font-semibold ${
-              active ? "text-white" : "text-zinc-900"
-            }`}
-          >
-            {decliningCount}
-          </p>
-        </div>
-      </div>
     </motion.button>
   );
 }
@@ -530,106 +543,22 @@ function SectorDeepDive({ activeSector }: SectorDeepDiveProps) {
         note: "sector-relevant leverage skill",
       }));
 
-  // Research-backed scores (Nepal labor market 2024-2026)
-  // Sources: ILO, World Bank Nepal, ADB, Nepal Labor Force Survey, sector-specific reports
-  const sectorComparison = [
-    {
-      key: "banking-finance",
-      label: "Banking & Finance",
-      demandScore: 72,
-      declineScore: 45,
-    },
-    {
-      key: "technology",
-      label: "IT & Technology",
-      demandScore: 88,
-      declineScore: 28,
-    },
-    {
-      key: "education",
-      label: "Education & Teaching",
-      demandScore: 65,
-      declineScore: 32,
-    },
-    {
-      key: "health",
-      label: "Health & Medical",
-      demandScore: 70,
-      declineScore: 30,
-    },
-    {
-      key: "tourism-hospitality",
-      label: "Tourism & Hospitality",
-      demandScore: 67,
-      declineScore: 22,
-    },
-    {
-      key: "sales-marketing",
-      label: "Sales & Marketing",
-      demandScore: 70,
-      declineScore: 35,
-    },
-    {
-      key: "engineering-construction",
-      label: "Engineering & Construction",
-      demandScore: 78,
-      declineScore: 20,
-    },
-    {
-      key: "transport-logistics",
-      label: "Transport & Logistics",
-      demandScore: 62,
-      declineScore: 28,
-    },
-    {
-      key: "manufacturing-production",
-      label: "Manufacturing & Production",
-      demandScore: 52,
-      declineScore: 42,
-    },
-    {
-      key: "energy-hydropower",
-      label: "Energy & Hydropower",
-      demandScore: 82,
-      declineScore: 15,
-    },
-    {
-      key: "legal-law",
-      label: "Legal & Law",
-      demandScore: 55,
-      declineScore: 25,
-    },
-    {
-      key: "media-entertainment",
-      label: "Media & Entertainment",
-      demandScore: 42,
-      declineScore: 68,
-    },
-    {
-      key: "business-entrepreneurship",
-      label: "Business & Entrepreneurship",
-      demandScore: 72,
-      declineScore: 20,
-    },
-    {
-      key: "freelancing-remote",
-      label: "Freelancing & Remote Work",
-      demandScore: 75,
-      declineScore: 18,
-    },
-    {
-      key: "research-development",
-      label: "Research & Development",
-      demandScore: 38,
-      declineScore: 30,
-    },
-    {
-      key: "security-services",
-      label: "Security Services",
-      demandScore: 58,
-      declineScore: 22,
-    },
-  ];
+  const sectorComparison = useMemo(
+    () =>
+      sectorOptions
+        .filter((sectorOption) => sectorOption.key !== "all")
+        .map((sectorOption) => {
+          const metrics = getSectorMomentum(sectorOption.key);
+
+          return {
+            key: sectorOption.key,
+            label: sectorOption.label,
+            demandScore: metrics.demandScore,
+            declineScore: metrics.declineScore,
+          };
+        }),
+    [],
+  );
 
   const sectorDemandDistribution = sectorComparison
     .slice()
@@ -680,7 +609,7 @@ function SectorDeepDive({ activeSector }: SectorDeepDiveProps) {
               </p>
             </div>
             {sector.stats.length > 0 && (
-              <div className="grid grid-cols-2 gap-3 lg:min-w-[280px]">
+              <div className="grid grid-cols-2 gap-3 lg:min-w-70">
                 {sector.stats.slice(0, 4).map((stat) => (
                   <div
                     key={stat.label}
@@ -1102,52 +1031,55 @@ export default function FuturePageNew() {
 
           {/* Heat legend */}
           <div className="mb-10 rounded-2xl border border-zinc-200 bg-zinc-50 p-4 sm:p-5">
-            <div className="mb-4 flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
+            <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
               <div>
-                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-blue-600">
-                  Heat Legend
+                <p className="text-[12px] font-bold uppercase tracking-[0.2em] text-blue-600">
+                  Heat Guide
                 </p>
                 <p className="mt-1 text-sm text-zinc-600">
-                  A quick read on how strong each sector&apos;s momentum looks right now.
+                  Each sector gets a quick market signal based on rising versus
+                  cooling roles.
                 </p>
               </div>
               <div className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white px-3 py-1.5 text-xs font-medium text-zinc-500">
                 <Info className="h-3.5 w-3.5 text-blue-500" />
-                Based on rising vs cooling role signals
+                Read the badge before you open a sector
               </div>
             </div>
 
             <div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
-            {(
-              Object.entries(HEAT_CONFIG) as [
-                keyof typeof HEAT_CONFIG,
-                (typeof HEAT_CONFIG)[keyof typeof HEAT_CONFIG],
-              ][]
-            ).map(([, cfg]) => (
-              <div
-                key={cfg.label}
-                className="rounded-xl border border-zinc-200 bg-white p-3"
-              >
-                <div className="flex items-center gap-2.5">
-                  <span className="text-base leading-none">{cfg.emoji}</span>
-                  <div>
-                    <p className="text-sm font-semibold text-zinc-900">
-                      {cfg.label}
-                    </p>
-                    <div className="mt-1 flex items-center gap-1.5">
-                      <span className={`h-2.5 w-2.5 rounded-full ${cfg.dot}`} />
-                      <span className="text-[11px] font-medium uppercase tracking-[0.16em] text-zinc-500">
-                        Market signal
-                      </span>
+              {(
+                Object.entries(HEAT_CONFIG) as [
+                  keyof typeof HEAT_CONFIG,
+                  (typeof HEAT_CONFIG)[keyof typeof HEAT_CONFIG],
+                ][]
+              ).map(([, cfg]) => (
+                <div
+                  key={cfg.label}
+                  className="rounded-xl border border-zinc-200 bg-white p-3"
+                >
+                  <div className="flex items-center gap-2.5">
+                    {/* <span className="text-base leading-none">{cfg.emoji}</span> */}
+                    <div className="min-w-0">
+                      <div className="flex items-center gap-2">
+                        <span
+                          className={`h-2.5 w-2.5 rounded-full ${cfg.dot}`}
+                        />
+                        <p className="text-sm font-semibold text-zinc-900">
+                          {cfg.label}
+                        </p>
+                      </div>
+                      <p className="mt-1 text-xs font-medium text-zinc-500">
+                        {cfg.short}
+                      </p>
                     </div>
                   </div>
+                  <p className="mt-3 text-xs leading-relaxed text-zinc-600">
+                    {cfg.description}
+                  </p>
                 </div>
-                <p className="mt-3 text-sm leading-relaxed text-zinc-600">
-                  {cfg.description}
-                </p>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
           </div>
 
           <div className="sticky top-0 z-20 mb-8 hidden lg:block">

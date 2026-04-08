@@ -982,7 +982,7 @@ export default function PersonalityTestPage() {
       <div className="inline-flex items-center justify-center w-full pb-2">
         <Link
           href="/mbti-book"
-          className="  px-4 py-2 bg-yellow-400 hover:bg-yellow-500 text-black text-sm font-bold rounded-full transition-all shadow-lg hover:shadow-xl cursor-pointer"
+          className="  px-4 py-2 bg-yellow-400 hover:bg-yellow-500 text-black text-md font-bold rounded-full transition-all shadow-lg hover:shadow-xl cursor-pointer"
         >
           Learn about MBTI
         </Link>
