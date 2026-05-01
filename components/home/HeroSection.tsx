@@ -41,9 +41,9 @@ export default function HeroSection() {
                 />
               </button>
             </Link>
-            <Link href="/job-training">
+            <Link href="/future">
               <button className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-full border-2 border-zinc-300 bg-white px-8 py-4 font-semibold text-blue-600 transition-all hover:border-blue-600 hover:bg-blue-50 hover:text-blue-600 sm:w-auto">
-                Explore Job Training
+                Explore Job Future
               </button>
             </Link>
           </div>

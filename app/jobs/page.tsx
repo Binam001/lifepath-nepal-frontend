@@ -1,6 +1,6 @@
 "use client";
 
-import { MapPin, Clock, ArrowRight, Globe } from "lucide-react";
+import { MapPin, Clock, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -10,7 +10,8 @@ import { jobs } from "./data";
 
 export default function JobsPage() {
   const [activeRegion, setActiveRegion] = useState<
-    "nepal" | "global" | "internship"
+    // "nepal" | "global" | "internship"
+    "nepal" | "internship"
   >("nepal");
 
   const filteredJobs = jobs.filter((job) => {
@@ -19,7 +20,7 @@ export default function JobsPage() {
   });
 
   const nepalCount = jobs.filter((job) => job.region === "nepal").length;
-  const globalCount = jobs.filter((job) => job.region === "global").length;
+  // const globalCount = jobs.filter((job) => job.region === "global").length;
   const internshipCount = jobs.filter(
     (job) => job.type === "Internship",
   ).length;
@@ -67,26 +68,6 @@ export default function JobsPage() {
                 </span>
               </button>
 
-              <button
-                onClick={() => setActiveRegion("global")}
-                className={`flex shrink-0 items-center gap-2 rounded-full px-3 py-2 text-sm font-semibold transition-colors cursor-pointer sm:px-5 sm:py-2.5 sm:text-base ${
-                  activeRegion === "global"
-                    ? "bg-white text-blue-700"
-                    : "text-white/90 hover:text-white"
-                }`}
-              >
-                <Globe size={16} className="sm:h-[18px] sm:w-[18px]" />
-                International
-                <span
-                  className={`ml-1 rounded-full px-2 py-0.5 text-xs font-semibold transition-colors ${
-                    activeRegion === "global"
-                      ? "bg-blue-100 text-blue-700"
-                      : "bg-white/20 text-white"
-                  }`}
-                >
-                  {globalCount}
-                </span>
-              </button>
               <button
                 onClick={() => setActiveRegion("internship")}
                 className={`flex shrink-0 items-center gap-2 rounded-full px-3 py-2 text-sm font-semibold transition-colors cursor-pointer sm:px-5 sm:py-2.5 sm:text-base ${
