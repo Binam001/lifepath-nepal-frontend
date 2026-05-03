@@ -2,6 +2,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import gsap from "gsap";
 import {
   Info,
   Mail,
@@ -15,7 +16,6 @@ import {
   QrCode,
   Ticket,
   X,
-  LockKeyholeIcon,
   LucideScrollText,
   InfoIcon,
 } from "lucide-react";
@@ -71,7 +71,7 @@ const essayEvent = {
   description2:
     "Through this event, Lifepath aims to inspire students to think deeply about their future, society, and personal growth while promoting the importance of thoughtful communication.",
   rules: [
-    "Eligibility: The competition is open to students from +2 to Bachelor's levels.",
+    "Eligibility: The competition is open to students from school level, +2 to Bachelor's levels.",
     "Original Work: All essays must be original work written by the participant.",
     "No AI Usage: The use of Artificial Intelligence (AI) tools such as ChatGPT or any AI writing software is strictly prohibited. Any essay found to be AI-generated or AI-plagiarized will be immediately disqualified.",
     "Word Limit: Each essay must contain 480 to 500 words only. Essays below 480 words or above 500 words will not be accepted.",
@@ -87,12 +87,13 @@ const essayEvent = {
     "Top 10 essays will be featured on our official blog",
   ],
   entryFee: "Entry Fee: NPR 500",
-  deadline: "May 11 2026, 11:59 PM",
+  deadline: "30 June, 2026 - 11:59 PM",
   submissionGuidelines: [
     "Participants must upload their essay in PDF format only through the website submission portal.",
     "Submissions sent through email or other platforms will not be accepted.",
     "Students must ensure that their PDF file is properly formatted and readable before submission.",
   ],
+  resultDate: "6 July, 2026",
 };
 
 type EventFormData = {
@@ -124,7 +125,7 @@ const initialFormData: EventFormData = {
   screenshotFile: null,
 };
 
-const countdownTarget = new Date("2026-05-11T23:59:00+05:45");
+const countdownTarget = new Date("2026-06-30T23:59:00+05:45");
 
 const getTimeRemaining = (targetDate: Date) => {
   const total = targetDate.getTime() - Date.now();
@@ -163,6 +164,7 @@ export default function EssayCompetitionPage() {
   // const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [isDraggingScreenshot, setIsDraggingScreenshot] = useState(false);
   const screenshotInputRef = useRef<HTMLInputElement | null>(null);
+  const titleRef = useRef<HTMLHeadingElement | null>(null);
   const [showQR, setShowQR] = useState(false);
   const [timeLeft, setTimeLeft] = useState(() =>
     getTimeRemaining(countdownTarget),
@@ -173,6 +175,54 @@ export default function EssayCompetitionPage() {
   const openSubmissionModal = (modal: SubmissionModalState) => {
     setSubmissionModal(modal);
   };
+
+  useEffect(() => {
+    const el = titleRef.current;
+    if (!el) return;
+
+    const finalText = "My Vision for Prosperous Nepal";
+    const chars =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%&*";
+
+    gsap.fromTo(
+      el,
+      { opacity: 0, y: 48, scale: 0.92, filter: "blur(14px)" },
+      {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        filter: "blur(0px)",
+        duration: 1.4,
+        ease: "expo.out",
+        delay: 0.1,
+      },
+    );
+
+    const totalDuration = 1600;
+    const frameInterval = 40;
+    const steps = totalDuration / frameInterval;
+    let step = 0;
+
+    const timer = setInterval(() => {
+      step++;
+      const progress = step / steps;
+      const resolved = Math.floor(progress * finalText.length);
+      let text = finalText.substring(0, resolved);
+      for (let i = resolved; i < finalText.length; i++) {
+        text +=
+          finalText[i] === " "
+            ? " "
+            : chars[Math.floor(Math.random() * chars.length)];
+      }
+      el.textContent = text;
+      if (step >= steps) {
+        clearInterval(timer);
+        el.textContent = finalText;
+      }
+    }, frameInterval);
+
+    return () => clearInterval(timer);
+  }, []);
 
   useEffect(() => {
     const intervalId = window.setInterval(() => {
@@ -462,7 +512,9 @@ export default function EssayCompetitionPage() {
         </div>
 
         <div className="mt-8 md:mt-12 max-w-7xl px-2">
-          <h1 className="text-3xl md:text-3xl font-semibold  text-blue-500 tracking-tight mb-4">
+          <h1
+            className="text-3xl md:text-3xl font-semibold text-blue-500 tracking-tight mb-4"
+          >
             {essayEvent.title}
           </h1>
           <div className="space-y-4 text-zinc-600 text-[15px] md:text-lg leading-relaxed">
@@ -519,33 +571,23 @@ export default function EssayCompetitionPage() {
               <LucideScrollText size={24} className="text-blue-500" />
               Title
             </h2>
-            <div className="group relative flex flex-col items-center justify-center py-4 overflow-hidden rounded-[2rem] border border-blue-400  mb-8 select-none">
-              <div
+            <div className="group relative flex flex-col items-center justify-center py-4 overflow-hidden rounded-md  border-2 border-blue-400  mb-8 select-none">
+              {/* <div
                 className="absolute inset-0 flex flex-col p-8 md:p-10 blur-xl opacity-90 pointer-events-none"
                 aria-hidden="true"
+              > */}
+              <div
+                ref={titleRef}
+                className="inline-flex items-center justify-center text-2xl font-bold"
               >
-                <div className="h-10 w-3/4 bg-gray-500 rounded-lg mb-6 ">
-                  This is a protected content.
-                </div>
-                {/* <div className="space-y-4 mix-blend-multiply">
+                My Vision for Prosperous Nepal
+              </div>
+              {/* <div className="space-y-4 mix-blend-multiply">
                   <div className="h-5 w-full bg-blue-800 rounded-md"></div>
                   <div className="h-5 w-5/6 bg-blue-800 rounded-md"></div>
                   <div className="h-5 w-4/5 bg-blue-800 rounded-md"></div>
                 </div> */}
-              </div>
-
-              <div className="cursor-pointer group-hover:scale-103 transform duration-500 relative z-10 flex flex-col items-center text-center    rounded-3xl   max-w-sm">
-                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-blue-500 text-white mb-4 ">
-                  <LockKeyholeIcon size={24} />
-                </div>
-                <p className="text-xl md:text-xl font-bold text-zinc-900  leading-tight">
-                  Reveals on <br className="sm:hidden" /> May 13, 2026
-                </p>
-                <p className="text-sm font-medium text-zinc-500 ">
-                  The essay details will be distributed directly to registered
-                  participants.
-                </p>
-              </div>
+              {/* </div> */}
             </div>
 
             <div>
