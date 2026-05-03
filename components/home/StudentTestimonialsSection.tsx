@@ -9,7 +9,7 @@ const testimonials = [
   {
     id: 1,
     name: "Alish Maharjan",
-    thumbnail: "/students/Alish.jpeg",
+    thumbnail: "/students/alish_img.jpeg",
     role: "Creative Designer",
     video: "/videos/Alish-1.mp4",
     quote: "LifePath helped me discover my true potential",

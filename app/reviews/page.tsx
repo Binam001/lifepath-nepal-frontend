@@ -24,7 +24,7 @@ const stories: Story[] = [
       "Lifepath helped me focus on design and build a portfolio I could actually show to companies.",
     story:
       "He learned the basics of design step by step, practiced real design tasks every week, and improved his portfolio with feedback. Over time, he became more confident in showing his work and explaining his ideas in interviews.",
-    img: "/students/Alish.jpeg",
+    img: "/students/alish_img.jpeg",
   },
   {
     name: "Krishma Maharjan",
