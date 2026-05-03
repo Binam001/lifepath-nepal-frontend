@@ -121,19 +121,11 @@ export default function PremiumTitleReveal({
     >
       <div className="absolute inset-0">
         <Image
-          src="/essay/essay_mobile.jpeg"
+          src="/essay/bg.png"
           alt="Essay title background"
           fill
           priority={false}
-          className="object-cover md:hidden"
-          sizes="100vw"
-        />
-        <Image
-          src="/essay/essay_desktop.jpeg"
-          alt="Essay title background"
-          fill
-          priority={false}
-          className="hidden object-cover md:block"
+          className=""
           sizes="100vw"
         />
       </div>
@@ -165,7 +157,7 @@ export default function PremiumTitleReveal({
         <div className="relative w-full max-w-5xl overflow-hidden text-center">
           <h2
             ref={titleRef}
-            className="relative text-balance px-2 text-[28px] font-semibold leading-none tracking-[-0.06em] text-blue-600 drop-shadow-[0_2px_18px_rgba(255,255,255,0.85)] sm:text-[36px] lg:text-[54px]"
+            className="relative text-balance px-2 text-lg font-semibold leading-none tracking-[-0.06em] text-blue-600 drop-shadow-[0_2px_18px_rgba(255,255,255,0.85)] sm:text-2xl lg:text-3xl"
           >
             {title}
           </h2>

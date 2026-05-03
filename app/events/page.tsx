@@ -13,7 +13,6 @@ import {
   CheckCheck,
   Award,
   QrCode,
-  Ticket,
   X,
   LucideScrollText,
   InfoIcon,
@@ -80,7 +79,7 @@ const formSchema = z.object({
 const essayEvent = {
   title: "Lifepath Essay Competition",
   description:
-    "The Lifepath Essay Competition is an initiative created to inspire students at the +2 and Bachelor’s level to express their ideas, creativity, and critical thinking through the power of writing. It offers a meaningful platform for young minds to share their perspectives on important topics while showcasing and enhancing their writing abilities.",
+    "The Lifepath Essay Competition is an initiative created to inspire students at School level, +2 and Bachelor’s to express their ideas, creativity, and critical thinking through the power of writing. It offers a meaningful platform for young minds to share their perspectives on important topics while showcasing and enhancing their writing abilities.",
   description2:
     "Through this event, Lifepath aims to inspire students to think deeply about their future, society, and personal growth while promoting the importance of thoughtful communication.",
   rules: [
@@ -88,8 +87,7 @@ const essayEvent = {
     "Original Work: All essays must be original work written by the participant.",
     "No AI Usage: The use of Artificial Intelligence (AI) tools such as ChatGPT or any AI writing software is strictly prohibited. Any essay found to be AI-generated or AI-plagiarized will be immediately disqualified.",
     "Word Limit: Each essay must contain 480 to 500 words only. Essays below 480 words or above 500 words will not be accepted.",
-    "Competition Rounds: The competition will consist of multiple rounds, and each round will have a unique essay topic provided by the organizers.",
-    "Topic Announcement: The essay topic will be distributed on May 13, 2026 with deadline.",
+    "Competition Rounds: The competition will consist of two rounds - Selection round and Final round. 300 qualifying candidates will be selected from selection round who will then move on to the final round from where winner will be selected.",
     "Fair Participation: Participants must submit their own independent work without copying from books, websites, or other sources.",
     "Organizer's Decision: The decision of the judges and organizers will be final.",
     "Language: English / Nepali",
@@ -442,14 +440,40 @@ export default function EssayCompetitionPage() {
             priority
             className="hidden h-100 w-full rounded-4xl bg-blue-200 object-cover md:block"
           />
-          <div className="relative mt-4 md:mt-0 md:absolute md:bottom-6 md:right-6 bg-white md:bg-white/95 md:backdrop-blur-md p-5 md:p-4 md:px-5 rounded-3xl shadow-sm md:shadow-xl border border-zinc-200 md:border-white/20 flex flex-col md:flex-row items-center md:items-center gap-4 md:gap-6 z-10 w-full md:w-auto">
-            <div className="w-full md:w-auto text-center md:text-left">
-              <p className="text-[10px] font-bold tracking-wider text-blue-600 uppercase mb-0.5">
-                Registration Deadline
-              </p>
-              <p className="text-base font-black text-zinc-800">
-                {essayEvent.deadline}
-              </p>
+          <div className="relative mt-4 md:mt-0 md:absolute md:bottom-1 md:right-1 z-10 flex w-full flex-col items-center gap-4 rounded-3xl bg-white p-5 shadow-sm md:w-auto md:flex-row md:items-center md:gap-5 md:bg-white/95 md:p-2 md:px-4 md:backdrop-blur-md md:shadow-xl">
+            <div className="flex w-full flex-col gap-2.5 md:w-auto md:flex-row md:items-center md:gap-0">
+              <div className="w-full px-4 py-2 text-center md:w-auto md:px-4 md:py-[6px] md:text-left">
+                <p className="mb-0.5 text-[10px] font-bold tracking-wider text-blue-600 uppercase">
+                  {essayEvent.entryFee.split(":")[0]}
+                </p>
+                <p className="text-base font-black text-zinc-900 whitespace-nowrap">
+                  {essayEvent.entryFee.split(":")[1]
+                    ? essayEvent.entryFee.split(":")[1].trim()
+                    : essayEvent.entryFee}
+                </p>
+              </div>
+
+              <div className="hidden h-10 w-px bg-zinc-200/80 md:block" />
+
+              <div className="w-full rounded-2xl border border-amber-100 bg-amber-50 px-4 py-2 text-center md:w-auto md:px-4 md:py-[6px] md:text-left">
+                <p className="mb-0.5 text-[10px] font-bold tracking-wider text-amber-700 uppercase">
+                  Result Date
+                </p>
+                <p className="text-base font-black text-zinc-900 whitespace-nowrap">
+                  {essayEvent.resultDate}
+                </p>
+              </div>
+
+              <div className="hidden h-10 w-px bg-zinc-200/80 md:block" />
+
+              <div className="w-full px-4 py-2 text-center md:w-auto md:px-4 md:py-[6px] md:text-left">
+                <p className="mb-0.5 text-[10px] font-bold tracking-wider text-blue-600 uppercase">
+                  Registration Deadline
+                </p>
+                <p className="text-base font-black text-zinc-800 whitespace-nowrap">
+                  {essayEvent.deadline}
+                </p>
+              </div>
             </div>
 
             {timeLeft.total > 0 ? (
@@ -519,22 +543,39 @@ export default function EssayCompetitionPage() {
                   const isFirstPrize =
                     prize.toLowerCase().includes("1st prize") ||
                     prize.includes("50,000");
+                  const isBlogFeaturePrize = prize
+                    .toLowerCase()
+                    .includes("featured on our official blog");
+
+                  if (isBlogFeaturePrize) {
+                    return null;
+                  }
+
                   return (
                     <li key={index} className="flex items-start gap-3">
                       {isFirstPrize ? (
                         <div className="w-full relative overflow-hidden rounded-2xl bg-linear-to-r from-blue-500 to-blue-400 p-[2px] shadow-sm">
-                          <div className="flex items-center gap-4 rounded-[14px] bg-white px-5 py-4">
-                            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-yellow-100 text-2xl shadow-inner">
-                              🏆
+                          <div className="rounded-[14px] bg-white px-5 py-4">
+                            <div className="flex items-center gap-4">
+                              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-yellow-100 text-2xl shadow-inner">
+                                🏆
+                              </div>
+                              <div>
+                                <p className="mb-1 cursor-default text-xs font-bold tracking-[0.15em] text-blue-600 uppercase">
+                                  Grand Prize
+                                </p>
+                                <p className="text-xl font-black text-zinc-900">
+                                  {prize.split(":")[1]
+                                    ? prize.split(":")[1].trim()
+                                    : prize}
+                                </p>
+                              </div>
                             </div>
-                            <div>
-                              <p className="text-xs font-bold tracking-[0.15em] text-blue-600 cursor-default uppercase mb-1">
-                                Grand Prize
-                              </p>
-                              <p className="text-xl font-black text-zinc-900">
-                                {prize.split(":")[1]
-                                  ? prize.split(":")[1].trim()
-                                  : prize}
+
+                            <div className="mt-4 rounded-xl bg-blue-50 px-4 py-3">
+                              <p className="text-sm font-semibold text-blue-700">
+                                Top 10 essays will be featured on our official
+                                blog.
                               </p>
                             </div>
                           </div>
@@ -583,24 +624,6 @@ export default function EssayCompetitionPage() {
                   );
                 })}
               </ul>
-            </div>
-
-            <div>
-              <div className="flex items-center gap-4 rounded-3xl  ">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-blue-500 text-white ">
-                  <Ticket size={24} />
-                </div>
-                <div>
-                  <p className="text-[11px] font-bold tracking-wider text-zinc-500 uppercase mb-0.5">
-                    {essayEvent.entryFee.split(":")[0]}
-                  </p>
-                  <p className="text-xl font-black text-zinc-900">
-                    {essayEvent.entryFee.split(":")[1]
-                      ? essayEvent.entryFee.split(":")[1].trim()
-                      : essayEvent.entryFee}
-                  </p>
-                </div>
-              </div>
             </div>
           </div>
 
