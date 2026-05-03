@@ -65,8 +65,14 @@ const formSchema = z.object({
 
   pdfFile: z
     .instanceof(File)
-    .refine((file) => file.type === "application/pdf", "Only PDF files are allowed.")
-    .refine((file) => file.size <= 10 * 1024 * 1024, "PDF must be 10 MB or smaller.")
+    .refine(
+      (file) => file.type === "application/pdf",
+      "Only PDF files are allowed.",
+    )
+    .refine(
+      (file) => file.size <= 10 * 1024 * 1024,
+      "PDF must be 10 MB or smaller.",
+    )
     .nullable()
     .optional(),
 });
@@ -78,7 +84,7 @@ const essayEvent = {
   description2:
     "Through this event, Lifepath aims to inspire students to think deeply about their future, society, and personal growth while promoting the importance of thoughtful communication.",
   rules: [
-    "Eligibility: The competition is open to students from school level, +2 to Bachelor's levels.",
+    "Eligibility: The competition is open to students from School level, +2 to Bachelor's levels.",
     "Original Work: All essays must be original work written by the participant.",
     "No AI Usage: The use of Artificial Intelligence (AI) tools such as ChatGPT or any AI writing software is strictly prohibited. Any essay found to be AI-generated or AI-plagiarized will be immediately disqualified.",
     "Word Limit: Each essay must contain 480 to 500 words only. Essays below 480 words or above 500 words will not be accepted.",
@@ -196,7 +202,10 @@ export default function EssayCompetitionPage() {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    const fieldName = name as Exclude<keyof EventFormData, "screenshotFile" | "pdfFile">;
+    const fieldName = name as Exclude<
+      keyof EventFormData,
+      "screenshotFile" | "pdfFile"
+    >;
 
     setFormData((prev) => ({ ...prev, [fieldName]: value }));
 
@@ -283,7 +292,10 @@ export default function EssayCompetitionPage() {
   const handlePdfChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] ?? null;
     if (file && file.size > 10 * 1024 * 1024) {
-      setErrors((prev) => ({ ...prev, pdfFile: "PDF must be 10 MB or smaller." }));
+      setErrors((prev) => ({
+        ...prev,
+        pdfFile: "PDF must be 10 MB or smaller.",
+      }));
       e.target.value = "";
       return;
     }
@@ -945,7 +957,10 @@ export default function EssayCompetitionPage() {
                       htmlFor="pdfFile"
                       className="mb-1 block text-sm font-medium text-zinc-700"
                     >
-                      Essay PDF <span className="text-zinc-400">(PDF only — max 10 MB)</span>
+                      Essay PDF{" "}
+                      <span className="text-zinc-400">
+                        (PDF only — max 10 MB)
+                      </span>
                     </label>
                     {formData.pdfFile ? (
                       <div className="mt-1 flex items-center gap-2 rounded-lg border border-blue-200 bg-blue-50 px-4 py-3">
@@ -957,7 +972,8 @@ export default function EssayCompetitionPage() {
                           type="button"
                           onClick={() => {
                             setFormData((prev) => ({ ...prev, pdfFile: null }));
-                            if (pdfInputRef.current) pdfInputRef.current.value = "";
+                            if (pdfInputRef.current)
+                              pdfInputRef.current.value = "";
                           }}
                           className="shrink-0 text-zinc-400 hover:text-zinc-700"
                         >
@@ -969,10 +985,17 @@ export default function EssayCompetitionPage() {
                         htmlFor="pdfFile"
                         className="mt-1 flex cursor-pointer items-center gap-3 rounded-lg border-2 border-dashed border-zinc-300 px-4 py-4 transition-colors hover:border-blue-400 hover:bg-blue-50"
                       >
-                        <FileText className="h-8 w-8 shrink-0 text-zinc-400" strokeWidth={1} />
+                        <FileText
+                          className="h-8 w-8 shrink-0 text-zinc-400"
+                          strokeWidth={1}
+                        />
                         <div>
-                          <span className="text-sm font-medium text-blue-600">Upload PDF</span>
-                          <p className="text-xs text-zinc-500">PDF only — max 10 MB</p>
+                          <span className="text-sm font-medium text-blue-600">
+                            Upload PDF
+                          </span>
+                          <p className="text-xs text-zinc-500">
+                            PDF only — max 10 MB
+                          </p>
                         </div>
                         <input
                           ref={pdfInputRef}
@@ -986,7 +1009,9 @@ export default function EssayCompetitionPage() {
                       </label>
                     )}
                     {errors.pdfFile && (
-                      <p className="mt-1 text-sm text-red-600">{errors.pdfFile}</p>
+                      <p className="mt-1 text-sm text-red-600">
+                        {errors.pdfFile}
+                      </p>
                     )}
                   </div>
 
