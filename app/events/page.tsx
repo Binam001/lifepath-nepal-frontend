@@ -2,7 +2,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import gsap from "gsap";
 import {
   Info,
   Mail,
@@ -23,6 +22,7 @@ import Image from "next/image";
 import { z } from "zod";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { useEventRegistrationMutation } from "@/hooks/useEventRegistrationMutation";
+import PremiumTitleReveal from "@/components/events/PremiumTitleReveal";
 
 const e164PhoneRegex = /^\+[1-9]\d{7,14}$/;
 
@@ -62,6 +62,13 @@ const formSchema = z.object({
       (file) => file.size <= 5 * 1024 * 1024,
       "File must be 5MB or smaller.",
     ),
+
+  pdfFile: z
+    .instanceof(File)
+    .refine((file) => file.type === "application/pdf", "Only PDF files are allowed.")
+    .refine((file) => file.size <= 10 * 1024 * 1024, "PDF must be 10 MB or smaller.")
+    .nullable()
+    .optional(),
 });
 
 const essayEvent = {
@@ -104,6 +111,7 @@ type EventFormData = {
   college: string;
   parentsNumber: string;
   screenshotFile: File | null;
+  pdfFile: File | null;
 };
 
 type SubmissionModalState = {
@@ -121,8 +129,8 @@ const initialFormData: EventFormData = {
   address: "",
   college: "",
   parentsNumber: "+977",
-  //   paymentPhoto: null,
   screenshotFile: null,
+  pdfFile: null,
 };
 
 const countdownTarget = new Date("2026-06-30T23:59:00+05:45");
@@ -164,7 +172,7 @@ export default function EssayCompetitionPage() {
   // const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [isDraggingScreenshot, setIsDraggingScreenshot] = useState(false);
   const screenshotInputRef = useRef<HTMLInputElement | null>(null);
-  const titleRef = useRef<HTMLHeadingElement | null>(null);
+  const pdfInputRef = useRef<HTMLInputElement | null>(null);
   const [showQR, setShowQR] = useState(false);
   const [timeLeft, setTimeLeft] = useState(() =>
     getTimeRemaining(countdownTarget),
@@ -175,54 +183,6 @@ export default function EssayCompetitionPage() {
   const openSubmissionModal = (modal: SubmissionModalState) => {
     setSubmissionModal(modal);
   };
-
-  useEffect(() => {
-    const el = titleRef.current;
-    if (!el) return;
-
-    const finalText = "My Vision for Prosperous Nepal";
-    const chars =
-      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%&*";
-
-    gsap.fromTo(
-      el,
-      { opacity: 0, y: 48, scale: 0.92, filter: "blur(14px)" },
-      {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        filter: "blur(0px)",
-        duration: 1.4,
-        ease: "expo.out",
-        delay: 0.1,
-      },
-    );
-
-    const totalDuration = 1600;
-    const frameInterval = 40;
-    const steps = totalDuration / frameInterval;
-    let step = 0;
-
-    const timer = setInterval(() => {
-      step++;
-      const progress = step / steps;
-      const resolved = Math.floor(progress * finalText.length);
-      let text = finalText.substring(0, resolved);
-      for (let i = resolved; i < finalText.length; i++) {
-        text +=
-          finalText[i] === " "
-            ? " "
-            : chars[Math.floor(Math.random() * chars.length)];
-      }
-      el.textContent = text;
-      if (step >= steps) {
-        clearInterval(timer);
-        el.textContent = finalText;
-      }
-    }, frameInterval);
-
-    return () => clearInterval(timer);
-  }, []);
 
   useEffect(() => {
     const intervalId = window.setInterval(() => {
@@ -236,7 +196,7 @@ export default function EssayCompetitionPage() {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    const fieldName = name as Exclude<keyof EventFormData, "screenshotFile">;
+    const fieldName = name as Exclude<keyof EventFormData, "screenshotFile" | "pdfFile">;
 
     setFormData((prev) => ({ ...prev, [fieldName]: value }));
 
@@ -318,6 +278,17 @@ export default function EssayCompetitionPage() {
       transfer.items.add(file);
       screenshotInputRef.current.files = transfer.files;
     }
+  };
+
+  const handlePdfChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] ?? null;
+    if (file && file.size > 10 * 1024 * 1024) {
+      setErrors((prev) => ({ ...prev, pdfFile: "PDF must be 10 MB or smaller." }));
+      e.target.value = "";
+      return;
+    }
+    setErrors((prev) => ({ ...prev, pdfFile: "" }));
+    setFormData((prev) => ({ ...prev, pdfFile: file }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -435,6 +406,7 @@ export default function EssayCompetitionPage() {
       "screenshotFile",
     ) as HTMLInputElement | null;
     if (screenshotInput) screenshotInput.value = "";
+    if (pdfInputRef.current) pdfInputRef.current.value = "";
   };
 
   return (
@@ -512,9 +484,7 @@ export default function EssayCompetitionPage() {
         </div>
 
         <div className="mt-8 md:mt-12 max-w-7xl px-2">
-          <h1
-            className="text-3xl md:text-3xl font-semibold text-blue-500 tracking-tight mb-4"
-          >
+          <h1 className="text-3xl md:text-3xl font-semibold text-blue-500 tracking-tight mb-4">
             {essayEvent.title}
           </h1>
           <div className="space-y-4 text-zinc-600 text-[15px] md:text-lg leading-relaxed">
@@ -571,24 +541,7 @@ export default function EssayCompetitionPage() {
               <LucideScrollText size={24} className="text-blue-500" />
               Title
             </h2>
-            <div className="group relative flex flex-col items-center justify-center py-4 overflow-hidden rounded-md  border-2 border-blue-400  mb-8 select-none">
-              {/* <div
-                className="absolute inset-0 flex flex-col p-8 md:p-10 blur-xl opacity-90 pointer-events-none"
-                aria-hidden="true"
-              > */}
-              <div
-                ref={titleRef}
-                className="inline-flex items-center justify-center text-2xl font-bold"
-              >
-                My Vision for Prosperous Nepal
-              </div>
-              {/* <div className="space-y-4 mix-blend-multiply">
-                  <div className="h-5 w-full bg-blue-800 rounded-md"></div>
-                  <div className="h-5 w-5/6 bg-blue-800 rounded-md"></div>
-                  <div className="h-5 w-4/5 bg-blue-800 rounded-md"></div>
-                </div> */}
-              {/* </div> */}
-            </div>
+            <PremiumTitleReveal />
 
             <div>
               <h2 className="mb-4 flex items-center gap-3 text-2xl font-semibold text-zinc-800">
@@ -984,6 +937,56 @@ export default function EssayCompetitionPage() {
                       <p className="mt-1 text-sm text-red-600">
                         {errors.screenshotFile}
                       </p>
+                    )}
+                  </div>
+
+                  <div>
+                    <label
+                      htmlFor="pdfFile"
+                      className="mb-1 block text-sm font-medium text-zinc-700"
+                    >
+                      Essay PDF <span className="text-zinc-400">(PDF only — max 10 MB)</span>
+                    </label>
+                    {formData.pdfFile ? (
+                      <div className="mt-1 flex items-center gap-2 rounded-lg border border-blue-200 bg-blue-50 px-4 py-3">
+                        <FileText className="h-4 w-4 shrink-0 text-blue-600" />
+                        <span className="flex-1 truncate text-sm text-zinc-800">
+                          {formData.pdfFile.name}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setFormData((prev) => ({ ...prev, pdfFile: null }));
+                            if (pdfInputRef.current) pdfInputRef.current.value = "";
+                          }}
+                          className="shrink-0 text-zinc-400 hover:text-zinc-700"
+                        >
+                          <X className="h-4 w-4" />
+                        </button>
+                      </div>
+                    ) : (
+                      <label
+                        htmlFor="pdfFile"
+                        className="mt-1 flex cursor-pointer items-center gap-3 rounded-lg border-2 border-dashed border-zinc-300 px-4 py-4 transition-colors hover:border-blue-400 hover:bg-blue-50"
+                      >
+                        <FileText className="h-8 w-8 shrink-0 text-zinc-400" strokeWidth={1} />
+                        <div>
+                          <span className="text-sm font-medium text-blue-600">Upload PDF</span>
+                          <p className="text-xs text-zinc-500">PDF only — max 10 MB</p>
+                        </div>
+                        <input
+                          ref={pdfInputRef}
+                          id="pdfFile"
+                          name="pdfFile"
+                          type="file"
+                          accept="application/pdf"
+                          onChange={handlePdfChange}
+                          className="sr-only"
+                        />
+                      </label>
+                    )}
+                    {errors.pdfFile && (
+                      <p className="mt-1 text-sm text-red-600">{errors.pdfFile}</p>
                     )}
                   </div>
 

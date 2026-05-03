@@ -8,6 +8,7 @@ export type EventRegistrationRequest = {
   college: string;
   parentsNumber: string;
   screenshotFile: File;
+  pdfFile?: File | null;
 };
 
 export type CreateEventRegistrationInput = {

@@ -1,10 +1,10 @@
 import axios from "axios";
-import { api } from "@/config/axios.config";
-import { EVENT_REGISTRATION_ENDPOINT } from "@/lib/config/api";
 import type {
   CreateEventRegistrationInput,
   EventRegistrationResponse,
 } from "@/types/event";
+
+const EVENT_REGISTRATION_PROXY_ENDPOINT = "/api/event";
 
 const normalizeEventRegistrationResponse = (
   data: Partial<EventRegistrationResponse> | undefined,
@@ -30,6 +30,10 @@ const buildEventRegistrationFormData = (
   formData.append("parentsNumber", payload.parentsNumber);
   formData.append("screenshotFile", payload.screenshotFile);
 
+  if (payload.pdfFile) {
+    formData.append("pdfFile", payload.pdfFile);
+  }
+
   return formData;
 };
 
@@ -37,10 +41,11 @@ export const createEventRegistration = async (
   input: CreateEventRegistrationInput,
 ): Promise<EventRegistrationResponse> => {
   try {
-    const response = await api.post<EventRegistrationResponse>(
-      EVENT_REGISTRATION_ENDPOINT,
+    const response = await axios.post<EventRegistrationResponse>(
+      EVENT_REGISTRATION_PROXY_ENDPOINT,
       buildEventRegistrationFormData(input.payload),
       {
+        withCredentials: true,
         headers: {
           ...(input.recaptchaToken
             ? { "X-Recaptcha-Token": input.recaptchaToken }
