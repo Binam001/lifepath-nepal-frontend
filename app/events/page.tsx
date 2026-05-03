@@ -94,6 +94,7 @@ const essayEvent = {
     "Organizer's Decision: The decision of the judges and organizers will be final.",
     "Language: English / Nepali",
   ],
+
   prizes: [
     "1st Prize: Rs. 50,000 + Certificate",
     // "All other participants: Digital Certificates",
