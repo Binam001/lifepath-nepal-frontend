@@ -4,16 +4,15 @@ import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger, SplitText } from "gsap/all";
+import Image from "next/image";
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
 type PremiumTitleRevealProps = {
-  label?: string;
   title?: string;
 };
 
 export default function PremiumTitleReveal({
-  label = "Essay Competition Topic",
   title = "My Vision for Prosperous Nepal",
 }: PremiumTitleRevealProps) {
   const sectionRef = useRef<HTMLDivElement | null>(null);
@@ -135,32 +134,45 @@ export default function PremiumTitleReveal({
   return (
     <div
       ref={sectionRef}
-      className="relative border-2 border-blue-500 rounded-2xl isolate overflow-hidden py-10 sm:py-14"
+      className="relative isolate overflow-hidden rounded-[28px] border-2 border-blue-500/95 bg-white "
     >
-      <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-        <div className="h-48 w-48 rounded-full bg-blue-500/10 blur-3xl sm:h-64 sm:w-64" />
-      </div>
+      <Image
+        src="/essay/bg.png"
+        alt="Essay title background"
+        fill
+        priority={false}
+        className="absolute inset-0 "
+      />
 
-      <div className="relative mx-auto flex max-w-3xl flex-col items-center text-center">
-        <div className="relative mt-4 overflow-hidden">
+      <div className="absolute inset-x-0 top-0 h-24 bg-linear-to-b from-white/40 via-white/30 to-transparent sm:h-32" />
+      <div className="absolute inset-x-0 bottom-0 h-28 bg-linear-to-t from-white/30 via-white/70 to-transparent sm:h-36" />
+
+      <div className="relative mx-auto flex h-40 max-w-6xl items-center justify-center px-6 py-16 text-center sm:h-40 sm:px-10 sm:py-24 lg:px-16">
+        <div className="relative max-w-5xl overflow-hidden">
           <h2
             ref={titleRef}
-            className="relative text-2xl font-semibold tracking-[-0.06em] text-blue-500 sm:text-4xl lg:text-4xl"
+            className="relative text-2xl font-semibold tracking-[-0.07em] text-blue-500 sm:text-3xl lg:text-3xl"
           >
             {title}
           </h2>
           <span
             ref={shimmerRef}
             aria-hidden="true"
-            className="pointer-events-none absolute inset-y-0 left-[-35%] w-1/3 -skew-x-12 bg-linear-to-r from-transparent via-white/85 to-blue-500/18 opacity-0 mix-blend-screen"
+            className="pointer-events-none absolute inset-y-0 left-[-32%] w-1/4 -skew-x-12 bg-linear-to-r from-transparent via-white to-blue-500/20 opacity-0 mix-blend-screen"
           />
-        </div>
 
-        <span
-          ref={underlineRef}
-          aria-hidden="true"
-          className="mt-5 h-px w-24 bg-blue-500"
-        />
+          <div className="mt-6 flex items-center justify-center gap-4 sm:mt-7 sm:gap-6">
+            <span
+              ref={underlineRef}
+              aria-hidden="true"
+              className="block h-px w-20 origin-right bg-linear-to-r from-blue-500/0 via-blue-500 to-blue-500 sm:w-32"
+            />
+            <span
+              aria-hidden="true"
+              className="block h-px w-20 origin-left bg-linear-to-l from-blue-500/0 via-blue-500 to-blue-500 sm:w-32"
+            />
+          </div>
+        </div>
       </div>
     </div>
   );
