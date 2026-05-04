@@ -47,7 +47,7 @@ export default function PremiumTitleReveal({
       });
 
       gsap.set(shimmerElement, {
-        xPercent: -140,
+        xPercent: -440,
         opacity: 0,
       });
 

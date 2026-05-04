@@ -7,7 +7,6 @@ import {
   Mail,
   User,
   BookOpen,
-  Contact,
   LocateIcon,
   FileText,
   CheckCheck,
@@ -24,6 +23,9 @@ import { useEventRegistrationMutation } from "@/hooks/useEventRegistrationMutati
 import PremiumTitleReveal from "@/components/events/PremiumTitleReveal";
 
 const e164PhoneRegex = /^\+[1-9]\d{7,14}$/;
+const localPhoneInputRegex = /\D/g;
+const maxLocalPhoneLength = 14;
+const nepalCountryCode = "+977";
 
 const formSchema = z.object({
   fullName: z
@@ -33,21 +35,13 @@ const formSchema = z.object({
 
   email: z.email("Enter a valid email."),
 
-  number: z
-    .string()
-    .regex(
-      e164PhoneRegex,
-      "Must be a valid phone number with country code, like +9779812345678",
-    ),
+  number: z.string().regex(e164PhoneRegex, "Enter a valid phone number."),
 
   address: z.string().trim().min(3, "Address is required."),
 
   parentsNumber: z
     .string()
-    .regex(
-      e164PhoneRegex,
-      "Must be a valid phone number with country code, like +9779812345678",
-    ),
+    .regex(e164PhoneRegex, "Enter a valid parent/guardian number."),
 
   college: z.string().trim().min(2, "College name is required."),
 
@@ -130,10 +124,10 @@ type SubmissionModalState = {
 const initialFormData: EventFormData = {
   fullName: "",
   email: "",
-  number: "+977",
+  number: "",
   address: "",
   college: "",
-  parentsNumber: "+977",
+  parentsNumber: "",
   screenshotFile: null,
   pdfFile: null,
 };
@@ -161,6 +155,12 @@ const getTimeRemaining = (targetDate: Date) => {
     seconds: Math.floor((total / 1000) % 60),
   };
 };
+
+const normalizeLocalPhoneNumber = (value: string) =>
+  value.replace(localPhoneInputRegex, "").slice(0, maxLocalPhoneLength);
+
+const buildPhoneNumber = (countryCode: string, phoneNumber: string) =>
+  `${countryCode}${normalizeLocalPhoneNumber(phoneNumber)}`;
 
 export default function EssayCompetitionPage() {
   const [formData, setFormData] = useState<EventFormData>(initialFormData);
@@ -205,8 +205,12 @@ export default function EssayCompetitionPage() {
       keyof EventFormData,
       "screenshotFile" | "pdfFile"
     >;
+    const nextValue =
+      fieldName === "number" || fieldName === "parentsNumber"
+        ? normalizeLocalPhoneNumber(value)
+        : value;
 
-    setFormData((prev) => ({ ...prev, [fieldName]: value }));
+    setFormData((prev) => ({ ...prev, [fieldName]: nextValue }));
 
     if (errors[fieldName]) {
       setErrors((prev) => ({ ...prev, [fieldName]: "" }));
@@ -306,7 +310,13 @@ export default function EssayCompetitionPage() {
     e.preventDefault();
     setErrors({});
 
-    const validationResult = formSchema.safeParse(formData);
+    const payload = {
+      ...formData,
+      number: buildPhoneNumber(nepalCountryCode, formData.number),
+      parentsNumber: buildPhoneNumber(nepalCountryCode, formData.parentsNumber),
+    };
+
+    const validationResult = formSchema.safeParse(payload);
 
     if (!validationResult.success) {
       const fieldErrors: Partial<Record<keyof EventFormData, string>> = {};
@@ -703,20 +713,31 @@ export default function EssayCompetitionPage() {
                       >
                         Phone Number
                       </label>
-                      <div className="relative">
-                        <Contact
-                          className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-zinc-400"
-                          size={18}
-                        />
+                      <div className="flex overflow-hidden rounded-lg border border-zinc-300 bg-white focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-500/20">
+                        <div className="relative shrink-0 border-r border-zinc-300">
+                          <div className="flex items-center gap-2 px-3 py-2.5 text-sm text-zinc-700">
+                            <Image
+                              src="/flags/Nepal.png"
+                              alt="Nepal flag"
+                              width={16}
+                              height={16}
+                              className="h-4 w-auto"
+                            />
+                            <span className="text-sm pt-0.5">
+                              {nepalCountryCode}
+                            </span>
+                          </div>
+                        </div>
                         <input
                           type="tel"
-                          inputMode="tel"
+                          inputMode="numeric"
                           id="number"
                           name="number"
-                          placeholder="+9779812345678"
+                          placeholder="9812345678"
+                          maxLength={maxLocalPhoneLength}
                           value={formData.number}
                           onChange={handleInputChange}
-                          className=" placeholder-gray-400 w-full rounded-lg border border-zinc-300 py-2.5 pr-3 pl-10 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none"
+                          className="placeholder-gray-400 w-full min-w-0 px-3 py-2.5 focus:outline-none"
                         />
                       </div>
                       {errors.number && (
@@ -733,20 +754,29 @@ export default function EssayCompetitionPage() {
                       >
                         Parent/Guardian Number
                       </label>
-                      <div className="relative">
-                        <Contact
-                          className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-zinc-400"
-                          size={18}
-                        />
+                      <div className="flex overflow-hidden rounded-lg border border-zinc-300 bg-white focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-500/20">
+                        <div className="relative shrink-0 border-r border-zinc-300">
+                          <div className="flex items-center gap-2 px-3 py-2.5 text-sm text-zinc-700">
+                            <Image
+                              src="/flags/Nepal.png"
+                              alt="Nepal flag"
+                              width={16}
+                              height={16}
+                              className="h-4 w-auto"
+                            />
+                            <span>{nepalCountryCode}</span>
+                          </div>
+                        </div>
                         <input
                           type="tel"
-                          inputMode="tel"
+                          inputMode="numeric"
                           id="parentsNumber"
                           name="parentsNumber"
-                          placeholder="+9779812345678"
+                          placeholder="9812345678"
+                          maxLength={maxLocalPhoneLength}
                           value={formData.parentsNumber}
                           onChange={handleInputChange}
-                          className="placeholder-gray-400 w-full rounded-lg border border-zinc-300 py-2.5 pr-3 pl-10 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none"
+                          className="placeholder-gray-400 w-full min-w-0 px-3 py-2.5 focus:outline-none"
                         />
                       </div>
                       {errors.parentsNumber && (
@@ -872,7 +902,7 @@ export default function EssayCompetitionPage() {
                     <button
                       type="button"
                       onClick={() => setShowQR(true)}
-                      className="flex items-center gap-2 rounded-lg bg-blue-600 px-3 py-2 text-sm font-medium text-white hover:bg-blue-700 transition-colors"
+                      className="flex cursor-pointer items-center gap-2 rounded-lg bg-blue-600 px-3 py-2 text-sm font-medium text-white hover:bg-blue-700 transition-colors"
                     >
                       <QrCode size={16} />
                       View QR
