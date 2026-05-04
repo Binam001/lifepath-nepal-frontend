@@ -565,16 +565,16 @@ export default function EssayCompetitionPage() {
                     <li key={index} className="flex items-start gap-3">
                       {isFirstPrize ? (
                         <div className="w-full relative overflow-hidden rounded-2xl bg-linear-to-r from-blue-500 to-blue-400 p-[2px] shadow-sm">
-                          <div className="rounded-[14px] bg-white px-5 py-4">
+                          <div className="rounded-[14px]  px-5 py-4">
                             <div className="flex items-center gap-4">
-                              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-yellow-100 text-2xl shadow-inner">
+                              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white text-2xl shadow-inner">
                                 🏆
                               </div>
                               <div>
-                                <p className="mb-1 cursor-default text-xs font-bold tracking-[0.15em] text-blue-600 uppercase">
+                                <p className="mb-1 cursor-default text-xs font-bold tracking-[0.15em] text-blue-200 uppercase">
                                   Grand Prize
                                 </p>
-                                <p className="text-xl font-black text-zinc-900">
+                                <p className="text-xl font-black text-blue-50">
                                   {prize.split(":")[1]
                                     ? prize.split(":")[1].trim()
                                     : prize}
@@ -582,8 +582,8 @@ export default function EssayCompetitionPage() {
                               </div>
                             </div>
 
-                            <div className="mt-4 rounded-xl bg-blue-50 px-4 py-3">
-                              <p className="text-sm font-semibold text-blue-700">
+                            <div className="mt-4 rounded-xl bg-white/20 backdrop-blur-md border border-white/30 px-4 py-2 shadow-lg">
+                              <p className="text-sm font-semibold text-white drop-shadow-sm">
                                 Top 10 essays will be featured on our official
                                 blog.
                               </p>
