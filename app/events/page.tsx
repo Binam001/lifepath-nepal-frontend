@@ -87,7 +87,7 @@ const essayEvent = {
     "Eligibility: The competition is open to students from School level, +2 to Bachelor's levels.",
     "Original Work: All essays must be original work written by the participant.",
     "No AI Usage: The use of Artificial Intelligence (AI) tools such as ChatGPT or any AI writing software is strictly prohibited. Any essay found to be AI-generated or AI-plagiarized will be immediately disqualified.",
-    "Word Limit: Each essay must contain 480 to 500 words only. Essays below 480 words or above 500 words will not be accepted.",
+    "Word Limit: Each essay must contain 480 to 500 words only within 4-5 paragraphs. Essays below 480 words or above 500 words will not be accepted.",
     "Competition Rounds: The competition will consist of two rounds - Selection round and Final round. 300 qualifying candidates will be selected from selection round who will then move on to the final round from where winner will be selected.",
     "Fair Participation: Participants must submit their own independent work without copying from books, websites, or other sources.",
     "Organizer's Decision: The decision of the judges and organizers will be final.",
@@ -444,6 +444,8 @@ export default function EssayCompetitionPage() {
           mappedErrors[frontendKey] = (messages as string[])[0];
         }
         setErrors(mappedErrors);
+        modalDescription =
+          "Please correct the highlighted fields and try again.";
       }
 
       // surface duplicate email as an inline field error
@@ -714,7 +716,7 @@ export default function EssayCompetitionPage() {
                         htmlFor="fullName"
                         className="mb-1 block text-sm font-medium text-zinc-700"
                       >
-                        Full Name
+                        Full Name <span className="text-red-500">*</span>
                       </label>
                       <div className="relative">
                         <User
@@ -744,7 +746,7 @@ export default function EssayCompetitionPage() {
                         htmlFor="email"
                         className="mb-1 block text-sm font-medium text-zinc-700"
                       >
-                        Email Address
+                        Email Address <span className="text-red-500">*</span>
                       </label>
                       <div className="relative">
                         <Mail
@@ -815,7 +817,8 @@ export default function EssayCompetitionPage() {
                         htmlFor="parentsNumber"
                         className="mb-1 block text-sm font-medium text-zinc-700 truncate"
                       >
-                        Parent/Guardian Number
+                        Parent/Guardian Number{" "}
+                        <span className="text-red-500">*</span>
                       </label>
                       <div className="flex overflow-hidden rounded-lg border border-zinc-300 bg-white focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-500/20">
                         <div className="relative shrink-0 border-r border-zinc-300">
@@ -854,7 +857,7 @@ export default function EssayCompetitionPage() {
                         htmlFor="address"
                         className="mb-1 block text-sm font-medium text-zinc-700"
                       >
-                        Address
+                        Address <span className="text-red-500">*</span>
                       </label>
                       <div className="relative">
                         <LocateIcon
@@ -884,6 +887,7 @@ export default function EssayCompetitionPage() {
                         className="mb-1 block text-sm font-medium text-zinc-700"
                       >
                         College/University{" "}
+                        <span className="text-red-500">*</span>
                       </label>
                       <div className="relative">
                         <BookOpen
@@ -1022,7 +1026,7 @@ export default function EssayCompetitionPage() {
                       htmlFor="screenshotFile"
                       className="mb-1 block text-sm font-medium text-zinc-700"
                     >
-                      Payment Screenshot
+                      Payment Screenshot <span className="text-red-500">*</span>
                     </label>
                     <div
                       onDragOver={handleScreenshotDragOver}
@@ -1074,7 +1078,7 @@ export default function EssayCompetitionPage() {
                       htmlFor="pdfFile"
                       className="mb-1 block text-sm font-medium text-zinc-700"
                     >
-                      Essay PDF{" "}
+                      Essay PDF <span className="text-red-500">*</span>{" "}
                       <span className="text-zinc-400">
                         (PDF only — max 3 MB)
                       </span>

@@ -3,19 +3,72 @@ import type {
   CreateEventRegistrationInput,
   EventRegistrationResponse,
 } from "@/types/event";
+import type { ApiErrorBag } from "@/types/api";
 
 const EVENT_REGISTRATION_PROXY_ENDPOINT = "/api/event";
+
+type BackendValidationError = {
+  field?: string;
+  messages?: string[];
+};
+
+const parseValidationErrors = (
+  message: string | undefined,
+): ApiErrorBag | undefined => {
+  if (!message) {
+    return undefined;
+  }
+
+  try {
+    const parsed = JSON.parse(message);
+
+    if (!Array.isArray(parsed)) {
+      return undefined;
+    }
+
+    const fieldErrors = parsed.reduce<ApiErrorBag>((errors, item) => {
+      const validationError = item as BackendValidationError;
+
+      if (
+        !validationError.field ||
+        !Array.isArray(validationError.messages) ||
+        validationError.messages.length === 0
+      ) {
+        return errors;
+      }
+
+      errors[validationError.field] = validationError.messages;
+      return errors;
+    }, {});
+
+    return Object.keys(fieldErrors).length > 0 ? fieldErrors : undefined;
+  } catch {
+    return undefined;
+  }
+};
 
 const normalizeEventRegistrationResponse = (
   data: Partial<EventRegistrationResponse> | undefined,
   status: number,
-): EventRegistrationResponse => ({
-  success: typeof data?.success === "boolean" ? data.success : status >= 200 && status < 300,
-  status: typeof data?.status === "number" ? data.status : status,
-  message: data?.message,
-  errors: data?.errors,
-  data: data?.data,
-});
+): EventRegistrationResponse => {
+  const parsedErrors = parseValidationErrors(data?.message);
+  const normalizedErrors = data?.errors ?? parsedErrors;
+  const normalizedMessage =
+    typeof data?.message === "string" && !parsedErrors
+      ? data.message
+      : normalizedErrors
+        ? "Please correct the highlighted fields and try again."
+        : data?.message;
+
+  return {
+    success:
+      typeof data?.success === "boolean" ? data.success : status >= 200 && status < 300,
+    status: typeof data?.status === "number" ? data.status : status,
+    message: normalizedMessage,
+    errors: normalizedErrors,
+    data: data?.data,
+  };
+};
 
 const buildEventRegistrationFormData = (
   payload: CreateEventRegistrationInput["payload"],

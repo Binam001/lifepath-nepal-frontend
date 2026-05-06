@@ -101,8 +101,7 @@ export default function ContactSection() {
         tone: "success",
         title: "Message Sent!",
         description: "Your contact inquiry has been submitted successfully.",
-        detail:
-          "Our team will review your message and get back to you soon.",
+        detail: "Our team will review your message and get back to you soon.",
       });
       setForm(initialForm);
     } catch (error: unknown) {
@@ -308,7 +307,9 @@ export default function ContactSection() {
           <div className="relative w-full max-w-md rounded-2xl bg-white p-8 text-center shadow-xl">
             <div
               className={`mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full ${
-                submissionModal.tone === "success" ? "bg-green-100" : "bg-red-100"
+                submissionModal.tone === "success"
+                  ? "bg-green-100"
+                  : "bg-red-100"
               }`}
             >
               {submissionModal.tone === "success" ? (
@@ -342,7 +343,7 @@ export default function ContactSection() {
                   isOpen: false,
                 }))
               }
-              className="w-full rounded-full bg-blue-600 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-blue-700"
+              className="w-full cursor-pointer rounded-full bg-blue-600 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-blue-700"
             >
               {submissionModal.tone === "success" ? "Done" : "Close"}
             </button>
