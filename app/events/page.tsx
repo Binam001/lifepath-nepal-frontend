@@ -26,6 +26,8 @@ const e164PhoneRegex = /^\+[1-9]\d{7,14}$/;
 const localPhoneInputRegex = /\D/g;
 const maxLocalPhoneLength = 14;
 const nepalCountryCode = "+977";
+const maxScreenshotFileSize = 2 * 1024 * 1024;
+const maxEssayPdfFileSize = 3 * 1024 * 1024;
 
 const formSchema = z.object({
   fullName: z
@@ -35,7 +37,14 @@ const formSchema = z.object({
 
   email: z.email("Enter a valid email."),
 
-  number: z.string().regex(e164PhoneRegex, "Enter a valid phone number."),
+  number: z
+    .string()
+    .trim()
+    .optional()
+    .refine(
+      (value) => !value || e164PhoneRegex.test(value),
+      "Enter a valid phone number.",
+    ),
 
   address: z.string().trim().min(3, "Address is required."),
 
@@ -52,22 +61,20 @@ const formSchema = z.object({
       "Only JPG, PNG, or WEBP images are allowed.",
     )
     .refine(
-      (file) => file.size <= 5 * 1024 * 1024,
-      "File must be 5MB or smaller.",
+      (file) => file.size <= maxScreenshotFileSize,
+      "Screenshot must be 2 MB or smaller.",
     ),
 
   pdfFile: z
-    .instanceof(File)
+    .instanceof(File, { message: "Essay PDF is required." })
     .refine(
       (file) => file.type === "application/pdf",
       "Only PDF files are allowed.",
     )
     .refine(
-      (file) => file.size <= 10 * 1024 * 1024,
-      "PDF must be 10 MB or smaller.",
-    )
-    .nullable()
-    .optional(),
+      (file) => file.size <= maxEssayPdfFileSize,
+      "PDF must be 3 MB or smaller.",
+    ),
 });
 
 const essayEvent = {
@@ -162,6 +169,16 @@ const normalizeLocalPhoneNumber = (value: string) =>
 const buildPhoneNumber = (countryCode: string, phoneNumber: string) =>
   `${countryCode}${normalizeLocalPhoneNumber(phoneNumber)}`;
 
+const buildOptionalPhoneNumber = (countryCode: string, phoneNumber: string) => {
+  const normalizedPhoneNumber = normalizeLocalPhoneNumber(phoneNumber);
+
+  if (!normalizedPhoneNumber) {
+    return "";
+  }
+
+  return `${countryCode}${normalizedPhoneNumber}`;
+};
+
 export default function EssayCompetitionPage() {
   const [formData, setFormData] = useState<EventFormData>(initialFormData);
   const [errors, setErrors] = useState<
@@ -176,6 +193,7 @@ export default function EssayCompetitionPage() {
   // const [isDraggingFile, setIsDraggingFile] = useState(false);
   // const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [isDraggingScreenshot, setIsDraggingScreenshot] = useState(false);
+  const [isDraggingPdf, setIsDraggingPdf] = useState(false);
   const screenshotInputRef = useRef<HTMLInputElement | null>(null);
   const pdfInputRef = useRef<HTMLInputElement | null>(null);
   const [showQR, setShowQR] = useState(false);
@@ -292,18 +310,62 @@ export default function EssayCompetitionPage() {
     }
   };
 
-  const handlePdfChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0] ?? null;
-    if (file && file.size > 10 * 1024 * 1024) {
+  const updateSelectedPdf = (file: File | null) => {
+    if (file && file.type !== "application/pdf") {
       setErrors((prev) => ({
         ...prev,
-        pdfFile: "PDF must be 10 MB or smaller.",
+        pdfFile: "Only PDF files are allowed.",
       }));
-      e.target.value = "";
-      return;
+      return false;
     }
+
+    if (file && file.size > maxEssayPdfFileSize) {
+      setErrors((prev) => ({
+        ...prev,
+        pdfFile: "PDF must be 3 MB or smaller.",
+      }));
+      return false;
+    }
+
     setErrors((prev) => ({ ...prev, pdfFile: "" }));
     setFormData((prev) => ({ ...prev, pdfFile: file }));
+    return true;
+  };
+
+  const handlePdfChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] ?? null;
+
+    if (!updateSelectedPdf(file)) {
+      e.target.value = "";
+    }
+  };
+
+  const handlePdfDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDraggingPdf(true);
+  };
+
+  const handlePdfDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDraggingPdf(false);
+  };
+
+  const handlePdfDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDraggingPdf(false);
+
+    const file = e.dataTransfer.files?.[0] ?? null;
+    if (!file) return;
+
+    if (!updateSelectedPdf(file)) {
+      return;
+    }
+
+    if (pdfInputRef.current) {
+      const transfer = new DataTransfer();
+      transfer.items.add(file);
+      pdfInputRef.current.files = transfer.files;
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -312,7 +374,7 @@ export default function EssayCompetitionPage() {
 
     const payload = {
       ...formData,
-      number: buildPhoneNumber(nepalCountryCode, formData.number),
+      number: buildOptionalPhoneNumber(nepalCountryCode, formData.number),
       parentsNumber: buildPhoneNumber(nepalCountryCode, formData.parentsNumber),
     };
 
@@ -711,7 +773,8 @@ export default function EssayCompetitionPage() {
                         htmlFor="number"
                         className="mb-1 block text-sm font-medium text-zinc-700"
                       >
-                        Phone Number
+                        Phone Number{" "}
+                        <span className="text-zinc-400">(optional)</span>
                       </label>
                       <div className="flex overflow-hidden rounded-lg border border-zinc-300 bg-white focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-500/20">
                         <div className="relative shrink-0 border-r border-zinc-300">
@@ -929,7 +992,7 @@ export default function EssayCompetitionPage() {
                           Scan to pay NPR 500
                         </p>
                         <Image
-                          src="/assets/qr.jpeg"
+                          src="/QR/Lifepath_QR.jpeg"
                           alt="Payment QR Code"
                           width={300}
                           height={300}
@@ -995,7 +1058,7 @@ export default function EssayCompetitionPage() {
                         <p className="text-xs text-zinc-500">
                           {formData.screenshotFile
                             ? formData.screenshotFile.name
-                            : "(JPG, PNG, WEBP — max 5MB)"}
+                            : "(JPG, PNG, WEBP — max 2 MB)"}
                         </p>
                       </div>
                     </div>
@@ -1013,55 +1076,47 @@ export default function EssayCompetitionPage() {
                     >
                       Essay PDF{" "}
                       <span className="text-zinc-400">
-                        (PDF only — max 10 MB)
+                        (PDF only — max 3 MB)
                       </span>
                     </label>
-                    {formData.pdfFile ? (
-                      <div className="mt-1 flex items-center gap-2 rounded-lg border border-blue-200 bg-blue-50 px-4 py-3">
-                        <FileText className="h-4 w-4 shrink-0 text-blue-600" />
-                        <span className="flex-1 truncate text-sm text-zinc-800">
-                          {formData.pdfFile.name}
-                        </span>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setFormData((prev) => ({ ...prev, pdfFile: null }));
-                            if (pdfInputRef.current)
-                              pdfInputRef.current.value = "";
-                          }}
-                          className="shrink-0 text-zinc-400 hover:text-zinc-700"
-                        >
-                          <X className="h-4 w-4" />
-                        </button>
-                      </div>
-                    ) : (
-                      <label
-                        htmlFor="pdfFile"
-                        className="mt-1 flex cursor-pointer items-center gap-3 rounded-lg border-2 border-dashed border-zinc-300 px-4 py-4 transition-colors hover:border-blue-400 hover:bg-blue-50"
-                      >
+                    <div
+                      onDragOver={handlePdfDragOver}
+                      onDragLeave={handlePdfDragLeave}
+                      onDrop={handlePdfDrop}
+                      className={`relative mt-1 flex justify-center rounded-lg border-2 border-dashed px-6 pt-5 pb-6 transition-colors ${errors.pdfFile ? "border-red-400" : isDraggingPdf ? "border-blue-500 bg-blue-50" : "border-zinc-300"}`}
+                    >
+                      <div className="space-y-1 text-center">
                         <FileText
-                          className="h-8 w-8 shrink-0 text-zinc-400"
+                          className="mx-auto h-10 w-10 text-zinc-400"
                           strokeWidth={1}
                         />
-                        <div>
-                          <span className="text-sm font-medium text-blue-600">
-                            Upload PDF
-                          </span>
-                          <p className="text-xs text-zinc-500">
-                            PDF only — max 10 MB
+                        <div className="flex items-center justify-center text-sm text-zinc-600">
+                          <label
+                            htmlFor="pdfFile"
+                            className="relative cursor-pointer rounded-md bg-white font-medium text-blue-600 hover:text-blue-500 focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-2 focus-within:outline-none"
+                          >
+                            <span>Upload a file</span>
+                            <input
+                              ref={pdfInputRef}
+                              id="pdfFile"
+                              name="pdfFile"
+                              type="file"
+                              accept="application/pdf"
+                              onChange={handlePdfChange}
+                              className="sr-only"
+                            />
+                          </label>
+                          <p className="pl-1 hidden sm:block">
+                            or drag and drop
                           </p>
                         </div>
-                        <input
-                          ref={pdfInputRef}
-                          id="pdfFile"
-                          name="pdfFile"
-                          type="file"
-                          accept="application/pdf"
-                          onChange={handlePdfChange}
-                          className="sr-only"
-                        />
-                      </label>
-                    )}
+                        <p className="text-xs text-zinc-500">
+                          {formData.pdfFile
+                            ? formData.pdfFile.name
+                            : "(PDF only — max 3 MB)"}
+                        </p>
+                      </div>
+                    </div>
                     {errors.pdfFile && (
                       <p className="mt-1 text-sm text-red-600">
                         {errors.pdfFile}

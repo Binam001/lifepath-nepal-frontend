@@ -24,7 +24,9 @@ const buildEventRegistrationFormData = (
 
   formData.append("fullName", payload.fullName);
   formData.append("email", payload.email);
-  formData.append("number", payload.number);
+  if (payload.number) {
+    formData.append("number", payload.number);
+  }
   formData.append("address", payload.address);
   formData.append("college", payload.college);
   formData.append("parentsNumber", payload.parentsNumber);

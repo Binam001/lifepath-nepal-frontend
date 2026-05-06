@@ -3,12 +3,12 @@ import type { ApiResponse } from "@/types/api";
 export type EventRegistrationRequest = {
   fullName: string;
   email: string;
-  number: string;
+  number?: string;
   address: string;
   college: string;
   parentsNumber: string;
   screenshotFile: File;
-  pdfFile?: File | null;
+  pdfFile: File;
 };
 
 export type CreateEventRegistrationInput = {
