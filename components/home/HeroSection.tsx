@@ -57,7 +57,7 @@ export default function HeroSection() {
           >
             <video
               ref={videoRef}
-              src="/videos/door.mp4"
+              src="/videos/lifepath-door.mp4"
               className="w-full h-150 object-contain"
               muted
               playsInline

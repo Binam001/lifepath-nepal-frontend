@@ -5,7 +5,7 @@ import { Montserrat, Poppins, Playfair_Display } from "next/font/google";
 import { usePathname } from "next/navigation";
 import "./globals.css";
 import Header from "@/components/layout/Header";
-import SmoothScroll from "@/components/SmoothScroll";
+import SmoothScroll from "@/components/shared/SmoothScroll";
 import Footer from "@/components/layout/Footer";
 import { QueryProvider } from "@/app/providers/QueryProvider";
 import { RecaptchaProvider } from "@/components/providers/RecaptchaProvider";

@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { MenuIcon } from "lucide-react";
 import { useScrollDirection } from "@/app/hooks/useScrollDirection";
 import { useState } from "react";
+import Button from "../shared/Button";
 
 export default function Header() {
   const isVisible = useScrollDirection();
@@ -67,7 +68,7 @@ export default function Header() {
                 href={item.href}
                 className={`rounded-full px-3 py-2 text-sm font-medium transition-colors ${
                   isActive(item.href)
-                    ? "bg-blue-100 text-blue-700"
+                    ? "bg-blue-100 text-primary"
                     : "text-zinc-700 hover:bg-zinc-50 hover:text-zinc-900"
                 }`}
               >
@@ -77,7 +78,7 @@ export default function Header() {
           </div>
 
           <div className="ml-auto hidden items-center gap-2 sm:flex">
-            <Link
+            {/* <Link
               href="/personality-test"
               className="relative inline-flex items-center justify-center overflow-hidden rounded-full px-4 py-2 text-sm font-medium whitespace-nowrap text-white"
             >
@@ -86,7 +87,12 @@ export default function Header() {
                 style={{ backgroundSize: "200% 100%" }}
               />
               <span className="relative z-10">Find Your Lifepath</span>
-            </Link>
+            </Link> */}
+            <Button
+              label="Know Yourself"
+              href="/personality-test"
+              className="px-6! py-1! xl:text-[1vw]!"
+            />
 
             {/* <Link
               href="/#how-it-works"

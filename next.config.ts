@@ -10,6 +10,7 @@ const backendBase =
   "";
 
 const nextConfig: NextConfig = {
+  allowedDevOrigins: ["192.168.1.94"],
   reactStrictMode: true,
   env: {
     NEXT_PUBLIC_RECAPTCHA_SITE_KEY:

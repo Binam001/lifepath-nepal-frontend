@@ -138,7 +138,7 @@ const Preloader = ({ children }: PreloaderProps) => {
                     ref={(el) => {
                       videoRefs.current[index] = el;
                     }}
-                    src="/videos/door.mp4"
+                    src="/videos/lifepath-door.mp4"
                     muted
                     playsInline
                     preload="auto"

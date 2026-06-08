@@ -204,7 +204,7 @@ export default function Page() {
             Guidebook
           </span>
 
-          <h1 className="mt-6 text-2xl font-bold tracking-tight text-white sm:text-3xl md:text-5xl">
+          <h1 className="mt-6 text-2xl sm:text-3xl md:text-5xl font-bold tracking-tight text-white">
             A Simple Guide to the 16 Personalities
           </h1>
 
