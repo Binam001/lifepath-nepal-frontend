@@ -46,9 +46,9 @@ export const omegaverseQuestions: OmegaverseQuestion[] = [
     id: 2,
     question: "At a big event where you don't know many people, you:",
     optionA: "Watch quietly from afar",
-    optionB: "Find the shy people",
+    optionB: "Check if anyone needs a friend",
     optionC: "Talk to useful people",
-    optionD: "Stick with friends",
+    optionD: "Stick with close friends",
     scoreMap: {
       A: { ALPHA: 1, BETA: 0, OMEGA: 0, SIGMA: 5, DELTA: 2, GAMMA: 1 },
       B: { ALPHA: 0, BETA: 3, OMEGA: 5, SIGMA: 0, DELTA: 1, GAMMA: 0 },
@@ -62,7 +62,7 @@ export const omegaverseQuestions: OmegaverseQuestion[] = [
     optionA: "Calm the hurt feelings",
     optionB: "Walk away completely",
     optionC: "Point out the facts",
-    optionD: "Step in and stop it",
+    optionD: "Lead them to a solution",
     scoreMap: {
       A: { ALPHA: 0, BETA: 3, OMEGA: 5, SIGMA: 0, DELTA: 0, GAMMA: 0 },
       B: { ALPHA: 0, BETA: 0, OMEGA: 0, SIGMA: 5, DELTA: 0, GAMMA: 2 },
@@ -87,10 +87,10 @@ export const omegaverseQuestions: OmegaverseQuestion[] = [
   {
     id: 5,
     question: "When texting or emailing, your style is usually:",
-    optionA: "Polite and professional",
+    optionA: "Formal and structured",
     optionB: "Direct and to the point",
-    optionC: "Friendly and warm",
-    optionD: "Short and rare",
+    optionC: "Friendly and caring",
+    optionD: "Very short, rarely chat",
     scoreMap: {
       A: { ALPHA: 0, BETA: 2, OMEGA: 0, SIGMA: 0, DELTA: 5, GAMMA: 1 },
       B: { ALPHA: 5, BETA: 0, OMEGA: 0, SIGMA: 2, DELTA: 0, GAMMA: 2 },
@@ -103,7 +103,7 @@ export const omegaverseQuestions: OmegaverseQuestion[] = [
     question: "When you receive praise or an award in front of a crowd, you:",
     optionA: "Accept it proudly",
     optionB: "Give a polite speech",
-    optionC: "Act like it's nothing",
+    optionC: "Just take it and go",
     optionD: "Credit the team",
     scoreMap: {
       A: { ALPHA: 5, BETA: 0, OMEGA: 0, SIGMA: 1, DELTA: 0, GAMMA: 1 },
@@ -174,8 +174,8 @@ export const omegaverseQuestions: OmegaverseQuestion[] = [
     question: "If you see someone being treated unfairly, you usually:",
     optionA: "Comfort the victim",
     optionB: "Just watch quietly",
-    optionC: "Report the bully",
-    optionD: "Scare the bully away",
+    optionC: "Find someone who can stop it",
+    optionD: "Step in and stop it",
     scoreMap: {
       A: { ALPHA: 0, BETA: 3, OMEGA: 5, SIGMA: 0, DELTA: 0, GAMMA: 0 },
       B: { ALPHA: 1, BETA: 0, OMEGA: 0, SIGMA: 5, DELTA: 0, GAMMA: 2 },
@@ -219,9 +219,9 @@ export const omegaverseQuestions: OmegaverseQuestion[] = [
     id: 14,
     question: "How do you handle strict rules?",
     optionA: "I ignore them quietly",
-    optionB: "I find clever loopholes",
+    optionB: "I find a way around",
     optionC: "I prefer to make them",
-    optionD: "I follow them carefully",
+    optionD: "I follow them exactly",
     scoreMap: {
       A: { ALPHA: 1, BETA: 0, OMEGA: 0, SIGMA: 5, DELTA: 0, GAMMA: 1 },
       B: { ALPHA: 2, BETA: 0, OMEGA: 0, SIGMA: 2, DELTA: 0, GAMMA: 5 },
@@ -302,10 +302,10 @@ export const omegaverseQuestions: OmegaverseQuestion[] = [
   {
     id: 20,
     question: "When someone tells you a deep, dark secret, you:",
-    optionA: "Keep it safe for them",
-    optionB: "Lock it away as a strict rule",
-    optionC: "Use it to my advantage later",
-    optionD: "Forget about it quickly",
+    optionA: "I feel honored they trust me so much",
+    optionB: "I feel stressed about having to hide it",
+    optionC: "Quietly remember it as useful information",
+    optionD: "Forget it, since it's not my business",
     scoreMap: {
       A: { ALPHA: 0, BETA: 4, OMEGA: 5, SIGMA: 0, DELTA: 1, GAMMA: 0 },
       B: { ALPHA: 1, BETA: 2, OMEGA: 0, SIGMA: 0, DELTA: 5, GAMMA: 0 },
@@ -316,7 +316,7 @@ export const omegaverseQuestions: OmegaverseQuestion[] = [
   {
     id: 21,
     question: "What is your idea of a perfect vacation?",
-    optionA: "A luxury VIP resort",
+    optionA: "Doing something bold and thrilling",
     optionB: "A fun group trip",
     optionC: "Backpacking alone",
     optionD: "A perfectly planned tour",
@@ -432,10 +432,10 @@ export const omegaverseQuestions: OmegaverseQuestion[] = [
   {
     id: 29,
     question: "How do you view loyalty?",
-    optionA: "It must be earned",
-    optionB: "It is a strict duty",
-    optionC: "I demand it",
-    optionD: "It means unconditional love",
+    optionA: "Earning trust over time",
+    optionB: "Honoring your duties and promises",
+    optionC: "Following my lead completely",
+    optionD: "Sticking together no matter what",
     scoreMap: {
       A: { ALPHA: 2, BETA: 0, OMEGA: 0, SIGMA: 5, DELTA: 0, GAMMA: 3 },
       B: { ALPHA: 0, BETA: 5, OMEGA: 1, SIGMA: 0, DELTA: 5, GAMMA: 0 },
@@ -448,7 +448,7 @@ export const omegaverseQuestions: OmegaverseQuestion[] = [
     question: "Your absolute deepest fear is:",
     optionA: "Being unloved or alone",
     optionB: "Losing my freedom",
-    optionC: "Chaos or being outsmarted",
+    optionC: "Being totally unprepared",
     optionD: "Losing power or control",
     scoreMap: {
       A: { ALPHA: 0, BETA: 5, OMEGA: 5, SIGMA: 0, DELTA: 1, GAMMA: 0 },
@@ -474,10 +474,10 @@ export const omegaverseQuestions: OmegaverseQuestion[] = [
   {
     id: 32,
     question: "What makes you the most angry?",
-    optionA: "When people make a mess of rules",
-    optionB: "Seeing cruelty to the weak",
-    optionC: "Being disrespected",
-    optionD: "Being forced to follow stupid rules",
+    optionA: "When things are messy and disorganized",
+    optionB: "When people argue and fight",
+    optionC: "When someone disrespects me",
+    optionD: "When someone tries to control me",
     scoreMap: {
       A: { ALPHA: 1, BETA: 0, OMEGA: 0, SIGMA: 0, DELTA: 5, GAMMA: 1 },
       B: { ALPHA: 0, BETA: 4, OMEGA: 5, SIGMA: 0, DELTA: 1, GAMMA: 0 },
@@ -491,7 +491,7 @@ export const omegaverseQuestions: OmegaverseQuestion[] = [
     optionA: "Figure out exactly what went wrong",
     optionB: "Walk away completely",
     optionC: "Cry or seek comfort",
-    optionD: "Get mad and vow to win",
+    optionD: "Refuse to quit and try even harder",
     scoreMap: {
       A: { ALPHA: 1, BETA: 0, OMEGA: 0, SIGMA: 2, DELTA: 3, GAMMA: 5 },
       B: { ALPHA: 1, BETA: 0, OMEGA: 0, SIGMA: 5, DELTA: 1, GAMMA: 2 },
