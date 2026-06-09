@@ -40,24 +40,24 @@ export default function PersonalitySelectionPage() {
       bookUrl: "/mbti-book",
       bookLabel: "Learn more about MBTI",
     },
-    {
-      id: "omegaverse",
-      title: "Omegaverse Classification",
-      tagline: "Social Dynamics & Traits Archetype",
-      description:
-        "Uncover your instinctual role in groups and hierarchies. Determine whether your natural disposition and understand your social compatibility, leadership style, and team dynamics.",
-      duration: "6 Minutes",
-      questionsCount: 36,
-      badge: "New Assessment",
-      mainColor: "primary",
-      secondaryColor: "primary/10",
-      icon: Sparkles,
-      formatLabel: "6 Social Archetypes",
-      details: ["Alpha", "Beta", "Omega", "Sigma", "Delta", "Gamma"],
-      buttonLabel: "Find Your Mindset",
-      bookUrl: "/omegaverse-book",
-      bookLabel: "Learn more about Omegaverse",
-    },
+    // {
+    //   id: "omegaverse",
+    //   title: "Omegaverse Classification",
+    //   tagline: "Social Dynamics & Traits Archetype",
+    //   description:
+    //     "Uncover your instinctual role in groups and hierarchies. Determine whether your natural disposition and understand your social compatibility, leadership style, and team dynamics.",
+    //   duration: "6 Minutes",
+    //   questionsCount: 36,
+    //   badge: "New Assessment",
+    //   mainColor: "primary",
+    //   secondaryColor: "primary/10",
+    //   icon: Sparkles,
+    //   formatLabel: "6 Social Archetypes",
+    //   details: ["Alpha", "Beta", "Omega", "Sigma", "Delta", "Gamma"],
+    //   buttonLabel: "Find Your Mindset",
+    //   bookUrl: "/omegaverse-book",
+    //   bookLabel: "Learn more about Omegaverse",
+    // },
   ];
 
   return (
@@ -82,8 +82,8 @@ export default function PersonalitySelectionPage() {
 
       {/* Grid listing the tests */}
       <main className="max-w-5xl mx-auto px-4 py-12">
-        {/* <div className="flex flex-col md:flex-row gap-8 justify-center items-stretch max-w-2xl md:max-w-none mx-auto"> */}
-        <div className="flex md:grid-cols-2 gap-8">
+        <div className="flex flex-col md:flex-row gap-8 justify-center items-stretch max-w-2xl md:max-w-none mx-auto">
+          {/* <div className="flex md:grid-cols-2 gap-8"> */}
           {tests.map((test) => {
             const IconComponent = test.icon;
             const shadowColor =

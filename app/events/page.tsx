@@ -99,7 +99,7 @@ const essayEvent = {
     // "All other participants: Digital Certificates",
     "Top 10 essays will be featured on our official blog",
   ],
-  entryFee: "Entry Fee: NPR 500",
+  entryFee: "Entry Fee: NPR 700",
   deadline: "30 June, 2026 - 11:59 PM",
   submissionGuidelines: [
     "Participants must upload their essay in PDF format only through the website submission portal.",
