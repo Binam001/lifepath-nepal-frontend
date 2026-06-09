@@ -31,7 +31,7 @@ export const omegaverseQuestions: OmegaverseQuestion[] = [
   {
     id: 1,
     question:
-      "When you are forced to manage a team project that is completely disorganized and chaotic, you:",
+      "When you are forced to manage a team project that is completely disorganized, you:",
     optionA: "Create strict rules to restore order",
     optionB: "Instantly take charge and assign tasks",
     optionC: "Keep the team calm and united",
