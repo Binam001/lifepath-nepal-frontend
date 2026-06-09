@@ -1,28 +1,19 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Confetti from "react-confetti";
 import {
   ArrowRight,
   ArrowLeft,
-  Brain,
   CheckCircle,
-  Clock,
-  Eye,
-  Leaf,
-  ListChecks,
-  Handshake,
-  BookOpen,
-  Lightbulb,
-  Zap,
-  Heart,
+  HelpCircle,
   BookMarked,
   Layers,
+  Brain,
+  Clock,
 } from "lucide-react";
 import Link from "next/link";
-import { getPersonalityType } from "../../data/MBTI-data";
-
 import { mbtiQuestions } from "@/data/MBTI-test";
+import MBTIResultSection from "./MBTIResultSection";
 
 export default function MBTITest() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -85,7 +76,10 @@ export default function MBTITest() {
   }, [showConfetti]);
 
   const handleAnswer = (value: number) => {
-    const updatedAnswers = { ...answers, [mbtiQuestions[currentQuestion].id]: value };
+    const updatedAnswers = {
+      ...answers,
+      [mbtiQuestions[currentQuestion].id]: value,
+    };
     setAnswers(updatedAnswers);
     localStorage.setItem("mbti_answers", JSON.stringify(updatedAnswers));
   };
@@ -153,6 +147,7 @@ export default function MBTITest() {
     localStorage.removeItem("mbti_current_question");
     localStorage.removeItem("mbti_result");
     localStorage.removeItem("mbti_show_result");
+    window.scrollTo({ top: 0, behavior: "instant" });
   };
 
   if (!isInitialized) {
@@ -160,245 +155,29 @@ export default function MBTITest() {
       <div className="min-h-screen pt-16 bg-zinc-100 flex items-center justify-center">
         <div className="flex flex-col items-center gap-4 bg-white p-8 rounded-2xl border border-zinc-200 shadow-md">
           <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
-          <p className="text-zinc-700 font-semibold text-lg animate-pulse">Loading your test progress...</p>
+          <p className="text-zinc-700 font-semibold text-lg animate-pulse">
+            Loading your test progress...
+          </p>
         </div>
       </div>
     );
   }
 
   if (showResult && result) {
-    const personality = getPersonalityType(result);
-    if (!personality) return null;
-
     return (
-      <div className="min-h-screen pt-16 pb-12 bg-zinc-50">
-        {showConfetti && (
-          <Confetti
-            width={windowSize.width}
-            height={windowSize.height}
-            recycle={false}
-            numberOfPieces={500}
-            gravity={0.3}
-          />
-        )}
-
-        <section
-          className="bg-white border-b"
-          style={{
-            backgroundImage: "url(/404/404.png)",
-            backgroundPosition: "bottom",
-            backgroundSize: "cover",
-          }}
-        >
-          <div className="max-w-4xl mx-auto py-8 px-4 sm:px-6">
-            <div className="flex justify-between items-center mb-6">
-              <button
-                onClick={handleRetake}
-                className="px-4 py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 text-sm font-medium rounded-lg transition-all cursor-pointer flex items-center gap-2"
-              >
-                <ArrowLeft size={16} />
-                Retake Test
-              </button>
-            </div>
-
-            <div className="flex items-start gap-4 mb-6">
-              <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center shrink-0">
-                <CheckCircle
-                  size={28}
-                  className="text-green-600"
-                  strokeWidth={2.5}
-                />
-              </div>
-              <div>
-                <div className="flex items-center gap-3 mb-2">
-                  <h1 className="text-3xl md:text-4xl font-bold text-zinc-100 sm:text-zinc-900">
-                    {personality.name}
-                  </h1>
-                  <div className="px-4 py-1.5 bg-blue-600 text-white text-lg sm:text-xl font-bold rounded-lg animate-bounce">
-                    {result}
-                  </div>
-                </div>
-                <p className="text-lg text-zinc-50 sm:text-zinc-700 leading-relaxed font-medium">
-                  {personality.tagline}
-                </p>
-              </div>
-            </div>
-
-            <div className="bg-white/70 backdrop-blur-2xl rounded-xl p-6 md:p-8 mb-6 border border-zinc-200">
-              <p className="text-lg md:text-2xl text-zinc-800 font-semibold mb-4">
-                {personality.description}
-              </p>
-              <p className="text-base md:text-lg text-zinc-700 leading-relaxed">
-                {personality.detailedDescription}
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <article className="max-w-4xl mx-auto px-4 sm:px-6 py-8">
-          <section className="bg-white rounded-xl p-6 md:p-8 mb-6 border border-zinc-200 shadow-xs">
-            <h2 className="text-2xl font-bold text-zinc-900 mb-4">
-              Your Key Strengths
-            </h2>
-            <div className="space-y-3">
-              {personality.strengths.map((strength, idx) => (
-                <div key={idx} className="flex items-start gap-3">
-                  <CheckCircle
-                    size={20}
-                    className="text-green-600 shrink-0 mt-0.5"
-                    strokeWidth={2}
-                  />
-                  <p className="text-base text-zinc-800 leading-relaxed">
-                    {strength}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          <section className="bg-white rounded-xl p-6 md:p-8 mb-6 border border-zinc-200 shadow-xs">
-            <h2 className="text-2xl font-bold text-zinc-900 mb-4">
-              Areas for Growth
-            </h2>
-            <div className="space-y-3">
-              {personality.weaknesses.map((weakness, idx) => (
-                <div key={idx} className="flex items-start gap-3">
-                  <div className="w-5 h-5 rounded-full bg-blue-100 flex items-center justify-center shrink-0 mt-0.5">
-                    <div className="w-2 h-2 rounded-full bg-blue-600"></div>
-                  </div>
-                  <p className="text-base text-zinc-800 leading-relaxed">
-                    {weakness}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          <section className="bg-white rounded-xl p-6 md:p-8 mb-6 border border-zinc-200 shadow-xs">
-            <h2 className="text-2xl font-bold text-zinc-900 mb-4">
-              How You Work Best
-            </h2>
-            <p className="text-base text-zinc-700 leading-relaxed">
-              {personality.workStyle}
-            </p>
-          </section>
-
-          <section className="bg-white rounded-xl p-6 md:p-8 mb-6 border border-zinc-200 shadow-xs">
-            <h2 className="text-2xl font-bold text-zinc-900 mb-4">
-              Recommended Careers For You
-            </h2>
-            <div className="grid sm:grid-cols-2 gap-3">
-              {personality.careers.map((career, index) => (
-                <div
-                  key={index}
-                  className="flex items-center gap-2 p-3 bg-zinc-50 rounded-lg border border-zinc-200 hover:border-blue-300 transition-all"
-                >
-                  <CheckCircle size={16} className="text-blue-600 shrink-0" />
-                  <span className="text-sm font-medium text-zinc-800">
-                    {career}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          <div className="bg-zinc-50 rounded-xl p-6 border border-zinc-200 mb-8">
-            <h2 className="text-lg font-bold text-zinc-900 mb-4">
-              Your 8 Cognitive Functions
-            </h2>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-              <div className="bg-white rounded-lg p-3 text-center border border-zinc-200">
-                <div className="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-2">
-                  <Eye size={18} className="text-blue-600" />
-                </div>
-                <h3 className="font-semibold text-sm text-zinc-900">Se</h3>
-                <p className="text-xs text-zinc-600">Experience</p>
-              </div>
-              <div className="bg-white rounded-lg p-3 text-center border border-zinc-200">
-                <div className="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-2">
-                  <Leaf size={18} className="text-blue-600" />
-                </div>
-                <h3 className="font-semibold text-sm text-zinc-900">Ne</h3>
-                <p className="text-xs text-zinc-600">Possibilities</p>
-              </div>
-              <div className="bg-white rounded-lg p-3 text-center border border-zinc-200">
-                <div className="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-2">
-                  <ListChecks size={18} className="text-blue-600" />
-                </div>
-                <h3 className="font-semibold text-sm text-zinc-900">Te</h3>
-                <p className="text-xs text-zinc-600">Order</p>
-              </div>
-              <div className="bg-white rounded-lg p-3 text-center border border-zinc-200">
-                <div className="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-2">
-                  <Handshake size={18} className="text-blue-600" />
-                </div>
-                <h3 className="font-semibold text-sm text-zinc-900">Fe</h3>
-                <p className="text-xs text-zinc-600">Harmony</p>
-              </div>
-              <div className="bg-white rounded-lg p-3 text-center border border-zinc-200">
-                <div className="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-2">
-                  <BookOpen size={18} className="text-blue-600" />
-                </div>
-                <h3 className="font-semibold text-sm text-zinc-900">Si</h3>
-                <p className="text-xs text-zinc-600">Memory</p>
-              </div>
-              <div className="bg-white rounded-lg p-3 text-center border border-zinc-200">
-                <div className="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-2">
-                  <Lightbulb size={18} className="text-blue-600" />
-                </div>
-                <h3 className="font-semibold text-sm text-zinc-900">Ni</h3>
-                <p className="text-xs text-zinc-600">Insight</p>
-              </div>
-              <div className="bg-white rounded-lg p-3 text-center border border-zinc-200">
-                <div className="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-2">
-                  <Zap size={18} className="text-blue-600" />
-                </div>
-                <h3 className="font-semibold text-sm text-zinc-900">Ti</h3>
-                <p className="text-xs text-zinc-600">Logic</p>
-              </div>
-              <div className="bg-white rounded-lg p-3 text-center border border-zinc-200">
-                <div className="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-2">
-                  <Heart size={18} className="text-blue-600" />
-                </div>
-                <h3 className="font-semibold text-sm text-zinc-900">Fi</h3>
-                <p className="text-xs text-zinc-600">Values</p>
-              </div>
-            </div>
-          </div>
-
-          <section className="bg-blue-600 rounded-xl p-6 md:p-8 text-center text-white mb-6">
-            <h2 className="text-xl md:text-2xl font-bold mb-3">
-              Ready to Turn Insight into Action?
-            </h2>
-            <p className="text-base text-blue-50 mb-6">
-              Explore courses designed for {personality.name} personalities like
-              you.
-            </p>
-            <Link href="/job-training">
-              <button className="px-6 py-3 bg-white text-blue-600 font-semibold rounded-lg hover:bg-blue-50 transition-all cursor-pointer inline-flex items-center gap-2">
-                Explore Courses
-                <ArrowRight size={18} />
-              </button>
-            </Link>
-          </section>
-
-          <div className="inline-flex items-center justify-center w-full pb-2">
-            <Link
-              href="/mbti-book"
-              className="px-4 py-2 bg-yellow-400 hover:bg-yellow-500 text-black text-md font-bold rounded-full transition-all shadow-lg hover:shadow-xl cursor-pointer"
-            >
-              Learn about MBTI
-            </Link>
-          </div>
-        </article>
-      </div>
+      <MBTIResultSection
+        result={result}
+        showConfetti={showConfetti}
+        windowSize={windowSize}
+        handleRetake={handleRetake}
+      />
     );
   }
 
   return (
     <div className="min-h-screen pt-16 bg-zinc-100 overflow-hidden flex flex-col justify-between">
       <div>
-        <section className="bg-gradient-to-l from-blue-600 to-black text-white">
+        <section className="bg-linear-to-l from-blue-600 to-black text-white">
           <div className="max-w-6xl mx-auto py-8 md:py-12 px-4 relative">
             <div className="text-center max-w-3xl mx-auto">
               <div className="flex items-center justify-center gap-3 mb-4">
@@ -441,7 +220,7 @@ export default function MBTITest() {
             </div>
             <div className="w-full bg-zinc-200 rounded-full h-2.5 shadow-inner">
               <div
-                className="bg-gradient-to-r from-blue-600 to-blue-700 h-2.5 rounded-full transition-all duration-500 shadow-sm shadow-blue-600/30"
+                className="bg-linear-to-r from-blue-600 to-blue-700 h-2.5 rounded-full transition-all duration-500 shadow-sm shadow-blue-600/30"
                 style={{ width: `${progress}%` }}
               ></div>
             </div>

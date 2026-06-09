@@ -158,10 +158,10 @@ export const omegaverseQuestions: OmegaverseQuestion[] = [
   {
     id: 10,
     question: "When you are exhausted or under extreme stress, you:",
-    optionA: "Hide away to recharge",
-    optionB: "Stick to my routine",
-    optionC: "Push through it",
-    optionD: "Lean on friends",
+    optionA: "Spend time alone to rest and recover",
+    optionB: "Just stick to my normal daily habits",
+    optionC: "Force myself to keep going anyway",
+    optionD: "Talk to my friends for support",
     scoreMap: {
       A: { ALPHA: 1, BETA: 0, OMEGA: 0, SIGMA: 5, DELTA: 0, GAMMA: 2 },
       B: { ALPHA: 0, BETA: 2, OMEGA: 0, SIGMA: 0, DELTA: 5, GAMMA: 0 },

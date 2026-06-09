@@ -12,6 +12,7 @@ import {
   TrendingUp,
   Compass,
   ArrowLeft,
+  BookOpen,
 } from "lucide-react";
 
 export default function PersonalitySelectionPage() {
@@ -36,6 +37,8 @@ export default function PersonalitySelectionPage() {
         "Judging vs Perceiving",
       ],
       buttonLabel: "Find Your Personality",
+      bookUrl: "/mbti-book",
+      bookLabel: "Learn more about MBTI",
     },
     {
       id: "omegaverse",
@@ -43,8 +46,8 @@ export default function PersonalitySelectionPage() {
       tagline: "Social Dynamics & Traits Archetype",
       description:
         "Uncover your instinctual role in groups and hierarchies. Determine whether your natural disposition and understand your social compatibility, leadership style, and team dynamics.",
-      duration: "3 Minutes",
-      questionsCount: 24,
+      duration: "6 Minutes",
+      questionsCount: 36,
       badge: "New Assessment",
       mainColor: "primary",
       secondaryColor: "primary/10",
@@ -52,6 +55,8 @@ export default function PersonalitySelectionPage() {
       formatLabel: "6 Social Archetypes",
       details: ["Alpha", "Beta", "Omega", "Sigma", "Delta", "Gamma"],
       buttonLabel: "Find Your Mindset",
+      bookUrl: "/omegaverse-book",
+      bookLabel: "Learn more about Omegaverse",
     },
   ];
 
@@ -170,14 +175,21 @@ export default function PersonalitySelectionPage() {
                   </div>
                 </div>
 
-                {/* Button */}
-                <div className="mt-auto">
+                {/* Buttons */}
+                <div className="mt-auto flex flex-col gap-2.5">
                   <Link href={`/personality-test/${test.id}`} className="block">
                     <button
                       className={`w-full py-3.5 px-6 font-bold rounded-full transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer shadow-sm hover:shadow-lg bg-${test.mainColor} hover:bg-${test.mainColor}/90 text-white shadow-${shadowColor}/20`}
                     >
                       {test.buttonLabel}
                       <ArrowRight size={18} />
+                    </button>
+                  </Link>
+
+                  <Link href={test.bookUrl} className="block">
+                    <button className="w-full py-3.5 px-6 font-bold rounded-full border border-zinc-300 hover:border-zinc-400 text-zinc-700 hover:bg-zinc-50 transition-all text-sm flex items-center justify-center gap-1.5 cursor-pointer bg-white">
+                      {/* <BookOpen size={16} /> */}
+                      {test.bookLabel}
                     </button>
                   </Link>
                 </div>

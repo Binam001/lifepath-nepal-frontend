@@ -1,3 +1,5 @@
+import { ArrowLeft } from "lucide-react";
+import Link from "next/link";
 import React from "react";
 
 type Personality = {
@@ -198,8 +200,8 @@ const mbtiDimensions = [
 export default function Page() {
   return (
     <main className="min-h-screen bg-linear-to-b from-white via-slate-50 to-slate-100 text-slate-900">
-      <section className="bg-linear-to-l from-blue-600 to-black px-6 py-16 md:py-24">
-        <div className="mx-auto max-w-3xl text-center">
+      <section className="bg-linear-to-l from-blue-600 to-black px-6 py-16 xl:py-24">
+        <div className="mx-auto max-w-4xl text-center">
           <span className="inline-flex rounded-full bg-white px-4 py-1 text-sm font-medium text-slate-600 shadow-sm">
             Guidebook
           </span>
@@ -212,6 +214,15 @@ export default function Page() {
             Understand how the 16 MBTI personality types work, what makes each
             one unique, and which careers may match them best.
           </p>
+          <div className="mt-8 flex justify-center">
+            <Link
+              href="/personality-test"
+              className="inline-flex items-center gap-2 text-sm font-medium text-slate-300 hover:text-white transition-colors"
+            >
+              <ArrowLeft size={16} />
+              Back to Personality Test
+            </Link>
+          </div>
         </div>
       </section>
 

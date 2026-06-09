@@ -71,7 +71,7 @@ export default function OmegaverseBookPage() {
   return (
     <main className="min-h-screen bg-linear-to-b from-white via-slate-50 to-slate-100 text-slate-900 pt-16">
       {/* Hero Banner */}
-      <section className="bg-linear-to-l from-blue-700 to-black px-6 py-16 md:py-24 text-white">
+      <section className="bg-linear-to-l from-blue-700 to-black px-6 py-16 xl:py-24 text-white">
         <div className="mx-auto max-w-4xl text-center">
           <div className="flex justify-center mb-6">
             <span className="inline-flex rounded-full bg-white px-4 py-1 text-sm font-medium text-slate-600 shadow-sm">
@@ -95,7 +95,7 @@ export default function OmegaverseBookPage() {
               className="inline-flex items-center gap-2 text-sm font-medium text-slate-300 hover:text-white transition-colors"
             >
               <ArrowLeft size={16} />
-              Back to assessments
+              Back to Personality Test
             </Link>
           </div>
         </div>
@@ -103,11 +103,11 @@ export default function OmegaverseBookPage() {
 
       <section className="mx-auto max-w-6xl px-6 pb-20 md:px-8">
         {/* Introduction */}
-        <div className="py-8">
+        <div className="py-8 space-y-2">
           <h2 className="text-xl xl:text-2xl font-semibold text-slate-950">
             What is the Omegaverse Model?
           </h2>
-          <p className="mt-4 text-slate-600 leading-relaxed text-base md:text-lg">
+          <p className="text-slate-600 leading-relaxed text-base md:text-lg">
             Originating as a dynamic behavioral framework, the social dynamics
             system classifies individuals based on their leadership disposition,
             emotional intelligence, independence preferences, and role within
@@ -141,7 +141,7 @@ export default function OmegaverseBookPage() {
                     className={`bg-linear-to-r ${colors.gradient} px-6 py-6 text-white md:px-8 flex items-center justify-between`}
                   >
                     <div>
-                      <h3 className="text-2xl font-bold mt-0.5">
+                      <h3 className="text-2xl xl:text-[1.8vw] font-bold mt-0.5">
                         {profile.name}
                       </h3>
                       <p className="text-base font-semibold text-white/80 mt-1 leading-snug">
@@ -156,47 +156,80 @@ export default function OmegaverseBookPage() {
                   {/* Card Content */}
                   <div className="p-6 md:p-8 space-y-6">
                     <div>
-                      <p className="font-semibold mb-1">Overview</p>
-                      <p className="text-sm text-slate-600 leading-relaxed">
+                      <p className="text-xl xl:text-[1.4vw] font-semibold mb-1">
+                        Overview
+                      </p>
+                      <p className="text-sm xl:text-[1vw] text-slate-600 leading-relaxed">
                         {profile.detailedDescription}
                       </p>
                     </div>
 
                     <div>
-                      <p className="font-semibold mb-2">Key Strengths</p>
-                      <div className="flex flex-wrap gap-2">
-                        {profile.strengths.map((strength) => (
-                          <span
-                            key={strength}
-                            className="inline-flex items-center gap-1.5 rounded-full border border-slate-150 bg-slate-50 px-3 py-1 text-sm font-medium text-slate-700"
-                          >
-                            <CheckCircle size={12} className={colors.text} />
-                            {strength}
-                          </span>
+                      <p className="text-xl xl:text-[1.4vw] font-semibold mb-2">
+                        Key Strengths
+                      </p>
+                      <div className="space-y-2.5">
+                        {profile.strengths.map((strength, idx) => (
+                          <div key={idx} className="flex items-center gap-3">
+                            <CheckCircle
+                              size={18}
+                              className="text-green-600 shrink-0 mt-0.5"
+                              strokeWidth={2}
+                            />
+                            <p className="text-sm xl:text-[1vw] text-slate-600 leading-relaxed">
+                              {strength}
+                            </p>
+                          </div>
                         ))}
                       </div>
                     </div>
 
                     <div>
-                      <p className="font-semibold mb-2">Growth Challenges</p>
-                      <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600">
-                        {profile.weaknesses.map((weakness) => (
-                          <li key={weakness}>{weakness}</li>
+                      <p className="text-xl xl:text-[1.4vw] font-semibold mb-2">
+                        Growth Challenges
+                      </p>
+                      <div className="space-y-2.5">
+                        {profile.weaknesses.map((weakness, idx) => (
+                          <div key={idx} className="flex items-start gap-3">
+                            <div className="w-5 h-5 rounded-full bg-blue-100 flex items-center justify-center shrink-0 mt-0.5">
+                              <div className="w-2 h-2 rounded-full bg-blue-600"></div>
+                            </div>
+                            <p className="text-sm xl:text-[1vw] text-slate-600 leading-relaxed">
+                              {weakness}
+                            </p>
+                          </div>
                         ))}
-                      </ul>
+                      </div>
                     </div>
                     <div className="flex flex-col gap-4">
                       <div>
-                        <span className="font-semibold block">Work Style</span>
-                        <span className="text-sm text-slate-600 leading-normal block">
+                        <span className="text-xl xl:text-[1.4vw] font-semibold block">
+                          Work Style
+                        </span>
+                        <span className="text-sm xl:text-[1vw] text-zinc-700 leading-normal block">
                           {profile.workStyle}
                         </span>
                       </div>
                       <div>
-                        <span className="font-semibold block">Careers</span>
-                        <span className="text-sm text-slate-600 leading-normal block">
-                          {profile.careers.join(", ")}
+                        <span className="text-xl xl:text-[1.4vw] font-semibold block mb-2">
+                          Careers
                         </span>
+                        <div className="grid sm:grid-cols-2 gap-2">
+                          {profile.careers.map((career, index) => (
+                            <div
+                              key={index}
+                              className="flex items-center gap-2 p-2 bg-slate-50 rounded-xl border border-slate-150 transition-all hover:border-blue-200"
+                            >
+                              <CheckCircle
+                                size={14}
+                                className="text-blue-600 shrink-0"
+                              />
+                              <span className="text-sm font-semibold text-slate-750">
+                                {career}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
                       </div>
                     </div>
 
