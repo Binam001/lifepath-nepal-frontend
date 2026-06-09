@@ -962,7 +962,7 @@ export default function EssayCompetitionPage() {
                     <p className="flex-1 text-sm tracking-tight sm:tracking-normal text-zinc-600">
                       Scan QR to pay{" "}
                       <span className="font-semibold text-green-600">
-                        NPR 500
+                        NPR 700
                       </span>{" "}
                       entry fee
                     </p>
@@ -993,7 +993,7 @@ export default function EssayCompetitionPage() {
                           <X size={20} />
                         </button>
                         <p className="mb-4 text-center text-sm font-semibold text-zinc-700">
-                          Scan to pay NPR 500
+                          Scan to pay NPR 700
                         </p>
                         <Image
                           src="/QR/Lifepath_QR.jpeg"
