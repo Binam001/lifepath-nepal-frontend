@@ -12,6 +12,7 @@ import {
   Brain,
   ListChecks,
   Compass,
+  User,
 } from "lucide-react";
 import Link from "next/link";
 import { omegaverseTypes } from "@/data/omegaverse-data";
@@ -170,7 +171,7 @@ export default function OmegaverseResultSection({
             <p className="text-lg md:text-2xl text-zinc-800 font-semibold mb-4">
               {profile.description}
             </p>
-            <p className="text-base md:text-lg text-zinc-700 leading-relaxed">
+            <p className="text-base md:text-lg text-zinc-800 leading-relaxed">
               {profile.detailedDescription}
             </p>
           </div>
@@ -374,6 +375,47 @@ export default function OmegaverseResultSection({
             ))}
           </div>
         </section>
+
+        <section className="bg-white rounded-xl p-6 md:p-8 border border-zinc-200 shadow-xs">
+          <h2 className="text-2xl font-bold text-zinc-900 mb-4">
+            Life Path Advice
+          </h2>
+          <p className="text-base text-zinc-700 leading-relaxed">
+            {profile.lifePathAdvice}
+          </p>
+        </section>
+
+        {profile.popularPeople && profile.popularPeople.length > 0 && (
+          <section className="bg-white rounded-xl p-6 md:p-8 border border-zinc-200 shadow-xs">
+            <h2 className="text-2xl font-bold text-zinc-900 mb-1">
+              Famous {profile.name}s
+            </h2>
+            <p className="text-sm text-zinc-500 mb-6 leading-relaxed">
+              Get inspired by famous personalities who share the strengths and
+              mindset of a {profile.name}.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+              {profile.popularPeople.map((person, index) => (
+                <div
+                  key={index}
+                  className="flex items-start gap-3 p-4 bg-zinc-50 rounded-xl border border-zinc-200 hover:border-blue-300 hover:bg-white transition-all shadow-xs"
+                >
+                  <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 shrink-0">
+                    <User size={16} />
+                  </div>
+                  <div>
+                    <span className="text-base font-bold text-zinc-800 block">
+                      {person.name}
+                    </span>
+                    <span className="text-xs font-semibold text-zinc-500 block mt-0.5">
+                      {person.profession}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
 
         <section className="bg-linear-to-r from-blue-600 to-indigo-600 rounded-xl p-6 md:p-8 text-center text-white mb-6 shadow-md">
           <h2 className="text-xl md:text-2xl font-bold mb-3">

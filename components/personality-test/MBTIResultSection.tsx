@@ -86,7 +86,7 @@ export default function MBTIResultSection({
                   {result}
                 </div>
               </div>
-              <p className="text-lg text-zinc-50 sm:text-zinc-700 leading-relaxed font-medium">
+              <p className="text-lg text-zinc-50 leading-relaxed font-medium">
                 {personality.tagline}
               </p>
             </div>
@@ -96,7 +96,7 @@ export default function MBTIResultSection({
             <p className="text-lg md:text-2xl text-zinc-800 font-semibold mb-4">
               {personality.description}
             </p>
-            <p className="text-base md:text-lg text-zinc-700 leading-relaxed">
+            <p className="text-base md:text-lg text-zinc-800 leading-relaxed">
               {personality.detailedDescription}
             </p>
           </div>

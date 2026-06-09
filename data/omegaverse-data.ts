@@ -13,6 +13,8 @@ export interface OmegaverseType {
     goodMatch: string;
     challenging: string;
   };
+  lifePathAdvice: string;
+  popularPeople?: { name: string; profession: string }[];
 }
 
 export const omegaverseTypes: Record<string, OmegaverseType> = {
@@ -64,6 +66,22 @@ export const omegaverseTypes: Record<string, OmegaverseType> = {
       goodMatch: "Beta",
       challenging: "Alpha",
     },
+    lifePathAdvice:
+      "Your ultimate goal shouldn't be to do everything, it should be to build a system that works perfectly even when you aren't in the room. Spend your 20s and 30s learning to delegate and finding people you can truly trust. In life and work, stop trying to be the hardest worker, aim to be the smartest director.",
+    popularPeople: [
+      {
+        name: "Oprah Winfrey",
+        profession: "Media Executive & Television Host",
+      },
+      {
+        name: "Gordon Ramsay",
+        profession: "Multi-Michelin Star Chef & Restaurateur",
+      },
+      {
+        name: "Serena Williams",
+        profession: "Professional Tennis Player & Entrepreneur",
+      },
+    ],
   },
   BETA: {
     code: "BETA",
@@ -112,6 +130,19 @@ export const omegaverseTypes: Record<string, OmegaverseType> = {
       goodMatch: "Alpha, Omega",
       challenging: "None",
     },
+    lifePathAdvice:
+      'You need to learn the business of self-promotion. Keeping your head down and working hard does not automatically get you promoted or recognized. Make it a habit to confidently speak up about your achievements. Do not settle for "comfortable but undervalued." If a workplace or relationship relies entirely on you but doesn\'t reward you, you have to be willing to walk away.',
+    popularPeople: [
+      {
+        name: "Tim Cook",
+        profession: "CEO of Apple & Operations Expert",
+      },
+      { name: "Tom Hanks", profession: "Actor & Film Producer" },
+      {
+        name: "Kevin Feige",
+        profession: "Film Producer & President of Marvel Studios",
+      },
+    ],
   },
   OMEGA: {
     code: "OMEGA",
@@ -161,6 +192,22 @@ export const omegaverseTypes: Record<string, OmegaverseType> = {
       goodMatch: "Beta",
       challenging: "Omega",
     },
+    lifePathAdvice:
+      'You must learn to treat your deep empathy as a professional tool, not an open door for everyone to walk through. Create strict "office hours" for your emotional availability. Surround yourself with people who pour energy back into you, rather than just taking it. To protect your peace, you have to learn how to say a firm, guilt-free "No."',
+    popularPeople: [
+      {
+        name: "Princess Diana",
+        profession: "British Royal & Global Philanthropist",
+      },
+      {
+        name: "Fred Rogers / Mr. Rogers",
+        profession: "Television Host & Educator",
+      },
+      {
+        name: "Dolly Parton",
+        profession: "Singer-Songwriter & Philanthropist",
+      },
+    ],
   },
   SIGMA: {
     code: "SIGMA",
@@ -210,6 +257,22 @@ export const omegaverseTypes: Record<string, OmegaverseType> = {
       goodMatch: "Gamma",
       challenging: "Alpha",
     },
+    lifePathAdvice:
+      "You don't have to become a social butterfly, but you do need to view \"soft skills\" (like friendly communication and checking in on people) as highly valuable technical skills. Build a life where you work asynchronously, but make an active effort to maintain a small, high quality circle of friends and professional allies. You will go further if you don't burn bridges.",
+    popularPeople: [
+      {
+        name: "Nikola Tesla",
+        profession: "Inventor & Electrical Engineer",
+      },
+      {
+        name: "Steve Wozniak",
+        profession: "Computer Engineer & Co-Founder of Apple",
+      },
+      {
+        name: "Cillian Murphy",
+        profession: "Oscar-Winning Actor",
+      },
+    ],
   },
   DELTA: {
     code: "DELTA",
@@ -258,6 +321,22 @@ export const omegaverseTypes: Record<string, OmegaverseType> = {
       goodMatch: "Beta, Gamma",
       challenging: "Alpha",
     },
+    lifePathAdvice:
+      'The world changes fast, and rigid routines will eventually break. To protect your peace of mind, you need to practice "controlled chaos." Take small, safe risks regularly—try learning a new software, taking a different route to work, or volunteering for a slightly different task. Build your career by becoming a "Subject Matter Expert"—when you know a topic inside and out, your deep knowledge creates your safety, not just the rules.',
+    popularPeople: [
+      {
+        name: "Captain Chesley",
+        profession: "Commercial Airline Pilot",
+      },
+      {
+        name: "Marie Kondo",
+        profession: "Organizing Consultant & Author",
+      },
+      {
+        name: "Angela Merke",
+        profession: "Former Chancellor of Germany & Quantum Chemist",
+      },
+    ],
   },
   GAMMA: {
     code: "GAMMA",
@@ -305,5 +384,21 @@ export const omegaverseTypes: Record<string, OmegaverseType> = {
       goodMatch: "Delta, Omega",
       challenging: "Alpha",
     },
+    lifePathAdvice:
+      "Your success in life depends entirely on your ability to partner with 'finishers' (like Deltas or Betas). When you start a business or a project, immediately bring someone on board who loves doing the daily, boring tasks that you hate. Train yourself to view 'finishing a project' as the ultimate creative challenge, rather than a chore.",
+    popularPeople: [
+      {
+        name: "Walt Disney",
+        profession: "Animator, Film Producer & Theme Park Pioneer",
+      },
+      {
+        name: "Lady Gaga",
+        profession: "Pop Star, Songwriter & Actress",
+      },
+      {
+        name: "Elon Musk",
+        profession: "Tech Entrepreneur & Engineer",
+      },
+    ],
   },
 };
