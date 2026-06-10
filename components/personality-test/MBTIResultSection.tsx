@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { getPersonalityType } from "../../data/MBTI-data";
+import ComparisonCTA from "./ComparisonCTA";
 
 interface MBTIResultSectionProps {
   result: string;
@@ -233,6 +234,8 @@ export default function MBTIResultSection({
             </div>
           </div>
         </div>
+        {/* Comparison CTA Dashboard Banner */}
+        <ComparisonCTA />
 
         <section className="bg-blue-600 rounded-xl p-6 md:p-8 text-center text-white mb-6">
           <h2 className="text-xl md:text-2xl font-bold mb-3">

@@ -88,11 +88,7 @@ export default function Header() {
               />
               <span className="relative z-10">Find Your Lifepath</span>
             </Link> */}
-            <Button
-              label="Know Yourself"
-              href="/personality-test"
-              className="px-6! py-1! xl:text-[1vw]!"
-            />
+            <Button label="Know Yourself" href="/personality-test" size="sm" />
 
             {/* <Link
               href="/#how-it-works"

@@ -23,6 +23,7 @@ export default function OmegaverseTest() {
   const [showConfetti, setShowConfetti] = useState(false);
   const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
   const [isInitialized, setIsInitialized] = useState(false);
+  const [hasSavedResult, setHasSavedResult] = useState(false);
 
   const computedScores = useMemo(() => {
     const totals = {
@@ -56,9 +57,17 @@ export default function OmegaverseTest() {
     const savedResult = localStorage.getItem("omegaverse_result");
     const savedShowResult = localStorage.getItem("omegaverse_show_result");
 
+    let hasBackup = !!localStorage.getItem("omegaverse_saved_result");
+
     if (savedAnswers) {
       try {
-        setAnswers(JSON.parse(savedAnswers));
+        const parsed = JSON.parse(savedAnswers);
+        setAnswers(parsed);
+        if (!hasBackup && savedShowResult === "true" && savedResult) {
+          localStorage.setItem("omegaverse_saved_answers", savedAnswers);
+          localStorage.setItem("omegaverse_saved_result", savedResult);
+          hasBackup = true;
+        }
       } catch (e) {
         console.error("Failed to parse saved answers:", e);
       }
@@ -79,8 +88,15 @@ export default function OmegaverseTest() {
     if (savedShowResult === "true") {
       setShowResult(true);
     }
+    if (hasBackup) {
+      setHasSavedResult(true);
+    }
     setIsInitialized(true);
   }, []);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, [showResult]);
 
   useEffect(() => {
     const updateWindowSize = () => {
@@ -163,8 +179,11 @@ export default function OmegaverseTest() {
     setResult(type);
     setShowConfetti(true);
     setShowResult(true);
+    setHasSavedResult(true);
     localStorage.setItem("omegaverse_result", type);
     localStorage.setItem("omegaverse_show_result", "true");
+    localStorage.setItem("omegaverse_saved_result", type);
+    localStorage.setItem("omegaverse_saved_answers", JSON.stringify(answers));
   };
 
   const progress = ((currentQuestion + 1) / omegaverseQuestions.length) * 100;
@@ -182,6 +201,34 @@ export default function OmegaverseTest() {
     localStorage.removeItem("omegaverse_result");
     localStorage.removeItem("omegaverse_show_result");
     window.scrollTo({ top: 0, behavior: "instant" });
+  };
+
+  const handleRestoreResult = () => {
+    const savedAnswers = localStorage.getItem("omegaverse_saved_answers");
+    const savedResult = localStorage.getItem("omegaverse_saved_result");
+    if (savedResult && savedAnswers) {
+      try {
+        const parsedAnswers = JSON.parse(savedAnswers);
+        setAnswers(parsedAnswers);
+        setResult(savedResult);
+        setShowResult(true);
+        // Also restore active keys in localStorage
+        localStorage.setItem("omegaverse_answers", savedAnswers);
+        localStorage.setItem("omegaverse_result", savedResult);
+        localStorage.setItem("omegaverse_show_result", "true");
+        // Remove active current question so if they click retake again it starts from 0
+        localStorage.removeItem("omegaverse_current_question");
+        setCurrentQuestion(0);
+      } catch (e) {
+        console.error("Failed to restore saved result:", e);
+      }
+    }
+  };
+
+  const handleDeleteSavedResult = () => {
+    localStorage.removeItem("omegaverse_saved_result");
+    localStorage.removeItem("omegaverse_saved_answers");
+    setHasSavedResult(false);
   };
 
   if (!isInitialized) {
@@ -252,6 +299,40 @@ export default function OmegaverseTest() {
         </section>
 
         <section className="max-w-4xl mx-auto py-12 px-4 sm:px-6">
+          {/* Back to Result Banner */}
+          {hasSavedResult && (
+            <div className="mb-8 max-w-2xl mx-auto w-full flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white border border-zinc-200 rounded-[24px] p-4 shadow-xs animate-fade-in relative overflow-hidden animate-in fade-in duration-300">
+              <div className="flex items-center gap-3 pl-2">
+                <div className="w-9 h-9 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center shrink-0">
+                  <Sparkles size={18} className="animate-pulse" />
+                </div>
+                <div>
+                  <h4 className="text-sm font-bold text-zinc-900">
+                    Previous Result Available
+                  </h4>
+                  <p className="text-xs text-zinc-500 mt-0.5">
+                    You can view your last completed test results directly.
+                  </p>
+                </div>
+              </div>
+              <div className="flex gap-2 sm:self-center shrink-0">
+                <button
+                  onClick={handleDeleteSavedResult}
+                  className="px-4 py-2 bg-zinc-100 hover:bg-zinc-200 active:scale-95 text-zinc-700 text-xs font-bold rounded-lg transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                >
+                  Delete
+                </button>
+                <button
+                  onClick={handleRestoreResult}
+                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white text-xs font-bold rounded-lg transition-all shadow-md shadow-blue-600/10 flex items-center justify-center gap-1.5 cursor-pointer"
+                >
+                  <span>View Result</span>
+                  <ArrowRight size={14} />
+                </button>
+              </div>
+            </div>
+          )}
+
           {/* Progress Bar */}
           <div className="mb-8 max-w-2xl mx-auto w-full">
             <div className="flex justify-between items-center mb-3">

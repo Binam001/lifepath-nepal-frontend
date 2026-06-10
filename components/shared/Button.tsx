@@ -8,6 +8,7 @@ interface ButtonProps {
   className?: string;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   variant?: "solid" | "outline" | "white";
+  size?: "sm" | "md" | "lg";
   href?: string;
   icon?: string;
   type?: "button" | "submit" | "reset";
@@ -19,12 +20,19 @@ const Button = ({
   className,
   onClick,
   variant = "solid",
+  size = "md",
   href,
   type = "button",
   disabled = false,
 }: ButtonProps) => {
   const baseStyles =
-    "w-fit px-8 py-2.5 rounded-full transition-all duration-500 cursor-pointer text-[3.5vw] md:text-[2vw] xl:text-[1vw] font-medium inline-flex items-center justify-center gap-2 group";
+    "w-fit rounded-full transition-all duration-500 cursor-pointer inline-flex items-center justify-center gap-2 group";
+
+  const sizeStyles = {
+    sm: "px-5 py-2 text-xs md:text-sm font-medium",
+    md: "px-8 py-2.5 text-[3.5vw] md:text-[2vw] xl:text-[1vw] font-medium",
+    lg: "px-8 py-4 text-[3.8vw] md:text-[2.2vw] xl:text-[1.05vw] font-semibold",
+  };
 
   const variantStyles =
     variant === "solid"
@@ -33,7 +41,7 @@ const Button = ({
         ? "bg-transparent text-primary border-2 border-primary hover:bg-primary hover:text-white"
         : "bg-white text-gray-900 border-2 border-white";
 
-  const combinedClassName = `${baseStyles} ${variantStyles} ${className || ""}`;
+  const combinedClassName = `${baseStyles} ${variantStyles} ${sizeStyles[size]} ${className || ""}`;
 
   const content = (
     <>

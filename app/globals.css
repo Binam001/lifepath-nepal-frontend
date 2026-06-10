@@ -26,6 +26,7 @@ html.lenis body {
 /* @custom-variant dark (&:is(.dark *)); */
 
 :root {
+  --radius: 0.5rem;
   --font-montserrat: var(--font-montserrat);
   --font-poppins: var(--font-poppins);
   --background: oklch(1 0 0);

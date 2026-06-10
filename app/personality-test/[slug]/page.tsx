@@ -3,6 +3,7 @@
 import { useParams } from "next/navigation";
 import MBTITest from "@/components/personality-test/MBTI-test";
 import OmegaverseTest from "@/components/personality-test/Omegaverse-test";
+import OceanTest from "@/components/personality-test/OceanTest";
 import { AlertCircle, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
@@ -17,6 +18,10 @@ export default function PersonalityQuizPage() {
 
   if (slug === "omegaverse") {
     return <OmegaverseTest />;
+  }
+
+  if (slug === "ocean") {
+    return <OceanTest />;
   }
 
   return (

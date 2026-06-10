@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import {
   Brain,
@@ -16,6 +17,21 @@ import {
 } from "lucide-react";
 
 export default function PersonalitySelectionPage() {
+  const [completedCount, setCompletedCount] = useState<number | null>(null);
+
+  useEffect(() => {
+    const mbti = localStorage.getItem("mbti_saved_result");
+    const ocean = localStorage.getItem("ocean_saved_result");
+    const omegaverse = localStorage.getItem("omegaverse_saved_result");
+
+    let count = 0;
+    if (mbti) count++;
+    if (ocean) count++;
+    if (omegaverse) count++;
+
+    setCompletedCount(count);
+  }, []);
+
   const tests = [
     {
       id: "mbti",
@@ -58,6 +74,30 @@ export default function PersonalitySelectionPage() {
       bookUrl: "/omegaverse-book",
       bookLabel: "Learn more about Omegaverse",
     },
+    {
+      id: "ocean",
+      title: "Big Five Personality Test (OCEAN)",
+      tagline: "Standard Psychological Trait Model",
+      description:
+        "Evaluate your scores across the five major domains of human personality: Openness, Conscientiousness, Extraversion, Agreeableness, and Neuroticism. Understand your baseline traits, work style, and dynamic growth profiles.",
+      duration: "6 Minutes",
+      questionsCount: 30,
+      badge: "Scientific Standard",
+      mainColor: "primary",
+      secondaryColor: "primary/10",
+      icon: Compass,
+      formatLabel: "5 Core Personality Traits",
+      details: [
+        "Openness to Experience",
+        "Conscientiousness",
+        "Extraversion",
+        "Agreeableness",
+        "Neuroticism",
+      ],
+      buttonLabel: "Find Your Traits",
+      bookUrl: "/ocean-book",
+      bookLabel: "Learn more about OCEAN",
+    },
   ];
 
   return (
@@ -82,9 +122,44 @@ export default function PersonalitySelectionPage() {
 
       {/* Grid listing the tests */}
       <main className="max-w-5xl mx-auto px-4 py-12">
+        {/* Synthesis Dashboard Promo Banner */}
+        {/* Synthesis Dashboard Promo Banner */}
+        {completedCount !== null && completedCount > 0 && (
+          <div className="bg-linear-to-r from-blue-500/10 via-purple-500/5 to-transparent border border-zinc-200/80 rounded-3xl p-6 sm:p-8 mb-10 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xs relative overflow-hidden animate-in fade-in duration-300">
+            <div className="absolute top-0 right-0 w-48 h-48 bg-primary/5 rounded-full blur-2xl pointer-events-none"></div>
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center shrink-0 border border-primary/20">
+                <Sparkles size={24} className="animate-pulse" />
+              </div>
+              <div>
+                <h3 className="text-lg sm:text-xl font-extrabold text-zinc-950 mb-1">
+                  {completedCount === 3
+                    ? "Congrats! You have completed all tests"
+                    : "Unlock Your Triple Alignment Dashboard"}
+                </h3>
+                <p className="text-sm text-zinc-500 max-w-xl leading-relaxed">
+                  {completedCount === 3
+                    ? "Now see the complete comparison aligned dashboard."
+                    : "Test more to see a complete comparison aligned dashboard."}
+                </p>
+              </div>
+            </div>
+            <Link
+              href="/personality-test/comparison"
+              className="shrink-0 w-full md:w-auto"
+            >
+              <button className="w-full md:w-auto py-3 px-6 font-bold rounded-full bg-zinc-950 hover:bg-zinc-800 text-white text-sm transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer shadow-sm hover:scale-[1.02] active:scale-[0.98]">
+                {completedCount === 3
+                  ? "See Complete Dashboard"
+                  : "View Comparison Dashboard"}
+                <ArrowRight size={16} />
+              </button>
+            </Link>
+          </div>
+        )}
         {/* <div className="flex flex-col md:flex-row gap-8 justify-center items-stretch max-w-2xl md:max-w-none mx-auto"> */}
-        <div className="flex md:grid-cols-2 gap-8">
-          {tests.map((test) => {
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto justify-center">
+          {tests.map((test, index) => {
             const IconComponent = test.icon;
             const shadowColor =
               test.mainColor === "primary" ? "blue-500" : "blue-500";
@@ -92,7 +167,9 @@ export default function PersonalitySelectionPage() {
             return (
               <div
                 key={test.id}
-                className={`bg-white rounded-[36px] border-2 border-zinc-200/85 p-8 flex flex-col justify-between transition-all duration-300 shadow-sm hover:shadow-xl hover:border-primary/60 hover:-translate-y-1 group relative w-full md:max-w-xl`}
+                className={`bg-white rounded-[36px] border-2 border-zinc-200/85 p-8 flex flex-col justify-between transition-all duration-300 shadow-sm hover:shadow-xl hover:border-primary/60 hover:-translate-y-1 group relative w-full md:max-w-xl ${
+                  index === 2 ? "md:col-span-2 md:justify-self-center" : ""
+                }`}
               >
                 {/* Badge top-right */}
                 {/*  <div className="absolute top-6 right-6">

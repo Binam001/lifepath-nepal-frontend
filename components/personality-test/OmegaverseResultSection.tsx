@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { omegaverseTypes } from "@/data/omegaverse-data";
+import ComparisonCTA from "./ComparisonCTA";
 
 interface OmegaverseResultSectionProps {
   result: string;
@@ -416,6 +417,8 @@ export default function OmegaverseResultSection({
             </div>
           </section>
         )}
+        {/* Comparison CTA Dashboard Banner */}
+        <ComparisonCTA />
 
         <section className="bg-linear-to-r from-blue-600 to-indigo-600 rounded-xl p-6 md:p-8 text-center text-white mb-6 shadow-md">
           <h2 className="text-xl md:text-2xl font-bold mb-3">

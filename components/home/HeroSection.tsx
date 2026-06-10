@@ -4,6 +4,7 @@ import { ArrowRight } from "lucide-react";
 import { useRef } from "react";
 // import Image from "next/image";
 import Link from "next/link";
+import Button from "../shared/Button";
 
 export default function HeroSection() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -21,7 +22,7 @@ export default function HeroSection() {
       <div className="max-w-7xl mx-auto grid items-center gap-12 lg:min-h-[calc(100vh-6rem)] lg:grid-cols-[1.05fr_0.95fr]">
         <div className="max-w-3xl space-y-6">
           <div className="space-y-4">
-            <h1 className="text-4xl font-semibold font-montserrat text-blue-700 sm:text-5xl lg:text-5xl pt-8 sm:pt-8">
+            <h1 className="text-3xl md:text-4xl xl:text-5xl font-semibold font-montserrat text-primary pt-8">
               Don&apos;t Just Choose a Career. Discover Your Direction.
             </h1>
             <p className="max-w-2xl text-base leading-relaxed text-zinc-700 font-medium md:text-base">
@@ -31,8 +32,8 @@ export default function HeroSection() {
             </p>
           </div>
 
-          <div className="flex flex-col justify-start gap-3 pt-2 sm:flex-row">
-            <Link href="/personality-test">
+          <div className="flex flex-col justify-start gap-3 pt-2 md:flex-row">
+            {/* <Link href="/personality-test">
               <button className="group flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-linear-to-r from-blue-600 to-blue-600 px-8 py-4 font-semibold text-white shadow-xl shadow-blue-600/30 transition-all hover:bg-blue-700 hover:shadow-xl hover:shadow-blue-600/40 sm:w-auto">
                 Discover Your Career Path
                 <ArrowRight
@@ -40,7 +41,11 @@ export default function HeroSection() {
                   className="transition-transform group-hover:translate-x-1"
                 />
               </button>
-            </Link>
+            </Link> */}
+            <Button
+              label="Discover Your Career Path"
+              href="/personality-test"
+            />
             <Link href="/future">
               <button className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-full border-2 border-zinc-300 bg-white px-8 py-4 font-semibold text-blue-600 transition-all hover:border-blue-600 hover:bg-blue-50 hover:text-blue-600 sm:w-auto">
                 Explore Job Future
