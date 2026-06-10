@@ -248,7 +248,7 @@ export default function OceanTest() {
                 </span>
                 <span className="text-white/40">•</span>
                 <span className="flex items-center gap-2">
-                  <Clock size={16} />5 Minutes
+                  <Clock size={16} />6 Minutes
                 </span>
                 <span className="text-white/40">•</span>
                 <span>Instant Results</span>
