@@ -74,10 +74,6 @@ export default function MBTITest() {
   }, []);
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "instant" });
-  }, [showResult]);
-
-  useEffect(() => {
     const updateWindowSize = () => {
       setWindowSize({ width: window.innerWidth, height: window.innerHeight });
     };
@@ -167,7 +163,6 @@ export default function MBTITest() {
     localStorage.removeItem("mbti_current_question");
     localStorage.removeItem("mbti_result");
     localStorage.removeItem("mbti_show_result");
-    window.scrollTo({ top: 0, behavior: "instant" });
   };
 
   const handleRestoreResult = () => {
@@ -309,12 +304,12 @@ export default function MBTITest() {
           </div>
 
           <div className="bg-white rounded-2xl p-6 md:p-8 border border-zinc-200 shadow-md">
-            <h2 className="text-lg md:text-2xl font-semibold text-zinc-900 text-center leading-relaxed mb-8 min-h-[64px]">
+            <h2 className="text-lg md:text-2xl font-semibold text-zinc-900 text-center leading-relaxed mb-4 md:mb-8 min-h-[40px] md:min-h-[64px]">
               {mbtiQuestions[currentQuestion].question}
             </h2>
 
             <div className="mb-6 grid gap-4 md:grid-cols-[1fr_auto_1fr] items-center">
-              <div className="rounded-lg border border-blue-200 bg-blue-50/50 p-4 min-h-[100px] flex flex-col justify-center">
+              <div className="rounded-lg border border-blue-200 bg-blue-50/50 p-4 min-h-[60px] md:min-h-[100px] flex flex-col justify-center">
                 <p className="text-xs font-semibold text-blue-600 mb-1 uppercase tracking-wider">
                   Option A
                 </p>
@@ -366,7 +361,7 @@ export default function MBTITest() {
                 </div>
               </div>
 
-              <div className="rounded-lg border border-amber-200 bg-amber-50/30 p-4 min-h-[100px] flex flex-col justify-center">
+              <div className="rounded-lg border border-amber-200 bg-amber-50/30 p-4 min-h-[60px] md:min-h-[100px] flex flex-col justify-center">
                 <p className="text-xs font-semibold text-amber-600 mb-1 uppercase tracking-wider">
                   Option B
                 </p>
@@ -376,7 +371,7 @@ export default function MBTITest() {
               </div>
             </div>
 
-            <div className="p-2 mb-6">
+            <div className="p-2 mb-3 md:mb-6 flex flex-col items-center gap-3">
               <p className="text-center text-xs text-zinc-500 leading-relaxed">
                 Choose{" "}
                 <span className="font-semibold text-blue-600">Option A</span> or{" "}
@@ -385,9 +380,17 @@ export default function MBTITest() {
                 <span className="font-semibold text-zinc-500">Neutral</span> if
                 neither fits perfectly
               </p>
+              <div className="h-7 flex md:hidden items-center justify-center">
+                {isAnswered && (
+                  <div className="flex items-center gap-1.5 text-xs font-bold text-green-600 bg-green-50 px-3 py-1 rounded-full border border-green-100 animate-in fade-in duration-200">
+                    <CheckCircle size={14} />
+                    <span>Answered</span>
+                  </div>
+                )}
+              </div>
             </div>
 
-            <div className="flex justify-between items-center border-t border-zinc-100 pt-6">
+            <div className="flex justify-between items-center border-t border-zinc-100 pt-4 md:pt-6">
               <button
                 onClick={handlePrevious}
                 disabled={currentQuestion === 0}
@@ -401,7 +404,7 @@ export default function MBTITest() {
                 <span>Previous</span>
               </button>
 
-              <div className="flex items-center gap-2">
+              <div className="hidden md:flex items-center gap-2">
                 {isAnswered && (
                   <div className="flex items-center gap-1.5 text-xs font-bold text-green-600 bg-green-50 px-3 py-1 rounded-full border border-green-100">
                     <CheckCircle size={14} />

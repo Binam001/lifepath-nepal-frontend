@@ -94,7 +94,7 @@ export default function PersonalitySelectionPage() {
         "Agreeableness",
         "Neuroticism",
       ],
-      buttonLabel: "Find Your Traits",
+      buttonLabel: "Find Your Baseline",
       bookUrl: "/ocean-book",
       bookLabel: "Learn more about OCEAN",
     },
@@ -209,32 +209,6 @@ export default function PersonalitySelectionPage() {
                     {test.description}
                   </p>
 
-                  {/* Stats */}
-                  {/* <div className="grid grid-cols-2 gap-4 border-y border-zinc-100 py-4 mb-6">
-                    <div className="flex items-center gap-2">
-                      <Clock size={16} className="text-zinc-400" />
-                      <div>
-                        <p className="text-[10px] font-bold text-zinc-400 uppercase leading-none">
-                          Duration
-                        </p>
-                        <p className="text-xs font-bold text-zinc-800 mt-1">
-                          {test.duration}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Bookmark size={16} className="text-zinc-400" />
-                      <div>
-                        <p className="text-[10px] font-bold text-zinc-400 uppercase leading-none">
-                          Length
-                        </p>
-                        <p className="text-xs font-bold text-zinc-800 mt-1">
-                          {test.questionsCount} Questions
-                        </p>
-                      </div>
-                    </div>
-                  </div> */}
-
                   {/* Format detailed badges */}
                   <div className="mb-8">
                     <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-3">
@@ -264,12 +238,21 @@ export default function PersonalitySelectionPage() {
                     </button>
                   </Link>
 
-                  <Link href={test.bookUrl} className="block">
-                    <button className="w-full py-3.5 px-6 font-bold rounded-full border border-zinc-300 hover:border-zinc-400 text-zinc-700 hover:bg-zinc-50 transition-all text-sm flex items-center justify-center gap-1.5 cursor-pointer bg-white">
-                      {/* <BookOpen size={16} /> */}
-                      {test.bookLabel}
+                  {test.id === "ocean" ? (
+                    <button
+                      disabled
+                      className="w-full py-3.5 px-6 font-bold rounded-full border border-zinc-200 text-zinc-400 bg-zinc-50 text-sm flex items-center justify-center gap-1.5 cursor-not-allowed"
+                    >
+                      Coming Soon
                     </button>
-                  </Link>
+                  ) : (
+                    <Link href={test.bookUrl} className="block">
+                      <button className="w-full py-3.5 px-6 font-bold rounded-full border border-zinc-300 hover:border-zinc-400 text-zinc-700 hover:bg-zinc-50 transition-all text-sm flex items-center justify-center gap-1.5 cursor-pointer bg-white">
+                        {/* <BookOpen size={16} /> */}
+                        {test.bookLabel}
+                      </button>
+                    </Link>
+                  )}
                 </div>
               </div>
             );

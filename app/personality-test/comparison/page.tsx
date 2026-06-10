@@ -159,7 +159,7 @@ export default function PersonalityComparisonPage() {
 
   return (
     <div className="min-h-screen pt-20 pb-16 bg-zinc-50/70">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
         {/* Navigation Link back */}
         <Link
           href="/personality-test"
@@ -171,14 +171,13 @@ export default function PersonalityComparisonPage() {
 
         {/* Hero Section */}
         <header className="bg-white rounded-3xl p-6 sm:p-8 border border-zinc-200/80 shadow-xs mb-8 text-center sm:text-left relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none"></div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-zinc-950 mb-3">
+          <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-zinc-950 mb-3">
             Multi-Framework Alignment
           </h1>
-          <p className="text-base sm:text-lg text-zinc-500 max-w-2xl leading-relaxed">
-            Synthesize your MBTI, Omegaverse, and Big Five (OCEAN) results.
-            Identify cross-assessment career paths and map your unified
-            character profile.
+          <p className="text-base md:text-lg text-zinc-500 leading-relaxed">
+            Synthesize your MBTI, Omegaverse, and OCEAN results. Identify
+            cross-assessment career paths and map your unified character
+            profile.
           </p>
         </header>
 
@@ -196,33 +195,33 @@ export default function PersonalityComparisonPage() {
 
           <div className="grid gap-4 sm:grid-cols-3">
             {/* MBTI status */}
-            <div className="border border-zinc-100 rounded-2xl p-4 flex flex-col justify-between hover:border-zinc-200 transition-all bg-zinc-50/50">
+            <div className="border border-zinc-100 rounded-2xl p-4 flex flex-col justify-between hover:border-zinc-200 transition-all bg-zinc-50">
               <div className="flex items-start justify-between mb-3">
                 <div className="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600 border border-blue-100/60">
                   <Brain size={18} />
                 </div>
                 {hasMbti ? (
-                  <span className="text-[10px] font-black tracking-widest text-emerald-600 uppercase bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100/40">
+                  <span className="text-xs font-black tracking-widest text-emerald-600 uppercase bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-100/40">
                     Done
                   </span>
                 ) : (
-                  <span className="text-[10px] font-black tracking-widest text-amber-600 uppercase bg-amber-50 px-2 py-0.5 rounded-full border border-amber-100/40">
+                  <span className="text-xs font-black tracking-widest text-amber-600 uppercase bg-amber-50 px-2.5 py-0.5 rounded-full border border-amber-100/40">
                     Pending
                   </span>
                 )}
               </div>
               <div>
-                <h3 className="font-extrabold text-zinc-800 text-sm">
+                <h3 className="font-extrabold text-zinc-800 text-base">
                   MBTI Assessment
                 </h3>
-                <p className="text-[11px] text-zinc-500 mt-1 mb-4">
+                <p className="text-sm text-zinc-500 mt-1 mb-4 leading-relaxed">
                   {hasMbti
                     ? `Result: ${results.mbti} (${mbtiDetail?.name})`
                     : "Find your 16 personalities type and ideal working style."}
                 </p>
                 <Link href="/personality-test/mbti" className="block">
                   <button
-                    className={`w-full py-1.5 px-3 font-bold rounded-lg text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
+                    className={`w-full py-2 px-3 font-bold rounded-lg text-xs sm:text-sm flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
                       hasMbti
                         ? "bg-zinc-100 hover:bg-zinc-200 text-zinc-700"
                         : "bg-blue-500 hover:bg-blue-600 text-white"
@@ -236,33 +235,33 @@ export default function PersonalityComparisonPage() {
             </div>
 
             {/* Omegaverse status */}
-            <div className="border border-zinc-100 rounded-2xl p-4 flex flex-col justify-between hover:border-zinc-200 transition-all bg-zinc-50/50">
+            <div className="border border-zinc-100 rounded-2xl p-4 flex flex-col justify-between hover:border-zinc-200 transition-all bg-zinc-50">
               <div className="flex items-start justify-between mb-3">
                 <div className="w-9 h-9 rounded-xl bg-amber-50 flex items-center justify-center text-amber-600 border border-amber-100/60">
                   <Sparkles size={18} />
                 </div>
                 {hasOmegaverse ? (
-                  <span className="text-[10px] font-black tracking-widest text-emerald-600 uppercase bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100/40">
+                  <span className="text-xs font-black tracking-widest text-emerald-600 uppercase bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-100/40">
                     Done
                   </span>
                 ) : (
-                  <span className="text-[10px] font-black tracking-widest text-amber-600 uppercase bg-amber-50 px-2 py-0.5 rounded-full border border-amber-100/40">
+                  <span className="text-xs font-black tracking-widest text-amber-600 uppercase bg-amber-50 px-2.5 py-0.5 rounded-full border border-amber-100/40">
                     Pending
                   </span>
                 )}
               </div>
               <div>
-                <h3 className="font-extrabold text-zinc-800 text-sm">
+                <h3 className="font-extrabold text-zinc-800 text-base">
                   Omegaverse
                 </h3>
-                <p className="text-[11px] text-zinc-500 mt-1 mb-4">
+                <p className="text-sm text-zinc-500 mt-1 mb-4 leading-relaxed">
                   {hasOmegaverse
                     ? `Result: ${omegaverseDetail?.name} Archetype`
                     : "Discover your group hierarchy mindset and compatibility."}
                 </p>
                 <Link href="/personality-test/omegaverse" className="block">
                   <button
-                    className={`w-full py-1.5 px-3 font-bold rounded-lg text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
+                    className={`w-full py-2 px-3 font-bold rounded-lg text-xs sm:text-sm flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
                       hasOmegaverse
                         ? "bg-zinc-100 hover:bg-zinc-200 text-zinc-700"
                         : "bg-amber-500 hover:bg-amber-600 text-white"
@@ -276,33 +275,33 @@ export default function PersonalityComparisonPage() {
             </div>
 
             {/* OCEAN status */}
-            <div className="border border-zinc-100 rounded-2xl p-4 flex flex-col justify-between hover:border-zinc-200 transition-all bg-zinc-50/50">
+            <div className="border border-zinc-100 rounded-2xl p-4 flex flex-col justify-between hover:border-zinc-200 transition-all bg-zinc-50">
               <div className="flex items-start justify-between mb-3">
                 <div className="w-9 h-9 rounded-xl bg-purple-50 flex items-center justify-center text-purple-600 border border-purple-100/60">
                   <Compass size={18} />
                 </div>
                 {hasOcean ? (
-                  <span className="text-[10px] font-black tracking-widest text-emerald-600 uppercase bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100/40">
+                  <span className="text-xs font-black tracking-widest text-emerald-600 uppercase bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-100/40">
                     Done
                   </span>
                 ) : (
-                  <span className="text-[10px] font-black tracking-widest text-amber-600 uppercase bg-amber-50 px-2 py-0.5 rounded-full border border-amber-100/40">
+                  <span className="text-xs font-black tracking-widest text-amber-600 uppercase bg-amber-50 px-2.5 py-0.5 rounded-full border border-amber-100/40">
                     Pending
                   </span>
                 )}
               </div>
               <div>
-                <h3 className="font-extrabold text-zinc-800 text-sm">
-                  Big Five (OCEAN)
+                <h3 className="font-extrabold text-zinc-800 text-base">
+                  OCEAN
                 </h3>
-                <p className="text-[11px] text-zinc-500 mt-1 mb-4">
+                <p className="text-sm text-zinc-500 mt-1 mb-4 leading-relaxed">
                   {hasOcean
                     ? `Result Archetype: ${oceanArchetype?.title}`
                     : "Benchmark your scores across openness, drive, and stability."}
                 </p>
                 <Link href="/personality-test/ocean" className="block">
                   <button
-                    className={`w-full py-1.5 px-3 font-bold rounded-lg text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
+                    className={`w-full py-2 px-3 font-bold rounded-lg text-xs sm:text-sm flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
                       hasOcean
                         ? "bg-zinc-100 hover:bg-zinc-200 text-zinc-700"
                         : "bg-purple-600 hover:bg-purple-700 text-white"
@@ -348,8 +347,6 @@ export default function PersonalityComparisonPage() {
           <div className="space-y-8 animate-in fade-in duration-300">
             {/* 1. Synthesized Nature Profile Card */}
             <section className="bg-white rounded-3xl p-6 sm:p-8 border border-zinc-200/80 shadow-xs relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-80 h-80 bg-linear-to-b from-blue-50 to-indigo-50/20 rounded-full blur-3xl pointer-events-none"></div>
-
               <div className="flex items-center gap-3 mb-4 relative z-10">
                 <div className="w-10 h-10 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center border border-blue-100">
                   <Star size={20} className="fill-blue-100 text-blue-600" />
@@ -449,22 +446,40 @@ export default function PersonalityComparisonPage() {
                         )}
                       </div>
 
-                      <h3 className="font-extrabold text-zinc-900 text-base mb-1">
+                      <h3 className="font-extrabold text-zinc-900 text-lg md:text-xl mb-1.5">
                         {info.title}
                       </h3>
-                      <p className="text-xs text-zinc-500 leading-relaxed mb-4">
+                      <p className="text-sm text-zinc-500 leading-relaxed mb-4">
                         {info.description}
                       </p>
 
+                      {info.jobExamples && info.jobExamples.length > 0 && (
+                        <div className="mb-5">
+                          <p className="text-[10px] sm:text-xs font-black uppercase tracking-wider text-zinc-400 mb-2">
+                            Common Roles:
+                          </p>
+                          <div className="flex flex-wrap gap-1.5">
+                            {info.jobExamples.map((job) => (
+                              <span
+                                key={job}
+                                className={`text-xs font-bold px-3 py-1 rounded-full bg-primary/5 ${isGolden ? "text-primary" : "text-primary/70"} border border-zinc-200/60`}
+                              >
+                                {job}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
                       <div className="border-t border-zinc-100/80 pt-3 flex items-center justify-between">
-                        <span className="text-[10px] font-black uppercase tracking-wider text-zinc-400">
+                        <span className="text-[11px] sm:text-xs font-black uppercase tracking-wider text-zinc-400">
                           Recommended By:
                         </span>
                         <div className="flex gap-1.5">
                           {sources.map((s) => (
                             <span
                               key={s}
-                              className="text-[9px] font-bold px-2 py-0.5 rounded-md bg-zinc-100 text-zinc-600 border border-zinc-200/50 uppercase"
+                              className="text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-md bg-zinc-100 text-zinc-600 border border-zinc-200/50 uppercase"
                             >
                               {s}
                             </span>

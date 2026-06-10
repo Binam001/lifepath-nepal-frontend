@@ -41,7 +41,6 @@ export default function OceanResultSection({
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "instant" });
     setIsMounted(true);
 
     const checkMobile = () => setIsMobile(window.innerWidth < 640);

@@ -200,7 +200,7 @@ const mbtiDimensions = [
 export default function Page() {
   return (
     <main className="min-h-screen bg-linear-to-b from-white via-slate-50 to-slate-100 text-slate-900">
-      <section className="bg-linear-to-l from-blue-600 to-black px-6 py-16 xl:py-24">
+      <section className="bg-linear-to-l from-blue-600 to-black px-6 py-20 xl:py-24">
         <div className="mx-auto max-w-4xl text-center">
           <span className="inline-flex rounded-full bg-white px-4 py-1 text-sm font-medium text-slate-600 shadow-sm">
             Guidebook

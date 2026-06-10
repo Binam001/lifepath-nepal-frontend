@@ -95,10 +95,6 @@ export default function OmegaverseTest() {
   }, []);
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "instant" });
-  }, [showResult]);
-
-  useEffect(() => {
     const updateWindowSize = () => {
       setWindowSize({ width: window.innerWidth, height: window.innerHeight });
     };
@@ -200,7 +196,6 @@ export default function OmegaverseTest() {
     localStorage.removeItem("omegaverse_current_question");
     localStorage.removeItem("omegaverse_result");
     localStorage.removeItem("omegaverse_show_result");
-    window.scrollTo({ top: 0, behavior: "instant" });
   };
 
   const handleRestoreResult = () => {
@@ -267,7 +262,7 @@ export default function OmegaverseTest() {
   return (
     <div className="min-h-screen pt-16 bg-zinc-100 overflow-hidden flex flex-col justify-between">
       <div>
-        <section className="bg-gradient-to-l from-blue-700 to-black text-white">
+        <section className="bg-linear-to-l from-blue-700 to-black text-white">
           <div className="max-w-5xl mx-auto py-8 md:py-12 px-4 relative">
             <div className="text-center max-w-3xl mx-auto">
               <div className="flex items-center justify-center gap-3 mb-4">
@@ -345,7 +340,7 @@ export default function OmegaverseTest() {
             </div>
             <div className="w-full bg-zinc-200 rounded-full h-2.5 shadow-inner">
               <div
-                className="bg-gradient-to-r from-blue-600 to-indigo-600 h-2.5 rounded-full transition-all duration-500 shadow-sm"
+                className="bg-linear-to-r from-blue-600 to-indigo-600 h-2.5 rounded-full transition-all duration-500 shadow-sm"
                 style={{ width: `${progress}%` }}
               ></div>
             </div>
@@ -357,7 +352,7 @@ export default function OmegaverseTest() {
             </h2>
 
             {/* Multiple Choice Options List */}
-            <div className="space-y-4 max-w-2xl mx-auto mb-8">
+            <div className="space-y-3 md:space-y-4 max-w-2xl mx-auto mb-4 md:mb-8">
               {options.map((opt) => {
                 const isSelected = currentAnswer === opt.key;
                 return (
@@ -386,9 +381,17 @@ export default function OmegaverseTest() {
                 );
               })}
             </div>
+            <div className="h-7 flex md:hidden items-center justify-center mb-3 md:mb-6">
+              {isAnswered && (
+                <div className="flex items-center gap-1.5 text-xs font-bold text-green-600 bg-green-50 px-3 py-1 rounded-full border border-green-100 animate-in fade-in duration-200">
+                  <CheckCircle size={14} />
+                  <span>Selected</span>
+                </div>
+              )}
+            </div>
 
             {/* Navigation Controls */}
-            <div className="flex justify-between items-center border-t border-zinc-100 pt-6 max-w-2xl mx-auto">
+            <div className="flex justify-between items-center border-t border-zinc-100 pt-4 md:pt-6 max-w-2xl mx-auto">
               <button
                 onClick={handlePrevious}
                 disabled={currentQuestion === 0}
@@ -402,7 +405,7 @@ export default function OmegaverseTest() {
                 <span>Previous</span>
               </button>
 
-              <div className="flex items-center gap-2">
+              <div className="hidden md:flex items-center gap-2">
                 {isAnswered && (
                   <div className="flex items-center gap-1.5 text-xs font-bold text-green-600 bg-green-50 px-3 py-1 rounded-full border border-green-100">
                     <CheckCircle size={14} />

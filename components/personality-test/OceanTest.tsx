@@ -77,10 +77,6 @@ export default function OceanTest() {
   }, []);
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "instant" });
-  }, [showResult]);
-
-  useEffect(() => {
     const updateWindowSize = () => {
       setWindowSize({ width: window.innerWidth, height: window.innerHeight });
     };
@@ -169,7 +165,6 @@ export default function OceanTest() {
     localStorage.removeItem("ocean_current_question");
     localStorage.removeItem("ocean_result");
     localStorage.removeItem("ocean_show_result");
-    window.scrollTo({ top: 0, behavior: "instant" });
   };
 
   const handleRestoreResult = () => {
@@ -333,7 +328,7 @@ export default function OceanTest() {
                       className="flex flex-col items-center gap-2 w-14 sm:w-16"
                     >
                       <span
-                        className={`text-[8px] sm:text-[10px] font-bold text-zinc-550 uppercase tracking-wider text-center select-none h-4 flex items-center justify-center leading-none ${value === 3 ? "text-zinc-400" : ""}`}
+                        className={`text-[8px] sm:text-[10px] font-bold text-zinc-500 uppercase tracking-wider text-center select-none h-4 flex items-center justify-center leading-none ${value === 3 ? "text-zinc-400" : ""}`}
                       >
                         {sublabel}
                       </span>
@@ -349,13 +344,13 @@ export default function OceanTest() {
                                   ? "border-zinc-500 bg-zinc-500 text-white shadow-md shadow-zinc-500/20"
                                   : value === 4
                                     ? "border-emerald-500 bg-emerald-500 text-white shadow-md shadow-emerald-500/20"
-                                    : "border-primary bg-primary text-white shadow-md shadow-primary/20"
+                                    : "border-emerald-500 bg-emerald-500 text-white shadow-md shadow-emerald-500/20"
                             : value === 1
                               ? "border-red-400 bg-red-50 hover:bg-red-600 hover:text-white text-zinc-800 hover:border-red-500"
                               : value === 2
                                 ? "border-rose-200 bg-rose-50/50 hover:bg-rose-500 hover:text-white text-zinc-800 hover:border-rose-300"
                                 : value === 3
-                                  ? "border-zinc-200 bg-zinc-50 text-zinc-850 hover:border-zinc-400 hover:bg-zinc-400 hover:text-white"
+                                  ? "border-zinc-200 bg-zinc-50 text-zinc-800 hover:border-zinc-400 hover:bg-zinc-400 hover:text-white"
                                   : value === 4
                                     ? "border-emerald-100 bg-emerald-50/50 text-zinc-800 hover:border-emerald-300 hover:bg-emerald-300 hover:text-white"
                                     : "border-emerald-300 bg-emerald-50 text-zinc-800 hover:border-emerald-400 hover:bg-emerald-400 hover:text-white"
@@ -378,12 +373,20 @@ export default function OceanTest() {
               </div> */}
             </div>
 
-            <div className="p-2 mb-6">
+            <div className="p-2 mb-3 md:mb-6 flex flex-col items-center gap-3">
               <p className="text-center text-xs text-zinc-500 leading-relaxed">
                 Choose a level of agreement or disagreement, or select{" "}
                 <span className="font-semibold text-zinc-500">Neutral</span> if
                 you neither agree nor disagree.
               </p>
+              <div className="h-7 flex md:hidden items-center justify-center">
+                {isAnswered && (
+                  <div className="flex items-center gap-1.5 text-xs font-bold text-green-600 bg-green-50 px-3 py-1 rounded-full border border-green-100 animate-in fade-in duration-200">
+                    <CheckCircle size={14} />
+                    <span>Answered</span>
+                  </div>
+                )}
+              </div>
             </div>
 
             <div className="flex justify-between items-center border-t border-zinc-100 pt-6">
@@ -400,7 +403,7 @@ export default function OceanTest() {
                 <span>Previous</span>
               </button>
 
-              <div className="flex items-center gap-2">
+              <div className="hidden md:flex items-center gap-2">
                 {isAnswered && (
                   <div className="flex items-center gap-1.5 text-xs font-bold text-green-600 bg-green-50 px-3 py-1 rounded-full border border-green-100">
                     <CheckCircle size={14} />

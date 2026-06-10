@@ -13,6 +13,7 @@ export interface CoreCareerInfo {
   title: string;
   description: string;
   iconName: "Code" | "Palette" | "Heart" | "Briefcase" | "BookOpen" | "Scale";
+  jobExamples: string[];
 }
 
 // 1. Unified Core Career Metadata
@@ -21,31 +22,37 @@ export const coreCareerMetadata: Record<CoreCareerCategory, CoreCareerInfo> = {
     title: "Software Engineering & Tech Development",
     description: "Building systems, writing algorithms, backend infrastructure, and artificial intelligence solutions.",
     iconName: "Code",
+    jobExamples: ["Software Engineer", "Full Stack Developer", "Data Scientist", "System Architect", "DevOps Engineer"],
   },
   creative_arts_design: {
     title: "Design & Creative Expression",
     description: "Graphic design, content creation, copy editing, literature, creative direction, and visual arts.",
     iconName: "Palette",
+    jobExamples: ["UI/UX Designer", "Graphic Artist", "Creative Director", "Copywriter", "Animator"],
   },
   healthcare_and_caregiving: {
     title: "Healthcare, Counseling & Caregiving",
     description: "Therapy, life coaching, social work, medical care, and counseling individuals through challenges.",
     iconName: "Heart",
+    jobExamples: ["Psychologist", "Life Coach", "Social Worker", "Nurse Practitioner", "Counselor"],
   },
   leadership_and_management: {
     title: "Strategy, Leadership & Business Operations",
     description: "Directing projects, starting businesses, managing corporate goals, and organizing operations.",
     iconName: "Briefcase",
+    jobExamples: ["Project Manager", "Operations Director", "Management Consultant", "Product Manager", "Entrepreneur"],
   },
   research_and_academia: {
     title: "Research, Science & Education",
     description: "Teaching, conducting scientific experiments, database management, archiving, and analysis.",
     iconName: "BookOpen",
+    jobExamples: ["Research Scientist", "University Professor", "Data Analyst", "Academic Educator", "Archivist"],
   },
   legal_and_compliance: {
     title: "Law, Risk Management & Compliance",
     description: "Legal advice, risk analysis, compliance checking, auditing, and enforcing rules and standards.",
     iconName: "Scale",
+    jobExamples: ["Corporate Lawyer", "Compliance Auditor", "Risk Analyst", "Policy Advisor", "Legal Consultant"],
   },
 };
 

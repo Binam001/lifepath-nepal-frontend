@@ -123,7 +123,7 @@ export const omegaverseQuestions: OmegaverseQuestion[] = [
       "If a major project you put a lot of effort into completely fails, your first thought is:",
     optionA: "I feel terrible for my hardworking teammates.",
     optionB: "I should have done it myself to ensure quality.",
-    optionC: "I must analyze the strategy to fix the flaws.",
+    optionC: "I must analyze the strategy to fix the issues.",
     optionD: "I take charge and make people own their mistakes.",
     scoreMap: {
       A: { ALPHA: 0, BETA: 4, OMEGA: 5, SIGMA: 0, DELTA: 0, GAMMA: 0 },
@@ -139,7 +139,7 @@ export const omegaverseQuestions: OmegaverseQuestion[] = [
     optionA: "Take command and direct everyone to safety",
     optionB: "Comfort panicking people and keep them calm",
     optionC: "Quickly find an escape route for yourself",
-    optionD: "Strictly follow the safety protocols",
+    optionD: "Strictly follow the safety rules",
     scoreMap: {
       A: { ALPHA: 5, BETA: 0, OMEGA: 0, SIGMA: 1, DELTA: 2, GAMMA: 1 },
       B: { ALPHA: 0, BETA: 3, OMEGA: 5, SIGMA: 0, DELTA: 0, GAMMA: 0 },
@@ -229,7 +229,7 @@ export const omegaverseQuestions: OmegaverseQuestion[] = [
     id: 14,
     question: "How do you generally view strict workplace or social rules?",
     optionA: "I ignore rules and do things my own way",
-    optionB: "I find clever loopholes to bend the rules",
+    optionB: "I find ways to avoid strict rules when possible",
     optionC: "I prefer to set rules for others to follow",
     optionD: "I respect rules and follow them strictly",
     scoreMap: {
@@ -275,7 +275,7 @@ export const omegaverseQuestions: OmegaverseQuestion[] = [
     optionA: "I strongly prefer safety and avoid risks",
     optionB: "I confidently take big risks for massive rewards",
     optionC: "I take the reliable path to keep everyone secure",
-    optionD: "I take calculated, purely independent risks",
+    optionD: "I take risks after thinking them through carefully",
     scoreMap: {
       A: { ALPHA: 0, BETA: 2, OMEGA: 1, SIGMA: 0, DELTA: 5, GAMMA: 0 },
       B: { ALPHA: 5, BETA: 0, OMEGA: 0, SIGMA: 2, DELTA: 0, GAMMA: 4 },
@@ -376,10 +376,10 @@ export const omegaverseQuestions: OmegaverseQuestion[] = [
     id: 24,
     question:
       "What is the primary motivation that drives you to work hard every day?",
-    optionA: "The intense desire to be the best and hold power",
-    optionB: "The need to provide comfort and care for loved ones",
-    optionC: "The drive to gain total freedom and self-reliance",
-    optionD: "The satisfaction of completing a job perfectly",
+    optionA: "To be the best and gain influence",
+    optionB: "To support and care for loved ones",
+    optionC: "To achieve freedom and independence",
+    optionD: "To complete a job perfectly",
     scoreMap: {
       A: { ALPHA: 5, BETA: 0, OMEGA: 0, SIGMA: 1, DELTA: 0, GAMMA: 2 },
       B: { ALPHA: 0, BETA: 5, OMEGA: 4, SIGMA: 0, DELTA: 1, GAMMA: 0 },
@@ -438,7 +438,7 @@ export const omegaverseQuestions: OmegaverseQuestion[] = [
   {
     id: 28,
     question:
-      "When meeting someone completely new, what is the first thing you notice about them?",
+      "When meeting someone completely stranger, what is the first thing you notice about them?",
     optionA: "Their professionalism and intelligent presentation",
     optionB: "Their confidence, posture, and natural presence",
     optionC: "Their warm smile and friendly nature",
@@ -467,7 +467,7 @@ export const omegaverseQuestions: OmegaverseQuestion[] = [
   {
     id: 30,
     question: "What scenario represents your absolute deepest fear?",
-    optionA: "Being unable to help someone who depends on you",
+    optionA: "Losing the trust of people close to you",
     optionB: "Being in a situation with strict control and no freedom",
     optionC: "Dealing with a messy situation without preparation",
     optionD: "Losing your authority and being seen as weak",
@@ -524,7 +524,7 @@ export const omegaverseQuestions: OmegaverseQuestion[] = [
   {
     id: 34,
     question:
-      "When you sit down to learn a brand-new board game or activity, you usually:",
+      "When you sit down to learn a brand new board game or activity, you usually:",
     optionA: "Focus on the best strategy to dominate and win",
     optionB: "Focus more on bonding with friends than winning",
     optionC: "Read the rulebook fully to ensure compliance",

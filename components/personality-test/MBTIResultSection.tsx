@@ -18,6 +18,7 @@ import {
 import Link from "next/link";
 import { getPersonalityType } from "../../data/MBTI-data";
 import ComparisonCTA from "./ComparisonCTA";
+import { useResponsive } from "@/hooks/useMediaQuery";
 
 interface MBTIResultSectionProps {
   result: string;
@@ -32,11 +33,9 @@ export default function MBTIResultSection({
   windowSize,
   handleRetake,
 }: MBTIResultSectionProps) {
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "instant" });
-  }, []);
-
   const personality = getPersonalityType(result);
+  const { isSmallerDevice } = useResponsive();
+
   if (!personality) return null;
 
   return (
@@ -59,7 +58,7 @@ export default function MBTIResultSection({
           backgroundSize: "cover",
         }}
       >
-        <div className="max-w-4xl mx-auto py-8 px-4 sm:px-6">
+        <div className="max-w-6xl mx-auto py-8 px-4 sm:px-6">
           <div className="flex justify-between items-center mb-6">
             <button
               onClick={handleRetake}
@@ -71,9 +70,9 @@ export default function MBTIResultSection({
           </div>
 
           <div className="flex items-start gap-4 mb-6">
-            <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center shrink-0">
+            <div className="size-8 md:size-12 bg-green-100 rounded-full flex items-center justify-center shrink-0">
               <CheckCircle
-                size={28}
+                size={isSmallerDevice ? 20 : 28}
                 className="text-green-600"
                 strokeWidth={2.5}
               />
@@ -104,44 +103,46 @@ export default function MBTIResultSection({
         </div>
       </section>
 
-      <article className="max-w-4xl mx-auto px-4 sm:px-6 py-8">
-        <section className="bg-white rounded-xl p-6 md:p-8 mb-6 border border-zinc-200 shadow-xs">
-          <h2 className="text-2xl font-bold text-zinc-900 mb-4">
-            Your Key Strengths
-          </h2>
-          <div className="space-y-3">
-            {personality.strengths.map((strength, idx) => (
-              <div key={idx} className="flex items-start gap-3">
-                <CheckCircle
-                  size={20}
-                  className="text-green-600 shrink-0 mt-0.5"
-                  strokeWidth={2}
-                />
-                <p className="text-base text-zinc-800 leading-relaxed">
-                  {strength}
-                </p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section className="bg-white rounded-xl p-6 md:p-8 mb-6 border border-zinc-200 shadow-xs">
-          <h2 className="text-2xl font-bold text-zinc-900 mb-4">
-            Areas for Growth
-          </h2>
-          <div className="space-y-3">
-            {personality.weaknesses.map((weakness, idx) => (
-              <div key={idx} className="flex items-start gap-3">
-                <div className="w-5 h-5 rounded-full bg-blue-100 flex items-center justify-center shrink-0 mt-0.5">
-                  <div className="w-2 h-2 rounded-full bg-blue-600"></div>
+      <article className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <section className="bg-white rounded-xl p-6 md:p-8 border border-zinc-200 shadow-xs h-full flex flex-col">
+            <h2 className="text-2xl font-bold text-zinc-900 mb-4">
+              Your Key Strengths
+            </h2>
+            <div className="space-y-3">
+              {personality.strengths.map((strength, idx) => (
+                <div key={idx} className="flex items-start gap-3">
+                  <CheckCircle
+                    size={20}
+                    className="text-green-600 shrink-0 mt-0.5"
+                    strokeWidth={2}
+                  />
+                  <p className="text-base text-zinc-800 leading-relaxed">
+                    {strength}
+                  </p>
                 </div>
-                <p className="text-base text-zinc-800 leading-relaxed">
-                  {weakness}
-                </p>
-              </div>
-            ))}
-          </div>
-        </section>
+              ))}
+            </div>
+          </section>
+
+          <section className="bg-white rounded-xl p-6 md:p-8 border border-zinc-200 shadow-xs h-full flex flex-col">
+            <h2 className="text-2xl font-bold text-zinc-900 mb-4">
+              Areas for Growth
+            </h2>
+            <div className="space-y-3">
+              {personality.weaknesses.map((weakness, idx) => (
+                <div key={idx} className="flex items-start gap-3">
+                  <div className="w-5 h-5 rounded-full bg-blue-100 flex items-center justify-center shrink-0 mt-0.5">
+                    <div className="w-2 h-2 rounded-full bg-blue-600"></div>
+                  </div>
+                  <p className="text-base text-zinc-800 leading-relaxed">
+                    {weakness}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </section>
+        </div>
 
         <section className="bg-white rounded-xl p-6 md:p-8 mb-6 border border-zinc-200 shadow-xs">
           <h2 className="text-2xl font-bold text-zinc-900 mb-4">

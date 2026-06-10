@@ -9,19 +9,15 @@ const EXIT_MS = 250;
 type PreloaderState = "visible" | "leaving" | "hidden";
 
 export default function SitePreloader() {
-  const [state, setState] = useState<PreloaderState>(() => {
-    if (typeof window === "undefined") {
-      return "visible";
-    }
-
-    return window.sessionStorage.getItem(SESSION_KEY) === "true"
-      ? "hidden"
-      : "visible";
-  });
+  const [state, setState] = useState<PreloaderState>("visible");
 
   useEffect(() => {
-    if (state !== "visible") {
-      return;
+    if (typeof window !== "undefined") {
+      const isShown = window.sessionStorage.getItem(SESSION_KEY) === "true";
+      if (isShown) {
+        setState("hidden");
+        return;
+      }
     }
 
     const leaveTimer = window.setTimeout(() => {
@@ -29,7 +25,9 @@ export default function SitePreloader() {
     }, DISPLAY_MS);
 
     const completeTimer = window.setTimeout(() => {
-      window.sessionStorage.setItem(SESSION_KEY, "true");
+      if (typeof window !== "undefined") {
+        window.sessionStorage.setItem(SESSION_KEY, "true");
+      }
       setState("hidden");
     }, DISPLAY_MS + EXIT_MS);
 
@@ -42,7 +40,7 @@ export default function SitePreloader() {
       window.clearTimeout(completeTimer);
       window.clearTimeout(failSafeTimer);
     };
-  }, [state]);
+  }, []);
 
   if (state === "hidden") {
     return null;

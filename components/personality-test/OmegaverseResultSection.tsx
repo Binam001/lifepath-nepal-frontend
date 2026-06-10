@@ -33,10 +33,6 @@ export default function OmegaverseResultSection({
   handleRetake,
   computedScores,
 }: OmegaverseResultSectionProps) {
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "instant" });
-  }, []);
-
   const profile = omegaverseTypes[result];
   if (!profile) return null;
 
