@@ -101,7 +101,7 @@ export default function PersonalitySelectionPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-zinc-50/70 pt-20 pb-16">
+    <div className="min-h-screen bg-zinc-50/70 pt-16 pb-16">
       {/* Header section with modern gradient design */}
       <section className="relative overflow-hidden py-16 bg-linear-to-l from-primary to-black bg-black text-white">
         {/* Abstract background blur shapes */}
@@ -121,11 +121,11 @@ export default function PersonalitySelectionPage() {
       </section>
 
       {/* Grid listing the tests */}
-      <main className="max-w-5xl mx-auto px-4 py-12">
+      <main className="max-w-5xl mx-auto px-4 py-8">
         {/* Synthesis Dashboard Promo Banner */}
         {/* Synthesis Dashboard Promo Banner */}
         {completedCount !== null && completedCount > 0 && (
-          <div className="bg-linear-to-r from-blue-500/10 via-purple-500/5 to-transparent border border-zinc-200/80 rounded-3xl p-6 sm:p-8 mb-10 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xs relative overflow-hidden animate-in fade-in duration-300">
+          <div className="bg-linear-to-r from-blue-500/10 via-purple-500/5 to-transparent border border-zinc-200/80 rounded-3xl p-6 sm:p-8 mb-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xs relative overflow-hidden animate-in fade-in duration-300">
             <div className="absolute top-0 right-0 w-48 h-48 bg-primary/5 rounded-full blur-2xl pointer-events-none"></div>
             <div className="flex items-start gap-4">
               <div className="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center shrink-0 border border-primary/20">
@@ -148,7 +148,7 @@ export default function PersonalitySelectionPage() {
               href="/personality-test/comparison"
               className="shrink-0 w-full md:w-auto"
             >
-              <button className="w-full md:w-auto py-3 px-6 font-bold rounded-full bg-zinc-950 hover:bg-zinc-800 text-white text-sm transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer shadow-sm hover:scale-[1.02] active:scale-[0.98]">
+              <button className="w-full md:w-auto py-3 px-6 font-bold rounded-full bg-primary hover:bg-primary/90 text-white text-sm transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer shadow-sm">
                 {completedCount === 3
                   ? "See Complete Dashboard"
                   : "View Comparison Dashboard"}
@@ -167,7 +167,7 @@ export default function PersonalitySelectionPage() {
             return (
               <div
                 key={test.id}
-                className={`bg-white rounded-[36px] border-2 border-zinc-200/85 p-8 flex flex-col justify-between transition-all duration-300 shadow-sm hover:shadow-xl hover:border-primary/60 hover:-translate-y-1 group relative w-full md:max-w-xl ${
+                className={`bg-white rounded-2xl border-2 border-zinc-200/85 p-8 flex flex-col justify-between transition-all duration-300 shadow-sm hover:shadow-xl hover:border-primary/60 hover:-translate-y-1 group relative w-full md:max-w-lg ${
                   index === 2 ? "md:col-span-2 md:justify-self-center" : ""
                 }`}
               >

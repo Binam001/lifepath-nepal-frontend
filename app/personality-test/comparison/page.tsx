@@ -158,29 +158,42 @@ export default function PersonalityComparisonPage() {
   };
 
   return (
-    <div className="min-h-screen pt-20 pb-16 bg-zinc-50/70">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        {/* Navigation Link back */}
-        <Link
-          href="/personality-test"
-          className="inline-flex items-center gap-1.5 text-zinc-500 hover:text-zinc-800 text-sm font-semibold mb-6 transition-all"
-        >
-          <ArrowLeft size={16} />
-          Back to Assessments Catalog
-        </Link>
+    <div className="min-h-screen pt-16 pb-16 bg-zinc-50/70">
+      <section
+        className="bg-white border-b"
+        style={{
+          backgroundImage: "url(/404/404.png)",
+          backgroundPosition: "bottom",
+          backgroundSize: "cover",
+        }}
+      >
+        <div className="max-w-4xl mx-auto h-full min-h-[65vh] py-8 px-4 sm:px-6 flex flex-col">
+          <div className="flex justify-between items-center">
+            <Link href="/personality-test">
+              <button className="px-4 py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 text-sm font-medium rounded-lg transition-all cursor-pointer flex items-center gap-2">
+                <ArrowLeft size={16} />
+                Back to Assessments Catalog
+              </button>
+            </Link>
+          </div>
 
-        {/* Hero Section */}
-        <header className="bg-white rounded-3xl p-6 sm:p-8 border border-zinc-200/80 shadow-xs mb-8 text-center sm:text-left relative overflow-hidden">
-          <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-zinc-950 mb-3">
-            Multi-Framework Alignment
-          </h1>
-          <p className="text-base md:text-lg text-zinc-500 leading-relaxed">
-            Synthesize your MBTI, Omegaverse, and OCEAN results. Identify
-            cross-assessment career paths and map your unified character
-            profile.
-          </p>
-        </header>
-
+          <div className="flex-1 flex items-center">
+            <div className="flex items-start gap-4">
+              <div>
+                <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">
+                  Multi-Framework Alignment
+                </h1>
+                <p className="text-lg text-white/70 leading-relaxed">
+                  Synthesize your MBTI, Omegaverse, and OCEAN results. Identify
+                  cross-assessment career paths and map your unified character
+                  profile.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 mt-8">
         {/* Assessments Progress Journey Card */}
         <section className="bg-white rounded-3xl p-6 sm:p-8 border border-zinc-200/80 shadow-xs mb-8">
           <div className="flex items-center justify-between border-b border-zinc-100 pb-4 mb-6">
@@ -197,7 +210,7 @@ export default function PersonalityComparisonPage() {
             {/* MBTI status */}
             <div className="border border-zinc-100 rounded-2xl p-4 flex flex-col justify-between hover:border-zinc-200 transition-all bg-zinc-50">
               <div className="flex items-start justify-between mb-3">
-                <div className="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600 border border-blue-100/60">
+                <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
                   <Brain size={18} />
                 </div>
                 {hasMbti ? (
@@ -224,7 +237,7 @@ export default function PersonalityComparisonPage() {
                     className={`w-full py-2 px-3 font-bold rounded-lg text-xs sm:text-sm flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
                       hasMbti
                         ? "bg-zinc-100 hover:bg-zinc-200 text-zinc-700"
-                        : "bg-blue-500 hover:bg-blue-600 text-white"
+                        : "bg-primary hover:bg-primary/80 text-white"
                     }`}
                   >
                     {hasMbti ? "See Result" : "Start Test"}
@@ -237,7 +250,7 @@ export default function PersonalityComparisonPage() {
             {/* Omegaverse status */}
             <div className="border border-zinc-100 rounded-2xl p-4 flex flex-col justify-between hover:border-zinc-200 transition-all bg-zinc-50">
               <div className="flex items-start justify-between mb-3">
-                <div className="w-9 h-9 rounded-xl bg-amber-50 flex items-center justify-center text-amber-600 border border-amber-100/60">
+                <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
                   <Sparkles size={18} />
                 </div>
                 {hasOmegaverse ? (
@@ -264,7 +277,7 @@ export default function PersonalityComparisonPage() {
                     className={`w-full py-2 px-3 font-bold rounded-lg text-xs sm:text-sm flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
                       hasOmegaverse
                         ? "bg-zinc-100 hover:bg-zinc-200 text-zinc-700"
-                        : "bg-amber-500 hover:bg-amber-600 text-white"
+                        : "bg-primary hover:bg-primary/80 text-white"
                     }`}
                   >
                     {hasOmegaverse ? "See Result" : "Start Test"}
@@ -277,7 +290,7 @@ export default function PersonalityComparisonPage() {
             {/* OCEAN status */}
             <div className="border border-zinc-100 rounded-2xl p-4 flex flex-col justify-between hover:border-zinc-200 transition-all bg-zinc-50">
               <div className="flex items-start justify-between mb-3">
-                <div className="w-9 h-9 rounded-xl bg-purple-50 flex items-center justify-center text-purple-600 border border-purple-100/60">
+                <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
                   <Compass size={18} />
                 </div>
                 {hasOcean ? (
@@ -304,7 +317,7 @@ export default function PersonalityComparisonPage() {
                     className={`w-full py-2 px-3 font-bold rounded-lg text-xs sm:text-sm flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
                       hasOcean
                         ? "bg-zinc-100 hover:bg-zinc-200 text-zinc-700"
-                        : "bg-purple-600 hover:bg-purple-700 text-white"
+                        : "bg-primary hover:bg-primary/80 text-white"
                     }`}
                   >
                     {hasOcean ? "See Result" : "Start Test"}
