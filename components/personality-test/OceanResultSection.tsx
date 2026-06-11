@@ -3,14 +3,7 @@
 import { useEffect, useState } from "react";
 import Confetti from "react-confetti";
 import { BarChart } from "@mui/x-charts";
-import {
-  ArrowRight,
-  ArrowLeft,
-  CheckCircle,
-  Brain,
-  Compass,
-  Zap,
-} from "lucide-react";
+import { ArrowRight, ArrowLeft, CheckCircle, Compass, Zap } from "lucide-react";
 import Link from "next/link";
 import {
   oceanDescriptions,
@@ -20,8 +13,8 @@ import {
   type Trait,
 } from "@/data/OCEAN-data";
 import { calculateArchetype } from "@/data/CareermatchingForOcean";
-import OceanRadarChart from "./OceanRadarChart";
-import ComparisonCTA from "./ComparisonCTA";
+import OceanRadarChart from "./components/OceanRadarChart";
+import ComparisonCTA from "./components/ComparisonCTA";
 
 interface OceanResultSectionProps {
   scores: Record<string, number>;
@@ -41,6 +34,7 @@ export default function OceanResultSection({
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     setIsMounted(true);
 
     const checkMobile = () => setIsMobile(window.innerWidth < 640);
@@ -70,7 +64,7 @@ export default function OceanResultSection({
     },
   };
 
-  const yAxisLabels = isMobile
+  const xAxisLabels = isMobile
     ? ["O", "C", "E", "A", "N"]
     : [
         "Openness",
@@ -81,8 +75,8 @@ export default function OceanResultSection({
       ];
 
   const chartMargin = isMobile
-    ? { left: 5, right: 20, top: 10, bottom: 30 }
-    : { left: 5, right: 30, top: 10, bottom: 30 };
+    ? { left: 30, right: 10, top: 20, bottom: 40 }
+    : { left: 40, right: 15, top: 20, bottom: 40 };
 
   return (
     <div className="min-h-screen pt-16 pb-12 bg-zinc-50 animate-in fade-in duration-300">
@@ -104,11 +98,11 @@ export default function OceanResultSection({
           backgroundSize: "cover",
         }}
       >
-        <div className="max-w-4xl mx-auto h-full min-h-[65vh] py-8 px-4 sm:px-6 flex flex-col">
+        <div className="max-w-6xl mx-auto h-full min-h-[65vh] py-8 px-4 sm:px-6 flex flex-col">
           <div className="flex justify-between items-center">
             <button
               onClick={handleRetake}
-              className="px-4 py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 text-sm font-medium rounded-lg transition-all cursor-pointer flex items-center gap-2"
+              className="px-4 py-2 bg-white/30 hover:bg-white/20 text-white border border-white/20 text-sm font-semibold rounded-full transition-all cursor-pointer flex items-center gap-2 w-fit"
             >
               <ArrowLeft size={16} />
               Retake Test
@@ -134,7 +128,7 @@ export default function OceanResultSection({
         </div>
       </section>
 
-      <article className="max-w-4xl mx-auto px-4 sm:px-6 py-8 space-y-8">
+      <article className="max-w-6xl mx-auto px-4 sm:px-6 py-8 space-y-8">
         {/* Chart Card */}
         {/* Chart Card */}
         <section className="bg-white rounded-2xl p-6 md:p-8 border border-zinc-200 shadow-sm space-y-8">
@@ -176,12 +170,12 @@ export default function OceanResultSection({
               {isMounted && (
                 <BarChart
                   height={320}
-                  layout="horizontal"
-                  yAxis={[
+                  layout="vertical"
+                  xAxis={[
                     {
                       scaleType: "band",
-                      data: yAxisLabels,
-                      width: isMobile ? 30 : 155,
+                      data: xAxisLabels,
+                      categoryGapRatio: 0.55,
                       colorMap: {
                         type: "ordinal",
                         colors: [
@@ -194,7 +188,7 @@ export default function OceanResultSection({
                       },
                     },
                   ]}
-                  xAxis={[{ min: 0, max: 100 }]}
+                  yAxis={[{ min: 0, max: 100 }]}
                   series={[
                     {
                       data: [
@@ -211,7 +205,7 @@ export default function OceanResultSection({
                           : "",
                     },
                   ]}
-                  grid={{ vertical: true }}
+                  grid={{ horizontal: true }}
                   sx={chartStyles}
                   margin={chartMargin}
                   slotProps={{ legend: { hidden: true } as any }}

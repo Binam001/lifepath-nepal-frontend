@@ -23,11 +23,13 @@ export default function PersonalitySelectionPage() {
     const mbti = localStorage.getItem("mbti_saved_result");
     const ocean = localStorage.getItem("ocean_saved_result");
     const omegaverse = localStorage.getItem("omegaverse_saved_result");
+    const ei = localStorage.getItem("ei_saved_result");
 
     let count = 0;
     if (mbti) count++;
     if (ocean) count++;
     if (omegaverse) count++;
+    if (ei) count++;
 
     setCompletedCount(count);
   }, []);
@@ -98,6 +100,30 @@ export default function PersonalitySelectionPage() {
       bookUrl: "/ocean-book",
       bookLabel: "Learn more about OCEAN",
     },
+    {
+      id: "ei",
+      title: "Emotional Intelligence (EQ)",
+      tagline: "3-Layer Behavior Assessment",
+      description:
+        "Evaluate your EQ across 5 domains. This test synthesizes self-report perception with scenario-based behavioral responses to identify self-awareness gaps, blind spots, and imposter patterns.",
+      duration: "8 Minutes",
+      questionsCount: 40,
+      badge: "Self-Awareness",
+      mainColor: "primary",
+      secondaryColor: "primary/10",
+      icon: Brain,
+      formatLabel: "5 EQ Core Domains",
+      details: [
+        "Self-Awareness",
+        "Self-Regulation",
+        "Motivation",
+        "Empathy",
+        "Social Skills",
+      ],
+      buttonLabel: "Assess Your EQ",
+      bookUrl: "/ei-book",
+      bookLabel: "Learn more about EQ",
+    },
   ];
 
   return (
@@ -108,7 +134,7 @@ export default function PersonalitySelectionPage() {
         <div className="absolute top-0 right-0 w-80 h-80 bg-blue-600/10 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none"></div>
         <div className="absolute bottom-0 left-0 w-80 h-80 bg-purple-600/10 rounded-full blur-3xl -ml-16 -mb-16 pointer-events-none"></div>
 
-        <div className="max-w-5xl mx-auto px-4 text-center relative z-10">
+        <div className="max-w-7xl mx-auto px-4 text-center relative z-10">
           <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-white mb-4">
             Discover Your True Self
           </h1>
@@ -121,7 +147,7 @@ export default function PersonalitySelectionPage() {
       </section>
 
       {/* Grid listing the tests */}
-      <main className="max-w-5xl mx-auto px-4 py-8">
+      <main className="max-w-7xl mx-auto px-4 py-8">
         {/* Synthesis Dashboard Promo Banner */}
         {/* Synthesis Dashboard Promo Banner */}
         {completedCount !== null && completedCount > 0 && (
@@ -158,7 +184,7 @@ export default function PersonalitySelectionPage() {
           </div>
         )}
         {/* <div className="flex flex-col md:flex-row gap-8 justify-center items-stretch max-w-2xl md:max-w-none mx-auto"> */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto justify-center">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 max-w-7xl mx-auto justify-center">
           {tests.map((test, index) => {
             const IconComponent = test.icon;
             const shadowColor =
@@ -167,9 +193,7 @@ export default function PersonalitySelectionPage() {
             return (
               <div
                 key={test.id}
-                className={`bg-white rounded-2xl border-2 border-zinc-200/85 p-8 flex flex-col justify-between transition-all duration-300 shadow-sm hover:shadow-xl hover:border-primary/60 hover:-translate-y-1 group relative w-full md:max-w-lg ${
-                  index === 2 ? "md:col-span-2 md:justify-self-center" : ""
-                }`}
+                className="bg-white rounded-2xl border-2 border-zinc-200/85 p-8 flex flex-col justify-between transition-all duration-300 shadow-sm hover:shadow-xl hover:border-primary/60 hover:-translate-y-1 group relative w-full md:max-w-lg mx-auto"
               >
                 {/* Badge top-right */}
                 {/*  <div className="absolute top-6 right-6">
@@ -238,7 +262,7 @@ export default function PersonalitySelectionPage() {
                     </button>
                   </Link>
 
-                  {test.id === "ocean" ? (
+                  {test.id === "ocean" || test.id === "ei" ? (
                     <button
                       disabled
                       className="w-full py-3.5 px-6 font-bold rounded-full border border-zinc-200 text-zinc-400 bg-zinc-50 text-sm flex items-center justify-center gap-1.5 cursor-not-allowed"

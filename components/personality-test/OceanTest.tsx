@@ -1,19 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import {
-  ArrowRight,
-  ArrowLeft,
-  CheckCircle,
-  HelpCircle,
-  BookMarked,
-  Brain,
-  Clock,
-  Sparkles,
-} from "lucide-react";
+import { CheckCircle, BookMarked, Brain } from "lucide-react";
 import Link from "next/link";
 import { oceanQuestions } from "@/data/OCEAN-test";
 import OceanResultSection from "./OceanResultSection";
+import ConfirmDeleteModal from "./components/ConfirmDeleteModal";
+import SavedResultBanner from "./components/SavedResultBanner";
+import TestHeader from "./components/TestHeader";
+import TestNavigation from "./components/TestNavigation";
 
 export default function OceanTest() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -24,6 +19,7 @@ export default function OceanTest() {
   const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
   const [isInitialized, setIsInitialized] = useState(false);
   const [hasSavedResult, setHasSavedResult] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const scale = [
     { value: 1, label: "100%", sublabel: "Strong Disagree" },
@@ -90,6 +86,10 @@ export default function OceanTest() {
     const timer = setTimeout(() => setShowConfetti(false), 5000);
     return () => clearTimeout(timer);
   }, [showConfetti]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [currentQuestion]);
 
   const handleAnswer = (value: number) => {
     const updatedAnswers = {
@@ -221,70 +221,19 @@ export default function OceanTest() {
   return (
     <div className="min-h-screen pt-16 bg-zinc-100 overflow-hidden flex flex-col justify-between">
       <div>
-        <section className="bg-linear-to-l from-primary to-black text-white">
-          <div className="max-w-6xl mx-auto py-8 md:py-12 px-4 relative">
-            <div className="text-center max-w-3xl mx-auto">
-              <div className="flex items-center justify-center gap-3 mb-4">
-                <div className="w-14 h-14 bg-white/10 rounded-full flex items-center justify-center backdrop-blur-xs">
-                  <Brain size={32} className="text-white animate-pulse" />
-                </div>
-              </div>
-              <h1 className="text-3xl md:text-5xl font-bold text-white mb-3 tracking-tight">
-                Big Five Personality Test (OCEAN)
-              </h1>
-              <p className="text-base md:text-lg text-zinc-200 mb-4 font-light">
-                Discover your scores on Openness, Conscientiousness,
-                Extraversion, Agreeableness, and Neuroticism
-              </p>
-              <div className="flex items-center justify-center gap-4 text-sm text-white/95 font-medium">
-                <span className="flex items-center gap-2">
-                  <CheckCircle size={16} />
-                  100% Free
-                </span>
-                <span className="text-white/40">•</span>
-                <span className="flex items-center gap-2">
-                  <Clock size={16} />6 Minutes
-                </span>
-                <span className="text-white/40">•</span>
-                <span>Instant Results</span>
-              </div>
-            </div>
-          </div>
-        </section>
+        <TestHeader
+          title="Big Five Personality Test (OCEAN)"
+          description="Discover your scores on Openness, Conscientiousness, Extraversion, Agreeableness, and Neuroticism"
+          durationText="6 Minutes"
+          icon={<Brain size={32} className="text-white animate-pulse" />}
+        />
 
         <section className="max-w-4xl mx-auto py-12 px-4 sm:px-6">
-          {/* Back to Result Banner */}
           {hasSavedResult && (
-            <div className="mb-8 max-w-2xl mx-auto w-full flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white border border-zinc-200 rounded-2xl p-4 shadow-xs animate-fade-in relative overflow-hidden animate-in fade-in duration-300">
-              <div className="flex items-center gap-3 pl-2">
-                <div className="w-9 h-9 bg-emerald-50 text-primary rounded-lg flex items-center justify-center shrink-0">
-                  <Sparkles size={18} className="animate-pulse" />
-                </div>
-                <div>
-                  <h4 className="text-sm font-bold text-zinc-900">
-                    Previous Result Available
-                  </h4>
-                  <p className="text-xs text-zinc-500 mt-0.5">
-                    You can view your last completed test results directly.
-                  </p>
-                </div>
-              </div>
-              <div className="flex gap-2 sm:self-center shrink-0">
-                <button
-                  onClick={handleDeleteSavedResult}
-                  className="px-4 py-2 bg-zinc-100 hover:bg-zinc-200 active:scale-95 text-zinc-700 text-xs font-bold rounded-lg transition-all flex items-center justify-center gap-1.5 cursor-pointer"
-                >
-                  Delete
-                </button>
-                <button
-                  onClick={handleRestoreResult}
-                  className="px-4 py-2 bg-primary hover:bg-primary/90 active:scale-95 text-white text-xs font-bold rounded-lg transition-all shadow-md shadow-primary/10 flex items-center justify-center gap-1.5 cursor-pointer"
-                >
-                  <span>View Result</span>
-                  <ArrowRight size={14} />
-                </button>
-              </div>
-            </div>
+            <SavedResultBanner
+              onDelete={() => setIsDeleteModalOpen(true)}
+              onRestore={handleRestoreResult}
+            />
           )}
 
           <div className="mb-8 max-w-2xl mx-auto w-full">
@@ -375,7 +324,13 @@ export default function OceanTest() {
 
             <div className="p-2 mb-3 md:mb-6 flex flex-col items-center gap-3">
               <p className="text-center text-xs text-zinc-500 leading-relaxed">
-                Choose a level of agreement or disagreement, or select{" "}
+                Choose a level of{" "}
+                <span className="font-semibold text-emerald-500">
+                  Agreement
+                </span>{" "}
+                or{" "}
+                <span className="font-semibold text-red-500">Disagreement</span>
+                , or select{" "}
                 <span className="font-semibold text-zinc-500">Neutral</span> if
                 you neither agree nor disagree.
               </p>
@@ -389,42 +344,14 @@ export default function OceanTest() {
               </div>
             </div>
 
-            <div className="flex justify-between items-center border-t border-zinc-100 pt-6">
-              <button
-                onClick={handlePrevious}
-                disabled={currentQuestion === 0}
-                className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold transition-all ${
-                  currentQuestion === 0
-                    ? "bg-zinc-100 text-zinc-400 cursor-not-allowed"
-                    : "bg-white border-2 border-zinc-200 text-zinc-700 hover:bg-zinc-50 hover:border-zinc-300 hover:shadow-xs cursor-pointer"
-                }`}
-              >
-                <ArrowLeft size={18} />
-                <span>Previous</span>
-              </button>
-
-              <div className="hidden md:flex items-center gap-2">
-                {isAnswered && (
-                  <div className="flex items-center gap-1.5 text-xs font-bold text-green-600 bg-green-50 px-3 py-1 rounded-full border border-green-100">
-                    <CheckCircle size={14} />
-                    <span>Answered</span>
-                  </div>
-                )}
-              </div>
-
-              <button
-                onClick={handleNext}
-                disabled={!isAnswered}
-                className="flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-semibold transition-all bg-primary hover:bg-primary text-white shadow-md shadow-primary/20 hover:shadow-lg cursor-pointer"
-              >
-                <span>
-                  {currentQuestion === oceanQuestions.length - 1
-                    ? "Finish"
-                    : "Next"}
-                </span>
-                <ArrowRight size={16} />
-              </button>
-            </div>
+            <TestNavigation
+              currentQuestion={currentQuestion}
+              totalQuestions={oceanQuestions.length}
+              isAnswered={isAnswered}
+              handlePrevious={handlePrevious}
+              handleNext={handleNext}
+              containerClass="flex justify-between items-center border-t border-zinc-100 pt-6 max-w-2xl mx-auto w-full"
+            />
           </div>
         </section>
       </div>
@@ -438,6 +365,11 @@ export default function OceanTest() {
           Learn more about Big Five (OCEAN) traits
         </Link>
       </div>
+      <ConfirmDeleteModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onConfirm={handleDeleteSavedResult}
+      />
     </div>
   );
 }

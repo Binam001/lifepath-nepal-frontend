@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { omegaverseTypes } from "@/data/omegaverse-data";
-import ComparisonCTA from "./ComparisonCTA";
+import ComparisonCTA from "./components/ComparisonCTA";
 
 interface OmegaverseResultSectionProps {
   result: string;
@@ -34,6 +34,11 @@ export default function OmegaverseResultSection({
   computedScores,
 }: OmegaverseResultSectionProps) {
   const profile = omegaverseTypes[result];
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   if (!profile) return null;
 
   // Style values based on classification (Alpha, Beta, Omega, Sigma, Delta, Gamma)
@@ -137,11 +142,11 @@ export default function OmegaverseResultSection({
           backgroundSize: "cover",
         }}
       >
-        <div className="max-w-5xl mx-auto py-8 px-4 sm:px-6">
+        <div className="max-w-6xl mx-auto py-8 px-4 sm:px-6">
           <div className="flex justify-between items-center mb-6">
             <button
               onClick={handleRetake}
-              className="px-4 py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 text-sm font-medium rounded-lg transition-all cursor-pointer flex items-center gap-2"
+              className="px-4 py-2 bg-white/30 hover:bg-white/20 text-white border border-white/20 text-sm font-semibold rounded-full transition-all cursor-pointer flex items-center gap-2 w-fit"
             >
               <ArrowLeft size={16} />
               Retake Test
@@ -175,7 +180,7 @@ export default function OmegaverseResultSection({
         </div>
       </section>
 
-      <article className="max-w-5xl mx-auto px-4 sm:px-6 py-8 space-y-6">
+      <article className="max-w-6xl mx-auto px-4 sm:px-6 py-8 space-y-6">
         <section className="bg-white rounded-xl p-6 md:p-8 border border-zinc-200 shadow-sm animate-fade-in">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
             <div>

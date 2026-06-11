@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { getPersonalityType } from "../../data/MBTI-data";
-import ComparisonCTA from "./ComparisonCTA";
+import ComparisonCTA from "./components/ComparisonCTA";
 import { useResponsive } from "@/hooks/useMediaQuery";
 
 interface MBTIResultSectionProps {
@@ -35,6 +35,10 @@ export default function MBTIResultSection({
 }: MBTIResultSectionProps) {
   const personality = getPersonalityType(result);
   const { isSmallerDevice } = useResponsive();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   if (!personality) return null;
 
@@ -62,7 +66,7 @@ export default function MBTIResultSection({
           <div className="flex justify-between items-center mb-6">
             <button
               onClick={handleRetake}
-              className="px-4 py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 text-sm font-medium rounded-lg transition-all cursor-pointer flex items-center gap-2"
+              className="px-4 py-2 bg-white/30 hover:bg-white/20 text-white border border-white/20 text-sm font-semibold rounded-full transition-all cursor-pointer flex items-center gap-2 w-fit"
             >
               <ArrowLeft size={16} />
               Retake Test
@@ -79,10 +83,10 @@ export default function MBTIResultSection({
             </div>
             <div>
               <div className="flex items-center gap-3 mb-2">
-                <h1 className="text-3xl md:text-4xl font-bold text-zinc-100 sm:text-zinc-900">
+                <h1 className="text-3xl md:text-4xl font-bold text-zinc-100">
                   {personality.name}
                 </h1>
-                <div className="px-4 py-1.5 bg-blue-600 text-white text-lg sm:text-xl font-bold rounded-lg animate-bounce">
+                <div className="px-4 py-1.5 bg-primary text-white text-lg sm:text-xl font-bold rounded-lg animate-bounce">
                   {result}
                 </div>
               </div>

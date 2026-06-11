@@ -93,9 +93,9 @@ export default function ComparisonCTA() {
             <div>
               <h3 className="text-xl sm:text-2xl font-extrabold text-zinc-950 mb-1 flex items-center gap-2">
                 Triple Alignment Dashboard Unlocked
-                <span className="text-xs font-black tracking-widest text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100">
+                {/* <span className="text-xs font-black tracking-widest text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100">
                   Ready
-                </span>
+                </span> */}
               </h3>
               <p className="text-base text-zinc-500 max-w-xl leading-relaxed">
                 Awesome! You have completed all 3 personality assessments. View
