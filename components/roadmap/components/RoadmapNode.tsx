@@ -23,25 +23,25 @@ export default function RoadmapNode({ node, status, onClick }: Props) {
   };
 
   // ---- Phase header (non-interactive) ----
-  if (variant === "phase") {
+  if (variant === "title") {
+    base +=
+      " rounded-xl text-white text-2xl md:text-3xl font-extrabold tracking-tight bg-primary cursor-default";
+    shadow = "shadow-[6px_6px_0_#1e3a8a]";
+    style = { ...style };
     return (
-      <div
-        className="absolute rounded-md border-y-[3px] border-blue-700 bg-gradient-to-r from-blue-50 via-white to-blue-50 px-4 py-2 text-center text-sm font-bold uppercase tracking-wider text-blue-900 shadow-sm"
-        style={style}
-      >
-        <span className="px-2">{node.title}</span>
+      <div className={`${base} ${shadow}`} style={style}>
+        <span className="px-2 leading-tight">{node.title}</span>
       </div>
     );
   }
 
-  if (variant === "title") {
-    base +=
-      " rounded-xl text-white text-2xl md:text-3xl font-extrabold tracking-tight bg-blue-700 cursor-default";
-    shadow = "shadow-[6px_6px_0_#1e3a8a]";
-    style = { ...style, fontFamily: "var(--font-playfair)" };
+  if (variant === "phase") {
     return (
-      <div className={`${base} ${shadow}`} style={style}>
-        <span className="px-2 leading-tight">{node.title}</span>
+      <div
+        className="absolute rounded-md border-y-[3px] border-primary bg-linear-to-r from-blue-50 via-white to-blue-50 px-4 py-2 text-center text-sm font-bold uppercase tracking-wider text-blue-900 shadow-sm"
+        style={style}
+      >
+        <span className="px-2">{node.title}</span>
       </div>
     );
   }
@@ -51,7 +51,7 @@ export default function RoadmapNode({ node, status, onClick }: Props) {
       flavor === "optional"
         ? "bg-blue-950 text-blue-100"
         : "bg-blue-600 text-white";
-    base += ` rounded-md text-lg cursor-pointer ${bg}`;
+    base += ` rounded-md text-xl py-2 px-4 cursor-pointer ${bg}`;
     shadow = "shadow-[4px_4px_0_#0c1e3e]";
   } else {
     // secondary subtopic boxes
@@ -61,7 +61,7 @@ export default function RoadmapNode({ node, status, onClick }: Props) {
         : flavor === "optional"
           ? "bg-zinc-50 border-zinc-300 text-zinc-600 border-dashed"
           : "bg-white border-blue-800 text-blue-950";
-    base += ` rounded-md border-[2px] text-sm px-3 cursor-pointer ${palette}`;
+    base += ` rounded-md border-[2px] text-lg whitespace-nowrap py-1.5 px-3 cursor-pointer ${palette}`;
     shadow = "shadow-[3px_3px_0_#1e3a8a]";
   }
 
@@ -81,7 +81,12 @@ export default function RoadmapNode({ node, status, onClick }: Props) {
       type="button"
       onClick={() => onClick(node.id)}
       className={`${base} ${shadow} ${statusOverlay} hover:-translate-y-0.5 hover:shadow-[6px_6px_0_#1e3a8a] active:translate-y-0 active:shadow-[2px_2px_0_#1e3a8a]`}
-      style={style}
+      style={{
+        left: node.x,
+        top: node.y,
+        width: node.w,
+        padding: "12px 0",
+      }}
     >
       <span className="px-2 leading-tight">{node.title}</span>
     </button>

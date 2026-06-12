@@ -1,7 +1,7 @@
 "use client";
 
 import { Clock, Lock, Rocket } from "lucide-react";
-import { CANVAS_W } from "../frontend/data";
+import { CANVAS_W, NODES, scaleY } from "../frontend/data";
 import { ProjectIdea } from "../frontend/projects";
 
 interface Props {
@@ -10,18 +10,49 @@ interface Props {
 }
 
 const CARD_W = 240;
-const RAIL_PAD = 18;
+const RAIL_PAD = 10;
 
 export default function ProjectCard({ project, unlocked }: Props) {
-  const left =
-    project.side === "left" ? RAIL_PAD : CANVAS_W - CARD_W - RAIL_PAD;
+  const MID = CANVAS_W / 2;
+  const scaledProjectY = scaleY(project.y);
+
+  // Find the closest same-side subtopic or topic node to align horizontally
+  const sameSideNodes = NODES.filter((n) => {
+    if (n.variant !== "secondary" && n.variant !== "primary") return false;
+    return project.side === "left" ? n.x < MID : n.x > MID;
+  });
+
+  let closestNode = null;
+  let minDiff = Infinity;
+  for (const n of sameSideNodes) {
+    const diff = Math.abs(n.y - scaledProjectY);
+    if (diff < minDiff) {
+      minDiff = diff;
+      closestNode = n;
+    }
+  }
+
+  let left = project.side === "left" ? RAIL_PAD : CANVAS_W - CARD_W - RAIL_PAD;
+
+  if (closestNode) {
+    if (project.side === "left") {
+      // Align to the left of the closest node
+      left = closestNode.x - CARD_W - 12;
+    } else {
+      // Align to the right of the closest node
+      left = closestNode.x + closestNode.w + 12;
+    }
+  }
+
+  // Ensure card stays within canvas boundaries
+  left = Math.max(0, Math.min(CANVAS_W - CARD_W, left));
 
   return (
     <div
       className="absolute"
       style={{
         left,
-        top: project.y,
+        top: scaledProjectY,
         width: CARD_W,
       }}
     >

@@ -18,7 +18,7 @@ export default function HeroSection() {
     videoRef.current!.currentTime = 0; // optional: reset video
   };
   return (
-    <section className="overflow-hidden bg-white px-4 pt-16 pb-14 md:px-0 min-h-screen">
+    <section className="overflow-hidden bg-[#FBFBFB] px-4 pt-16 pb-14 md:px-0 min-h-screen">
       <div className="max-w-7xl mx-auto grid items-center gap-12 lg:min-h-[calc(100vh-6rem)] lg:grid-cols-[1.05fr_0.95fr]">
         <div className="max-w-3xl space-y-6">
           <div className="space-y-4">
@@ -67,6 +67,8 @@ export default function HeroSection() {
               muted
               playsInline
             />
+            <div className="absolute h-full w-[5%] right-0 bottom-0 bg-white" />
+            <div className="absolute h-[2%] w-full right-0 bottom-[4%] bg-white" />
           </div>
           {/* <div className="relative overflow-hidden flex h-full items-center">
             <Image

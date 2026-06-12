@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import {
   ArrowLeft,
@@ -21,11 +21,12 @@ export default function FrontendRoadmapPage() {
   const [openId, setOpenId] = useState<string | null>(null);
   const [query, setQuery] = useState("");
   const [isHeaderVisible, setIsHeaderVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
+  const lastScrollYRef = useRef(0);
 
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
+      const lastScrollY = lastScrollYRef.current;
 
       if (currentScrollY > lastScrollY && currentScrollY > 100) {
         // Scrolling down and past 100px
@@ -35,12 +36,12 @@ export default function FrontendRoadmapPage() {
         setIsHeaderVisible(true);
       }
 
-      setLastScrollY(currentScrollY);
+      lastScrollYRef.current = currentScrollY;
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [lastScrollY]);
+  }, []);
 
   const trackable = useMemo(
     () => NODES.filter((n) => n.variant !== "title" && n.variant !== "phase"),
@@ -84,7 +85,7 @@ export default function FrontendRoadmapPage() {
         <div className="relative mx-auto max-w-7xl px-4 py-12 md:py-16">
           <Link
             href="/roadmap"
-            className="inline-flex items-center gap-2 text-sm font-medium text-blue-200 hover:text-white"
+            className="px-4 py-2 bg-white/30 hover:bg-white/20 text-white border border-white/20 text-sm font-semibold rounded-full transition-all cursor-pointer flex items-center gap-2 w-fit"
           >
             <ArrowLeft className="h-4 w-4" />
             All roadmaps
@@ -92,14 +93,14 @@ export default function FrontendRoadmapPage() {
 
           <div className="mt-6 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
             <div className="flex-1">
-              <div className="inline-flex items-center gap-2 rounded-full border border-blue-300/30 bg-blue-500/20 px-3 py-1 text-xs font-semibold text-blue-100">
+              {/* <div className="inline-flex items-center gap-2 rounded-full border border-blue-300/30 bg-blue-500/20 px-3 py-1 text-xs font-semibold text-blue-100">
                 <Sparkles className="h-3.5 w-3.5" />
                 Career Roadmap · Frontend
-              </div>
+              </div> */}
               <div className="mt-4">
                 <PageTitle
                   title="Become a Frontend Developer"
-                  subtitle="Step-by-step path from the basics of the web all the way to shipping production React apps. Click any topic to read a starter guide, find resources and mark your progress — your status is saved on this device."
+                  subtitle="Step-by-step path from the basics of the web all the way to shipping production React apps. Click any topic to read a starter guide, find resources and mark your progress, your status is saved on this device."
                   titleClassName="text-3xl md:text-5xl font-bold text-white leading-tight mb-3"
                   subtitleClassName="text-base text-blue-100 md:text-lg max-w-2xl"
                   containerClassName="max-w-3xl"
@@ -159,9 +160,11 @@ export default function FrontendRoadmapPage() {
       </section>
 
       {/* ---------------- Toolbar ---------------- */}
-      <div className={`sticky z-30 border-b border-zinc-200 bg-white/90 backdrop-blur transition-all duration-300 ${
-        isHeaderVisible ? "top-16" : "top-0"
-      }`}>
+      <div
+        className={`sticky z-30 border-b border-zinc-200 bg-white/90 backdrop-blur transition-all duration-300 ${
+          isHeaderVisible ? "top-16" : "top-0"
+        }`}
+      >
         <div className="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-3 md:flex-row md:items-center md:justify-between">
           <Legend />
 
@@ -173,7 +176,7 @@ export default function FrontendRoadmapPage() {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search topics (e.g. React, CSS, Auth)"
-                className="w-full rounded-full border border-zinc-200 bg-white py-2 pl-9 pr-4 text-sm placeholder:text-zinc-400 focus:border-blue-600 focus:outline-none"
+                className="w-full rounded-full border border-zinc-200 bg-white py-2 pl-9 pr-4 text-sm placeholder:text-zinc-400 focus:border-primary focus:outline-none"
               />
               {filtered.length > 0 && (
                 <div className="absolute left-0 right-0 top-full z-40 mt-2 max-h-72 overflow-y-auto rounded-xl border border-zinc-200 bg-white shadow-xl">
@@ -201,7 +204,7 @@ export default function FrontendRoadmapPage() {
                 </div>
               )}
             </div>
-            <button
+            {/* <button
               onClick={() => {
                 const blob = new Blob([JSON.stringify(progress, null, 2)], {
                   type: "application/json",
@@ -217,13 +220,13 @@ export default function FrontendRoadmapPage() {
             >
               <Download className="h-4 w-4" />
               Export
-            </button>
+            </button> */}
           </div>
         </div>
       </div>
 
       {/* ---------------- Canvas ---------------- */}
-      <section className="mx-auto max-w-[1120px] py-10">
+      <section className="mx-auto max-w-7xl py-10">
         <RoadmapCanvas
           getStatus={getStatus}
           progress={progress}

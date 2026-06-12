@@ -36,6 +36,7 @@ import {
   type FutureStat,
 } from "@/constants/future-infographics";
 import { SectorVisuals } from "./infographic/SectorVisuals";
+import Link from "next/link";
 
 // ─── Icon map ─────────────────────────────────────────────────────────────────
 
@@ -934,13 +935,13 @@ function PathSection() {
           <p className="text-slate-400 text-sm mb-5">
             Not sure which sector fits you? Find your strengths first.
           </p>
-          <a
+          <Link
             href="/personality-test"
             className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold px-8 py-4 rounded-full transition-colors text-sm shadow-lg shadow-blue-900/30"
           >
             Take the Personality Test
             <ArrowRight className="w-4 h-4" />
-          </a>
+          </Link>
         </div>
       </div>
     </section>
@@ -953,6 +954,27 @@ export default function FuturePageNew() {
   const [activeSector, setActiveSector] = useState<FutureSectorKey>("all");
   const [shouldScrollToDive, setShouldScrollToDive] = useState(false);
   const deepDiveRef = useRef<HTMLDivElement | null>(null);
+
+  const [isHeaderVisible, setIsHeaderVisible] = useState(true);
+  const lastScrollYRef = useRef(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      const lastScrollY = lastScrollYRef.current;
+
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        setIsHeaderVisible(false);
+      } else {
+        setIsHeaderVisible(true);
+      }
+
+      lastScrollYRef.current = currentScrollY;
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   // Memoize so SectorDeepDive doesn't recompute on every render
   const memoSector = useMemo(() => activeSector, [activeSector]);
@@ -1082,7 +1104,11 @@ export default function FuturePageNew() {
             </div>
           </div>
 
-          <div className="sticky top-0 z-20 mb-8 hidden lg:block">
+          <div
+            className={`sticky z-20 mb-8 hidden lg:block transition-all duration-300 ${
+              isHeaderVisible ? "top-16" : "top-0"
+            }`}
+          >
             <div className="rounded-2xl border border-zinc-200/80 bg-white/92 px-4 py-3 shadow-[0_12px_40px_rgba(15,23,42,0.08)] backdrop-blur">
               <div className="mb-2 flex items-center justify-between gap-3">
                 <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-zinc-400">

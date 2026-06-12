@@ -10,7 +10,12 @@ export type NodeVariant =
   | "title"
   | "phase";
 
-export type ResourceKind = "official" | "article" | "video" | "course" | "opensource";
+export type ResourceKind =
+  | "official"
+  | "article"
+  | "video"
+  | "course"
+  | "opensource";
 
 export interface Resource {
   label: string;
@@ -42,7 +47,9 @@ export interface REdge {
 }
 
 export const CANVAS_W = 1480;
-export const CANVAS_H = 7780;
+export const SCALE_Y = 1.35;
+export const scaleY = (y: number) => Math.round(y * SCALE_Y);
+export const CANVAS_H = scaleY(7780);
 
 // ----------------------------------------------------------------------------
 // Layout helpers
@@ -51,7 +58,7 @@ const MID = CANVAS_W / 2;
 const MAIN_W = 230;
 const MAIN_H = 56;
 const SUB_W = 220;
-const SUB_H = 44;
+const SUB_H = 40;
 
 const mainBox = (x: number, y: number) => ({
   x: x - MAIN_W / 2,
@@ -61,11 +68,19 @@ const mainBox = (x: number, y: number) => ({
 });
 
 const subBox = (x: number, y: number, w: number = SUB_W) => {
-  void w;
+  const finalW = w + 100;
+  let finalX = x - finalW / 2;
+  if (x < MID) {
+    // Left side: anchor right edge to original right boundary (x + SUB_W / 2)
+    finalX = x + SUB_W / 2 - finalW;
+  } else if (x > MID) {
+    // Right side: anchor left edge to original left boundary (x - SUB_W / 2)
+    finalX = x - SUB_W / 2;
+  }
   return {
-    x: x - SUB_W / 2,
+    x: finalX,
     y,
-    w: SUB_W,
+    w: finalW,
     h: SUB_H,
   };
 };
@@ -95,218 +110,992 @@ export const NODES: RNode[] = [
   // ============================================================
   // PHASE 1 — The "Trinity"
   // ============================================================
-  { id: "phase-1", title: "Phase 1 — The Trinity (Languages & Browser)", variant: "phase", ...phaseBox(140) },
+  {
+    id: "phase-1",
+    title: "Phase 1 — The Trinity (Languages & Browser)",
+    variant: "phase",
+    ...phaseBox(140),
+  },
 
   // Internet
-  { id: "internet", title: "Internet", variant: "primary", ...mainBox(MID, 220) },
-  { id: "internet-how", title: "How the internet works", variant: "secondary", flavor: "recommended", ...subBox(MID + 280, 210) },
-  { id: "internet-http", title: "HTTP & Status Codes", variant: "secondary", flavor: "recommended", ...subBox(MID + 280, 260) },
-  { id: "internet-domain", title: "Domain Names", variant: "secondary", flavor: "recommended", ...subBox(MID + 280, 310) },
-  { id: "internet-hosting", title: "Hosting", variant: "secondary", flavor: "recommended", ...subBox(MID + 280, 360) },
-  { id: "internet-dns", title: "DNS", variant: "secondary", flavor: "recommended", ...subBox(MID + 280, 410) },
-  { id: "internet-browsers", title: "Browsers & Rendering Pipeline", variant: "secondary", flavor: "recommended", ...subBox(MID + 280, 460, 260) },
+  {
+    id: "internet",
+    title: "Internet",
+    variant: "primary",
+    ...mainBox(MID, 220),
+  },
+  {
+    id: "internet-how",
+    title: "How the internet works",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID + 280, 210),
+  },
+  {
+    id: "internet-http",
+    title: "HTTP & Status Codes",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID + 280, 260),
+  },
+  {
+    id: "internet-domain",
+    title: "Domain Names",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID + 280, 310),
+  },
+  {
+    id: "internet-hosting",
+    title: "Hosting",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID + 280, 360),
+  },
+  {
+    id: "internet-dns",
+    title: "DNS",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID + 280, 410),
+  },
+  {
+    id: "internet-browsers",
+    title: "Browsers & Rendering Pipeline",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID + 280, 460, 260),
+  },
 
   // HTML
   { id: "html", title: "HTML", variant: "primary", ...mainBox(MID, 570) },
-  { id: "html-basics", title: "HTML5 Semantics", variant: "secondary", flavor: "recommended", ...subBox(MID - 280, 560) },
-  { id: "html-forms", title: "Forms & Constraint Validation", variant: "secondary", flavor: "recommended", ...subBox(MID - 280, 610, 250) },
-  { id: "html-conventions", title: "Conventions & Best Practices", variant: "secondary", flavor: "recommended", ...subBox(MID - 280, 660) },
-  { id: "html-a11y", title: "Accessibility (WCAG 2.2 + ARIA)", variant: "secondary", flavor: "recommended", ...subBox(MID - 280, 710, 260) },
-  { id: "html-seo", title: "SEO Basics", variant: "secondary", flavor: "recommended", ...subBox(MID - 280, 760) },
-  { id: "html-advanced", title: "Web Components & DOM Tree", variant: "secondary", flavor: "recommended", ...subBox(MID - 280, 810, 250) },
+  {
+    id: "html-basics",
+    title: "HTML5 Semantics",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID - 280, 560),
+  },
+  {
+    id: "html-forms",
+    title: "Forms & Constraint Validation",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID - 280, 610, 250),
+  },
+  {
+    id: "html-conventions",
+    title: "Conventions & Best Practices",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID - 280, 660),
+  },
+  {
+    id: "html-a11y",
+    title: "Accessibility (WCAG 2.2 + ARIA)",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID - 280, 710, 260),
+  },
+  {
+    id: "html-seo",
+    title: "SEO Basics",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID - 280, 760),
+  },
+  {
+    id: "html-advanced",
+    title: "Web Components & DOM Tree",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID - 280, 810, 250),
+  },
 
   // CSS
   { id: "css", title: "CSS", variant: "primary", ...mainBox(MID, 920) },
-  { id: "css-basics", title: "Selectors, Box Model & Variables", variant: "secondary", flavor: "recommended", ...subBox(MID + 280, 910, 280) },
-  { id: "css-layouts", title: "Flexbox, Grid & Container Queries", variant: "secondary", flavor: "recommended", ...subBox(MID + 280, 960, 290) },
-  { id: "css-responsive", title: "Responsive Design & Fluid Type", variant: "secondary", flavor: "recommended", ...subBox(MID + 280, 1010, 260) },
-  { id: "css-modern", title: "Modern CSS (@layer, Nesting, Logical)", variant: "secondary", flavor: "recommended", ...subBox(MID + 280, 1060, 290) },
-  { id: "css-animation", title: "Animations & Web Animations API", variant: "secondary", flavor: "recommended", ...subBox(MID + 280, 1110, 270) },
+  {
+    id: "css-basics",
+    title: "Selectors, Box Model & Variables",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID + 280, 910, 280),
+  },
+  {
+    id: "css-layouts",
+    title: "Flexbox, Grid & Container Queries",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID + 280, 960, 290),
+  },
+  {
+    id: "css-responsive",
+    title: "Responsive Design & Fluid Type",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID + 280, 1010, 260),
+  },
+  {
+    id: "css-modern",
+    title: "Modern CSS (@layer, Nesting, Logical)",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID + 280, 1060, 290),
+  },
+  {
+    id: "css-animation",
+    title: "Animations & Web Animations API",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID + 280, 1110, 270),
+  },
 
   // JavaScript
   { id: "js", title: "JavaScript", variant: "primary", ...mainBox(MID, 1220) },
-  { id: "js-basics", title: "ES6+ Syntax & Constructs", variant: "secondary", flavor: "recommended", ...subBox(MID - 280, 1210, 240) },
-  { id: "js-dom", title: "DOM Manipulation", variant: "secondary", flavor: "recommended", ...subBox(MID - 280, 1260) },
-  { id: "js-fetch", title: "Fetch API / Network", variant: "secondary", flavor: "recommended", ...subBox(MID - 280, 1310) },
-  { id: "js-async", title: "Event Loop, Promises, async/await", variant: "secondary", flavor: "recommended", ...subBox(MID - 280, 1360, 280) },
-  { id: "js-deep", title: "Closures, this, Prototypes, Classes", variant: "secondary", flavor: "recommended", ...subBox(MID - 280, 1410, 270) },
-  { id: "js-modules-memory", title: "Modules (ESM) & Memory Management", variant: "secondary", flavor: "recommended", ...subBox(MID - 280, 1460, 290) },
+  {
+    id: "js-basics",
+    title: "ES6+ Syntax & Constructs",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID - 280, 1210, 240),
+  },
+  {
+    id: "js-dom",
+    title: "DOM Manipulation",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID - 280, 1260),
+  },
+  {
+    id: "js-fetch",
+    title: "Fetch API / Network",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID - 280, 1310),
+  },
+  {
+    id: "js-async",
+    title: "Event Loop, Promises, async/await",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID - 280, 1360, 280),
+  },
+  {
+    id: "js-deep",
+    title: "Closures, this, Prototypes, Classes",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID - 280, 1410, 270),
+  },
+  {
+    id: "js-modules-memory",
+    title: "Modules (ESM) & Memory Management",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID - 280, 1460, 290),
+  },
 
   // ============================================================
   // PHASE 2 — Logic & Engineering
   // ============================================================
-  { id: "phase-2", title: "Phase 2 — Logic & Engineering (TypeScript & Frameworks)", variant: "phase", ...phaseBox(1560) },
+  {
+    id: "phase-2",
+    title: "Phase 2 — Logic & Engineering (TypeScript & Frameworks)",
+    variant: "phase",
+    ...phaseBox(1560),
+  },
 
   // TypeScript
-  { id: "types", title: "TypeScript", variant: "primary", ...mainBox(MID, 1640) },
-  { id: "ts-typescript", title: "TS Basics (Interfaces, Types, Enums)", variant: "secondary", flavor: "recommended", ...subBox(MID + 280, 1630, 280) },
-  { id: "ts-advanced", title: "Generics, Utility Types, Type Guards", variant: "secondary", flavor: "recommended", ...subBox(MID + 280, 1680, 290) },
+  {
+    id: "types",
+    title: "TypeScript",
+    variant: "primary",
+    ...mainBox(MID, 1640),
+  },
+  {
+    id: "ts-typescript",
+    title: "TS Basics (Interfaces, Types, Enums)",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID + 280, 1630, 280),
+  },
+  {
+    id: "ts-advanced",
+    title: "Generics, Utility Types, Type Guards",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID + 280, 1680, 290),
+  },
 
   // Pick a Framework
-  { id: "framework", title: "Pick a Framework", variant: "primary", ...mainBox(MID, 1790) },
-  { id: "fw-react", title: "React", variant: "secondary", flavor: "recommended", ...subBox(MID - 280, 1780) },
-  { id: "fw-vue", title: "Vue.js", variant: "secondary", flavor: "alternative", ...subBox(MID - 280, 1830) },
-  { id: "fw-svelte", title: "Svelte", variant: "secondary", flavor: "alternative", ...subBox(MID - 280, 1880) },
-  { id: "fw-angular", title: "Angular", variant: "secondary", flavor: "alternative", ...subBox(MID - 280, 1930) },
-  { id: "fw-solid", title: "Solid JS", variant: "secondary", flavor: "alternative", ...subBox(MID - 280, 1980) },
-  { id: "fw-qwik", title: "Qwik", variant: "secondary", flavor: "alternative", ...subBox(MID - 280, 2030) },
+  {
+    id: "framework",
+    title: "Pick a Framework",
+    variant: "primary",
+    ...mainBox(MID, 1790),
+  },
+  {
+    id: "fw-react",
+    title: "React",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID - 280, 1780),
+  },
+  {
+    id: "fw-vue",
+    title: "Vue.js",
+    variant: "secondary",
+    flavor: "alternative",
+    ...subBox(MID - 280, 1830),
+  },
+  {
+    id: "fw-svelte",
+    title: "Svelte",
+    variant: "secondary",
+    flavor: "alternative",
+    ...subBox(MID - 280, 1880),
+  },
+  {
+    id: "fw-angular",
+    title: "Angular",
+    variant: "secondary",
+    flavor: "alternative",
+    ...subBox(MID - 280, 1930),
+  },
+  {
+    id: "fw-solid",
+    title: "Solid JS",
+    variant: "secondary",
+    flavor: "alternative",
+    ...subBox(MID - 280, 1980),
+  },
+  {
+    id: "fw-qwik",
+    title: "Qwik",
+    variant: "secondary",
+    flavor: "alternative",
+    ...subBox(MID - 280, 2030),
+  },
 
   // Framework Mastery
-  { id: "fw-mastery", title: "Framework Mastery", variant: "primary", ...mainBox(MID, 2140) },
-  { id: "fw-internals", title: "Internals (vDOM, Signals, Runes)", variant: "secondary", flavor: "recommended", ...subBox(MID + 280, 2130, 270) },
-  { id: "fw-state", title: "State Management (Local & Global)", variant: "secondary", flavor: "recommended", ...subBox(MID + 280, 2180, 280) },
-  { id: "fw-data", title: "Server State & Forms (TanStack, Zod)", variant: "secondary", flavor: "recommended", ...subBox(MID + 280, 2230, 290) },
-  { id: "fw-lifecycle", title: "Hooks, Composables & Lifecycle", variant: "secondary", flavor: "recommended", ...subBox(MID + 280, 2280, 270) },
-  { id: "fw-routing", title: "Routing (Nested, Parallel)", variant: "secondary", flavor: "recommended", ...subBox(MID + 280, 2330, 250) },
-  { id: "fw-patterns", title: "Context & Component Patterns", variant: "secondary", flavor: "recommended", ...subBox(MID + 280, 2380, 270) },
+  {
+    id: "fw-mastery",
+    title: "Framework Mastery",
+    variant: "primary",
+    ...mainBox(MID, 2140),
+  },
+  {
+    id: "fw-internals",
+    title: "Internals (vDOM, Signals, Runes)",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID + 280, 2130, 270),
+  },
+  {
+    id: "fw-state",
+    title: "State Management (Local & Global)",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID + 280, 2180, 280),
+  },
+  {
+    id: "fw-data",
+    title: "Server State & Forms (TanStack, Zod)",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID + 280, 2230, 290),
+  },
+  {
+    id: "fw-lifecycle",
+    title: "Hooks, Composables & Lifecycle",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID + 280, 2280, 270),
+  },
+  {
+    id: "fw-routing",
+    title: "Routing (Nested, Parallel)",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID + 280, 2330, 250),
+  },
+  {
+    id: "fw-patterns",
+    title: "Context & Component Patterns",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID + 280, 2380, 270),
+  },
 
   // SSR
-  { id: "ssr", title: "Server Side Rendering", variant: "primary", ...mainBox(MID, 2490) },
-  { id: "ssr-next", title: "Next.js", variant: "secondary", flavor: "recommended", ...subBox(MID - 280, 2480) },
-  { id: "ssr-nuxt", title: "Nuxt.js", variant: "secondary", flavor: "recommended", ...subBox(MID - 280, 2530) },
-  { id: "ssr-remix", title: "Remix", variant: "secondary", flavor: "alternative", ...subBox(MID - 280, 2580) },
-  { id: "ssr-hydration", title: "Hydration, RSC & Resumability", variant: "secondary", flavor: "recommended", ...subBox(MID - 280, 2630, 270) },
+  {
+    id: "ssr",
+    title: "Server Side Rendering",
+    variant: "primary",
+    ...mainBox(MID, 2490),
+  },
+  {
+    id: "ssr-next",
+    title: "Next.js",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID - 280, 2480),
+  },
+  {
+    id: "ssr-nuxt",
+    title: "Nuxt.js",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID - 280, 2530),
+  },
+  {
+    id: "ssr-remix",
+    title: "Remix",
+    variant: "secondary",
+    flavor: "alternative",
+    ...subBox(MID - 280, 2580),
+  },
+  {
+    id: "ssr-hydration",
+    title: "Hydration, RSC & Resumability",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID - 280, 2630, 270),
+  },
 
   // ============================================================
   // PHASE 3 — Build System & Environment
   // ============================================================
-  { id: "phase-3", title: "Phase 3 — The Build System & Environment", variant: "phase", ...phaseBox(2740) },
+  {
+    id: "phase-3",
+    title: "Phase 3 — The Build System & Environment",
+    variant: "phase",
+    ...phaseBox(2740),
+  },
 
   // VCS
-  { id: "vcs", title: "Version Control Systems", variant: "primary", ...mainBox(MID, 2820) },
-  { id: "vcs-git", title: "Git", variant: "secondary", flavor: "recommended", ...subBox(MID + 280, 2820) },
+  {
+    id: "vcs",
+    title: "Version Control Systems",
+    variant: "primary",
+    ...mainBox(MID, 2820),
+  },
+  {
+    id: "vcs-git",
+    title: "Git",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID + 280, 2820),
+  },
 
   // VCS Hosting
-  { id: "vcsHosting", title: "VCS Hosting", variant: "primary", ...mainBox(MID, 2920) },
-  { id: "vcs-github", title: "GitHub", variant: "secondary", flavor: "recommended", ...subBox(MID - 280, 2900) },
-  { id: "vcs-gitlab", title: "GitLab", variant: "secondary", flavor: "alternative", ...subBox(MID - 280, 2950) },
-  { id: "vcs-bitbucket", title: "Bitbucket", variant: "secondary", flavor: "alternative", ...subBox(MID - 280, 3000) },
+  {
+    id: "vcsHosting",
+    title: "VCS Hosting",
+    variant: "primary",
+    ...mainBox(MID, 2920),
+  },
+  {
+    id: "vcs-github",
+    title: "GitHub",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID - 280, 2900),
+  },
+  {
+    id: "vcs-gitlab",
+    title: "GitLab",
+    variant: "secondary",
+    flavor: "alternative",
+    ...subBox(MID - 280, 2950),
+  },
+  {
+    id: "vcs-bitbucket",
+    title: "Bitbucket",
+    variant: "secondary",
+    flavor: "alternative",
+    ...subBox(MID - 280, 3000),
+  },
 
   // Pkg
-  { id: "pkg", title: "Package Managers", variant: "primary", ...mainBox(MID, 3090) },
-  { id: "pkg-npm", title: "npm", variant: "secondary", flavor: "recommended", ...subBox(MID + 280, 3070) },
-  { id: "pkg-pnpm", title: "pnpm", variant: "secondary", flavor: "recommended", ...subBox(MID + 280, 3120) },
-  { id: "pkg-yarn", title: "yarn / bun", variant: "secondary", flavor: "alternative", ...subBox(MID + 280, 3170) },
+  {
+    id: "pkg",
+    title: "Package Managers",
+    variant: "primary",
+    ...mainBox(MID, 3090),
+  },
+  {
+    id: "pkg-npm",
+    title: "npm",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID + 280, 3070),
+  },
+  {
+    id: "pkg-pnpm",
+    title: "pnpm",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID + 280, 3120),
+  },
+  {
+    id: "pkg-yarn",
+    title: "yarn / bun",
+    variant: "secondary",
+    flavor: "alternative",
+    ...subBox(MID + 280, 3170),
+  },
 
   // Build Tools
-  { id: "build", title: "Build Tools", variant: "primary", ...mainBox(MID, 3280) },
-  { id: "bt-vite", title: "Vite", variant: "secondary", flavor: "recommended", ...subBox(MID - 280, 3250) },
-  { id: "bt-webpack", title: "Webpack", variant: "secondary", flavor: "alternative", ...subBox(MID - 280, 3300) },
-  { id: "bt-esbuild", title: "esbuild", variant: "secondary", flavor: "alternative", ...subBox(MID - 280, 3350) },
-  { id: "bt-transpile", title: "Transpilers (Babel, SWC, Turbopack)", variant: "secondary", flavor: "recommended", ...subBox(MID - 280, 3400, 290) },
-  { id: "bt-prettier", title: "Prettier", variant: "secondary", flavor: "recommended", ...subBox(MID - 280, 3450) },
-  { id: "bt-eslint", title: "ESLint / Biome", variant: "secondary", flavor: "recommended", ...subBox(MID - 280, 3500) },
+  {
+    id: "build",
+    title: "Build Tools",
+    variant: "primary",
+    ...mainBox(MID, 3280),
+  },
+  {
+    id: "bt-vite",
+    title: "Vite",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID - 280, 3250),
+  },
+  {
+    id: "bt-webpack",
+    title: "Webpack",
+    variant: "secondary",
+    flavor: "alternative",
+    ...subBox(MID - 280, 3300),
+  },
+  {
+    id: "bt-esbuild",
+    title: "esbuild",
+    variant: "secondary",
+    flavor: "alternative",
+    ...subBox(MID - 280, 3350),
+  },
+  {
+    id: "bt-transpile",
+    title: "Transpilers (Babel, SWC, Turbopack)",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID - 280, 3400, 290),
+  },
+  {
+    id: "bt-prettier",
+    title: "Prettier",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID - 280, 3450),
+  },
+  {
+    id: "bt-eslint",
+    title: "ESLint / Biome",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID - 280, 3500),
+  },
 
   // Dev Environment
-  { id: "env-mastery", title: "Dev Environment", variant: "primary", ...mainBox(MID, 3620) },
-  { id: "env-vars", title: "Environment Variables", variant: "secondary", flavor: "recommended", ...subBox(MID + 280, 3610) },
-  { id: "env-monorepo", title: "Monorepos (Turborepo, Nx)", variant: "secondary", flavor: "recommended", ...subBox(MID + 280, 3660, 250) },
-  { id: "env-ci", title: "CI/CD (Actions, Vercel, Federation)", variant: "secondary", flavor: "recommended", ...subBox(MID + 280, 3710, 290) },
+  {
+    id: "env-mastery",
+    title: "Dev Environment",
+    variant: "primary",
+    ...mainBox(MID, 3620),
+  },
+  {
+    id: "env-vars",
+    title: "Environment Variables",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID + 280, 3610),
+  },
+  {
+    id: "env-monorepo",
+    title: "Monorepos (Turborepo, Nx)",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID + 280, 3660, 250),
+  },
+  {
+    id: "env-ci",
+    title: "CI/CD (Actions, Vercel, Federation)",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID + 280, 3710, 290),
+  },
 
   // ============================================================
   // PHASE 4 — Performance & Optimization
   // ============================================================
-  { id: "phase-4", title: "Phase 4 — Performance & Optimization (Senior Tier)", variant: "phase", ...phaseBox(3820) },
+  {
+    id: "phase-4",
+    title: "Phase 4 — Performance & Optimization (Senior Tier)",
+    variant: "phase",
+    ...phaseBox(3820),
+  },
 
-  { id: "perf", title: "Performance", variant: "primary", ...mainBox(MID, 3900) },
-  { id: "perf-vitals", title: "Core Web Vitals (LCP, CLS, INP)", variant: "secondary", flavor: "recommended", ...subBox(MID - 280, 3890, 270) },
-  { id: "perf-loading", title: "Code Split, Tree Shake, Critical CSS", variant: "secondary", flavor: "recommended", ...subBox(MID - 280, 3940, 300) },
-  { id: "perf-media", title: "Image & Font Mastery", variant: "secondary", flavor: "recommended", ...subBox(MID - 280, 3990) },
-  { id: "perf-runtime", title: "Rendering Perf, Debounce, Throttle", variant: "secondary", flavor: "recommended", ...subBox(MID - 280, 4040, 290) },
-  { id: "perf-workers", title: "Web Workers & WebAssembly", variant: "secondary", flavor: "recommended", ...subBox(MID - 280, 4090, 260) },
-  { id: "perf-caching", title: "Caching Strategies & Service Workers", variant: "secondary", flavor: "recommended", ...subBox(MID - 280, 4140, 290) },
+  {
+    id: "perf",
+    title: "Performance",
+    variant: "primary",
+    ...mainBox(MID, 3900),
+  },
+  {
+    id: "perf-vitals",
+    title: "Core Web Vitals (LCP, CLS, INP)",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID - 280, 3890, 270),
+  },
+  {
+    id: "perf-loading",
+    title: "Code Split, Tree Shake, Critical CSS",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID - 280, 3940, 300),
+  },
+  {
+    id: "perf-media",
+    title: "Image & Font Mastery",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID - 280, 3990),
+  },
+  {
+    id: "perf-runtime",
+    title: "Rendering Perf, Debounce, Throttle",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID - 280, 4040, 290),
+  },
+  {
+    id: "perf-workers",
+    title: "Web Workers & WebAssembly",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID - 280, 4090, 260),
+  },
+  {
+    id: "perf-caching",
+    title: "Caching Strategies & Service Workers",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID - 280, 4140, 290),
+  },
 
   // ============================================================
   // PHASE 5 — Security & Data
   // ============================================================
-  { id: "phase-5", title: "Phase 5 — Security & Data", variant: "phase", ...phaseBox(4260) },
+  {
+    id: "phase-5",
+    title: "Phase 5 — Security & Data",
+    variant: "phase",
+    ...phaseBox(4260),
+  },
 
-  { id: "security", title: "Web Security", variant: "primary", ...mainBox(MID, 4340) },
-  { id: "sec-attacks", title: "XSS, CSRF & CSP", variant: "secondary", flavor: "recommended", ...subBox(MID + 280, 4330) },
-  { id: "sec-transport", title: "HTTPS/TLS & CORS", variant: "secondary", flavor: "recommended", ...subBox(MID + 280, 4380) },
+  {
+    id: "security",
+    title: "Web Security",
+    variant: "primary",
+    ...mainBox(MID, 4340),
+  },
+  {
+    id: "sec-attacks",
+    title: "XSS, CSRF & CSP",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID + 280, 4330),
+  },
+  {
+    id: "sec-transport",
+    title: "HTTPS/TLS & CORS",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID + 280, 4380),
+  },
 
-  { id: "auth", title: "Authentication", variant: "primary", ...mainBox(MID, 4480) },
-  { id: "auth-jwt", title: "JWT", variant: "secondary", flavor: "recommended", ...subBox(MID - 280, 4460) },
-  { id: "auth-oauth", title: "OAuth", variant: "secondary", flavor: "recommended", ...subBox(MID - 280, 4510) },
-  { id: "auth-session", title: "Session + Cookie", variant: "secondary", flavor: "recommended", ...subBox(MID - 280, 4560) },
-  { id: "auth-basic", title: "Basic Authentication", variant: "secondary", flavor: "alternative", ...subBox(MID - 280, 4610) },
+  {
+    id: "auth",
+    title: "Authentication",
+    variant: "primary",
+    ...mainBox(MID, 4480),
+  },
+  {
+    id: "auth-jwt",
+    title: "JWT",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID - 280, 4460),
+  },
+  {
+    id: "auth-oauth",
+    title: "OAuth",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID - 280, 4510),
+  },
+  {
+    id: "auth-session",
+    title: "Session + Cookie",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID - 280, 4560),
+  },
+  {
+    id: "auth-basic",
+    title: "Basic Authentication",
+    variant: "secondary",
+    flavor: "alternative",
+    ...subBox(MID - 280, 4610),
+  },
 
-  { id: "data-mastery", title: "Data & Real-time", variant: "primary", ...mainBox(MID, 4720) },
-  { id: "data-storage", title: "Storage APIs (Local, Cookies, IndexedDB)", variant: "secondary", flavor: "recommended", ...subBox(MID + 280, 4710, 310) },
-  { id: "data-realtime", title: "WebSockets & SSE", variant: "secondary", flavor: "recommended", ...subBox(MID + 280, 4760) },
+  {
+    id: "data-mastery",
+    title: "Data & Real-time",
+    variant: "primary",
+    ...mainBox(MID, 4720),
+  },
+  {
+    id: "data-storage",
+    title: "Storage APIs (Local, Cookies, IndexedDB)",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID + 280, 4710, 310),
+  },
+  {
+    id: "data-realtime",
+    title: "WebSockets & SSE",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID + 280, 4760),
+  },
 
-  { id: "graphql", title: "GraphQL", variant: "primary", flavor: "optional", ...mainBox(MID, 4870) },
-  { id: "gql-apollo", title: "Apollo Client", variant: "secondary", flavor: "recommended", ...subBox(MID - 280, 4860) },
-  { id: "gql-relay", title: "Relay Modern", variant: "secondary", flavor: "alternative", ...subBox(MID - 280, 4910) },
+  {
+    id: "graphql",
+    title: "GraphQL",
+    variant: "primary",
+    flavor: "optional",
+    ...mainBox(MID, 4870),
+  },
+  {
+    id: "gql-apollo",
+    title: "Apollo Client",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID - 280, 4860),
+  },
+  {
+    id: "gql-relay",
+    title: "Relay Modern",
+    variant: "secondary",
+    flavor: "alternative",
+    ...subBox(MID - 280, 4910),
+  },
 
   // ============================================================
   // PHASE 6 — Testing & Quality
   // ============================================================
-  { id: "phase-6", title: "Phase 6 — Testing & Quality", variant: "phase", ...phaseBox(5020) },
+  {
+    id: "phase-6",
+    title: "Phase 6 — Testing & Quality",
+    variant: "phase",
+    ...phaseBox(5020),
+  },
 
-  { id: "testing", title: "Testing your Apps", variant: "primary", ...mainBox(MID, 5100) },
-  { id: "test-vitest", title: "Vitest", variant: "secondary", flavor: "recommended", ...subBox(MID + 280, 5080) },
-  { id: "test-jest", title: "Jest", variant: "secondary", flavor: "alternative", ...subBox(MID + 280, 5130) },
-  { id: "test-rtl", title: "React Testing Library", variant: "secondary", flavor: "recommended", ...subBox(MID + 280, 5180) },
-  { id: "test-playwright", title: "Playwright (E2E)", variant: "secondary", flavor: "recommended", ...subBox(MID + 280, 5230) },
-  { id: "test-cypress", title: "Cypress", variant: "secondary", flavor: "alternative", ...subBox(MID + 280, 5280) },
-  { id: "test-quality", title: "Visual Regression, Snapshot, MSW", variant: "secondary", flavor: "recommended", ...subBox(MID + 280, 5330, 290) },
+  {
+    id: "testing",
+    title: "Testing your Apps",
+    variant: "primary",
+    ...mainBox(MID, 5100),
+  },
+  {
+    id: "test-vitest",
+    title: "Vitest",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID + 280, 5080),
+  },
+  {
+    id: "test-jest",
+    title: "Jest",
+    variant: "secondary",
+    flavor: "alternative",
+    ...subBox(MID + 280, 5130),
+  },
+  {
+    id: "test-rtl",
+    title: "React Testing Library",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID + 280, 5180),
+  },
+  {
+    id: "test-playwright",
+    title: "Playwright (E2E)",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID + 280, 5230),
+  },
+  {
+    id: "test-cypress",
+    title: "Cypress",
+    variant: "secondary",
+    flavor: "alternative",
+    ...subBox(MID + 280, 5280),
+  },
+  {
+    id: "test-quality",
+    title: "Visual Regression, Snapshot, MSW",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID + 280, 5330, 290),
+  },
 
   // ============================================================
   // PHASE 7 — UI/UX & Design Systems
   // ============================================================
-  { id: "phase-7", title: "Phase 7 — UI/UX & Design Systems", variant: "phase", ...phaseBox(5440) },
+  {
+    id: "phase-7",
+    title: "Phase 7 — UI/UX & Design Systems",
+    variant: "phase",
+    ...phaseBox(5440),
+  },
 
-  { id: "design-systems", title: "Design Systems", variant: "primary", ...mainBox(MID, 5520) },
-  { id: "ds-tokens", title: "Tokens, Typography & Color (APCA)", variant: "secondary", flavor: "recommended", ...subBox(MID - 280, 5510, 290) },
-  { id: "ds-headless", title: "Headless UI (Radix, shadcn/ui)", variant: "secondary", flavor: "recommended", ...subBox(MID - 280, 5560, 270) },
-  { id: "ds-framer", title: "Framer Motion", variant: "secondary", flavor: "recommended", ...subBox(MID - 280, 5610, 230) },
-  { id: "ds-gsap", title: "GSAP + ScrollTrigger", variant: "secondary", flavor: "recommended", ...subBox(MID - 280, 5660, 250) },
-  { id: "ds-storybook", title: "Storybook", variant: "secondary", flavor: "recommended", ...subBox(MID - 280, 5710) },
+  {
+    id: "design-systems",
+    title: "Design Systems",
+    variant: "primary",
+    ...mainBox(MID, 5520),
+  },
+  {
+    id: "ds-tokens",
+    title: "Tokens, Typography & Color (APCA)",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID - 280, 5510, 290),
+  },
+  {
+    id: "ds-headless",
+    title: "Headless UI (Radix, shadcn/ui)",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID - 280, 5560, 270),
+  },
+  {
+    id: "ds-framer",
+    title: "Framer Motion",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID - 280, 5610, 230),
+  },
+  {
+    id: "ds-gsap",
+    title: "GSAP + ScrollTrigger",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID - 280, 5660, 250),
+  },
+  {
+    id: "ds-storybook",
+    title: "Storybook",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID - 280, 5710),
+  },
 
   // ============================================================
   // PHASE 8 — Modern & Emerging
   // ============================================================
-  { id: "phase-8", title: "Phase 8 — Modern & Emerging Tech (2026)", variant: "phase", ...phaseBox(5770) },
+  {
+    id: "phase-8",
+    title: "Phase 8 — Modern & Emerging Tech (2026)",
+    variant: "phase",
+    ...phaseBox(5770),
+  },
 
-  { id: "pwa", title: "Progressive Web Apps", variant: "primary", ...mainBox(MID, 5850) },
-  { id: "pwa-sw", title: "Service Workers", variant: "secondary", flavor: "recommended", ...subBox(MID + 280, 5840) },
-  { id: "pwa-storage", title: "Offline + Web Storage", variant: "secondary", flavor: "recommended", ...subBox(MID + 280, 5890) },
+  {
+    id: "pwa",
+    title: "Progressive Web Apps",
+    variant: "primary",
+    ...mainBox(MID, 5850),
+  },
+  {
+    id: "pwa-sw",
+    title: "Service Workers",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID + 280, 5840),
+  },
+  {
+    id: "pwa-storage",
+    title: "Offline + Web Storage",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID + 280, 5890),
+  },
 
-  { id: "modern-web", title: "Modern Web", variant: "primary", ...mainBox(MID, 6000) },
-  { id: "emrg-ai", title: "AI Integration & Generative UI", variant: "secondary", flavor: "recommended", ...subBox(MID - 280, 5990, 280) },
-  { id: "emrg-graphics", title: "SVG, Canvas, WebGPU/WebGL", variant: "secondary", flavor: "recommended", ...subBox(MID - 280, 6040, 270) },
-  { id: "emrg-darkmode", title: "Dark Mode & color-scheme", variant: "secondary", flavor: "recommended", ...subBox(MID - 280, 6090) },
+  {
+    id: "modern-web",
+    title: "Modern Web",
+    variant: "primary",
+    ...mainBox(MID, 6000),
+  },
+  {
+    id: "emrg-ai",
+    title: "AI Integration & Generative UI",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID - 280, 5990, 280),
+  },
+  {
+    id: "emrg-graphics",
+    title: "SVG, Canvas, WebGPU/WebGL",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID - 280, 6040, 270),
+  },
+  {
+    id: "emrg-darkmode",
+    title: "Dark Mode & color-scheme",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID - 280, 6090),
+  },
 
-  { id: "mobile", title: "Mobile Applications", variant: "primary", flavor: "optional", ...mainBox(MID, 6200) },
-  { id: "mob-rn", title: "React Native", variant: "secondary", flavor: "recommended", ...subBox(MID + 280, 6190) },
-  { id: "mob-flutter", title: "Flutter", variant: "secondary", flavor: "alternative", ...subBox(MID + 280, 6240) },
-  { id: "mob-ionic", title: "Ionic", variant: "secondary", flavor: "alternative", ...subBox(MID + 280, 6290) },
+  {
+    id: "mobile",
+    title: "Mobile Applications",
+    variant: "primary",
+    flavor: "optional",
+    ...mainBox(MID, 6200),
+  },
+  {
+    id: "mob-rn",
+    title: "React Native",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID + 280, 6190),
+  },
+  {
+    id: "mob-flutter",
+    title: "Flutter",
+    variant: "secondary",
+    flavor: "alternative",
+    ...subBox(MID + 280, 6240),
+  },
+  {
+    id: "mob-ionic",
+    title: "Ionic",
+    variant: "secondary",
+    flavor: "alternative",
+    ...subBox(MID + 280, 6290),
+  },
 
-  { id: "desktop", title: "Desktop Applications", variant: "primary", flavor: "optional", ...mainBox(MID, 6400) },
-  { id: "desk-electron", title: "Electron", variant: "secondary", flavor: "recommended", ...subBox(MID - 280, 6390) },
-  { id: "desk-tauri", title: "Tauri", variant: "secondary", flavor: "recommended", ...subBox(MID - 280, 6440) },
+  {
+    id: "desktop",
+    title: "Desktop Applications",
+    variant: "primary",
+    flavor: "optional",
+    ...mainBox(MID, 6400),
+  },
+  {
+    id: "desk-electron",
+    title: "Electron",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID - 280, 6390),
+  },
+  {
+    id: "desk-tauri",
+    title: "Tauri",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID - 280, 6440),
+  },
 
   // ============================================================
   // PHASE 9 — Soft Skills & Architecture
   // ============================================================
-  { id: "phase-9", title: "Phase 9 — Soft Skills & Architecture", variant: "phase", ...phaseBox(6550) },
+  {
+    id: "phase-9",
+    title: "Phase 9 — Soft Skills & Architecture",
+    variant: "phase",
+    ...phaseBox(6550),
+  },
 
-  { id: "craft", title: "Engineering Craft", variant: "primary", ...mainBox(MID, 6630) },
-  { id: "craft-collab", title: "Code Reviews & Agile", variant: "secondary", flavor: "recommended", ...subBox(MID + 280, 6620) },
-  { id: "craft-docs", title: "Docs, JSDoc & Tech Debt", variant: "secondary", flavor: "recommended", ...subBox(MID + 280, 6670, 260) },
-  { id: "craft-handoff", title: "Design-to-Code (Figma)", variant: "secondary", flavor: "recommended", ...subBox(MID + 280, 6720, 240) },
-  { id: "craft-git", title: "Git Mastery (rebase, bisect)", variant: "secondary", flavor: "recommended", ...subBox(MID + 280, 6770, 260) },
+  {
+    id: "craft",
+    title: "Engineering Craft",
+    variant: "primary",
+    ...mainBox(MID, 6630),
+  },
+  {
+    id: "craft-collab",
+    title: "Code Reviews & Agile",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID + 280, 6620),
+  },
+  {
+    id: "craft-docs",
+    title: "Docs, JSDoc & Tech Debt",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID + 280, 6670, 260),
+  },
+  {
+    id: "craft-handoff",
+    title: "Design-to-Code (Figma)",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID + 280, 6720, 240),
+  },
+  {
+    id: "craft-git",
+    title: "Git Mastery (rebase, bisect)",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID + 280, 6770, 260),
+  },
 
   // ============================================================
   // PHASE 10 — Mastery Checkpoints
   // ============================================================
-  { id: "phase-10", title: "Phase 10 — Mastery Checkpoints", variant: "phase", ...phaseBox(6890) },
+  {
+    id: "phase-10",
+    title: "Phase 10 — Mastery Checkpoints",
+    variant: "phase",
+    ...phaseBox(6890),
+  },
 
-  { id: "production", title: "Production-Ready", variant: "primary", ...mainBox(MID, 6970) },
-  { id: "prod-debug", title: "DevTools Debugging Mastery", variant: "secondary", flavor: "recommended", ...subBox(MID - 280, 6960, 260) },
-  { id: "prod-monitoring", title: "Sentry, Analytics, Feature Flags", variant: "secondary", flavor: "recommended", ...subBox(MID - 280, 7010, 290) },
-  { id: "prod-global", title: "i18n, RTL & TC39 Watch", variant: "secondary", flavor: "recommended", ...subBox(MID - 280, 7060, 240) },
+  {
+    id: "production",
+    title: "Production-Ready",
+    variant: "primary",
+    ...mainBox(MID, 6970),
+  },
+  {
+    id: "prod-debug",
+    title: "DevTools Debugging Mastery",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID - 280, 6960, 260),
+  },
+  {
+    id: "prod-monitoring",
+    title: "Sentry, Analytics, Feature Flags",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID - 280, 7010, 290),
+  },
+  {
+    id: "prod-global",
+    title: "i18n, RTL & TC39 Watch",
+    variant: "secondary",
+    flavor: "recommended",
+    ...subBox(MID - 280, 7060, 240),
+  },
 
   // ============ End ============
   {
@@ -320,6 +1109,10 @@ export const NODES: RNode[] = [
   },
 ];
 
+for (const node of NODES) {
+  node.y = scaleY(node.y);
+}
+
 const NODE_BY_ID = new Map(NODES.map((node) => [node.id, node] as const));
 
 // ----------------------------------------------------------------------------
@@ -328,13 +1121,23 @@ const NODE_BY_ID = new Map(NODES.map((node) => [node.id, node] as const));
 function vCurve(x1: number, y1: number, x2: number, y2: number) {
   return `M ${x1} ${y1} L ${x2} ${y2}`;
 }
-function hookRight(mainCx: number, mainCy: number, subCx: number, subCy: number) {
+function hookRight(
+  mainCx: number,
+  mainCy: number,
+  subCx: number,
+  subCy: number,
+) {
   const startX = mainCx + MAIN_W / 2;
   const endX = subCx - SUB_W / 2;
   const elbowX = Math.round((startX + endX) / 2);
   return `M ${startX} ${mainCy} L ${elbowX} ${mainCy} L ${elbowX} ${subCy} L ${endX} ${subCy}`;
 }
-function hookLeft(mainCx: number, mainCy: number, subCx: number, subCy: number) {
+function hookLeft(
+  mainCx: number,
+  mainCy: number,
+  subCx: number,
+  subCy: number,
+) {
   const startX = mainCx - MAIN_W / 2;
   const endX = subCx + SUB_W / 2;
   const elbowX = Math.round((startX + endX) / 2);
@@ -346,32 +1149,32 @@ const sy = (yTop: number) => yTop + SUB_H / 2;
 
 // Quick lookup: main node y-tops
 const M = {
-  internet: 220,
-  html: 570,
-  css: 920,
-  js: 1220,
-  types: 1640,
-  framework: 1790,
-  fwMastery: 2140,
-  ssr: 2490,
-  vcs: 2820,
-  vcsHosting: 2920,
-  pkg: 3090,
-  build: 3280,
-  envMastery: 3620,
-  perf: 3900,
-  security: 4340,
-  auth: 4480,
-  dataMastery: 4720,
-  graphql: 4870,
-  testing: 5100,
-  designSystems: 5520,
-  pwa: 5850,
-  modernWeb: 6000,
-  mobile: 6200,
-  desktop: 6400,
-  craft: 6630,
-  production: 6970,
+  internet: scaleY(220),
+  html: scaleY(570),
+  css: scaleY(920),
+  js: scaleY(1220),
+  types: scaleY(1640),
+  framework: scaleY(1790),
+  fwMastery: scaleY(2140),
+  ssr: scaleY(2490),
+  vcs: scaleY(2820),
+  vcsHosting: scaleY(2920),
+  pkg: scaleY(3090),
+  build: scaleY(3280),
+  envMastery: scaleY(3620),
+  perf: scaleY(3900),
+  security: scaleY(4340),
+  auth: scaleY(4480),
+  dataMastery: scaleY(4720),
+  graphql: scaleY(4870),
+  testing: scaleY(5100),
+  designSystems: scaleY(5520),
+  pwa: scaleY(5850),
+  modernWeb: scaleY(6000),
+  mobile: scaleY(6200),
+  desktop: scaleY(6400),
+  craft: scaleY(6630),
+  production: scaleY(6970),
 };
 
 // ----------------------------------------------------------------------------
@@ -379,23 +1182,47 @@ const M = {
 // ----------------------------------------------------------------------------
 export const EDGES: REdge[] = [
   // Title → Internet
-  { from: "title", to: "internet", path: `M ${MID} 110 L ${MID} ${M.internet}` },
+  {
+    from: "title",
+    to: "internet",
+    path: `M ${MID} ${scaleY(20) + 90} L ${MID} ${M.internet}`,
+  },
 
   // Main spine
   ...spine([
-    M.internet, M.html, M.css, M.js,
-    M.types, M.framework, M.fwMastery, M.ssr,
-    M.vcs, M.vcsHosting, M.pkg, M.build, M.envMastery,
+    M.internet,
+    M.html,
+    M.css,
+    M.js,
+    M.types,
+    M.framework,
+    M.fwMastery,
+    M.ssr,
+    M.vcs,
+    M.vcsHosting,
+    M.pkg,
+    M.build,
+    M.envMastery,
     M.perf,
-    M.security, M.auth, M.dataMastery, M.graphql,
+    M.security,
+    M.auth,
+    M.dataMastery,
+    M.graphql,
     M.testing,
     M.designSystems,
-    M.pwa, M.modernWeb, M.mobile, M.desktop,
+    M.pwa,
+    M.modernWeb,
+    M.mobile,
+    M.desktop,
     M.craft,
     M.production,
   ]),
   // Final segment to "end" title
-  { from: "production", to: "end", path: `M ${MID} ${cy(M.production) + MAIN_H / 2} L ${MID} 7200` },
+  {
+    from: "production",
+    to: "end",
+    path: `M ${MID} ${cy(M.production) + MAIN_H / 2} L ${MID} ${scaleY(7200)}`,
+  },
 
   // ---- Subtopic hooks ----
   // Internet (right)
@@ -612,7 +1439,12 @@ function spine(yTops: number[]): REdge[] {
     out.push({
       from: `spine-${i}`,
       to: `spine-${i + 1}`,
-      path: vCurve(MID, cy(yTops[i]) + MAIN_H / 2, MID, cy(yTops[i + 1]) - MAIN_H / 2),
+      path: vCurve(
+        MID,
+        cy(yTops[i]) + MAIN_H / 2,
+        MID,
+        cy(yTops[i + 1]) - MAIN_H / 2,
+      ),
       kind: "main",
     });
   }
@@ -631,13 +1463,17 @@ function hookSubs(
   const mainCy = cy(mainYTop);
   const sideX = side === "right" ? MID + 280 : MID - 280;
   const fn = side === "right" ? hookRight : hookLeft;
-  return subs.map((s) => ({
-    from: mainId,
-    to: s.id,
-    path: fn(mainCx, mainCy, sideX, sy(s.y)),
-    dashed,
-    kind: "main",
-  }));
+  return subs.map((s) => {
+    const node = NODE_BY_ID.get(s.id);
+    const nodeY = node ? node.y : scaleY(s.y);
+    return {
+      from: mainId,
+      to: s.id,
+      path: fn(mainCx, mainCy, sideX, sy(nodeY)),
+      dashed,
+      kind: "main",
+    };
+  });
 }
 
 function centerOf(id: string) {

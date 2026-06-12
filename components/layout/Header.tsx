@@ -44,7 +44,7 @@ export default function Header() {
     { label: "Future", href: "/future" },
     { label: "Career", href: "/jobs" },
     { label: "Events", href: "/events" },
-    // { label: "Roadmap", href: "/roadmap" },
+    { label: "Roadmap", href: "/roadmap" },
     // { label: "Guide Books", href: "/guide-books" },
     { label: "Reviews", href: "/reviews" },
     { label: "Support", href: "/support" },
@@ -52,21 +52,12 @@ export default function Header() {
     { label: "Grow", href: "/grow" },
   ];
 
-  const mobileNavItems = [
-    { label: "Home", href: "/" },
-    // { label: "Job Training", href: "/job-training" },
-    { label: "Future", href: "/future" },
-    { label: "Career", href: "/jobs" },
-    { label: "Events", href: "/events" },
-    // { label: "Guide Books", href: "/guide-books" },
-    { label: "Reviews", href: "/reviews" },
-    // { label: "About Us", href: "/about-us" },
-    { label: "Support", href: "/support" },
-    // { label: "Books", href: "/books" },
-    { label: "Grow", href: "/grow" },
-  ];
-
-  const isActive = (href: string) => pathname === href;
+  const isActive = (href: string) => {
+    if (href === "/") {
+      return pathname === "/";
+    }
+    return pathname.startsWith(href);
+  };
 
   return (
     <header
@@ -113,7 +104,12 @@ export default function Header() {
               />
               <span className="relative z-10">Find Your Lifepath</span>
             </Link> */}
-            <Button label="Know Yourself" href="/personality-test" size="sm" />
+            <Button
+              label="Know Yourself"
+              href="/personality-test"
+              size="sm"
+              className="px-8!"
+            />
 
             {/* <Link
               href="/#how-it-works"
@@ -136,7 +132,7 @@ export default function Header() {
       {isMenuOpen && (
         <div className="border-t border-zinc-200 bg-white lg:hidden">
           <div className="mx-auto h-screen max-w-6xl space-y-2 py-4">
-            {mobileNavItems.map((item) => (
+            {navItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
@@ -155,7 +151,7 @@ export default function Header() {
               onClick={() => setIsMenuOpen(false)}
               className="block rounded-full bg-blue-600 px-4 py-3 text-center text-lg font-semibold text-white hover:bg-blue-700"
             >
-              Find Your Lifepath
+              Know Yourself
             </Link>
             {/* <Link
               href="/#how-it-works"

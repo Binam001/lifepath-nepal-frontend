@@ -245,7 +245,7 @@ export default function NodeDrawer({
                   </p>
                 </div>
                 <p className="mt-2 text-sm leading-relaxed text-blue-950">
-                  Don&apos;t just read about it — build a tiny project that uses
+                  Don&apos;t just read about it, build a tiny project that uses
                   this concept. The roadmap is a map, but your portfolio is the
                   journey.
                 </p>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -20,14 +20,38 @@ interface Props {
   onNodeClick: (id: string) => void;
 }
 
-// Visual size = canvas size × SCALE. Internal coordinates stay unchanged.
-const SCALE = 0.75;
-
 export default function RoadmapCanvas({
   getStatus,
   progress,
   onNodeClick,
 }: Props) {
+  const [scale, setScale] = useState(0.75);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const updateScale = () => {
+      const width = window.innerWidth;
+      if (width < 640) {
+        setScale(0.33);
+      } else if (width < 1024) {
+        setScale(0.7);
+      } else {
+        setScale(1280 / CANVAS_W);
+      }
+    };
+    updateScale();
+    window.addEventListener("resize", updateScale);
+    return () => window.removeEventListener("resize", updateScale);
+  }, []);
+
+  useEffect(() => {
+    if (wrapperRef.current) {
+      const wrapper = wrapperRef.current;
+      const scrollTarget = (wrapper.scrollWidth - wrapper.clientWidth) / 2;
+      wrapper.scrollLeft = scrollTarget;
+    }
+  }, [scale]);
+
   const nodeMap = useMemo(() => {
     const m = new Map<string, RNode>();
     for (const n of NODES) m.set(n.id, n);
@@ -89,12 +113,12 @@ export default function RoadmapCanvas({
   );
 
   return (
-    <div className="w-full overflow-x-auto" data-lenis-prevent>
+    <div ref={wrapperRef} className="w-full overflow-x-auto">
       {/* Outer container takes the SCALED dimensions, so the page reserves
           the correct vertical space and centers horizontally. */}
       <div
         className="mx-auto"
-        style={{ width: CANVAS_W * SCALE, height: CANVAS_H * SCALE }}
+        style={{ width: CANVAS_W * scale, height: CANVAS_H * scale }}
       >
         {/* Inner container keeps original 1:1 coordinates so all our (x, y)
             values from data.ts still work, then visually scales down. */}
@@ -104,17 +128,17 @@ export default function RoadmapCanvas({
           style={{
             width: CANVAS_W,
             height: CANVAS_H,
-            transform: `scale(${SCALE})`,
+            transform: `scale(${scale})`,
             transformOrigin: "top left",
           }}
         >
           {/* Decorative dot grid background */}
           <div
             aria-hidden
-            className="pointer-events-none absolute inset-0 opacity-[0.18]"
+            className="pointer-events-none absolute inset-0 opacity-[0.5]"
             style={{
               backgroundImage:
-                "radial-gradient(circle, #93c5fd 1px, transparent 1px)",
+                "radial-gradient(circle, var(--color-primary) 1px, transparent 1px)",
               backgroundSize: "24px 24px",
             }}
           />
@@ -181,24 +205,24 @@ export default function RoadmapCanvas({
           ))}
 
           {/* Project idea cards */}
-          {PROJECTS.map((p) => (
+          {/* {PROJECTS.map((p) => (
             <ProjectCard
               key={p.id}
               project={p}
               unlocked={isUnlocked(p, progress, doneCount)}
             />
-          ))}
+          ))} */}
 
           {/* Floating helper near title */}
-          <div
-            className="absolute pointer-events-none text-[11px] font-semibold text-blue-600 italic"
+          {/* <div
+            className="absolute pointer-events-none text-[11px] font-semibold text-primary italic"
             style={{ left: CANVAS_W / 2 + 230, top: 50, width: 220 }}
           >
             ← click any topic to mark
             <br /> your progress
-          </div>
+          </div> */}
 
-          <span className="sr-only">{nodeMap.size} topics</span>
+          {/* <span className="sr-only">{nodeMap.size} topics</span> */}
         </div>
       </div>
     </div>
