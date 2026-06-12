@@ -137,7 +137,7 @@ export default function OmegaverseResultSection({
       <section
         className="bg-white border-b"
         style={{
-          backgroundImage: "url(/404/404.png)",
+          backgroundImage: "url(/404/404-img.webp)",
           backgroundPosition: "bottom",
           backgroundSize: "cover",
         }}

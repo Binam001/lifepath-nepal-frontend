@@ -4,9 +4,34 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { MenuIcon } from "lucide-react";
-import { useScrollDirection } from "@/app/hooks/useScrollDirection";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../shared/Button";
+
+function useScrollDirection() {
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        // Scrolling down and past 100px
+        setIsVisible(false);
+      } else {
+        // Scrolling up
+        setIsVisible(true);
+      }
+
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [lastScrollY]);
+
+  return isVisible;
+}
 
 export default function Header() {
   const isVisible = useScrollDirection();
@@ -17,7 +42,7 @@ export default function Header() {
     { label: "Home", href: "/" },
     // { label: "Job Training", href: "/job-training" },
     { label: "Future", href: "/future" },
-    { label: "Best Jobs", href: "/jobs" },
+    { label: "Career", href: "/jobs" },
     { label: "Events", href: "/events" },
     // { label: "Roadmap", href: "/roadmap" },
     // { label: "Guide Books", href: "/guide-books" },
@@ -31,7 +56,7 @@ export default function Header() {
     { label: "Home", href: "/" },
     // { label: "Job Training", href: "/job-training" },
     { label: "Future", href: "/future" },
-    { label: "Best Jobs", href: "/jobs" },
+    { label: "Career", href: "/jobs" },
     { label: "Events", href: "/events" },
     // { label: "Guide Books", href: "/guide-books" },
     { label: "Reviews", href: "/reviews" },

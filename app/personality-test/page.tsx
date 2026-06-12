@@ -96,7 +96,7 @@ export default function PersonalitySelectionPage() {
         "Agreeableness",
         "Neuroticism",
       ],
-      buttonLabel: "Find Your Baseline",
+      buttonLabel: "Find Your Character",
       bookUrl: "/ocean-book",
       bookLabel: "Learn more about OCEAN",
     },
@@ -120,7 +120,7 @@ export default function PersonalitySelectionPage() {
         "Empathy",
         "Social Skills",
       ],
-      buttonLabel: "Assess Your EQ",
+      buttonLabel: "Find Your EQ",
       bookUrl: "/ei-book",
       bookLabel: "Learn more about EQ",
     },
@@ -130,10 +130,6 @@ export default function PersonalitySelectionPage() {
     <div className="min-h-screen bg-zinc-50/70 pt-16 pb-16">
       {/* Header section with modern gradient design */}
       <section className="relative overflow-hidden py-16 bg-linear-to-l from-primary to-black bg-black text-white">
-        {/* Abstract background blur shapes */}
-        <div className="absolute top-0 right-0 w-80 h-80 bg-blue-600/10 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none"></div>
-        <div className="absolute bottom-0 left-0 w-80 h-80 bg-purple-600/10 rounded-full blur-3xl -ml-16 -mb-16 pointer-events-none"></div>
-
         <div className="max-w-7xl mx-auto px-4 text-center relative z-10">
           <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-white mb-4">
             Discover Your True Self
@@ -149,10 +145,8 @@ export default function PersonalitySelectionPage() {
       {/* Grid listing the tests */}
       <main className="max-w-7xl mx-auto px-4 py-8">
         {/* Synthesis Dashboard Promo Banner */}
-        {/* Synthesis Dashboard Promo Banner */}
         {completedCount !== null && completedCount > 0 && (
           <div className="bg-linear-to-r from-blue-500/10 via-purple-500/5 to-transparent border border-zinc-200/80 rounded-3xl p-6 sm:p-8 mb-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xs relative overflow-hidden animate-in fade-in duration-300">
-            <div className="absolute top-0 right-0 w-48 h-48 bg-primary/5 rounded-full blur-2xl pointer-events-none"></div>
             <div className="flex items-start gap-4">
               <div className="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center shrink-0 border border-primary/20">
                 <Sparkles size={24} className="animate-pulse" />

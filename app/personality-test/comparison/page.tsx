@@ -162,7 +162,7 @@ export default function PersonalityComparisonPage() {
       <section
         className="bg-white border-b"
         style={{
-          backgroundImage: "url(/404/404.png)",
+          backgroundImage: "url(/404/404-img.webp)",
           backgroundPosition: "bottom",
           backgroundSize: "cover",
         }}
@@ -170,7 +170,7 @@ export default function PersonalityComparisonPage() {
         <div className="max-w-4xl mx-auto h-full min-h-[65vh] py-8 px-4 sm:px-6 flex flex-col">
           <div className="flex justify-between items-center">
             <Link href="/personality-test">
-              <button className="px-4 py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 text-sm font-medium rounded-lg transition-all cursor-pointer flex items-center gap-2">
+              <button className="px-4 py-2 bg-white/30 hover:bg-white/20 text-white border border-white/20 text-sm font-semibold rounded-full transition-all cursor-pointer flex items-center gap-2 w-fit">
                 <ArrowLeft size={16} />
                 Back to Assessments Catalog
               </button>
@@ -518,9 +518,9 @@ export default function PersonalityComparisonPage() {
               </div>
 
               <div className="overflow-x-auto">
-                <table className="w-full text-left border-collapse text-sm">
+                <table className="w-full min-w-[1000px] text-left border-collapse text-sm">
                   <thead>
-                    <tr className="border-b border-zinc-200 text-zinc-400 uppercase text-[10px] font-black tracking-wider">
+                    <tr className="border-b border-zinc-200 text-zinc-800 uppercase text-sm font-black tracking-wider">
                       <th className="py-3 px-4 w-1/4">Assessment Axis</th>
                       {hasMbti && (
                         <th className="py-3 px-4 w-1/4">
@@ -532,9 +532,7 @@ export default function PersonalityComparisonPage() {
                           Omegaverse ({results.omegaverse})
                         </th>
                       )}
-                      {hasOcean && (
-                        <th className="py-3 px-4 w-1/4">OCEAN (Big 5)</th>
-                      )}
+                      {hasOcean && <th className="py-3 px-4 w-1/4">OCEAN</th>}
                     </tr>
                   </thead>
                   <tbody>
@@ -599,14 +597,24 @@ export default function PersonalityComparisonPage() {
                       )}
                       {hasOmegaverse && (
                         <td className="py-4 px-4 text-zinc-600">
-                          Compatibility: Best match with **
-                          {omegaverseDetail?.compatibility.bestMatch}**.
+                          Compatibility: Best match with{" "}
+                          <span className="font-semibold text-black">
+                            {omegaverseDetail?.compatibility.bestMatch}
+                          </span>
+                          .
                         </td>
                       )}
                       {hasOcean && (
                         <td className="py-4 px-4 text-zinc-600">
-                          Extraversion score is **{results.ocean?.E ?? 50}%**
-                          and Agreeableness is **{results.ocean?.A ?? 50}%**.
+                          Extraversion score is{" "}
+                          <span className="font-semibold text-black">
+                            {results.ocean?.E ?? 50}%
+                          </span>{" "}
+                          and Agreeableness is{" "}
+                          <span className="font-semibold text-black">
+                            {results.ocean?.A ?? 50}%
+                          </span>
+                          .
                         </td>
                       )}
                     </tr>

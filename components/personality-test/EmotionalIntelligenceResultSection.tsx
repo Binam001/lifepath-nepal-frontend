@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import Confetti from "react-confetti";
 import { BarChart } from "@mui/x-charts";
 import {
-  ArrowRight,
   ArrowLeft,
   CheckCircle,
   Brain,
@@ -15,7 +14,6 @@ import {
   Smile,
   Compass,
 } from "lucide-react";
-import Link from "next/link";
 import {
   EIResult,
   selfReportQuestions,
@@ -205,7 +203,7 @@ export default function EmotionalIntelligenceResultSection({
       <section
         className="bg-white border-b"
         style={{
-          backgroundImage: "url(/404/404.png)",
+          backgroundImage: "url(/404/404-img.webp)",
           backgroundPosition: "bottom",
           backgroundSize: "cover",
         }}
@@ -650,7 +648,7 @@ export default function EmotionalIntelligenceResultSection({
         <ComparisonCTA />
 
         {/* Back to Home CTA */}
-        <section className="bg-linear-to-r from-blue-600 to-indigo-600 rounded-3xl p-6 md:p-8 text-center text-white shadow-md relative overflow-hidden">
+        {/* <section className="bg-linear-to-r from-blue-600 to-indigo-600 rounded-3xl p-6 md:p-8 text-center text-white shadow-md relative overflow-hidden">
           <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-xl pointer-events-none"></div>
           <h2 className="text-xl md:text-2xl font-bold mb-2">
             Explore Your Personality Further
@@ -665,7 +663,7 @@ export default function EmotionalIntelligenceResultSection({
               <ArrowRight size={18} />
             </button>
           </Link>
-        </section>
+        </section> */}
       </article>
     </div>
   );

@@ -27,7 +27,7 @@ export default function NotFound() {
         {/* Background Image */}
         <div className="absolute inset-0">
           <Image
-            src="/404/404.png"
+            src="/404/404-img.webp"
             alt="404 background"
             fill
             className="object-cover"

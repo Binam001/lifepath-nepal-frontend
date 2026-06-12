@@ -40,7 +40,7 @@ export default function Footer() {
   return (
     <footer className="">
       <div className="">
-        <div className="relative overflow-hidden bg-white px-4 pb-5 pt-12 sm:px-8 sm:pt-16 lg:px-10">
+        <div className="relative overflow-hidden bg-white px-4 pb-4 pt-8 sm:px-8 lg:px-10">
           <div className="relative mx-auto max-w-2xl text-center">
             <h2 className="mt-4 font-montserrat text-3xl font-semibold tracking-[-0.04em] text-blue-500 sm:text-4xl md:text-[3.2rem] md:leading-[1.05]">
               Ready to Take Control
