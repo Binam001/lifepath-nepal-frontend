@@ -105,7 +105,6 @@ html.lenis body {
   --radius-2xl: calc(var(--radius) + 8px);
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
-  --font-playfair: var(--font-playfair);
 }
 
 body {
@@ -152,10 +151,6 @@ body {
 
 .font-poppins {
   font-family: var(--font-poppins);
-}
-
-.font-playfair {
-  font-family: var(--font-playfair);
 }
 
 .glass-morphism {

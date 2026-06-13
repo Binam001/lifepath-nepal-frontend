@@ -49,7 +49,7 @@ export interface REdge {
 export const CANVAS_W = 1480;
 export const SCALE_Y = 1.35;
 export const scaleY = (y: number) => Math.round(y * SCALE_Y);
-export const CANVAS_H = scaleY(7780);
+export const CANVAS_H = scaleY(7500);
 
 // ----------------------------------------------------------------------------
 // Layout helpers

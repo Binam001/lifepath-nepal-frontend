@@ -23,7 +23,7 @@ export const ROADMAPS = [
     description:
       "Build beautiful, fast, accessible interfaces. From the basics of the web to shipping production React apps.",
     icon: Code2,
-    iconBg: "bg-blue-600 text-white",
+    iconBg: "bg-primary text-white",
     status: "live" as const,
     topics: 70,
   },
@@ -64,7 +64,7 @@ export const ROADMAPS = [
     description:
       "Build apps people carry in their pocket. Cross-platform with React Native or native with Swift/Kotlin.",
     icon: Smartphone,
-    iconBg: "bg-blue-600 text-white",
+    iconBg: "bg-primary text-white",
     status: "soon" as const,
   },
   {
@@ -93,7 +93,7 @@ export default function RoadmapHubPage() {
   return (
     <div className="min-h-screen bg-zinc-50 pt-16">
       {/* Hero */}
-      <section className="relative overflow-hidden border-b border-blue-900 bg-linear-to-l from-blue-600 to-black text-white">
+      <section className="relative overflow-hidden border-b border-blue-900 bg-linear-to-l from-primary to-black text-white">
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 opacity-25"
@@ -192,10 +192,7 @@ export default function RoadmapHubPage() {
       {/* Closing */}
       <section className="border-t border-zinc-200 bg-white py-14">
         <div className="mx-auto max-w-3xl px-4 text-center">
-          <h2
-            className="text-3xl font-semibold text-blue-600 md:text-4xl"
-            style={{ fontFamily: "var(--font-playfair)" }}
-          >
+          <h2 className="text-3xl font-semibold text-primary md:text-4xl">
             Want a roadmap we haven&apos;t built yet?
           </h2>
           <p className="mt-3 text-zinc-600">
@@ -204,7 +201,7 @@ export default function RoadmapHubPage() {
           </p>
           <Link
             href="/support"
-            className="mt-6 inline-flex items-center gap-2 rounded-full bg-blue-600 px-6 py-3 text-sm font-semibold text-white hover:bg-blue-700"
+            className="mt-6 inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white hover:bg-blue-700"
           >
             Request a roadmap
             <ArrowRight className="h-4 w-4" />

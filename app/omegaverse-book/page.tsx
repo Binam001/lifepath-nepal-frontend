@@ -246,6 +246,12 @@ export default function OmegaverseBookPage() {
                           {profile.compatibility.goodMatch}
                         </span>
                       </span>
+                      <span className="font-semibold">
+                        Challenging:{" "}
+                        <span className="text-red-700">
+                          {profile.compatibility.challenging}
+                        </span>
+                      </span>
                     </div>
                   </div>
                 </div>

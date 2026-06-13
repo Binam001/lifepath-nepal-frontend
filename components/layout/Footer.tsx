@@ -42,7 +42,7 @@ export default function Footer() {
       <div className="">
         <div className="relative overflow-hidden bg-white px-4 pb-4 pt-8 sm:px-8 lg:px-10">
           <div className="relative mx-auto max-w-2xl text-center">
-            <h2 className="mt-4 font-montserrat text-3xl font-semibold tracking-[-0.04em] text-blue-500 sm:text-4xl md:text-[3.2rem] md:leading-[1.05]">
+            <h2 className="mt-4 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl md:text-[3.2rem] md:leading-[1.05]">
               Ready to Take Control
               <br />
               of Your Future?
@@ -56,7 +56,7 @@ export default function Footer() {
               <Link
                 href="/personality-test"
                 scroll={true}
-                className="inline-flex min-h-11 items-center justify-center rounded-full bg-blue-600 px-6 text-sm font-semibold text-white shadow-[0_10px_25px_rgba(37,99,235,0.28)] transition-transform duration-200 hover:-translate-y-0.5 hover:bg-blue-700"
+                className="inline-flex min-h-11 items-center justify-center rounded-full bg-primary px-6 text-sm font-semibold text-white shadow-[0_10px_25px_rgba(37,99,235,0.28)] transition-transform duration-200 hover:-translate-y-0.5 hover:bg-blue-700"
               >
                 Start Now
               </Link>

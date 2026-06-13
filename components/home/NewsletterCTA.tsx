@@ -19,8 +19,8 @@ export default function NewsletterCTA({
   return (
     <section className="">
       <div className="bg-blue-600 text-white px-2 md:px-4 lg:px-8">
-        <div className=" px-4 md:px-0 max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+        <div className=" px-4 md:px-0 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             {/* Left Content */}
             <div className="py-8">
               <h2 className="text-4xl md:text-5xl font-bold font-montserrat mb-4 text-white">

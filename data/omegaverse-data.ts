@@ -216,7 +216,7 @@ export const omegaverseTypes: Record<string, OmegaverseType> = {
     description:
       "Highly capable, smart workers who like to work alone and don't care about office drama.",
     detailedDescription:
-      "Sigmas are smart problem-solvers who like to work alone. They don't care about being popular or controlling others, but they are very skilled. They are quiet, watch everything, and lead by being great at their jobs rather than being loud.",
+      "Sigmas are smart problem solvers who like to work alone. They don't care about being popular or controlling others, but they are very skilled. They are quiet, watch everything, and lead by being great at their jobs rather than being loud.",
     strengths: [
       "Very independent and can take care of themselves",
       "Deep, smart thinkers",

@@ -48,9 +48,7 @@ export default function RoadmapNode({ node, status, onClick }: Props) {
 
   if (variant === "primary") {
     const bg =
-      flavor === "optional"
-        ? "bg-blue-950 text-blue-100"
-        : "bg-blue-600 text-white";
+      flavor === "optional" ? "bg-primary text-white" : "bg-primary text-white";
     base += ` rounded-md text-xl py-2 px-4 cursor-pointer ${bg}`;
     shadow = "shadow-[4px_4px_0_#0c1e3e]";
   } else {

@@ -87,10 +87,6 @@ export default function OceanTest() {
     return () => clearTimeout(timer);
   }, [showConfetti]);
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [currentQuestion]);
-
   const handleAnswer = (value: number) => {
     const updatedAnswers = {
       ...answers,

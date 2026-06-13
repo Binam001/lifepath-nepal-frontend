@@ -83,9 +83,9 @@ export default function MBTITest() {
     return () => clearTimeout(timer);
   }, [showConfetti]);
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [currentQuestion]);
+  // useEffect(() => {
+  //   window.scrollTo(0, 0);
+  // }, [currentQuestion]);
 
   const handleAnswer = (value: number) => {
     const updatedAnswers = {

@@ -107,10 +107,6 @@ export default function OmegaverseTest() {
     return () => clearTimeout(timer);
   }, [showConfetti]);
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [currentQuestion]);
-
   const handleAnswer = (option: "A" | "B" | "C" | "D") => {
     const updatedAnswers = {
       ...answers,

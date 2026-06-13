@@ -116,10 +116,6 @@ export default function EmotionalIntelligenceTest() {
     return () => clearTimeout(timer);
   }, [showConfetti]);
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [currentQuestion]);
-
   const handleSelfReportAnswer = (questionId: number, value: number) => {
     const updatedAnswers = {
       ...selfReportAnswers,

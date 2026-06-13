@@ -241,14 +241,11 @@ export default function FrontendRoadmapPage() {
             <Code2 className="h-3.5 w-3.5" />
             Ready to apply this in the real world?
           </div>
-          <h2
-            className="mt-4 text-3xl font-semibold text-blue-600 md:text-4xl"
-            style={{ fontFamily: "var(--font-playfair)" }}
-          >
+          <h2 className="mt-4 text-3xl font-semibold text-blue-600 md:text-4xl">
             Find a frontend role on LifePath
           </h2>
           <p className="mx-auto mt-3 max-w-2xl text-zinc-600">
-            We curate the best frontend jobs and internships in Nepal — from
+            We curate the best frontend jobs and internships in Nepal from
             startups to established product teams. Take what you&apos;ve learned
             here straight into your first (or next) job.
           </p>
