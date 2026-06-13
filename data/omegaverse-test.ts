@@ -48,7 +48,7 @@ export const omegaverseQuestions: OmegaverseQuestion[] = [
     question: "At a large social event where you hardly know anyone, you:",
     optionA: "Quietly observe the crowd before joining",
     optionB: "Find and comfort anyone looking lonely",
-    optionC: "Actively seek out influential people to meet",
+    optionC: "Try to build connections with new people",
     optionD: "Stay close to people you already know",
     scoreMap: {
       A: { ALPHA: 1, BETA: 0, OMEGA: 0, SIGMA: 5, DELTA: 2, GAMMA: 1 },
@@ -124,7 +124,7 @@ export const omegaverseQuestions: OmegaverseQuestion[] = [
     optionA: "I feel terrible for my hardworking teammates.",
     optionB: "I should have done it myself to ensure quality.",
     optionC: "I must analyze the strategy to fix the issues.",
-    optionD: "I take charge and make people own their mistakes.",
+    optionD: "I take lead and help the team learn from mistake.",
     scoreMap: {
       A: { ALPHA: 0, BETA: 4, OMEGA: 5, SIGMA: 0, DELTA: 0, GAMMA: 0 },
       B: { ALPHA: 1, BETA: 0, OMEGA: 0, SIGMA: 5, DELTA: 1, GAMMA: 2 },
@@ -216,7 +216,7 @@ export const omegaverseQuestions: OmegaverseQuestion[] = [
       "When you are assigned a very repetitive and boring task, you prefer to:",
     optionA: "Automate it creatively so you never repeat it",
     optionB: "Pass it to others and focus on bigger work",
-    optionC: "Do it positively while supporting the team effort",
+    optionC: "Do it with a positive attitude and support others",
     optionD: "Work quietly and independently until finished",
     scoreMap: {
       A: { ALPHA: 2, BETA: 0, OMEGA: 0, SIGMA: 3, DELTA: 0, GAMMA: 5 },
@@ -244,7 +244,7 @@ export const omegaverseQuestions: OmegaverseQuestion[] = [
     question:
       "When it is time to brainstorm new ideas or create a plan, you work best by:",
     optionA: "Working together and sharing everyone’s ideas",
-    optionB: "Working alone without interruptions to think clearly",
+    optionB: "Work alone in a quiet space to think clearly",
     optionC: "Questioning old methods and coming up with new ideas",
     optionD: "Sharing a clear vision for others to follow",
     scoreMap: {
@@ -258,7 +258,7 @@ export const omegaverseQuestions: OmegaverseQuestion[] = [
     id: 16,
     question: "How do you personally view and manage your money?",
     optionA: "A resource to increase power and position",
-    optionB: "A resource to support and care for family",
+    optionB: "A resource to support people close to you",
     optionC: "A way to live without depending on others",
     optionD: "Something to budget carefully and save safely",
     scoreMap: {
@@ -332,7 +332,7 @@ export const omegaverseQuestions: OmegaverseQuestion[] = [
     id: 21,
     question: "What does your idea of a truly perfect vacation look like?",
     optionA: "Leading an exciting adventure where you are in control",
-    optionB: "A relaxing getaway with family and friends",
+    optionB: "A relaxing time with family and friends",
     optionC: "Traveling entirely alone to a quiet, isolated place",
     optionD: "Following a fully planned and detailed schedule",
     scoreMap: {
@@ -348,7 +348,7 @@ export const omegaverseQuestions: OmegaverseQuestion[] = [
       "When a friend comes to you upset about a personal problem, you usually:",
     optionA: "Think of creative ways to solve the problem",
     optionB: "Listen carefully, give comfort, and understand their feelings",
-    optionC: "Tell them the exact actions they should take",
+    optionC: "Tell them the exact actions they should do",
     optionD: "Give practical and logical step-by-step advice",
     scoreMap: {
       A: { ALPHA: 1, BETA: 0, OMEGA: 0, SIGMA: 2, DELTA: 0, GAMMA: 5 },
@@ -553,8 +553,7 @@ export const omegaverseQuestions: OmegaverseQuestion[] = [
   },
   {
     id: 36,
-    question:
-      "When all is said and done, how do you ultimately want to be remembered?",
+    question: "What do you want people to think of when they remember you?",
     optionA: "As a powerful leader who protected their people",
     optionB: "As a loving person who made others feel special",
     optionC: "As a person who succeeded through their own effort",
