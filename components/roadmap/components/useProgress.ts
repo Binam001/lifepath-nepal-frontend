@@ -4,60 +4,74 @@ import { useCallback, useEffect, useRef, useSyncExternalStore } from "react";
 
 export type NodeStatus = "pending" | "learning" | "done" | "skipped";
 
-const KEY = "lifepath:roadmap:frontend:v1";
-
 // ---------------------------------------------------------------------------
-// External store: a tiny global map subscribed to via useSyncExternalStore.
-// Using a store sidesteps "set-state-in-effect" while still letting us hydrate
-// from localStorage on the client without producing hydration mismatches.
+// External store: global maps partitioned by roadmap slug.
+// Subscribed to via useSyncExternalStore.
 // ---------------------------------------------------------------------------
 type ProgressMap = Record<string, NodeStatus>;
 
-let current: ProgressMap = {};
-let didHydrate = false;
-const listeners = new Set<() => void>();
+const stores: Record<string, ProgressMap> = {};
+const listenersMap: Record<string, Set<() => void>> = {};
+const didHydrateMap: Record<string, boolean> = {};
 
-function emit() {
+function getStore(slug: string): ProgressMap {
+  if (!stores[slug]) {
+    stores[slug] = {};
+  }
+  return stores[slug];
+}
+
+function getListeners(slug: string): Set<() => void> {
+  if (!listenersMap[slug]) {
+    listenersMap[slug] = new Set();
+  }
+  return listenersMap[slug];
+}
+
+function emit(slug: string) {
+  const listeners = getListeners(slug);
   for (const fn of listeners) fn();
 }
 
-function subscribe(fn: () => void) {
-  listeners.add(fn);
-  return () => {
-    listeners.delete(fn);
+function subscribeFor(slug: string) {
+  return (fn: () => void) => {
+    const listeners = getListeners(slug);
+    listeners.add(fn);
+    return () => {
+      listeners.delete(fn);
+    };
   };
 }
 
-function getSnapshot(): ProgressMap {
-  return current;
-}
-
-// Server snapshot must be a stable empty object so SSR is consistent.
 const SERVER_SNAPSHOT: ProgressMap = {};
 function getServerSnapshot(): ProgressMap {
   return SERVER_SNAPSHOT;
 }
 
-function writeToStorage(next: ProgressMap) {
+function getLocalStorageKey(slug: string) {
+  return `lifepath:roadmap:${slug}:v1`;
+}
+
+function writeToStorage(slug: string, next: ProgressMap) {
   try {
     if (typeof window !== "undefined") {
-      window.localStorage.setItem(KEY, JSON.stringify(next));
+      window.localStorage.setItem(getLocalStorageKey(slug), JSON.stringify(next));
     }
   } catch {
     // ignore
   }
 }
 
-function hydrateOnce() {
-  if (didHydrate) return;
-  didHydrate = true;
+function hydrateOnce(slug: string) {
+  if (didHydrateMap[slug]) return;
+  didHydrateMap[slug] = true;
   try {
-    const raw = window.localStorage.getItem(KEY);
+    const raw = window.localStorage.getItem(getLocalStorageKey(slug));
     if (raw) {
       const parsed = JSON.parse(raw);
       if (parsed && typeof parsed === "object") {
-        current = parsed;
-        emit();
+        stores[slug] = parsed;
+        emit(slug);
       }
     }
   } catch {
@@ -65,35 +79,35 @@ function hydrateOnce() {
   }
 }
 
-export function useProgress() {
+export function useProgress(slug: string = "frontend") {
+  const subscribe = useCallback((fn: () => void) => subscribeFor(slug)(fn), [slug]);
+  const getSnapshot = useCallback(() => getStore(slug), [slug]);
+
   const progress = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 
   // After mount, pull saved state from localStorage exactly once.
-  // The store handles re-render via emit(), so we don't need setState here.
   const hydratedRef = useRef(false);
   useEffect(() => {
-    if (hydratedRef.current) return;
-    hydratedRef.current = true;
-    hydrateOnce();
-  }, []);
+    hydrateOnce(slug);
+  }, [slug]);
 
   const setStatus = useCallback((id: string, status: NodeStatus) => {
-    const next: ProgressMap = { ...current };
+    const next: ProgressMap = { ...getStore(slug) };
     if (status === "pending") {
       delete next[id];
     } else {
       next[id] = status;
     }
-    current = next;
-    writeToStorage(next);
-    emit();
-  }, []);
+    stores[slug] = next;
+    writeToStorage(slug, next);
+    emit(slug);
+  }, [slug]);
 
   const reset = useCallback(() => {
-    current = {};
-    writeToStorage(current);
-    emit();
-  }, []);
+    stores[slug] = {};
+    writeToStorage(slug, {});
+    emit(slug);
+  }, [slug]);
 
   const getStatus = useCallback(
     (id: string): NodeStatus => progress[id] ?? "pending",
@@ -102,3 +116,4 @@ export function useProgress() {
 
   return { progress, setStatus, getStatus, reset };
 }
+

@@ -11,6 +11,7 @@ import {
   Server,
   Smartphone,
   Sparkles,
+  Paintbrush,
 } from "lucide-react";
 import PageTitle from "@/components/ui/PageTitle";
 import Button from "@/components/shared/Button";
@@ -26,6 +27,17 @@ export const ROADMAPS = [
     iconBg: "bg-primary text-white",
     status: "live" as const,
     topics: 70,
+  },
+  {
+    slug: "graphic-design",
+    title: "Graphic Design",
+    tagline: "Photoshop, Illustrator, Branding",
+    description:
+      "Create visual concepts, typography, layout, and brand identities. Master industry-standard design tools and visual communication.",
+    icon: Paintbrush,
+    iconBg: "bg-primary text-white",
+    status: "live" as const,
+    topics: 22,
   },
   {
     slug: "backend",
@@ -57,6 +69,7 @@ export const ROADMAPS = [
     iconBg: "bg-blue-800 text-white",
     status: "soon" as const,
   },
+
   {
     slug: "mobile",
     title: "Mobile",
@@ -67,16 +80,16 @@ export const ROADMAPS = [
     iconBg: "bg-primary text-white",
     status: "soon" as const,
   },
-  {
-    slug: "data",
-    title: "Data Analyst",
-    tagline: "SQL, Python, Excel, Tableau",
-    description:
-      "Turn data into decisions. Statistics, SQL, Python and visualization tools used by every data team.",
-    icon: Database,
-    iconBg: "bg-blue-700 text-white",
-    status: "soon" as const,
-  },
+  // {
+  //   slug: "data",
+  //   title: "Data Analyst",
+  //   tagline: "SQL, Python, Excel, Tableau",
+  //   description:
+  //     "Turn data into decisions. Statistics, SQL, Python and visualization tools used by every data team.",
+  //   icon: Database,
+  //   iconBg: "bg-blue-700 text-white",
+  //   status: "soon" as const,
+  // },
   {
     slug: "ux",
     title: "UX / UI Design",

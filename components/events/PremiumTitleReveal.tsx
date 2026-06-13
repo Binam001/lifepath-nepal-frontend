@@ -10,10 +10,12 @@ gsap.registerPlugin(ScrollTrigger, SplitText);
 
 type PremiumTitleRevealProps = {
   title?: string;
+  nepaliTitle?: string;
 };
 
 export default function PremiumTitleReveal({
   title = "My Vision for Prosperous Nepal",
+  nepaliTitle = "समृद्ध नेपालप्रति मेरो दृष्टिकोण",
 }: PremiumTitleRevealProps) {
   const sectionRef = useRef<HTMLDivElement | null>(null);
   const titleRef = useRef<HTMLHeadingElement | null>(null);
@@ -125,7 +127,7 @@ export default function PremiumTitleReveal({
           alt="Essay title background"
           fill
           priority={false}
-          className=""
+          className="brightness-110"
           sizes="100vw"
         />
       </div>
@@ -154,21 +156,27 @@ export default function PremiumTitleReveal({
       </div> */}
 
       <div className="relative mx-auto flex h-40 max-w-6xl items-center justify-center px-5 sm:px-8 lg:px-12">
-        <div className="relative w-full max-w-5xl overflow-hidden text-center">
+        <div className="relative w-full max-w-5xl text-center space-y-4">
           <h2
             ref={titleRef}
-            className="relative text-balance px-2 text-lg font-semibold leading-none tracking-[-0.06em] text-blue-600 drop-shadow-[0_2px_18px_rgba(255,255,255,0.85)] sm:text-2xl lg:text-3xl"
+            className="relative text-balance px-2 text-lg font-semibold leading-none tracking-[-0.02em] text-blue-600 drop-shadow-[0_2px_18px_rgba(255,255,255,0.85)] sm:text-2xl lg:text-3xl"
           >
             {title}
           </h2>
-
+          <h2
+            ref={titleRef}
+            className="relative text-balance px-2 text-lg font-semibold font-[NotoSansDevanagari-Regular] leading-none tracking-[0.02em] text-blue-600 drop-shadow-[0_2px_18px_rgba(255,255,255,0.85)] sm:text-2xl lg:text-3xl"
+          >
+            {nepaliTitle}
+          </h2>
+          {/* 
           <div className="absolute inset-0 -z-10 backdrop-blur-[3px]" />
 
           <span
             ref={shimmerRef}
             aria-hidden="true"
             className="pointer-events-none absolute inset-y-0 left-[-32%] w-1/4 -skew-x-12 bg-linear-to-r from-transparent via-white/95 to-blue-500/15 opacity-0 mix-blend-screen"
-          />
+          /> */}
 
           {/* <div
             ref={underlineRef}

@@ -22,6 +22,7 @@ import {
 } from "@/data/EmotionalIntelligence-test";
 import ComparisonCTA from "./components/ComparisonCTA";
 import EIRadarChart from "./components/EIRadarChart";
+import AnalyzeEmotionalPatterns from "./components/analyzeEmotionalPatterns";
 
 interface EIResultSectionProps {
   result: EIResult;
@@ -491,6 +492,12 @@ export default function EmotionalIntelligenceResultSection({
             })}
           </div>
         </section>
+
+        {/* Emotional Behavior & Response Blueprint */}
+        <AnalyzeEmotionalPatterns
+          selfReportAnswers={selfReportAnswers}
+          scenarioAnswers={scenarioAnswers}
+        />
 
         {/* Micro-Inconsistencies Diagnostic */}
         {result.microInconsistencies.length > 0 && (

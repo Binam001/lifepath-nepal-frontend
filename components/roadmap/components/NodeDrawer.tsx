@@ -14,7 +14,7 @@ import {
   X,
 } from "lucide-react";
 import { RNode } from "../frontend/data";
-import { CONTENT } from "../frontend/content";
+import { CONTENT, NodeContent } from "../frontend/content";
 import { NodeStatus } from "./useProgress";
 
 interface Props {
@@ -22,6 +22,7 @@ interface Props {
   status: NodeStatus;
   onClose: () => void;
   onSetStatus: (status: NodeStatus) => void;
+  contentMap?: Record<string, NodeContent>;
 }
 
 const kindLabel: Record<string, string> = {
@@ -45,8 +46,9 @@ export default function NodeDrawer({
   status,
   onClose,
   onSetStatus,
+  contentMap,
 }: Props) {
-  const content = node ? CONTENT[node.id] : undefined;
+  const content = node ? (contentMap ? contentMap[node.id] : CONTENT[node.id]) : undefined;
   const resources = content?.resources ?? node?.resources ?? [];
   const sortedResources = [...resources].sort((a, b) => {
     const aOfficial = (a.kind ?? "article") === "official" ? 0 : 1;
@@ -163,7 +165,7 @@ export default function NodeDrawer({
                 </p>
               ) : (
                 <p className="text-[15px] italic text-zinc-500">
-                  A focused topic on your frontend journey. Mark it once
+                  A focused topic on your learning journey. Mark it once
                   you&apos;ve covered the basics and feel comfortable building
                   with it.
                 </p>

@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { CANVAS_H, CANVAS_W, EDGES, NODES, RNode } from "../frontend/data";
+import { CANVAS_H, CANVAS_W, EDGES, NODES, RNode, REdge } from "../frontend/data";
 import { isUnlocked, PROJECTS } from "../frontend/projects";
 import { NodeStatus } from "./useProgress";
 import ProjectCard from "./ProjectCard";
@@ -18,12 +18,20 @@ interface Props {
   getStatus: (id: string) => NodeStatus;
   progress: Record<string, NodeStatus>;
   onNodeClick: (id: string) => void;
+  nodes?: RNode[];
+  edges?: REdge[];
+  canvasW?: number;
+  canvasH?: number;
 }
 
 export default function RoadmapCanvas({
   getStatus,
   progress,
   onNodeClick,
+  nodes = NODES,
+  edges = EDGES,
+  canvasW = CANVAS_W,
+  canvasH = CANVAS_H,
 }: Props) {
   const [scale, setScale] = useState(0.75);
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -36,13 +44,13 @@ export default function RoadmapCanvas({
       } else if (width < 1024) {
         setScale(0.7);
       } else {
-        setScale(1280 / CANVAS_W);
+        setScale(1280 / canvasW);
       }
     };
     updateScale();
     window.addEventListener("resize", updateScale);
     return () => window.removeEventListener("resize", updateScale);
-  }, []);
+  }, [canvasW]);
 
   useEffect(() => {
     if (wrapperRef.current) {
@@ -54,9 +62,9 @@ export default function RoadmapCanvas({
 
   const nodeMap = useMemo(() => {
     const m = new Map<string, RNode>();
-    for (const n of NODES) m.set(n.id, n);
+    for (const n of nodes) m.set(n.id, n);
     return m;
-  }, []);
+  }, [nodes]);
 
   const doneCount = useMemo(
     () => Object.values(progress).filter((s) => s === "done").length,
@@ -118,16 +126,16 @@ export default function RoadmapCanvas({
           the correct vertical space and centers horizontally. */}
       <div
         className="mx-auto"
-        style={{ width: CANVAS_W * scale, height: CANVAS_H * scale }}
+        style={{ width: canvasW * scale, height: canvasH * scale }}
       >
         {/* Inner container keeps original 1:1 coordinates so all our (x, y)
-            values from data.ts still work, then visually scales down. */}
+            values work, then visually scales down. */}
         <div
           ref={containerRef}
           className="relative"
           style={{
-            width: CANVAS_W,
-            height: CANVAS_H,
+            width: canvasW,
+            height: canvasH,
             transform: `scale(${scale})`,
             transformOrigin: "top left",
           }}
@@ -146,9 +154,9 @@ export default function RoadmapCanvas({
           {/* SVG edges — animated draw-in by GSAP */}
           <svg
             ref={svgRef}
-            width={CANVAS_W}
-            height={CANVAS_H}
-            viewBox={`0 0 ${CANVAS_W} ${CANVAS_H}`}
+            width={canvasW}
+            height={canvasH}
+            viewBox={`0 0 ${canvasW} ${canvasH}`}
             className="absolute inset-0 pointer-events-none"
           >
             <defs>
@@ -165,7 +173,7 @@ export default function RoadmapCanvas({
               </marker>
             </defs>
 
-            {EDGES.map((e, i) => {
+            {edges.map((e, i) => {
               if (!e.path) return null;
               const isCross = e.kind === "cross";
               return (
@@ -187,7 +195,7 @@ export default function RoadmapCanvas({
           </svg>
 
           {/* HTML overlay for clickable nodes */}
-          {NODES.map((n) => (
+          {nodes.map((n) => (
             <div
               key={n.id}
               data-roadmap-phase={n.variant === "phase" ? "" : undefined}
