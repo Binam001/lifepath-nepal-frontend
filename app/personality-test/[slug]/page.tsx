@@ -5,6 +5,7 @@ import MBTITest from "@/components/personality-test/MBTI-test";
 import OmegaverseTest from "@/components/personality-test/Omegaverse-test";
 import OceanTest from "@/components/personality-test/OceanTest";
 import EmotionalIntelligenceTest from "@/components/personality-test/EmotionalIntelligenceTest";
+import SleepChronotypeTest from "@/components/personality-test/SleepChronotypeTest";
 import { AlertCircle, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
@@ -27,6 +28,10 @@ export default function PersonalityQuizPage() {
 
   if (slug === "ei") {
     return <EmotionalIntelligenceTest />;
+  }
+
+  if (slug === "sleep-chronotype") {
+    return <SleepChronotypeTest />;
   }
 
   return (

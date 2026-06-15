@@ -24,12 +24,14 @@ export default function PersonalitySelectionPage() {
     const ocean = localStorage.getItem("ocean_saved_result");
     const omegaverse = localStorage.getItem("omegaverse_saved_result");
     const ei = localStorage.getItem("ei_saved_result");
+    const sleep = localStorage.getItem("sleep_chronotype_saved_result");
 
     let count = 0;
     if (mbti) count++;
     if (ocean) count++;
     if (omegaverse) count++;
     if (ei) count++;
+    if (sleep) count++;
 
     setCompletedCount(count);
   }, []);
@@ -100,6 +102,29 @@ export default function PersonalitySelectionPage() {
       bookUrl: "/ocean-book",
       bookLabel: "Learn more about OCEAN",
     },
+    {
+      id: "sleep-chronotype",
+      title: "Sleep Chronotype Test",
+      tagline: "Biological Clock & Daily Energy Peaks",
+      description:
+        "Discover your biological sleep schedule and circadian rhythm. Identify your sleep animal archetype (Lion, Bear, Wolf, or Dolphin) to optimize your daily focus hours, sleep habits, and routine.",
+      duration: "5 Minutes",
+      questionsCount: 24,
+      badge: "Circadian Health",
+      mainColor: "primary",
+      secondaryColor: "primary/10",
+      icon: Clock,
+      formatLabel: "4 Chronotype Archetypes",
+      details: [
+        "Lion (Mornings)",
+        "Bear (Daylight)",
+        "Wolf (Evenings)",
+        "Dolphin (Sensitive)",
+      ],
+      buttonLabel: "Find Your Rhythm",
+      bookUrl: "/chronotype-book",
+      bookLabel: "Learn more about Chronotypes",
+    },
     // {
     //   id: "ei",
     //   title: "Emotional Intelligence (EQ)",
@@ -153,12 +178,12 @@ export default function PersonalitySelectionPage() {
               </div>
               <div>
                 <h3 className="text-lg sm:text-xl font-extrabold text-zinc-950 mb-1">
-                  {completedCount === 3
-                    ? "Congrats! You have completed all tests"
+                  {completedCount === 4
+                    ? "Congrats! You have completed 3 tests (MBTI, Omegverse, OCEAN)"
                     : "Unlock Your Triple Alignment Dashboard"}
                 </h3>
                 <p className="text-sm text-zinc-500 max-w-xl leading-relaxed">
-                  {completedCount === 3
+                  {completedCount === 4
                     ? "Now see the complete comparison aligned dashboard."
                     : "Test more to see a complete comparison aligned dashboard."}
                 </p>
@@ -169,7 +194,7 @@ export default function PersonalitySelectionPage() {
               className="shrink-0 w-full md:w-auto"
             >
               <button className="w-full md:w-auto py-3 px-6 font-bold rounded-full bg-primary hover:bg-primary/90 text-white text-sm transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer shadow-sm">
-                {completedCount === 3
+                {completedCount === 4
                   ? "See Complete Dashboard"
                   : "View Comparison Dashboard"}
                 <ArrowRight size={16} />
@@ -256,7 +281,9 @@ export default function PersonalitySelectionPage() {
                     </button>
                   </Link>
 
-                  {test.id === "ocean" || test.id === "ei" ? (
+                  {test.id === "ocean" ||
+                  test.id === "ei" ||
+                  test.id === "sleep-chronotype" ? (
                     <button
                       disabled
                       className="w-full py-3.5 px-6 font-bold rounded-full border border-zinc-200 text-zinc-400 bg-zinc-50 text-sm flex items-center justify-center gap-1.5 cursor-not-allowed"

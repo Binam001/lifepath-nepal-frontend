@@ -10,6 +10,57 @@ export type TraitDescriptions = Record<
 
 export type OceanData = Record<Trait, TraitDescriptions>;
 
+/**
+ * Utility function to determine the tier key based on a percentage score.
+ * @param score Percentage score (0-100)
+ * @returns The corresponding Tier key
+ */
+export const getOceanTier = (score: number): Tier => {
+  if (score <= 20) return "veryLow";
+  if (score <= 40) return "low";
+  if (score <= 60) return "balanced";
+  if (score <= 80) return "high";
+  return "veryHigh";
+};
+
+export const traitTierLabels: Record<Trait, Record<Tier, string>> = {
+  O: {
+    veryLow: "Practical",
+    low: "Traditional",
+    balanced: "Balanced",
+    high: "Creative",
+    veryHigh: "Imaginative",
+  },
+  C: {
+    veryLow: "Spontaneous",
+    low: "Flexible",
+    balanced: "Balanced",
+    high: "Organized",
+    veryHigh: "Disciplined",
+  },
+  E: {
+    veryLow: "Introverted",
+    low: "Reserved",
+    balanced: "Ambivert",
+    high: "Extroverted",
+    veryHigh: "Enthusiastic",
+  },
+  A: {
+    veryLow: "Independent",
+    low: "Competitive",
+    balanced: "Cooperative",
+    high: "Compassionate",
+    veryHigh: "Accommodating",
+  },
+  N: {
+    veryLow: "Resilient",
+    low: "Stable",
+    balanced: "Responsive",
+    high: "Sensitive",
+    veryHigh: "Reactive",
+  },
+};
+
 export const oceanDescriptions: OceanData = {
   // --- OPENNESS (O) ---
   O: {
@@ -154,57 +205,6 @@ export const oceanDescriptions: OceanData = {
       description:
         "You experience the world and your emotions very intensely. You are highly reactive to stress, frequently battle anxiety, and can become easily overwhelmed by unpredictable situations. However, this deep sensitivity often translates into profound empathy, self-awareness, and a capacity for deep creative expression when in a safe, predictable environment.",
     },
-  },
-};
-
-/**
- * Utility function to determine the tier key based on a percentage score.
- * @param score Percentage score (0-100)
- * @returns The corresponding Tier key
- */
-export const getOceanTier = (score: number): Tier => {
-  if (score <= 20) return "veryLow";
-  if (score <= 40) return "low";
-  if (score <= 60) return "balanced";
-  if (score <= 80) return "high";
-  return "veryHigh";
-};
-
-export const traitTierLabels: Record<Trait, Record<Tier, string>> = {
-  O: {
-    veryLow: "Practical",
-    low: "Traditional",
-    balanced: "Balanced",
-    high: "Creative",
-    veryHigh: "Imaginative",
-  },
-  C: {
-    veryLow: "Spontaneous",
-    low: "Flexible",
-    balanced: "Balanced",
-    high: "Organized",
-    veryHigh: "Disciplined",
-  },
-  E: {
-    veryLow: "Introverted",
-    low: "Reserved",
-    balanced: "Ambivert",
-    high: "Extroverted",
-    veryHigh: "Enthusiastic",
-  },
-  A: {
-    veryLow: "Independent",
-    low: "Competitive",
-    balanced: "Cooperative",
-    high: "Compassionate",
-    veryHigh: "Accommodating",
-  },
-  N: {
-    veryLow: "Resilient",
-    low: "Stable",
-    balanced: "Responsive",
-    high: "Sensitive",
-    veryHigh: "Reactive",
   },
 };
 

@@ -306,17 +306,17 @@ export default function OmegaverseTest() {
                   <button
                     key={opt.key}
                     onClick={() => handleAnswer(opt.key)}
-                    className={`flex items-center gap-4 p-4 rounded-xl border-2 text-left cursor-pointer w-full transition-all duration-200 ${
+                    className={`flex items-center gap-4 p-4 rounded-xl border-2 text-left cursor-pointer w-full transition-all duration-200 group ${
                       isSelected
                         ? "border-blue-600 bg-blue-50/50 text-blue-950 font-bold shadow-xs"
-                        : "border-zinc-200 bg-white hover:border-blue-300 hover:bg-blue-50/10 text-zinc-700 font-medium"
+                        : "border-zinc-200 bg-white hover:border-primary/50 hover:bg-blue-50/10 text-zinc-700 font-medium"
                     }`}
                   >
                     <div
                       className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold shrink-0 border transition-all ${
                         isSelected
                           ? "bg-blue-600 text-white border-blue-600 shadow-xs"
-                          : "bg-zinc-50 text-zinc-500 border-zinc-200 group-hover:bg-zinc-100"
+                          : "bg-zinc-50 text-zinc-500 border-zinc-250 group-hover:border-primary/50"
                       }`}
                     >
                       {opt.key}
