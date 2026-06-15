@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import Button from "../shared/Button";
 
 const footerGroups = [
   {
@@ -52,25 +53,23 @@ export default function Footer() {
               you move forward with clarity.
             </p>
 
-            <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
-              <Link
+            <div className="mt-8 flex flex-col md:flex-row items-center justify-center gap-4">
+              <Button
+                label="Start Now"
                 href="/personality-test"
-                scroll={true}
-                className="inline-flex min-h-11 items-center justify-center rounded-full bg-primary px-6 text-sm font-semibold text-white shadow-[0_10px_25px_rgba(37,99,235,0.28)] transition-transform duration-200 hover:-translate-y-0.5 hover:bg-blue-700"
-              >
-                Start Now
-              </Link>
-              <Link
+                className="w-full! md:w-fit!"
+              />
+              <Button
+                label="Contact Us"
                 href="/support"
-                className="inline-flex min-h-11 items-center justify-center rounded-full border border-zinc-200 bg-white/85 px-6 text-sm font-semibold text-zinc-800 shadow-sm backdrop-blur transition-colors duration-200 hover:bg-white"
-              >
-                Contact Us
-              </Link>
+                variant="outline"
+                className="w-full! md:w-fit!"
+              />
             </div>
           </div>
 
-          <div className="relative max-w-7xl mx-auto  mt-12 rounded-[28px] border border-black/5 bg-linear-to-b from-zinc-50 to-blue-50 px-5 py-6 shadow-[0_10px_40px_rgba(255,255,255,0.55)_inset] backdrop-blur-xl sm:px-6 sm:py-8 lg:px-8">
-            <div className="grid gap-10 lg:grid-cols-[1.1fr_1.9fr] lg:gap-14">
+          <div className="relative max-w-7xl mx-auto mt-12 rounded-[28px] border border-black/5 bg-linear-to-b from-zinc-50 to-blue-50 px-5 py-6 shadow-[0_10px_40px_rgba(255,255,255,0.55)_inset] backdrop-blur-xl sm:px-6 sm:py-8 lg:px-8">
+            <div className="grid gap-8 lg:grid-cols-[1.1fr_1.9fr] lg:gap-14">
               <div>
                 <Link href="/" className="inline-flex items-center">
                   <Image
@@ -131,7 +130,7 @@ export default function Footer() {
               <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
                 {footerGroups.map((group) => (
                   <div key={group.title}>
-                    <h3 className="text-sm font-semibold uppercase text-zinc-500">
+                    <h3 className="text-sm font-semibold uppercase text-primary">
                       {group.title}
                     </h3>
                     <ul className="mt-4 space-y-3">

@@ -29,10 +29,9 @@ export default function PageTitle({
       className={`${alignClass} ${containerClassName || "max-w-3xl mx-auto"}`}
     >
       <h1
-        className={
-          titleClassName ||
-          "text-2xl md:text-4xl font-semibold text-blue-500 mb-4"
-        }
+        className={`
+          ${titleClassName}
+          text-2xl md:text-4xl font-semibold text-primary mb-4`}
       >
         {title}
       </h1>

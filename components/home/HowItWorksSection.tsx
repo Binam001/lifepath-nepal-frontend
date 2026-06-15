@@ -67,18 +67,18 @@ export default function HowItWorksSection() {
   }, []);
 
   return (
-    <section id="how-it-works" className="bg-white py-16 md:py-24">
+    <section id="how-it-works" className="bg-white py-8 md:py-16">
       <div className="mx-auto max-w-7xl px-4 md:px-0">
         <PageTitle
           title="Shape your future"
           subtitle="Discover your strengths, choose the right path, and take confident steps toward a fulfilling career."
-          titleClassName="text-3xl md:text-5xl font-semibold text-blue-600 mb-3"
+          titleClassName="text-3xl md:text-5xl"
           subtitleClassName="text-base md:text-lg text-zinc-700"
           containerClassName="text-center max-w-3xl mx-auto"
           align="center"
         />
 
-        <div className="mt-14 grid grid-cols-1 gap-4 md:grid-cols-4">
+        <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-4">
           {/* {steps.map((item, index) => (
             <CardDemo
               key={index}
@@ -194,7 +194,7 @@ function HoverCard({
 }: HoverCardProps) {
   return (
     <div
-      className={`group relative overflow-hidden rounded-[28px] h-80 sm:min-h-120 ${className}`}
+      className={`group relative overflow-hidden rounded-[28px] h-100 sm:min-h-120 ${className}`}
       onClick={onToggle}
     >
       <div
@@ -209,7 +209,7 @@ function HoverCard({
           alt={title}
           fill
           sizes="100vw"
-          className={`z-10 pb-12 sm:pb-0 sm:object-contain sm:object-top transition-transform duration-700 ${
+          className={`z-10 pb-12 sm:pb-0 object-cover sm:object-contain sm:object-top transition-transform duration-700 ${
             isOpen ? "scale-105" : "group-hover:scale-105"
           }`}
         />
@@ -217,7 +217,7 @@ function HoverCard({
 
       <div className="absolute inset-0 p-4 flex flex-col justify-between z-20">
         <p
-          className={`w-fit rounded-full border border-white/15 bg-white/10 p-1 text-sm font-semibold tracking-wide backdrop-blur-md ${
+          className={`w-fit rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs font-semibold tracking-wide backdrop-blur-md ${
             textDark ? "text-white" : textLight ? "text-white" : "text-white"
           }`}
         >
@@ -241,7 +241,7 @@ function HoverCard({
             }`}
           >
             <h3
-              className={`text-2xl md:text-3xl pb-3 font-semibold leading-tight max-w-[14ch] ${
+              className={`text-xl md:text-2xl pb-3 font-semibold leading-tight max-w-[14ch] ${
                 textDark ? "text-white" : "text-white"
               }`}
             >

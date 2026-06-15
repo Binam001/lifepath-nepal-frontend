@@ -5,6 +5,7 @@ import { Mail, Phone, Send, MapPin, CheckCheck, X } from "lucide-react";
 import PageTitle from "../ui/PageTitle";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { useCreateContactInquiryMutation } from "@/hooks/useCreateContactInquiryMutation";
+import Button from "../shared/Button";
 
 type FormData = {
   firstName: string;
@@ -122,14 +123,14 @@ export default function ContactSection() {
   };
 
   return (
-    <section className="relative py-16 md:py-24 bg-zinc-100 border-t border-zinc-200">
+    <section className="relative py-8 md:py-16 bg-zinc-100 border-t border-zinc-200">
       <div className="max-w-7xl mx-auto px-4 md:px-0">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-start">
           <div>
             <PageTitle
               title="Get in touch with us"
               subtitle="Whether you're a student exploring courses or a parent looking for guidance, we'd love to hear from you."
-              titleClassName="text-3xl md:text-5xl font-semibold text-blue-600 mb-3"
+              titleClassName="text-3xl md:text-5xl"
               subtitleClassName="text-base md:text-lg text-zinc-700"
               containerClassName="text-center max-w-3xl mx-auto"
               align="left"
@@ -137,7 +138,7 @@ export default function ContactSection() {
 
             <div className="space-y-8 pt-4 md:pt-8">
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center text-blue-600 shrink-0">
+                <div className="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center text-primary shrink-0">
                   <Mail size={24} />
                 </div>
                 <div>
@@ -149,7 +150,7 @@ export default function ContactSection() {
                   </p>
                   <a
                     href="mailto:lifepathnepal@gmail.com"
-                    className="text-blue-600 font-medium hover:underline"
+                    className="text-primary font-medium hover:underline"
                   >
                     lifepathnepal@gmail.com
                   </a>
@@ -157,7 +158,7 @@ export default function ContactSection() {
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center text-blue-600 shrink-0">
+                <div className="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center text-primary shrink-0">
                   <MapPin size={24} />
                 </div>
                 <div>
@@ -172,7 +173,7 @@ export default function ContactSection() {
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center text-blue-600 shrink-0">
+                <div className="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center text-primary shrink-0">
                   <Phone size={24} />
                 </div>
                 <div>
@@ -182,7 +183,7 @@ export default function ContactSection() {
                   <p className="text-zinc-600">Sun-Fri from 9am to 6pm.</p>
                   <a
                     href="tel:+9779761082244"
-                    className="text-blue-600 font-medium hover:underline"
+                    className="text-primary font-medium hover:underline"
                   >
                     +977 976-1082244
                   </a>
@@ -191,9 +192,9 @@ export default function ContactSection() {
             </div>
           </div>
 
-          <div className="bg-white p-8 md:p-10 rounded-3xl border border-zinc-100 shadow-[0_2px_20px_rgba(0,0,0,0.04)]">
-            <form onSubmit={handleSubmit} className="space-y-5">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div className="bg-white p-4 md:p-8 rounded-3xl border border-zinc-100 shadow-[0_2px_20px_rgba(0,0,0,0.04)]">
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
                   <label className="text-sm font-medium text-zinc-700">
                     First name<span className="text-red-400"> *</span>
@@ -205,7 +206,7 @@ export default function ContactSection() {
                     value={form.firstName}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 rounded-xl bg-zinc-50 border border-zinc-200 focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-all text-zinc-900 placeholder:text-zinc-400"
+                    className="w-full px-4 py-3 rounded-xl bg-zinc-50 border border-zinc-200 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-zinc-900 placeholder:text-zinc-400"
                   />
                 </div>
 
@@ -220,11 +221,43 @@ export default function ContactSection() {
                     value={form.lastName}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 rounded-xl bg-zinc-50 border border-zinc-200 focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-all text-zinc-900 placeholder:text-zinc-400"
+                    className="w-full px-4 py-3 rounded-xl bg-zinc-50 border border-zinc-200 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-zinc-900 placeholder:text-zinc-400"
                   />
                 </div>
               </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-1.5">
+                  <label className="text-sm font-medium text-zinc-700">
+                    Phone number<span className="text-red-400"> *</span>
+                  </label>
+                  <input
+                    type="tel"
+                    name="phone"
+                    placeholder="+977 981 000 0000"
+                    value={form.phone}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-3 rounded-xl bg-zinc-50 border border-zinc-200 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-zinc-900 placeholder:text-zinc-400"
+                  />
+                </div>
 
+                <div className="space-y-1.5">
+                  <label className="text-sm font-medium text-zinc-700">
+                    Address{" "}
+                    <span className="text-zinc-400">(Full address)</span>
+                    <span className="text-red-400"> *</span>
+                  </label>
+                  <input
+                    type="text"
+                    name="address"
+                    placeholder="Where do you live?"
+                    value={form.address}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-3 rounded-xl bg-zinc-50 border border-zinc-200 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-zinc-900 placeholder:text-zinc-400"
+                  />
+                </div>
+              </div>
               <div className="space-y-1.5">
                 <label className="text-sm font-medium text-zinc-700">
                   Email<span className="text-red-400"> *</span>
@@ -236,38 +269,7 @@ export default function ContactSection() {
                   value={form.email}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 rounded-xl bg-zinc-50 border border-zinc-200 focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-all text-zinc-900 placeholder:text-zinc-400"
-                />
-              </div>
-
-              <div className="space-y-1.5">
-                <label className="text-sm font-medium text-zinc-700">
-                  Phone number<span className="text-red-400"> *</span>
-                </label>
-                <input
-                  type="tel"
-                  name="phone"
-                  placeholder="+977 981 000 0000"
-                  value={form.phone}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 rounded-xl bg-zinc-50 border border-zinc-200 focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-all text-zinc-900 placeholder:text-zinc-400"
-                />
-              </div>
-
-              <div className="space-y-1.5">
-                <label className="text-sm font-medium text-zinc-700">
-                  Address <span className="text-zinc-400">(Full address)</span>
-                  <span className="text-red-400"> *</span>
-                </label>
-                <input
-                  type="text"
-                  name="address"
-                  placeholder="Where do you live?"
-                  value={form.address}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 rounded-xl bg-zinc-50 border border-zinc-200 focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-all text-zinc-900 placeholder:text-zinc-400"
+                  className="w-full px-4 py-3 rounded-xl bg-zinc-50 border border-zinc-200 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-zinc-900 placeholder:text-zinc-400"
                 />
               </div>
 
@@ -281,19 +283,31 @@ export default function ContactSection() {
                   value={form.message}
                   onChange={handleChange}
                   required
-                  rows={6}
-                  className="w-full px-4 py-3 rounded-xl bg-zinc-50 border border-zinc-200 focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-all text-zinc-900 placeholder:text-zinc-400 resize-none"
+                  rows={4}
+                  className="w-full px-4 py-3 rounded-xl bg-zinc-50 border border-zinc-200 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-zinc-900 placeholder:text-zinc-400 resize-none"
                 />
               </div>
 
-              <button
+              {/* <button
                 type="submit"
                 disabled={contactMutation.isPending}
-                className="w-full py-3.5 bg-blue-600 hover:bg-blue-700 disabled:opacity-60 disabled:cursor-not-allowed text-white font-semibold rounded-full transition-all flex items-center justify-center gap-2 shadow-lg hover:shadow-blue-600/20 cursor-pointer"
+                className="w-full py-3.5 bg-primary hover:bg-blue-700 disabled:opacity-60 disabled:cursor-not-allowed text-white font-semibold rounded-full transition-all flex items-center justify-center gap-2 shadow-lg hover:shadow-primary/20 cursor-pointer"
               >
                 {contactMutation.isPending ? "Sending..." : "Send Message"}
                 <Send size={18} />
-              </button>
+              </button> */}
+
+              <Button
+                title="Send Message"
+                label={
+                  contactMutation.isPending ? "Sending..." : "Send Message"
+                }
+                type="submit"
+                disabled={contactMutation.isPending}
+                isLoading={contactMutation.isPending}
+                icon="Send"
+                className="w-full"
+              />
 
               <p className="text-xs leading-5 text-zinc-500">
                 This form is protected by Google reCAPTCHA.
@@ -331,7 +345,7 @@ export default function ContactSection() {
             ) : null}
             <a
               href="mailto:lifepathnepal@gmail.com"
-              className="mb-4 flex items-center justify-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-4 py-2.5 text-sm font-medium text-blue-600 transition-colors hover:bg-blue-100"
+              className="mb-4 flex items-center justify-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-4 py-2.5 text-sm font-medium text-primary transition-colors hover:bg-blue-100"
             >
               <Mail size={16} />
               Contact us at lifepathnepal@gmail.com
@@ -343,7 +357,7 @@ export default function ContactSection() {
                   isOpen: false,
                 }))
               }
-              className="w-full cursor-pointer rounded-full bg-blue-600 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-blue-700"
+              className="w-full cursor-pointer rounded-full bg-primary py-2.5 text-sm font-semibold text-white transition-colors hover:bg-blue-700"
             >
               {submissionModal.tone === "success" ? "Done" : "Close"}
             </button>

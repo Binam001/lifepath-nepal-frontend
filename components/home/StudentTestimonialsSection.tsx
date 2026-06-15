@@ -103,57 +103,28 @@ export default function StudentTestimonialsSection() {
     touchEndX.current = null;
   };
 
-  const translatePercentage =
+  const transformStyle =
     itemsPerView === 1
-      ? currentIndex * 100
-      : currentIndex * (100 / itemsPerView + 2);
+      ? `translateX(calc(-${currentIndex} * (100% + 1rem)))`
+      : itemsPerView === 2
+        ? `translateX(calc(-${currentIndex} * (50% + 0.75rem)))`
+        : `translateX(calc(-${currentIndex} * (33.333% + 0.5rem)))`;
 
   return (
-    <section className="px-4 md:px-0 py-16 md:py-24">
-      <div className="max-w-7xl mx-auto mb-16">
+    <section className="px-4 md:px-0 py-8 md:py-16">
+      <div className="max-w-7xl mx-auto">
         {/* Section Header */}
         <PageTitle
           title=" Real Students. Real Journeys."
           subtitle="Real stories from students who found clarity and direction."
-          titleClassName="text-3xl md:text-5xl font-semibold text-blue-600 mb-3"
+          titleClassName="text-3xl md:text-5xl"
           subtitleClassName="text-base md:text-lg text-zinc-700"
           containerClassName="text-center max-w-3xl mx-auto"
           align="center"
         />
 
         {/* Testimonial Carousel */}
-        <div className="relative mt-4 md:mt-16">
-          {/* Navigation Buttons - Hidden on mobile */}
-          {maxIndex > 0 && (
-            <>
-              <button
-                onClick={handlePrevious}
-                disabled={currentIndex === 0}
-                className={`hidden sm:flex absolute left-0 top-1/2 -tranzinc-y-1/2 -tranzinc-x-4 lg:-tranzinc-x-6 z-10 w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-white shadow-lg items-center justify-center transition-all ${
-                  currentIndex === 0
-                    ? "opacity-50 cursor-not-allowed"
-                    : "hover:bg-blue-600 hover:text-white"
-                }`}
-                aria-label="Previous testimonials"
-              >
-                <ChevronLeft size={20} className="lg:w-6 lg:h-6" />
-              </button>
-
-              <button
-                onClick={handleNext}
-                disabled={currentIndex >= maxIndex}
-                className={`hidden sm:flex absolute right-0 top-1/2 -tranzinc-y-1/2 tranzinc-x-4 lg:tranzinc-x-6 z-10 w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-white shadow-lg items-center justify-center transition-all ${
-                  currentIndex >= maxIndex
-                    ? "opacity-50 cursor-not-allowed"
-                    : "hover:bg-blue-600 hover:text-white"
-                }`}
-                aria-label="Next testimonials"
-              >
-                <ChevronRight size={20} className="lg:w-6 lg:h-6" />
-              </button>
-            </>
-          )}
-
+        <div className="relative mt-8 md:mt-16">
           {/* Testimonials Grid */}
           <div
             className="overflow-hidden"
@@ -164,7 +135,7 @@ export default function StudentTestimonialsSection() {
             <div
               className="flex transition-transform duration-500 ease-out gap-4 sm:gap-6"
               style={{
-                transform: `translateX(-${translatePercentage}%)`,
+                transform: transformStyle,
               }}
             >
               {testimonials.map((testimonial) => (
@@ -172,12 +143,12 @@ export default function StudentTestimonialsSection() {
                   key={testimonial.id}
                   className="shrink-0 w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)]"
                 >
-                  <div className="group relative h-96 sm:h-125 lg:h-137.5 rounded-2xl sm:rounded-3xl overflow-hidden bg-blue-500 cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-300 border-2 border-transparent hover:border-blue-600/20">
+                  <div className="group relative h-120 sm:h-125 lg:h-137.5 rounded-2xl sm:rounded-3xl overflow-hidden bg-primary cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-300 border-2 border-transparent hover:border-primary/20">
                     {/* Video Background */}
                     <div className="absolute inset-0 transition-transform duration-500 ">
                       <video
                         src={testimonial.video}
-                        className="absolute inset-0 h-[80vh] w-full object-cover"
+                        className="absolute inset-0 h-full w-full object-cover"
                         muted
                         loop
                         playsInline
@@ -195,7 +166,7 @@ export default function StudentTestimonialsSection() {
                       </div>
 
                       {/* Subtle Blue Overlay on Hover */}
-                      {/* <div className="absolute inset-0 bg-blue-600/0 group-hover:bg-blue-600/10 transition-colors duration-300"></div> */}
+                      {/* <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/10 transition-colors duration-300"></div> */}
                     </div>
 
                     {/* Play Button with Enhanced Design */}
@@ -206,13 +177,13 @@ export default function StudentTestimonialsSection() {
                     >
                       <div className="relative">
                         {/* Pulsing Ring */}
-                        <div className="absolute inset-0 w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-blue-600/30 animate-ping"></div>
+                        <div className="absolute inset-0 w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-primary/30 animate-ping"></div>
 
                         {/* Main Play Button */}
-                        <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-white/95 backdrop-blur-sm flex items-center justify-center shadow-2xl group-hover:scale-105 group-hover:bg-blue-600 transition-all duration-300">
+                        <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-white/95 backdrop-blur-sm flex items-center justify-center shadow-2xl group-hover:scale-105 group-hover:bg-primary transition-all duration-300">
                           <Play
                             size={28}
-                            className="sm:w-8 sm:h-8 text-blue-600 group-hover:text-white ml-1 transition-colors"
+                            className="sm:w-8 sm:h-8 text-primary group-hover:text-white ml-1 transition-colors"
                             fill="currentColor"
                           />
                         </div>
@@ -237,7 +208,7 @@ export default function StudentTestimonialsSection() {
                     )}
 
                     {/* Quote Badge */}
-                    <div className="absolute top-4 sm:top-6 right-4 sm:right-6 px-3 py-1.5 sm:px-4 sm:py-2 bg-blue-600/90 backdrop-blur-sm rounded-full">
+                    <div className="absolute top-4 sm:top-6 right-4 sm:right-6 px-3 py-1.5 sm:px-4 sm:py-2 bg-primary/90 backdrop-blur-sm rounded-full">
                       <span className="text-white text-xs font-semibold">
                         Success Story
                       </span>
@@ -250,7 +221,7 @@ export default function StudentTestimonialsSection() {
                           &quot;{testimonial.caption}&quot;
                         </p>
                         <div className="flex items-center gap-2 sm:gap-3">
-                          <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold text-xs sm:text-sm">
+                          <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-primary flex items-center justify-center text-white font-bold text-xs sm:text-sm">
                             {testimonial.name.charAt(0)}
                           </div>
                           <div>
@@ -270,24 +241,55 @@ export default function StudentTestimonialsSection() {
             </div>
           </div>
 
-          {/* Dots Indicator */}
+          {/* Carousel Controls (Dots + Nav Buttons) */}
           {maxIndex > 0 && (
-            <div className="flex justify-center gap-2 mt-6 sm:mt-8">
-              {Array.from({ length: maxIndex + 1 }).map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => {
-                    setIsPlaying(null);
-                    setCurrentIndex(index);
-                  }}
-                  className={`h-2 rounded-full transition-all ${
-                    index === currentIndex
-                      ? "bg-blue-600 w-6 sm:w-8"
-                      : "bg-zinc-300 hover:bg-zinc-400 w-2"
-                  }`}
-                  aria-label={`Go to testimonial group ${index + 1}`}
-                />
-              ))}
+            <div className="w-full flex items-center justify-center gap-4 mt-6 sm:mt-8">
+              {/* Previous Button */}
+              <button
+                onClick={handlePrevious}
+                disabled={currentIndex === 0}
+                className={`w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center border border-zinc-200 transition-all ${
+                  currentIndex === 0
+                    ? "opacity-40 cursor-not-allowed"
+                    : "text-zinc-700 hover:bg-primary hover:text-white hover:border-primary active:scale-95 cursor-pointer"
+                }`}
+                aria-label="Previous testimonials"
+              >
+                <ChevronLeft size={18} />
+              </button>
+
+              {/* Dots Indicator */}
+              <div className="flex gap-2">
+                {Array.from({ length: maxIndex + 1 }).map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => {
+                      setIsPlaying(null);
+                      setCurrentIndex(index);
+                    }}
+                    className={`h-2 rounded-full transition-all duration-300 ${
+                      index === currentIndex
+                        ? "bg-primary w-6 sm:w-8"
+                        : "bg-zinc-300 hover:bg-zinc-400 w-2 cursor-pointer"
+                    }`}
+                    aria-label={`Go to testimonial group ${index + 1}`}
+                  />
+                ))}
+              </div>
+
+              {/* Next Button */}
+              <button
+                onClick={handleNext}
+                disabled={currentIndex >= maxIndex}
+                className={`w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center border border-zinc-200 transition-all ${
+                  currentIndex >= maxIndex
+                    ? "opacity-40 cursor-not-allowed"
+                    : "text-zinc-700 hover:bg-primary hover:text-white hover:border-primary active:scale-95 cursor-pointer"
+                }`}
+                aria-label="Next testimonials"
+              >
+                <ChevronRight size={18} />
+              </button>
             </div>
           )}
         </div>

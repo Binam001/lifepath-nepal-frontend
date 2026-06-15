@@ -67,7 +67,7 @@ export default function Divider({ prop }: DividerProp) {
   return (
     <section className="relative px-4 md:px-8 bg-zinc-100 to-black py-8 md:py-16 overflow-hidden">
       <div ref={containerRef} className="relative max-w-4xl mx-auto">
-        <p className="text-center text-2xl md:text-2xl lg:text-3xl font-medium leading-snug text-blue-600">
+        <p className="text-center text-2xl md:text-2xl lg:text-3xl font-medium leading-snug text-primary">
           {text.split(" ").map((w, i) => (
             <span key={i} className="reveal-word inline-block mr-2">
               {w}

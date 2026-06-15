@@ -37,7 +37,7 @@ export default function PathCardsSection() {
     {
       leftTitle: "No next steps",
       rightTitle: "Confident next steps",
-      problem: "Unsure how to tranzinc skills into opportunities.",
+      problem: "Unsure how to translate skills into opportunities.",
       solution: "Portfolio, jobs, or freelancing with clear next steps.",
       Icon: MoveRight,
       LeftImg: "/heroImages/problem.jpg",

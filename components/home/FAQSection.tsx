@@ -51,12 +51,12 @@ export default function FAQSection() {
   };
 
   return (
-    <section className="py-16 bg-white">
+    <section className="pb-12 md:pb-24 bg-white">
       <div className="max-w-4xl mx-auto px-4 md:px-0">
         <PageTitle
           title="Frequently Asked Questions"
           subtitle="Quick answers to help you understand how Lifepath works."
-          titleClassName="text-3xl md:text-5xl font-semibold text-blue-600 mb-3"
+          titleClassName="text-3xl md:text-5xl"
           subtitleClassName="text-base md:text-lg text-zinc-700"
           containerClassName="text-center max-w-3xl mx-auto"
           align="center"
