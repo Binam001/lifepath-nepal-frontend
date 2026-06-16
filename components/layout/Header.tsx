@@ -47,9 +47,9 @@ export default function Header() {
     { label: "Roadmap", href: "/roadmap" },
     // { label: "Guide Books", href: "/guide-books" },
     { label: "Reviews", href: "/reviews" },
-    { label: "Support", href: "/support" },
     // { label: "Books", href: "/books" },
     { label: "Grow", href: "/grow" },
+    { label: "Contact", href: "/contact" },
   ];
 
   const isActive = (href: string) => {
@@ -61,7 +61,7 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 border-b border-zinc-200 bg-white/95 px-4 backdrop-blur-2xl transition-transform duration-300 lg:px-0 ${
+      className={`fixed top-0 left-0 right-0 z-50 border-b border-zinc-200 bg-white/95 px-4 md:px-8 xl:px-0 backdrop-blur-2xl transition-transform duration-300 ${
         isVisible ? "translate-y-0" : "-translate-y-full"
       }`}
     >
@@ -93,7 +93,7 @@ export default function Header() {
             ))}
           </div>
 
-          <div className="ml-auto hidden items-center gap-2 sm:flex">
+          <div className="ml-auto hidden items-center gap-2 xl:flex">
             {/* <Link
               href="/personality-test"
               className="relative inline-flex items-center justify-center overflow-hidden rounded-full px-4 py-2 text-sm font-medium whitespace-nowrap text-white"

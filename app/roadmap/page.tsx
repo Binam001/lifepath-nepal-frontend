@@ -213,7 +213,7 @@ export default function RoadmapHubPage() {
             prioritize building the roadmap for it.
           </p>
           <Link
-            href="/support"
+            href="/contact"
             className="mt-6 inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white hover:bg-blue-700"
           >
             Request a roadmap

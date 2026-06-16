@@ -124,7 +124,7 @@ export default function ContactSection() {
 
   return (
     <section className="relative py-8 md:py-16 bg-zinc-100 border-t border-zinc-200">
-      <div className="max-w-7xl mx-auto px-4 md:px-0">
+      <div className="max-w-7xl mx-auto px-4 md:px-8 xl:px-0">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-start">
           <div>
             <PageTitle

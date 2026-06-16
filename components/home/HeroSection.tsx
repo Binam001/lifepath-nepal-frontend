@@ -18,14 +18,14 @@ export default function HeroSection() {
     videoRef.current!.currentTime = 0; // optional: reset video
   };
   return (
-    <section className="overflow-hidden bg-[#FBFBFB] px-4 pt-16 pb-14 md:px-0 min-h-screen">
-      <div className="max-w-7xl mx-auto grid items-center gap-12 lg:min-h-[calc(100vh-6rem)] lg:grid-cols-[1.05fr_0.95fr]">
-        <div className="max-w-3xl space-y-6">
+    <section className="overflow-hidden bg-[#FBFBFB] pt-16 pb-14 px-4 md:px-8 xl:px-0 min-h-screen">
+      <div className="max-w-7xl mx-auto grid items-center gap-12 xl:min-h-[calc(100vh-6rem)] xl:grid-cols-[1.05fr_0.95fr]">
+        <div className="max-w-3xl flex flex-col md:items-center xl:items-start md:text-center xl:text-left gap-6">
           <div className="space-y-4">
             <h1 className="text-3xl md:text-4xl xl:text-5xl font-semibold font-montserrat text-primary pt-8">
               Don&apos;t Just Choose a Career. Discover Your Direction.
             </h1>
-            <p className="max-w-2xl text-base leading-relaxed text-zinc-700 font-medium md:text-base">
+            <p className="max-w-2xl md:mx-auto xl:mr-auto xl:ml-0 text-base leading-relaxed text-zinc-700 font-medium md:text-base">
               A platform designed to guide students toward meaningful careers.
               Get mentorship, practical training, and clarity about your future
               so you can build the life you truly want.

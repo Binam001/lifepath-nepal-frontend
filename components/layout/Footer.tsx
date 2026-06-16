@@ -29,9 +29,9 @@ const footerGroups = [
   },
 
   {
-    title: "Support",
+    title: "Contact",
     links: [
-      { label: "Support", href: "/support" },
+      { label: "Contact", href: "/contact" },
       // { label: "Login", href: "/login" },
     ],
   },
@@ -61,7 +61,7 @@ export default function Footer() {
               />
               <Button
                 label="Contact Us"
-                href="/support"
+                href="/contact"
                 variant="outline"
                 className="w-full! md:w-fit!"
               />

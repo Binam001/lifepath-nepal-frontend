@@ -13,8 +13,8 @@ export default function StorySection() {
     { number: "100%", label: "Success Rate" },
   ];
   return (
-    <section className="relative">
-      <div className="relative max-w-7xl mx-auto min-h-screen px-4 py-4 sm:px-6 lg:px-0 flex flex-col sm:flex-row gap-8 justify-center items-center">
+    <section className="relative py-8 xl:py-0">
+      <div className="relative max-w-7xl mx-auto h-auto px-4 md:px-8 xl:px-0 flex flex-col md:flex-row gap-8 justify-center items-center">
         <div className="w-full md:w-1/2 flex flex-col items-center md:items-start justify-center text-center md:text-left gap-4 md:gap-8">
           <div className="flex flex-col items-center md:items-start gap-2">
             <span className="w-fit text-xs font-semibold uppercase tracking-wider text-primary bg-primary/10 rounded-full px-4 py-2">
@@ -24,7 +24,7 @@ export default function StorySection() {
               Know More About Us
             </h2>
           </div>
-          <h2 className="text-lg md:text-xl font-normal text-zinc-500">
+          <h2 className="text-lg xl:text-xl font-normal text-zinc-500">
             LifePath helps students discover the right career path. We help you
             understand your strengths through personality assessments, build
             practical skills with training programs, and prepare for future job

@@ -31,7 +31,7 @@ export const oceanQuestions: Question[] = [
     id: 4,
     trait: "O",
     polarity: -1,
-    text: "I usually follow my daily routine",
+    text: "I usually follow my daily routine.",
   },
   {
     id: 5,

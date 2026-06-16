@@ -52,7 +52,7 @@ export default function FAQSection() {
 
   return (
     <section className="pb-12 md:pb-24 bg-white">
-      <div className="max-w-4xl mx-auto px-4 md:px-0">
+      <div className="max-w-4xl mx-auto px-4 md:px-8 xl:px-0">
         <PageTitle
           title="Frequently Asked Questions"
           subtitle="Quick answers to help you understand how Lifepath works."
@@ -97,7 +97,7 @@ export default function FAQSection() {
 
         {/* <div className="mt-12 text-center">
           <p className="text-zinc-600 mb-4">Still have questions?</p>
-          <Link href="/support">
+          <Link href="/contact">
             <button className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-full hover:bg-blue-700 transition-colors shadow-sm cursor-pointer">
               Contact Support
             </button>

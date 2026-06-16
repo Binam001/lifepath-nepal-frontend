@@ -68,7 +68,7 @@ export default function HowItWorksSection() {
 
   return (
     <section id="how-it-works" className="bg-white py-8 md:py-16">
-      <div className="mx-auto max-w-7xl px-4 md:px-0">
+      <div className="mx-auto max-w-7xl px-4 md:px-8 xl:px-0">
         <PageTitle
           title="Shape your future"
           subtitle="Discover your strengths, choose the right path, and take confident steps toward a fulfilling career."
@@ -78,7 +78,7 @@ export default function HowItWorksSection() {
           align="center"
         />
 
-        <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-4">
+        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
           {/* {steps.map((item, index) => (
             <CardDemo
               key={index}
