@@ -48,7 +48,7 @@ export default function Header() {
     // { label: "Guide Books", href: "/guide-books" },
     { label: "Reviews", href: "/reviews" },
     // { label: "Books", href: "/books" },
-    // { label: "Help", href: "/support" },
+    { label: "Help", href: "/support" },
     { label: "Grow", href: "/grow" },
     { label: "Contact", href: "/contact" },
   ];
