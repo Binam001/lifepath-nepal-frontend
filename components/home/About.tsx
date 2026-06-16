@@ -1,39 +1,37 @@
 "use client";
 
 import Image from "next/image";
-import { ArrowRight } from "lucide-react";
-import Link from "next/link";
 import Button from "../shared/Button";
 
 export default function StorySection() {
   const stats = [
     // { number: "2000+", label: "Students Guided" },
-    { number: "16", label: "Personality Types" },
-    { number: "10+", label: "Career Paths" },
-    { number: "100%", label: "Success Rate" },
+    { number: "4", label: "Personality Tests" },
+    { number: "6", label: "Career Roadmaps" },
+    { number: "23", label: "Job Opportunities" },
   ];
   return (
     <section className="relative py-8 xl:py-0">
       <div className="relative max-w-7xl mx-auto h-auto px-4 md:px-8 xl:px-0 flex flex-col md:flex-row gap-8 justify-center items-center">
-        <div className="w-full md:w-1/2 flex flex-col items-center md:items-start justify-center text-center md:text-left gap-4 md:gap-8">
+        <div className="w-full md:w-1/2 flex flex-col items-center md:items-start justify-center text-center md:text-left gap-4 md:gap-12">
           <div className="flex flex-col items-center md:items-start gap-2">
-            <span className="w-fit text-xs font-semibold uppercase tracking-wider text-primary bg-primary/10 rounded-full px-4 py-2">
+            <span className="w-fit text-xs font-semibold uppercase tracking-wider text-black bg-black/10 rounded-full px-4 py-2">
               About LifePath
             </span>
             <h2 className="text-3xl md:text-4xl font-semibold text-primary">
               Know More About Us
             </h2>
+            <h2 className="text-lg font-normal text-zinc-500">
+              LifePath helps students discover the right career path. We help
+              you understand your strengths through personality assessments,
+              build practical skills with training programs, and prepare for
+              future job opportunities.
+            </h2>
           </div>
-          <h2 className="text-lg xl:text-xl font-normal text-zinc-500">
-            LifePath helps students discover the right career path. We help you
-            understand your strengths through personality assessments, build
-            practical skills with training programs, and prepare for future job
-            opportunities.
-          </h2>
           <div className="grid grid-cols-3 md:grid-cols-3 gap-8">
             {stats.map((stat) => (
               <div key={stat.label} className="text-center">
-                <div className="text-2xl md:text-5xl font-bold text-primary">
+                <div className="text-2xl md:text-5xl font-bold text-black">
                   {stat.number}
                 </div>
                 <div className="text-sm md:text-base text-zinc-600">

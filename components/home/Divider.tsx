@@ -5,7 +5,9 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 type DividerProp = {
-  prop: number;
+  prop?: number;
+  text?: string;
+  children?: React.ReactNode;
 };
 
 // const TEXT =
@@ -22,25 +24,37 @@ const TEXT3 =
 const TEXT4 =
   "Everybody is a genius. But if you judge a fish by its ability to climb a tree, it will live its whole life believing that it is stupid.- Albert Einstein.";
 
-export default function Divider({ prop }: DividerProp) {
+export default function Divider({
+  prop,
+  text: propText,
+  children,
+}: DividerProp) {
   const containerRef = useRef<HTMLDivElement | null>(null);
-  let text;
 
-  switch (prop) {
-    case 1:
-      text = TEXT;
-      break;
-    case 2:
-      text = TEXT2;
-      break;
-    case 3:
-      text = TEXT3;
-      break;
-    case 4:
-      text = TEXT4;
-      break;
-    default:
-      text = TEXT;
+  let resolvedText = "";
+  if (typeof children === "string") {
+    resolvedText = children;
+  } else if (propText) {
+    resolvedText = propText;
+  } else if (prop !== undefined) {
+    switch (prop) {
+      case 1:
+        resolvedText = TEXT;
+        break;
+      case 2:
+        resolvedText = TEXT2;
+        break;
+      case 3:
+        resolvedText = TEXT3;
+        break;
+      case 4:
+        resolvedText = TEXT4;
+        break;
+      default:
+        resolvedText = TEXT;
+    }
+  } else {
+    resolvedText = TEXT;
   }
 
   useEffect(() => {
@@ -48,6 +62,8 @@ export default function Divider({ prop }: DividerProp) {
     gsap.registerPlugin(ScrollTrigger);
 
     const words = containerRef.current.querySelectorAll(".reveal-word");
+    if (words.length === 0) return;
+
     gsap.set(words, { opacity: 0.15 });
 
     gsap.to(words, {
@@ -62,17 +78,19 @@ export default function Divider({ prop }: DividerProp) {
         scrub: true,
       },
     });
-  }, []);
+  }, [resolvedText, children]);
 
   return (
     <section className="relative px-4 md:px-8 bg-zinc-100 to-black py-8 md:py-16 overflow-hidden">
       <div ref={containerRef} className="relative max-w-4xl mx-auto">
-        <p className="text-center text-2xl md:text-2xl lg:text-3xl font-medium leading-snug text-primary">
-          {text.split(" ").map((w, i) => (
-            <span key={i} className="reveal-word inline-block mr-2">
-              {w}
-            </span>
-          ))}
+        <p className="text-center text-xl md:text-2xl lg:text-3xl font-medium leading-snug text-primary">
+          {typeof children !== "string" && children
+            ? children
+            : resolvedText.split(" ").map((w, i) => (
+                <span key={i} className="reveal-word inline-block mr-2">
+                  {w}
+                </span>
+              ))}
         </p>
       </div>
     </section>

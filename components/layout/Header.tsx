@@ -48,6 +48,7 @@ export default function Header() {
     // { label: "Guide Books", href: "/guide-books" },
     { label: "Reviews", href: "/reviews" },
     // { label: "Books", href: "/books" },
+    // { label: "Help", href: "/support" },
     { label: "Grow", href: "/grow" },
     { label: "Contact", href: "/contact" },
   ];
@@ -77,18 +78,23 @@ export default function Header() {
             />
           </Link>
 
-          <div className="ml-6 hidden items-center gap-1 lg:flex">
+          <div className="ml-6 hidden items-center gap-4 lg:flex">
             {navItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`rounded-full px-3 py-2 text-sm font-medium transition-colors ${
+                className={`relative rounded-full px-3 py-2 text-sm font-medium transition-colors ${
                   isActive(item.href)
                     ? "bg-blue-100 text-primary"
                     : "text-zinc-700 hover:bg-zinc-50 hover:text-zinc-900"
                 }`}
               >
-                {item.label}
+                <span>{item.label}</span>
+                {item.label === "Events" && (
+                  <span className="absolute -top-0.5 -right-1.5 inline-flex items-center gap-0.5 rounded-full bg-red-500 px-1.5 py-0.5 text-[8px] font-bold text-white uppercase tracking-wider leading-none shadow-xs z-10">
+                    ongoing
+                  </span>
+                )}
               </Link>
             ))}
           </div>
@@ -137,13 +143,18 @@ export default function Header() {
                 key={item.href}
                 href={item.href}
                 onClick={() => setIsMenuOpen(false)}
-                className={`block rounded-xl px-4 py-2 text-lg font-medium transition-colors ${
+                className={`relative block rounded-xl px-4 py-2 text-lg font-medium transition-colors ${
                   isActive(item.href)
                     ? "bg-blue-50 text-blue-700"
                     : "text-zinc-700 hover:bg-zinc-50"
                 }`}
               >
-                {item.label}
+                <span>{item.label}</span>
+                {item.label === "Events" && (
+                  <span className="absolute top-1/2 -translate-y-1/2 right-1/2 inline-flex items-center gap-0.5 rounded-full bg-red-500 px-1.5 py-0.5 text-xs font-bold text-white uppercase tracking-wider leading-none shadow-xs z-10">
+                    ongoing
+                  </span>
+                )}
               </Link>
             ))}
             <Link
