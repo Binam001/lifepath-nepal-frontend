@@ -75,8 +75,8 @@ export default function HeroSection() {
               playsInline
               preload="auto"
             />
-            <div className="hidden md:flex absolute h-full w-[5%] right-0 bottom-0 bg-white" />
-            <div className="hidden md:flex absolute h-[2%] w-full right-0 bottom-[4%] bg-white" />
+            <div className="hidden md:flex absolute h-full w-[5%] right-0 bottom-0 bg-[#FBFBFB]" />
+            <div className="hidden md:flex absolute h-[2%] w-full right-0 bottom-[4%] bg-[#FBFBFB]" />
           </div>
           {/* <div className="relative overflow-hidden flex h-full items-center">
             <Image
