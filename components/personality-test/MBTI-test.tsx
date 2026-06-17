@@ -22,11 +22,21 @@ export default function MBTITest() {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const scale = [
-    { value: 1, label: "100%", sublabel: "Strong A" },
-    { value: 2, label: "75%", sublabel: "Mid A" },
-    { value: 3, label: "50%", sublabel: "Neutral" },
-    { value: 4, label: "75%", sublabel: "Mid B" },
-    { value: 5, label: "100%", sublabel: "Strong B" },
+    {
+      value: 1,
+      label: "100%",
+      sublabel: "Strong A",
+      nepaliSublabel: "पूर्ण रूपमा क",
+    },
+    { value: 2, label: "75%", sublabel: "Mid A", nepaliSublabel: "सामान्य क" },
+    { value: 3, label: "50%", sublabel: "Neutral", nepaliSublabel: "तटस्थ" },
+    { value: 4, label: "75%", sublabel: "Mid B", nepaliSublabel: "सामान्य ख" },
+    {
+      value: 5,
+      label: "100%",
+      sublabel: "Strong B",
+      nepaliSublabel: "पूर्ण रूपमा ख",
+    },
   ];
 
   useEffect(() => {
@@ -226,7 +236,7 @@ export default function MBTITest() {
           icon={<Brain size={32} className="text-white animate-pulse" />}
         />
 
-        <section className="max-w-4xl mx-auto py-12 px-4 sm:px-6">
+        <section className="max-w-5xl mx-auto py-12 px-4 sm:px-6">
           {hasSavedResult && (
             <SavedResultBanner
               onDelete={() => setIsDeleteModalOpen(true)}
@@ -256,10 +266,15 @@ export default function MBTITest() {
               {mbtiQuestions[currentQuestion].question}
             </h2>
 
-            <div className="mb-6 grid gap-4 md:grid-cols-[1fr_auto_1fr] items-center">
+            <div className="mb-6 grid gap-4 md:grid-cols-[1fr_2fr_1fr] items-center">
               <div className="rounded-lg border border-blue-200 bg-blue-50/50 p-4 min-h-[60px] md:min-h-[100px] flex flex-col justify-center">
                 <p className="text-xs font-semibold text-blue-600 mb-1 uppercase tracking-wider">
-                  Option A
+                  <span translate="no" className="english-label notranslate">
+                    Option A
+                  </span>
+                  <span translate="no" className="nepali-label notranslate">
+                    विकल्प क
+                  </span>
                 </p>
                 <p className="text-sm md:text-base font-semibold text-zinc-900 leading-snug">
                   {mbtiQuestions[currentQuestion].optionA}
@@ -268,15 +283,26 @@ export default function MBTITest() {
 
               <div className="py-4">
                 <div className="flex items-center justify-center gap-1.5 sm:gap-2.5 md:gap-3">
-                  {scale.map(({ value, label, sublabel }) => (
+                  {scale.map(({ value, label, sublabel, nepaliSublabel }) => (
                     <div
                       key={value}
-                      className="flex flex-col items-center gap-2 w-14 sm:w-16"
+                      className="flex flex-col items-center gap-2 w-14 sm:w-16 md:w-20"
                     >
                       <span
-                        className={`text-[8px] sm:text-[10px] font-bold text-zinc-500 uppercase tracking-wider text-center select-none h-4 flex items-center justify-center ${value === 3 ? "text-zinc-400" : ""}`}
+                        className={`text-[8px] md:text-xs [html[lang='ne']_&]:md:text-sm font-bold text-zinc-500 uppercase tracking-wider text-center select-none h-4 flex items-center justify-center ${value === 3 ? "text-zinc-400" : ""}`}
                       >
-                        {sublabel}
+                        <span
+                          translate="no"
+                          className="english-label notranslate"
+                        >
+                          {sublabel}
+                        </span>
+                        <span
+                          translate="no"
+                          className="nepali-label notranslate"
+                        >
+                          {nepaliSublabel}
+                        </span>
                       </span>
                       <button
                         onClick={() => handleAnswer(value)}
@@ -311,7 +337,12 @@ export default function MBTITest() {
 
               <div className="rounded-lg border border-amber-200 bg-amber-50/30 p-4 min-h-[60px] md:min-h-[100px] flex flex-col justify-center">
                 <p className="text-xs font-semibold text-amber-600 mb-1 uppercase tracking-wider">
-                  Option B
+                  <span translate="no" className="english-label notranslate">
+                    Option B
+                  </span>
+                  <span translate="no" className="nepali-label notranslate">
+                    विकल्प ख
+                  </span>
                 </p>
                 <p className="text-sm md:text-base font-semibold text-zinc-900 leading-snug">
                   {mbtiQuestions[currentQuestion].optionB}
@@ -322,11 +353,33 @@ export default function MBTITest() {
             <div className="p-2 mb-3 md:mb-6 flex flex-col items-center gap-3">
               <p className="text-center text-xs text-zinc-500 leading-relaxed">
                 Choose{" "}
-                <span className="font-semibold text-primary">Option A</span> or{" "}
-                <span className="font-semibold text-amber-600">Option B</span>,
-                or select{" "}
-                <span className="font-semibold text-zinc-500">Neutral</span> if
-                neither fits perfectly
+                <span className="font-semibold text-primary">
+                  <span translate="no" className="english-label notranslate">
+                    Option A
+                  </span>
+                  <span translate="no" className="nepali-label notranslate">
+                    विकल्प क
+                  </span>
+                </span>{" "}
+                or{" "}
+                <span className="font-semibold text-amber-600">
+                  <span translate="no" className="english-label notranslate">
+                    Option B
+                  </span>
+                  <span translate="no" className="nepali-label notranslate">
+                    विकल्प ख
+                  </span>
+                </span>
+                , or select{" "}
+                <span className="font-semibold text-zinc-500">
+                  <span translate="no" className="english-label notranslate">
+                    Neutral
+                  </span>
+                  <span translate="no" className="nepali-label notranslate">
+                    तटस्थ
+                  </span>
+                </span>{" "}
+                if neither fits perfectly
               </p>
               <div className="h-7 flex md:hidden items-center justify-center">
                 {isAnswered && (

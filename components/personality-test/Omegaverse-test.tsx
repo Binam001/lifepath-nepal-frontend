@@ -319,7 +319,10 @@ export default function OmegaverseTest() {
                           : "bg-zinc-50 text-zinc-500 border-zinc-250 group-hover:border-primary/50"
                       }`}
                     >
-                      {opt.key}
+                      <span translate="no" className="english-label notranslate">{opt.key}</span>
+                      <span translate="no" className="nepali-label notranslate">
+                        {opt.key === "A" ? "क" : opt.key === "B" ? "ख" : opt.key === "C" ? "ग" : "घ"}
+                      </span>
                     </div>
                     <span className="text-sm sm:text-base leading-snug">
                       {opt.text}

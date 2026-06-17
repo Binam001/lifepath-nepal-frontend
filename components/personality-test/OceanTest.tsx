@@ -22,11 +22,11 @@ export default function OceanTest() {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const scale = [
-    { value: 1, label: "100%", sublabel: "Strong Disagree" },
-    { value: 2, label: "75%", sublabel: "Disagree" },
-    { value: 3, label: "50%", sublabel: "Neutral" },
-    { value: 4, label: "75%", sublabel: "Agree" },
-    { value: 5, label: "100%", sublabel: "Strong Agree" },
+    { value: 1, label: "100%", sublabel: "Strong Disagree", nepaliSublabel: "पूर्ण असहमत" },
+    { value: 2, label: "75%", sublabel: "Disagree", nepaliSublabel: "असहमत" },
+    { value: 3, label: "50%", sublabel: "Neutral", nepaliSublabel: "तटस्थ" },
+    { value: 4, label: "75%", sublabel: "Agree", nepaliSublabel: "सहमत" },
+    { value: 5, label: "100%", sublabel: "Strong Agree", nepaliSublabel: "पूर्ण सहमत" },
   ];
 
   useEffect(() => {
@@ -267,15 +267,16 @@ export default function OceanTest() {
 
               <div className="py-4">
                 <div className="flex items-center justify-center gap-1.5 sm:gap-2.5 md:gap-3">
-                  {scale.map(({ value, label, sublabel }) => (
+                  {scale.map(({ value, label, sublabel, nepaliSublabel }) => (
                     <div
                       key={value}
-                      className="flex flex-col items-center gap-2 w-14 sm:w-16"
+                      className="flex flex-col items-center gap-2 w-14 sm:w-16 md:w-20"
                     >
                       <span
-                        className={`text-[8px] sm:text-[10px] font-bold text-zinc-500 uppercase tracking-wider text-center select-none h-4 flex items-center justify-center leading-none ${value === 3 ? "text-zinc-400" : ""}`}
+                        className={`text-[8px] md:text-[10px] [html[lang='ne']_&]:text-sm font-bold text-zinc-500 uppercase tracking-wider text-center select-none h-4 flex items-center justify-center leading-none whitespace-nowrap ${value === 3 ? "text-zinc-400" : ""}`}
                       >
-                        {sublabel}
+                        <span translate="no" className="english-label notranslate">{sublabel}</span>
+                        <span translate="no" className="nepali-label notranslate">{nepaliSublabel}</span>
                       </span>
                       <button
                         onClick={() => handleAnswer(value)}
@@ -322,13 +323,20 @@ export default function OceanTest() {
               <p className="text-center text-xs text-zinc-500 leading-relaxed">
                 Choose a level of{" "}
                 <span className="font-semibold text-emerald-500">
-                  Agreement
+                  <span translate="no" className="english-label notranslate">Agreement</span>
+                  <span translate="no" className="nepali-label notranslate">सहमति</span>
                 </span>{" "}
                 or{" "}
-                <span className="font-semibold text-red-500">Disagreement</span>
+                <span className="font-semibold text-red-500">
+                  <span translate="no" className="english-label notranslate">Disagreement</span>
+                  <span translate="no" className="nepali-label notranslate">असहमति</span>
+                </span>
                 , or select{" "}
-                <span className="font-semibold text-zinc-500">Neutral</span> if
-                you neither agree nor disagree.
+                <span className="font-semibold text-zinc-500">
+                  <span translate="no" className="english-label notranslate">Neutral</span>
+                  <span translate="no" className="nepali-label notranslate">तटस्थ</span>
+                </span>{" "}
+                if you neither agree nor disagree.
               </p>
               <div className="h-7 flex md:hidden items-center justify-center">
                 {isAnswered && (

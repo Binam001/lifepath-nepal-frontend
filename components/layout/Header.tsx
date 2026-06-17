@@ -6,6 +6,13 @@ import { usePathname } from "next/navigation";
 import { MenuIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import Button from "../shared/Button";
+import "next-google-translate-widget/styles";
+import GoogleTranslate from "next-google-translate-widget";
+
+const myLanguages = [
+  { label: "English", value: "en", flag: "us" },
+  { label: "नेपाली", value: "ne", flag: "np" },
+];
 
 function useScrollDirection() {
   const [isVisible, setIsVisible] = useState(true);
@@ -39,18 +46,18 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navItems = [
-    { label: "Home", href: "/" },
-    // { label: "Job Training", href: "/job-training" },
-    { label: "Future", href: "/future" },
-    { label: "Career", href: "/jobs" },
-    { label: "Events", href: "/events" },
-    { label: "Roadmap", href: "/roadmap" },
-    // { label: "Guide Books", href: "/guide-books" },
-    { label: "Reviews", href: "/reviews" },
-    // { label: "Books", href: "/books" },
-    { label: "Help", href: "/support" },
-    { label: "Grow", href: "/grow" },
-    { label: "Contact", href: "/contact" },
+    { label: "Home", nepaliLabel: "गृह पृष्ठ", href: "/" },
+    // { label: "Job Training", nepaliLabel: "रोजगार तालिम", href: "/job-training" },
+    { label: "Future", nepaliLabel: "भविष्य", href: "/future" },
+    { label: "Career", nepaliLabel: "करियर", href: "/jobs" },
+    { label: "Events", nepaliLabel: "कार्यक्रमहरू", href: "/events" },
+    { label: "Roadmap", nepaliLabel: "रोडम्याप", href: "/roadmap" },
+    // { label: "Guide Books", nepaliLabel: "निर्देशिका पुस्तकहरू", href: "/guide-books" },
+    { label: "Reviews", nepaliLabel: "समीक्षाहरू", href: "/reviews" },
+    // { label: "Books", nepaliLabel: "पुस्तकहरू", href: "/books" },
+    { label: "Help", nepaliLabel: "मद्दत", href: "/support" },
+    { label: "Grow", nepaliLabel: "प्रगति", href: "/grow" },
+    { label: "Contact", nepaliLabel: "सम्पर्क", href: "/contact" },
   ];
 
   const isActive = (href: string) => {
@@ -66,6 +73,24 @@ export default function Header() {
         isVisible ? "translate-y-0" : "-translate-y-full"
       }`}
     >
+      <style>{`
+        .english-label {
+          display: inline !important;
+        }
+        .nepali-label {
+          display: none !important;
+        }
+        html[lang="ne"] .english-label,
+        html.translated-ltr .english-label,
+        html.translated-rtl .english-label {
+          display: none !important;
+        }
+        html[lang="ne"] .nepali-label,
+        html.translated-ltr .nepali-label,
+        html.translated-rtl .nepali-label {
+          display: inline !important;
+        }
+      `}</style>
       <nav className="max-w-7xl mx-auto">
         <div className="flex h-16 items-center justify-between gap-3">
           <Link href="/" className="shrink-0 cursor-pointer">
@@ -89,10 +114,18 @@ export default function Header() {
                     : "text-zinc-700 hover:bg-zinc-50 hover:text-zinc-900"
                 }`}
               >
-                <span>{item.label}</span>
+                <span>
+                  <span translate="no" className="english-label notranslate">
+                    {item.label}
+                  </span>
+                  <span translate="no" className="nepali-label notranslate">
+                    {item.nepaliLabel}
+                  </span>
+                </span>
                 {item.label === "Events" && (
-                  <span className="absolute -top-0.5 -right-1.5 inline-flex items-center gap-0.5 rounded-full bg-red-500 px-1.5 py-0.5 text-[8px] font-bold text-white uppercase tracking-wider leading-none shadow-xs z-10">
-                    ongoing
+                  <span className="absolute -top-0.5 [html[lang='ne']_&]:-top-1.5 right-1/2 translate-x-1/2 inline-flex items-center gap-0.5 rounded-full bg-red-500 px-1.5 py-0.5 text-[8px] [html[lang='ne']_&]:text-[10px] font-bold text-white uppercase tracking-wider leading-none shadow-xs z-10">
+                    <span className="">ongoing</span>
+                    {/* <span translate="no" className="nepali-label notranslate">चलिरहेको</span> */}
                   </span>
                 )}
               </Link>
@@ -110,8 +143,13 @@ export default function Header() {
               />
               <span className="relative z-10">Find Your Lifepath</span>
             </Link> */}
+            <GoogleTranslate
+              pageLanguage="en"
+              languages={myLanguages}
+              menuAlign="right"
+            />
             <Button
-              label="Know Yourself"
+              label={<span>Know Yourself</span>}
               href="/personality-test"
               size="sm"
               className="px-8!"
@@ -149,20 +187,40 @@ export default function Header() {
                     : "text-zinc-700 hover:bg-zinc-50"
                 }`}
               >
-                <span>{item.label}</span>
+                <span>
+                  <span translate="no" className="english-label notranslate">
+                    {item.label}
+                  </span>
+                  <span translate="no" className="nepali-label notranslate">
+                    {item.nepaliLabel}
+                  </span>
+                </span>
                 {item.label === "Events" && (
                   <span className="absolute top-1/2 -translate-y-1/2 right-1/2 inline-flex items-center gap-0.5 rounded-full bg-red-500 px-1.5 py-0.5 text-xs font-bold text-white uppercase tracking-wider leading-none shadow-xs z-10">
-                    ongoing
+                    <span translate="no" className="english-label notranslate">
+                      ongoing
+                    </span>
+                    <span translate="no" className="nepali-label notranslate">
+                      चलिरहेको
+                    </span>
                   </span>
                 )}
               </Link>
             ))}
+            <div className="flex justify-center px-4 py-2 border-t border-zinc-100">
+              <GoogleTranslate pageLanguage="en" languages={myLanguages} />
+            </div>
             <Link
               href="/personality-test"
               onClick={() => setIsMenuOpen(false)}
               className="block rounded-full bg-blue-600 px-4 py-3 text-center text-lg font-semibold text-white hover:bg-blue-700"
             >
-              Know Yourself
+              <span translate="no" className="english-label notranslate">
+                Know Yourself
+              </span>
+              <span translate="no" className="nepali-label notranslate">
+                आफूलाई चिन्नुहोस्
+              </span>
             </Link>
             {/* <Link
               href="/#how-it-works"

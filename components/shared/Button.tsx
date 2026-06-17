@@ -5,7 +5,8 @@ import Link from "next/link";
 import * as Icons from "lucide-react";
 
 interface ButtonProps {
-  label: string;
+  label: string | React.ReactNode;
+  ariaLabel?: string;
   className?: string;
   onClick?: React.MouseEventHandler<HTMLButtonElement | HTMLAnchorElement> | any;
   variant?: "solid" | "outline" | "white";
@@ -20,6 +21,7 @@ interface ButtonProps {
 
 const Button = ({
   label,
+  ariaLabel,
   className,
   onClick,
   variant = "solid",
@@ -81,12 +83,14 @@ const Button = ({
     </>
   );
 
+  const computedAriaLabel = ariaLabel || (typeof label === "string" ? label : undefined);
+
   if (href) {
     return (
       <Link
         href={href}
         className={combinedClassName}
-        aria-label={label}
+        aria-label={computedAriaLabel}
         onClick={onClick}
         title={title}
       >
@@ -99,7 +103,7 @@ const Button = ({
     <button
       type={type}
       onClick={onClick}
-      aria-label={label}
+      aria-label={computedAriaLabel}
       className={combinedClassName}
       disabled={disabled || isLoading}
       title={title}

@@ -292,7 +292,10 @@ export default function SleepChronotypeTest() {
                           : "bg-white text-zinc-500 border-zinc-250 group-hover:border-primary/50"
                       }`}
                     >
-                      {option.id}
+                      <span translate="no" className="english-label notranslate">{option.id}</span>
+                      <span translate="no" className="nepali-label notranslate">
+                        {option.id === "A" ? "क" : option.id === "B" ? "ख" : option.id === "C" ? "ग" : option.id === "D" ? "घ" : option.id}
+                      </span>
                     </span>
                     <span className="text-sm md:text-base font-medium">
                       {option.text}

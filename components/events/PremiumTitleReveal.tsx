@@ -159,7 +159,8 @@ export default function PremiumTitleReveal({
         <div className="relative w-full max-w-5xl text-center space-y-4">
           <h2
             ref={titleRef}
-            className="relative text-balance px-2 text-lg font-semibold leading-none tracking-[-0.02em] text-blue-600 drop-shadow-[0_2px_18px_rgba(255,255,255,0.85)] sm:text-2xl lg:text-3xl"
+            translate="no"
+            className=" relative text-balance px-2 text-lg font-semibold leading-none tracking-[-0.02em] text-blue-600 drop-shadow-[0_2px_18px_rgba(255,255,255,0.85)] sm:text-2xl lg:text-3xl"
           >
             {title}
           </h2>

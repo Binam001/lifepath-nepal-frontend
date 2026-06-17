@@ -193,7 +193,7 @@ export default function PersonalitySelectionPage() {
               href="/personality-test/comparison"
               className="shrink-0 w-full md:w-auto"
             >
-              <button className="w-full md:w-auto py-3 px-6 font-bold rounded-full bg-primary hover:bg-primary/90 text-white text-sm transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer shadow-sm">
+              <button className="w-full md:w-auto py-3 px-6 rounded-full bg-primary hover:bg-primary/90 text-white text-sm transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer shadow-sm">
                 {completedCount === 4
                   ? "See Complete Dashboard"
                   : "View Comparison Dashboard"}

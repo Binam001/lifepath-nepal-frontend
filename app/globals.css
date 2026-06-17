@@ -155,9 +155,18 @@ body {
 
 @font-face {
   font-family: "NotoSansDevanagari-Regular";
-  src: url("/fonts/NotoSansDevanagari-Regular.ttf") format("truetype");
+  src: url("/Fonts/NotoSansDevanagari-Regular.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
+}
+
+/* Apply Noto Sans Devanagari when page is in Nepali */
+html[lang="ne"],
+html[lang="ne"] body,
+html[lang="ne"] *,
+[lang="ne"] {
+  font-family:
+    "NotoSansDevanagari-Regular", var(--font-poppins), sans-serif !important;
 }
 
 .glass-morphism {
@@ -395,4 +404,174 @@ body {
 
 .grecaptcha-badge {
   visibility: hidden;
+}
+
+/* Custom styling for next-google-translate-widget to match website theme */
+.ngtContainer {
+  /* Override CSS variables to always look light and clean, matching our design system */
+  --ngt-bg: #ffffff !important;
+  --ngt-bg-hover: #f4f4f5 !important;
+  --ngt-border: #e4e4e7 !important;
+  --ngt-text: #3f3f46 !important; /* zinc-700 */
+  --ngt-menu-bg: #ffffff !important;
+  --ngt-menu-border: #e4e4e7 !important;
+  --ngt-active-bg: #eff6ff !important; /* blue-50 */
+  font-family: var(--font-poppins), sans-serif !important;
+}
+
+/* Make sure dark theme media query in the package doesn't override our styling */
+@media (prefers-color-scheme: dark) {
+  .ngtContainer {
+    --ngt-bg: #ffffff !important;
+    --ngt-bg-hover: #f4f4f5 !important;
+    --ngt-border: #e4e4e7 !important;
+    --ngt-text: #3f3f46 !important;
+    --ngt-menu-bg: #ffffff !important;
+    --ngt-menu-border: #e4e4e7 !important;
+    --ngt-active-bg: #eff6ff !important;
+  }
+}
+
+.ngtButton {
+  border-radius: 9999px !important; /* rounded-full to match other header buttons */
+  font-family: var(--font-poppins), sans-serif !important;
+  font-weight: 500 !important;
+  height: 36px !important; /* Fixed height to prevent line-height / font-baseline shifts */
+  padding: 0 16px !important; /* Horizontal padding only, vertical centered by flex */
+  font-size: 14px !important;
+  line-height: 1 !important;
+  border: 1px solid #e4e4e7 !important;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
+  background-color: #ffffff !important;
+  color: #3f3f46 !important;
+  transition: all 0.2s ease-in-out !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
+}
+
+.ngtButton:hover {
+  background-color: #f4f4f5 !important;
+  color: #18181b !important; /* zinc-900 */
+  border-color: #d4d4d8 !important; /* zinc-300 */
+}
+
+.ngtButton:focus-visible {
+  outline: 2px solid #345bfd !important;
+  outline-offset: 2px !important;
+}
+
+.ngtButton img,
+.ngtOption img {
+  border-radius: 2px !important;
+  object-fit: cover !important;
+}
+
+.ngtMenu {
+  border-radius: 16px !important;
+  border: 1px solid #e4e4e7 !important;
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -4px rgba(0, 0, 0, 0.1) !important;
+  padding: 4px !important;
+  margin-top: 6px !important;
+}
+
+.ngtOption {
+  border-radius: 12px !important;
+  padding: 8px 12px !important;
+  font-weight: 500 !important;
+  color: #52525b !important; /* zinc-600 */
+  transition: all 0.15s ease !important;
+}
+
+.ngtOption:hover {
+  background-color: #f4f4f5 !important;
+  color: #18181b !important;
+}
+
+.ngtOptionActive {
+  background-color: #eff6ff !important; /* blue-50 */
+  color: #345bfd !important;
+}
+
+.ngtArrow {
+  font-size: 0 !important; /* hide default ▾ character */
+  line-height: 0 !important;
+  color: transparent !important;
+  margin-left: 2px !important;
+  display: inline-block !important;
+  vertical-align: middle !important;
+  height: 18px !important; /* slightly bigger arrow container */
+  width: 18px !important;
+  position: relative !important;
+  overflow: hidden !important;
+  transition: transform 0.2s ease-in-out !important;
+  transform-origin: center center !important;
+  flex-shrink: 0 !important;
+}
+
+.ngtArrow::after {
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 18px !important; /* cover the full container to make the arrow icon bigger */
+  height: 18px !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='%2371717a' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m7 10l5 5l5-5'/%3E%3C/svg%3E") !important;
+  background-size: contain !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  transition: background-image 0.2s ease-in-out !important;
+}
+
+.ngtButton:hover .ngtArrow::after {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='%2318181b' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m7 10l5 5l5-5'/%3E%3C/svg%3E") !important;
+}
+
+/* Hide Google Translate default elements, banners, tooltips, and injected branding badges */
+#google_translate_element,
+.goog-te-banner-frame,
+.goog-te-banner,
+.goog-te-balloon-frame,
+#goog-gt-tt,
+.goog-gt-tt,
+.goog-te-gadget,
+.goog-te-gadget-simple,
+iframe[class*="goog"],
+iframe[id*="google_translate"] {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+/* Custom language toggles for text translations */
+.english-label {
+  display: inline !important;
+}
+.nepali-label {
+  display: none !important;
+}
+
+html[lang="ne"] .english-label {
+  display: none !important;
+}
+html[lang="ne"] .nepali-label {
+  display: inline !important;
+}
+
+/* Disable Google Translate hover highlights on all translated font elements */
+font,
+font:hover,
+font:active,
+font:focus,
+.goog-text-highlight,
+.goog-text-highlight:hover,
+.goog-text-highlight:active,
+.goog-text-highlight:focus {
+  background: transparent !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+  box-shadow: 0 0 0 transparent !important;
 }

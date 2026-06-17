@@ -565,8 +565,12 @@ export default function EssayCompetitionPage() {
                       { label: "m", value: timeLeft.minutes },
                       { label: "s", value: timeLeft.seconds },
                     ].map((item, index, arr) => (
-                      <div key={item.label} className="flex items-start">
-                        <div className="flex flex-col items-center min-w-[20px] sm:min-w-[24px] md:min-w-[28px]">
+                      <div
+                        key={item.label}
+                        translate="no"
+                        className="flex items-start"
+                      >
+                        <div className="notranslate flex flex-col items-center min-w-[20px] sm:min-w-[24px] md:min-w-[28px]">
                           <span className="text-base sm:text-lg md:text-xl font-bold tabular-nums text-zinc-900 leading-none">
                             {String(item.value).padStart(2, "0")}
                           </span>
@@ -702,7 +706,7 @@ export default function EssayCompetitionPage() {
           </div>
 
           {/* Right: Form */}
-          <div className="flex flex-col gap-4   rounded-2xl sm:p-4">
+          <div className="flex flex-col gap-4 rounded-2xl">
             <div className="bg-blue-50 rounded-3xl sm:p-4">
               <div className="rounded-2xl border border-zinc-200 bg-white/90 p-4 sm:p-8">
                 <h2 className="mb-6 text-2xl font-semibold text-zinc-800">
