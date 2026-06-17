@@ -55,7 +55,7 @@ export default function Header() {
     // { label: "Guide Books", nepaliLabel: "निर्देशिका पुस्तकहरू", href: "/guide-books" },
     { label: "Reviews", nepaliLabel: "समीक्षाहरू", href: "/reviews" },
     // { label: "Books", nepaliLabel: "पुस्तकहरू", href: "/books" },
-    { label: "Help", nepaliLabel: "मद्दत", href: "/support" },
+    // { label: "Help", nepaliLabel: "मद्दत", href: "/support" },
     { label: "Grow", nepaliLabel: "प्रगति", href: "/grow" },
     { label: "Contact", nepaliLabel: "सम्पर्क", href: "/contact" },
   ];
@@ -143,11 +143,11 @@ export default function Header() {
               />
               <span className="relative z-10">Find Your Lifepath</span>
             </Link> */}
-            <GoogleTranslate
+            {/* <GoogleTranslate
               pageLanguage="en"
               languages={myLanguages}
               menuAlign="right"
-            />
+            /> */}
             <Button
               label={<span>Know Yourself</span>}
               href="/personality-test"
@@ -205,13 +205,13 @@ export default function Header() {
                 )}
               </Link>
             ))}
-            <div className="py-2 border-t border-zinc-100">
+            {/* <div className="py-2 border-t border-zinc-100">
               <GoogleTranslate
                 pageLanguage="en"
                 languages={myLanguages}
                 className="w-full [&>button]:w-full [&>button]:justify-between [&>button]:py-6! [&>button]:px-4! [&>button]:text-lg! [&>button]:rounded-full [&>div]:w-full"
               />
-            </div>
+            </div> */}
             <Link
               href="/personality-test"
               onClick={() => setIsMenuOpen(false)}
