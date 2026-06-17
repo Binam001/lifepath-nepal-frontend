@@ -27,71 +27,71 @@ const donorData: Donor[] = [
   {
     id: "1",
     rank: "01",
-    name: "Darlene Robertson",
+    name: "Aakash Dahal",
     avatar: "/students/alish_img.jpeg",
     lastDonationDate: "27 Oct, 2027",
     donationsCount: 12,
-    totalAmount: 4575,
+    totalAmount: 125000,
     type: "recent",
   },
   {
     id: "2",
     rank: "02",
-    name: "Esther Howard",
+    name: "Biraj Shrestha",
     avatar: "/students/binam.jpeg",
     lastDonationDate: "16 Jun, 2026",
     donationsCount: 13,
-    totalAmount: 40500,
+    totalAmount: 450000,
     type: "top",
   },
   {
     id: "3",
     rank: "03",
-    name: "Bessie Cooper",
+    name: "Sameer Adhikari",
     avatar: "/students/Saurav.jpeg",
     lastDonationDate: "17 Apr, 2027",
     donationsCount: 32,
-    totalAmount: 2150,
+    totalAmount: 25000,
     type: "recurring",
   },
   {
     id: "4",
     rank: "04",
-    name: "Marvin McKinney",
+    name: "Aarati Shah",
     avatar: "/students/woman3.png",
     lastDonationDate: "16 May, 2027",
     donationsCount: 10,
-    totalAmount: 500,
+    totalAmount: 15000,
     type: "standard",
   },
   {
     id: "5",
     rank: "05",
-    name: "Eleanor Pena",
+    name: "Aman Regmi",
     avatar: "/students/Aayush.jpeg",
     lastDonationDate: "12 Feb, 2027",
     donationsCount: 5,
-    totalAmount: 1200,
+    totalAmount: 85000,
     type: "standard",
   },
   {
     id: "6",
     rank: "06",
-    name: "Theresa Webb",
+    name: "Sunil Tamang",
     avatar: "/students/sujan.jpeg",
     lastDonationDate: "05 Mar, 2027",
     donationsCount: 8,
-    totalAmount: 850,
+    totalAmount: 60000,
     type: "standard",
   },
   {
     id: "7",
     rank: "07",
-    name: "Albert Flores",
+    name: "Suraj Bhandari",
     avatar: "/students/Sijan.jpeg",
     lastDonationDate: "22 Jan, 2027",
     donationsCount: 15,
-    totalAmount: 3400,
+    totalAmount: 220000,
     type: "standard",
   },
 ];
@@ -206,11 +206,8 @@ const TopDonorSection = () => {
   );
 
   const formatCurrency = (val: number) => {
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-      minimumFractionDigits: 2,
-    }).format(val);
+    const formattedVal = new Intl.NumberFormat("en-NP").format(val);
+    return `NRs. ${formattedVal}`;
   };
 
   // Filter and sort the donor list
@@ -372,11 +369,17 @@ const TopDonorSection = () => {
               <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="bg-zinc-50/75 border-b border-zinc-200/70 text-xs font-bold text-zinc-500 uppercase tracking-wider">
-                    <th className="py-4 px-6 text-center w-20 whitespace-nowrap">Rank</th>
+                    <th className="py-4 px-6 text-center w-20 whitespace-nowrap">
+                      Rank
+                    </th>
                     <th className="py-4 px-6 whitespace-nowrap">Donor</th>
-                    <th className="py-4 px-6 whitespace-nowrap">Last Donation</th>
+                    <th className="py-4 px-6 whitespace-nowrap">
+                      Last Donation
+                    </th>
                     {/* <th className="py-4 px-6 text-center whitespace-nowrap">Donations</th> */}
-                    <th className="py-4 px-6 text-right whitespace-nowrap">Amount</th>
+                    <th className="py-4 px-6 text-right whitespace-nowrap">
+                      Amount
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-zinc-100 text-zinc-700 text-sm font-medium">

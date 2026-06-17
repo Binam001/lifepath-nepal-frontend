@@ -3,6 +3,29 @@ import PageTitle from "../ui/PageTitle";
 import Image from "next/image";
 import Button from "../shared/Button";
 
+const heroImages = [
+  {
+    src: "/heroImages/donation-to-kids-1.webp",
+    alt: "donation to kids",
+    colSpan: "col-span-2",
+  },
+  {
+    src: "/heroImages/job-opportunity-1.webp",
+    alt: "trust hands",
+    colSpan: "col-span-1",
+  },
+  {
+    src: "/heroImages/future-kid-1.webp",
+    alt: "future kid",
+    colSpan: "col-span-1",
+  },
+  {
+    src: "/heroImages/future-dream-1.webp",
+    alt: "future dream",
+    colSpan: "col-span-2",
+  },
+];
+
 const HeroSection = () => {
   return (
     <section className="relative min-h-screen md:h-screen px-4 md:px-8 xl:px-0 pt-20 md:pt-16 pb-8 md:pb-16 overflow-hidden flex items-center justify-center">
@@ -39,6 +62,21 @@ const HeroSection = () => {
             />
           </div>
         </div>
+        {/* <div className="grid grid-cols-3 gap-4 h-[40vh] md:h-[50vh] xl:h-[70vh] w-full rounded-3xl overflow-hidden">
+          {heroImages.map((img, idx) => (
+            <div
+              key={idx}
+              className={`${img.colSpan} relative overflow-hidden border border-zinc-200/50`}
+            >
+              <Image
+                src={img.src}
+                alt={img.alt}
+                fill
+                className="object-cover hover:scale-105 transition-transform duration-500"
+              />
+            </div>
+          ))}
+        </div> */}
       </div>
     </section>
   );
