@@ -42,7 +42,7 @@ const AboutSupport = () => {
   ];
 
   return (
-    <section className="relative px-4 md:px-8 xl:px-0 py-8 md:py-16 overflow-hidden">
+    <section className="relative px-4 md:px-8 py-8 md:py-16 overflow-hidden">
       <div className="max-w-7xl mx-auto">
         <PageTitle
           containerClassName="max-w-6xl mx-auto"

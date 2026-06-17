@@ -104,7 +104,7 @@ export default function ProblemSolution() {
 
   return (
     <section className="bg-white py-8 md:py-16">
-      <div className="max-w-7xl mx-auto px-4 md:px-8 xl:px-0">
+      <div className="max-w-7xl mx-auto px-4 md:px-8">
         <PageTitle
           title="From confusion to clarity"
           subtitle="LifePath helps students decide first, then learn with confidence."

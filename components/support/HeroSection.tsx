@@ -28,7 +28,7 @@ const heroImages = [
 
 const HeroSection = () => {
   return (
-    <section className="relative min-h-screen md:h-screen px-4 md:px-8 xl:px-0 pt-20 md:pt-16 pb-8 md:pb-16 overflow-hidden flex items-center justify-center">
+    <section className="relative min-h-screen md:h-screen px-4 md:px-8 pt-20 md:pt-16 pb-8 md:pb-16 overflow-hidden flex items-center justify-center">
       <div className="max-w-7xl mx-auto grid grid-cols-1 xl:grid-cols-2 gap-8">
         <div className="flex flex-col justify-center md:items-center xl:items-start gap-8">
           <PageTitle

@@ -12,7 +12,7 @@ export default function StorySection() {
   ];
   return (
     <section className="relative py-8 xl:py-0">
-      <div className="relative max-w-7xl mx-auto h-auto px-4 md:px-8 xl:px-0 flex flex-col md:flex-row gap-8 justify-center items-center">
+      <div className="relative max-w-7xl mx-auto h-auto px-4 md:px-8 flex flex-col md:flex-row gap-8 justify-center items-center">
         <div className="w-full md:w-1/2 flex flex-col items-center md:items-start justify-center text-center md:text-left gap-4 md:gap-12">
           <div className="flex flex-col items-center md:items-start gap-2">
             <span className="w-fit text-xs font-semibold uppercase tracking-wider text-black bg-black/10 rounded-full px-4 py-2">

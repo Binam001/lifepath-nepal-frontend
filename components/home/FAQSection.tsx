@@ -52,7 +52,7 @@ export default function FAQSection() {
 
   return (
     <section className="pb-12 md:pb-24 bg-white">
-      <div className="max-w-4xl mx-auto px-4 md:px-8 xl:px-0">
+      <div className="max-w-4xl mx-auto px-4 md:px-8">
         <PageTitle
           title="Frequently Asked Questions"
           subtitle="Quick answers to help you understand how Lifepath works."

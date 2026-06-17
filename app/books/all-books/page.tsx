@@ -246,7 +246,7 @@ export default async function AllBooksPage({
                       Price
                     </p>
                     <p className="mt-2 text-2xl font-bold text-blue-700">
-                      NPR {book.priceNpr}
+                      NRs{book.priceNpr}
                     </p>
                   </div>
 

@@ -46,14 +46,14 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navItems = [
-    { label: "Home", nepaliLabel: "गृह पृष्ठ", href: "/" },
+    { label: "Home", nepaliLabel: "होम", href: "/" },
     // { label: "Job Training", nepaliLabel: "रोजगार तालिम", href: "/job-training" },
     { label: "Future", nepaliLabel: "भविष्य", href: "/future" },
     { label: "Career", nepaliLabel: "करियर", href: "/jobs" },
     { label: "Events", nepaliLabel: "कार्यक्रमहरू", href: "/events" },
     { label: "Roadmap", nepaliLabel: "रोडम्याप", href: "/roadmap" },
     // { label: "Guide Books", nepaliLabel: "निर्देशिका पुस्तकहरू", href: "/guide-books" },
-    { label: "Reviews", nepaliLabel: "समीक्षाहरू", href: "/reviews" },
+    { label: "Reviews", nepaliLabel: "प्रतिक्रियाहरू", href: "/reviews" },
     // { label: "Books", nepaliLabel: "पुस्तकहरू", href: "/books" },
     { label: "Help", nepaliLabel: "मद्दत", href: "/support" },
     { label: "Grow", nepaliLabel: "प्रगति", href: "/grow" },
@@ -69,7 +69,7 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 border-b border-zinc-200 bg-white/95 px-4 md:px-8 xl:px-0 backdrop-blur-2xl transition-transform duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 border-b border-zinc-200 bg-white/95 px-4 md:px-8 backdrop-blur-2xl transition-transform duration-300 ${
         isVisible ? "translate-y-0" : "-translate-y-full"
       }`}
     >
@@ -103,7 +103,7 @@ export default function Header() {
             />
           </Link>
 
-          <div className="ml-6 hidden items-center gap-4 lg:flex">
+          <div className="ml-6 hidden items-center gap-2 lg:flex">
             {navItems.map((item) => (
               <Link
                 key={item.href}
@@ -152,7 +152,7 @@ export default function Header() {
               label={<span>Know Yourself</span>}
               href="/personality-test"
               size="sm"
-              className="px-8!"
+              className="px-6!"
             />
 
             {/* <Link

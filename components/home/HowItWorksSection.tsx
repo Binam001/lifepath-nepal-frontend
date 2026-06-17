@@ -68,7 +68,7 @@ export default function HowItWorksSection() {
 
   return (
     <section id="how-it-works" className="bg-white py-8 md:py-16">
-      <div className="mx-auto max-w-7xl px-4 md:px-8 xl:px-0">
+      <div className="mx-auto max-w-7xl px-4 md:px-8">
         <PageTitle
           title="Shape your future"
           subtitle="Discover your strengths, choose the right path, and take confident steps toward a fulfilling career."

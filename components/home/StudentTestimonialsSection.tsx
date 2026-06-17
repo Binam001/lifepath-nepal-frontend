@@ -111,7 +111,7 @@ export default function StudentTestimonialsSection() {
         : `translateX(calc(-${currentIndex} * (33.333% + 0.5rem)))`;
 
   return (
-    <section className="px-4 md:px-8 xl:px-0 py-8 md:py-16">
+    <section className="px-4 md:px-8 py-8 md:py-16">
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
         <PageTitle

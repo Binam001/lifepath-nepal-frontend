@@ -139,7 +139,7 @@ export default function JobsPage() {
                           {job.experience}
                         </span>
                         <span className="flex items-center gap-1 text-green-600 font-semibold">
-                          {job.region === "nepal" ? "NPR" : "$"} {job.salary}
+                          {job.region === "nepal" ? "NRs" : "$"} {job.salary}
                         </span>
                         <span className="flex items-center gap-1">
                           <MapPin size={14} />
