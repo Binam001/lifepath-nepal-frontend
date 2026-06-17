@@ -436,10 +436,10 @@ html[lang="ne"] *,
   border-radius: 9999px !important; /* rounded-full to match other header buttons */
   font-family: var(--font-poppins), sans-serif !important;
   font-weight: 500 !important;
-  height: 36px !important; /* Fixed height to prevent line-height / font-baseline shifts */
-  padding: 0 16px !important; /* Horizontal padding only, vertical centered by flex */
+  height: 40px !important; /* Changed to 40px to match standard header buttons */
+  padding: 0 14px !important; /* Horizontal padding only, vertical centered by flex */
   font-size: 14px !important;
-  line-height: 1 !important;
+  line-height: normal !important; /* Allow normal line-height to avoid text hugging the top of the box */
   border: 1px solid #e4e4e7 !important;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
   background-color: #ffffff !important;
@@ -448,7 +448,19 @@ html[lang="ne"] *,
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
+  gap: 6px !important; /* Explicit balanced gap */
   box-sizing: border-box !important;
+}
+
+.ngtButton > span:not(.ngtArrow) {
+  display: inline-flex !important;
+  align-items: center !important;
+  line-height: normal !important;
+}
+
+/* Shift downward only when the text is 'NE' (Nepali lang active) to align Poppins font baseline for those characters */
+html[lang="ne"] .ngtButton > span:not(.ngtArrow) {
+  transform: translateY(1.5px) !important;
 }
 
 .ngtButton:hover {
@@ -500,11 +512,11 @@ html[lang="ne"] *,
   font-size: 0 !important; /* hide default ▾ character */
   line-height: 0 !important;
   color: transparent !important;
-  margin-left: 2px !important;
+  margin-left: 0 !important; /* Remove extra margin to maintain symmetry */
   display: inline-block !important;
   vertical-align: middle !important;
-  height: 18px !important; /* slightly bigger arrow container */
-  width: 18px !important;
+  height: 16px !important; /* size to exactly 16px to match flag width */
+  width: 16px !important;
   position: relative !important;
   overflow: hidden !important;
   transition: transform 0.2s ease-in-out !important;
@@ -518,8 +530,8 @@ html[lang="ne"] *,
   position: absolute !important;
   top: 0 !important;
   left: 0 !important;
-  width: 18px !important; /* cover the full container to make the arrow icon bigger */
-  height: 18px !important;
+  width: 16px !important; /* match container width */
+  height: 16px !important;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='%2371717a' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m7 10l5 5l5-5'/%3E%3C/svg%3E") !important;
   background-size: contain !important;
   background-position: center !important;
