@@ -103,19 +103,19 @@ export default function Footer() {
                     guidance, and ways to get in touch.
                   </p>
                 </div> */}
-                <div className="mt-7 max-w-sm">
+                <div className="mt-4 xl:mt-8 max-w-sm">
                   <p className="text-sm font-medium text-zinc-900">
                     Subscribe to receive career tips.
                   </p>
-                  <div className="mt-4 flex gap-2 rounded-full border border-zinc-200 bg-white p-2 sm:flex-row sm:items-center sm:gap-0 sm:rounded-full sm:p-1">
+                  <div className="mt-4 flex gap-2 rounded-full border border-zinc-200 bg-white p-1 sm:flex-row sm:items-center sm:gap-0 sm:rounded-full">
                     <input
                       type="email"
                       placeholder="Enter your email"
-                      className="h-11 w-full bg-transparent px-4 text-sm text-zinc-700 outline-none placeholder:text-zinc-400 sm:flex-1"
+                      className="w-full bg-transparent px-4 py-2 text-sm text-zinc-700 outline-none placeholder:text-zinc-400 sm:flex-1"
                     />
                     <button
                       type="button"
-                      className="inline-flex h-11 w-auto  items-center justify-center rounded-full bg-zinc-400 px-4 sm:px-5 text-sm font-semibold cursor-not-allowed text-white transition-colors duration-200 hover:bg-zinc-400"
+                      className="inline-flex w-auto items-center justify-center rounded-full bg-zinc-400 px-4 py-2 text-sm font-semibold cursor-not-allowed text-white transition-colors duration-200 hover:bg-zinc-400"
                     >
                       Subscribe
                     </button>

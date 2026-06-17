@@ -8,7 +8,7 @@ export default function StorySection() {
     // { number: "2000+", label: "Students Guided" },
     { number: "4", label: "Personality Tests" },
     { number: "6", label: "Career Roadmaps" },
-    { number: "23", label: "Job Opportunities" },
+    { number: "8", label: "Job Opportunities" },
   ];
   return (
     <section className="relative py-8 xl:py-0">

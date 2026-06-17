@@ -14,9 +14,9 @@ export const useResponsive = () => {
     () => false,
   );
 
-  const isMobileQuery = useMediaQuery({ maxWidth: 480 });
-  const isTabletQuery = useMediaQuery({ minWidth: 768, maxWidth: 1024 });
-  const isSmallerDeviceQuery = useMediaQuery({ maxWidth: 1024 });
+  const isMobileQuery = useMediaQuery({ maxWidth: 767 });
+  const isTabletQuery = useMediaQuery({ minWidth: 768, maxWidth: 1023 });
+  const isSmallerDeviceQuery = useMediaQuery({ maxWidth: 1023 });
 
   // Return false during SSR to avoid hydration mismatch, then return actual values
   return useMemo(

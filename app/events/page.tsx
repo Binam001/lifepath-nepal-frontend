@@ -608,7 +608,7 @@ export default function EssayCompetitionPage() {
           </div>
         </div>
 
-        <div className="mt-8  grid gap-10 md:mt-12 md:grid-cols-2">
+        <div className="mt-8 grid gap-8 md:mt-12 xl:grid-cols-2">
           {/* Left: Details */}
           <div className="space-y-8">
             <div>
@@ -633,7 +633,7 @@ export default function EssayCompetitionPage() {
                     <li key={index} className="flex items-start gap-3">
                       {isFirstPrize ? (
                         <div className="w-full relative overflow-hidden rounded-2xl bg-linear-to-r from-blue-500 to-blue-400 p-[2px] shadow-sm">
-                          <div className="rounded-[14px]  px-5 py-4">
+                          <div className="rounded-3xl px-4 py-4">
                             <div className="flex items-center gap-4">
                               <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white text-2xl shadow-inner">
                                 🏆

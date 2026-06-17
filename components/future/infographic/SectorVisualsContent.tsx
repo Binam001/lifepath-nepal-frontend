@@ -112,6 +112,22 @@ function ResponsivePieChart({
 
   return (
     <div className="min-w-0 overflow-hidden">
+      {isMobile && (
+        <div className="flex flex-wrap gap-x-3 gap-y-2 justify-center text-[11px] font-semibold text-zinc-600 bg-zinc-50/50 p-2.5 rounded-2xl border border-zinc-100">
+          {data.map((item, idx) => {
+            const color = chartPalette[idx % chartPalette.length];
+            return (
+              <div key={item.id || idx} className="flex items-center gap-1.5">
+                <span
+                  className="size-2 rounded-full inline-block shrink-0"
+                  style={{ backgroundColor: color }}
+                />
+                <span>{item.label}</span>
+              </div>
+            );
+          })}
+        </div>
+      )}
       <PieChart
         height={isMobile ? Math.min(height, 260) : height}
         colors={chartPalette}

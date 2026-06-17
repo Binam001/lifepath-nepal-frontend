@@ -998,7 +998,7 @@ export default function FuturePageNew() {
       {/* <ShiftSection /> */}
 
       {/* Sector explorer */}
-      <section className="py-20 bg-white">
+      <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-10">
             <SectionLabel>Sector Explorer</SectionLabel>
@@ -1111,7 +1111,7 @@ export default function FuturePageNew() {
           >
             <div className="rounded-2xl border border-zinc-200/80 bg-white/92 px-4 py-3 shadow-[0_12px_40px_rgba(15,23,42,0.08)] backdrop-blur">
               <div className="mb-2 flex items-center justify-between gap-3">
-                <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-zinc-400">
+                <p className="text-xs font-bold uppercase tracking-wide text-zinc-600">
                   Quick Sector Nav
                 </p>
               </div>

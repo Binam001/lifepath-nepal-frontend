@@ -119,7 +119,7 @@ export default function PremiumTitleReveal({
   return (
     <div
       ref={sectionRef}
-      className="relative isolate overflow-hidden rounded-[28px]  bg-white border-2 border-blue-500 shadow-[0_18px_70px_-28px_rgba(37,99,235,0.45)]"
+      className="relative isolate overflow-hidden rounded-[28px] bg-white border-2 border-blue-500 shadow-[0_18px_70px_-28px_rgba(37,99,235,0.45)]"
     >
       <div className="absolute inset-0">
         <Image
