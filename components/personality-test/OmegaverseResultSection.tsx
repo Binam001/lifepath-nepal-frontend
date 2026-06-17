@@ -17,6 +17,7 @@ import {
 import Link from "next/link";
 import { omegaverseTypes } from "@/data/omegaverse-data";
 import ComparisonCTA from "./components/ComparisonCTA";
+import ExploreCareerCTA from "./components/ExploreCareerCTA";
 
 interface OmegaverseResultSectionProps {
   result: string;
@@ -421,21 +422,12 @@ export default function OmegaverseResultSection({
         {/* Comparison CTA Dashboard Banner */}
         <ComparisonCTA />
 
-        <section className="bg-linear-to-r from-blue-600 to-indigo-600 rounded-xl p-6 md:p-8 text-center text-white mb-6 shadow-md">
-          <h2 className="text-xl md:text-2xl font-bold mb-3">
-            Explore Careers aligned with your Dynamic
-          </h2>
-          <p className="text-base text-white/90 mb-6">
-            Empower your career paths through optimized personality placement in
-            the modern workforce.
-          </p>
-          <Link href="/future">
-            <button className="px-6 py-3 bg-white text-zinc-900 font-semibold rounded-lg hover:bg-zinc-50 transition-all cursor-pointer inline-flex items-center gap-2">
-              Discover Career Paths
-              <ArrowRight size={18} />
-            </button>
-          </Link>
-        </section>
+        <ExploreCareerCTA
+          title="Explore Careers aligned with your Dynamic"
+          subtitle="Empower your career paths through optimized personality placement in the modern workforce."
+          buttonText="Discover Career Paths"
+          href="/future"
+        />
       </article>
     </div>
   );

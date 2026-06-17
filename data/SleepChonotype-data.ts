@@ -12,6 +12,9 @@ export interface ChronotypeProfile {
   challenge: string;
   idealSleepSchedule: string;
   strengths: string[];
+  weaknesses: string[];
+  deepPsychology: string;
+  lifePathAdvice: string;
   dailyRhythm: {
     wake: string;
     peakEnergy: string;
@@ -49,6 +52,17 @@ export const chronotypeProfiles: Record<ChronotypeCode, ChronotypeProfile> = {
       "Strong leadership and execution capabilities",
       "Consistent sleep-wake schedules",
     ],
+    weaknesses: [
+      "Prone to rigid thinking and inflexibility",
+      "Severe energy crash in the late afternoon or early evening",
+      "Can be impatient with others who operate at a slower pace",
+      "Struggle to maintain energy during evening social or networking events",
+    ],
+    deepPsychology:
+      "Lions like having control, structure, and clear goals. They often feel good about themselves when they finish tasks and stay productive. Sometimes, they keep themselves busy to avoid feeling uncomfortable or just ‘doing nothing’. They feel safest when their day is planned and predictable.",
+
+    lifePathAdvice:
+      "Try to be more flexible sometimes. Your strong discipline will help you succeed, but good leadership also means understanding and being patient with people who work at a slower pace or different time. Make time in the evening to relax without trying to be productive. Rest is not wasted time it helps you perform better in the long run.",
     dailyRhythm: {
       wake: "5:30 AM - 6:00 AM",
       peakEnergy: "8:00 AM - 12:00 PM",
@@ -90,6 +104,17 @@ export const chronotypeProfiles: Record<ChronotypeCode, ChronotypeProfile> = {
       "Highly collaborative and friendly team player",
       "Balanced and healthy sleep cycle overall",
     ],
+    weaknesses: [
+      "Heavy reliance on a full 8 hours of sleep to function properly",
+      "Significant vulnerability to the mid-afternoon energy slump",
+      "Tendency to conform and stay within comfort zones",
+      "Can easily fall into poor dietary habits (seeking sugar/carbs) when tired",
+    ],
+    deepPsychology:
+      "Bears like peace, stability, and being around others. They often try to keep everyone happy and avoid conflict. Because of this, they may sometimes ignore their own needs just to maintain harmony. They feel most comfortable with a steady routine and familiar daily patterns.",
+
+    lifePathAdvice:
+      "Don’t always stick only to what feels safe or normal. Sometimes take small risks and try new things you care about. During your mid-day energy drop, take a proper break instead of pushing through or snacking out of habit. Your steady personality is a strength, but changing your routine once in a while will help you grow and avoid feeling stuck.",
     dailyRhythm: {
       wake: "7:00 AM - 7:30 AM",
       peakEnergy: "10:00 AM - 2:00 PM",
@@ -131,6 +156,17 @@ export const chronotypeProfiles: Record<ChronotypeCode, ChronotypeProfile> = {
       "Highly independent and self-driven",
       "Adaptable and spontaneous mindset",
     ],
+    weaknesses: [
+      "Chronic struggle with standard morning routines and societal schedules",
+      "High susceptibility to sleep deprivation and caffeine reliance",
+      "Can appear unmotivated or disengaged during morning meetings",
+      "Prone to mood swings due to inconsistent energy levels",
+    ],
+    deepPsychology:
+      "Wolves often have strong emotions and enjoy having time to themselves. They usually feel most comfortable when they have the freedom to work and think in their own way. Quiet evenings and late nights give them space to relax, reflect, and be creative. Because many schools and workplaces favor early schedules, they may sometimes feel out of sync with others.",
+
+    lifePathAdvice:
+      "Don’t constantly force yourself into a schedule that doesn’t fit you. If possible, choose study, work, or creative routines that give you more flexibility. Give yourself time to fully wake up in the morning, and let people around you know that you naturally do your best thinking and work later in the day.",
     dailyRhythm: {
       wake: "8:30 AM - 9:00 AM",
       peakEnergy: "1:00 PM - 5:00 PM",
@@ -172,6 +208,16 @@ export const chronotypeProfiles: Record<ChronotypeCode, ChronotypeProfile> = {
       "Deep focus capabilities during quiet periods",
       "Strong problem solving and troubleshooting skills",
     ],
+    weaknesses: [
+      "High vulnerability to insomnia and chronic sleep disruption",
+      "Tendency toward overthinking, anxiety, and rumination",
+      "Perfectionism that can easily lead to burnout",
+      "Erratic and unpredictable daily energy levels",
+    ],
+    deepPsychology:
+      "Dolphins are always thinking and paying attention to what's happening around them. They are good at spotting problems and noticing small details that others might miss. However, they often worry too much or try to make everything perfect. They feel most comfortable when things are clear and under control. Because their mind stays active for so long, it can be difficult for them to fully relax and sleep deeply.",
+    lifePathAdvice:
+      "Your ability to analyze and solve problems is a strength, but you also need to give your mind time to rest. Accept that not everything has to be perfect. Create a regular bedtime routine that helps you relax and manage stress. Practice activities that calm your mind, such as meditation, deep breathing, or quiet reflection. Remember that doing a good job with enough rest is usually better than trying to do a perfect job while feeling exhausted.",
     dailyRhythm: {
       wake: "6:30 AM - 7:00 AM",
       peakEnergy: "10:00 AM - 2:00 PM",

@@ -18,6 +18,7 @@ import {
 import Link from "next/link";
 import { getPersonalityType } from "../../data/MBTI-data";
 import ComparisonCTA from "./components/ComparisonCTA";
+import ExploreCareerCTA from "./components/ExploreCareerCTA";
 import { useResponsive } from "@/hooks/useMediaQuery";
 
 interface MBTIResultSectionProps {
@@ -242,23 +243,14 @@ export default function MBTIResultSection({
         {/* Comparison CTA Dashboard Banner */}
         <ComparisonCTA />
 
-        <section className="bg-blue-600 rounded-xl p-6 md:p-8 text-center text-white mb-6">
-          <h2 className="text-xl md:text-2xl font-bold mb-3">
-            Ready to Turn Insight into Action?
-          </h2>
-          <p className="text-base text-blue-50 mb-6">
-            Explore courses designed for {personality.name} personalities like
-            you.
-          </p>
-          <Link href="/job-training">
-            <button className="px-6 py-3 bg-white text-blue-600 font-semibold rounded-lg hover:bg-blue-50 transition-all cursor-pointer inline-flex items-center gap-2">
-              Explore Courses
-              <ArrowRight size={18} />
-            </button>
-          </Link>
-        </section>
+        <ExploreCareerCTA
+          title="Ready to Turn Insight into Action?"
+          subtitle={`Explore courses designed for ${personality.name} personalities like you.`}
+          buttonText="Explore Courses"
+          href="/job-training"
+        />
 
-        <div className="inline-flex items-center justify-center w-full pb-2">
+        <div className="inline-flex items-center justify-center w-full pt-8">
           <Link
             href="/mbti-book"
             className="px-4 py-2 bg-yellow-400 hover:bg-yellow-500 text-black text-md font-bold rounded-full transition-all shadow-lg hover:shadow-xl cursor-pointer"

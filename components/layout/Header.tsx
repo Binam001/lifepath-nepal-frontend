@@ -197,30 +197,27 @@ export default function Header() {
                 </span>
                 {item.label === "Events" && (
                   <span className="absolute top-1/2 -translate-y-1/2 right-1/2 inline-flex items-center gap-0.5 rounded-full bg-red-500 px-1.5 py-0.5 text-xs font-bold text-white uppercase tracking-wider leading-none shadow-xs z-10">
-                    <span translate="no" className="english-label notranslate">
-                      ongoing
-                    </span>
-                    <span translate="no" className="nepali-label notranslate">
+                    <span>ongoing</span>
+                    {/* <span translate="no" className="nepali-label notranslate">
                       चलिरहेको
-                    </span>
+                    </span> */}
                   </span>
                 )}
               </Link>
             ))}
-            <div className="flex justify-center px-4 py-2 border-t border-zinc-100">
-              <GoogleTranslate pageLanguage="en" languages={myLanguages} />
+            <div className="py-2 border-t border-zinc-100">
+              <GoogleTranslate
+                pageLanguage="en"
+                languages={myLanguages}
+                className="w-full [&>button]:w-full [&>button]:justify-between [&>button]:py-6! [&>button]:px-4! [&>button]:text-lg! [&>button]:rounded-full [&>div]:w-full"
+              />
             </div>
             <Link
               href="/personality-test"
               onClick={() => setIsMenuOpen(false)}
               className="block rounded-full bg-blue-600 px-4 py-3 text-center text-lg font-semibold text-white hover:bg-blue-700"
             >
-              <span translate="no" className="english-label notranslate">
-                Know Yourself
-              </span>
-              <span translate="no" className="nepali-label notranslate">
-                आफूलाई चिन्नुहोस्
-              </span>
+              <span>Know Yourself</span>
             </Link>
             {/* <Link
               href="/#how-it-works"

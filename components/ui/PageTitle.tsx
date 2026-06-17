@@ -1,8 +1,8 @@
 import React from "react";
 
 interface PageTitleProps {
-  title: string;
-  subtitle?: string;
+  title: string | React.ReactNode;
+  subtitle?: string | React.ReactNode;
   titleClassName?: string;
   subtitleClassName?: string;
   containerClassName?: string;

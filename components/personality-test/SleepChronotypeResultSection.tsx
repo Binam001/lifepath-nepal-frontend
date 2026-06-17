@@ -16,6 +16,7 @@ import {
 import Link from "next/link";
 import { ChronotypeCode, chronotypeProfiles } from "@/data/SleepChonotype-test";
 import ComparisonCTA from "./components/ComparisonCTA";
+import ExploreCareerCTA from "./components/ExploreCareerCTA";
 
 interface SleepChronotypeResultSectionProps {
   result: {
@@ -155,6 +156,16 @@ export default function SleepChronotypeResultSection({
           </div>
         </section>
 
+        {/* Deep Psychology */}
+        <section className="bg-white rounded-xl p-6 md:p-8 border border-zinc-200 shadow-xs">
+          <h2 className="text-2xl font-bold text-zinc-900 mb-4">
+            Behavioral Mindset
+          </h2>
+          <p className="text-base text-zinc-700 leading-relaxed font-medium">
+            {activeProfile.deepPsychology}
+          </p>
+        </section>
+
         {/* Chronotype Insights Grid */}
         <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Personality Traits */}
@@ -215,7 +226,7 @@ export default function SleepChronotypeResultSection({
                   Ideal Sleep Schedule
                 </h3>
               </div>
-              <p className="text-2xl md:text-3xl font-black text-zinc-900 tracking-tight">
+              <p className="text-2xl md:text-3xl font-semibold text-zinc-900 tracking-tight">
                 {activeProfile.idealSleepSchedule}
               </p>
             </div>
@@ -373,26 +384,52 @@ export default function SleepChronotypeResultSection({
         {/* </div> */}
 
         {/* Strengths Card */}
-        <section className="bg-white rounded-3xl p-6 md:p-8 border border-zinc-250 shadow-xs">
-          <h3 className="text-xl font-bold text-zinc-900 mb-6">
+        <section className="bg-white rounded-xl p-6 md:p-8 border border-zinc-200 shadow-xs">
+          <h2 className="text-2xl font-bold text-zinc-900 mb-4">
             Core Behavioral Strengths
-          </h3>
-          <div className="grid sm:grid-cols-2 gap-4">
-            {activeProfile.strengths.map((strength, index) => (
-              <div
-                key={index}
-                className="flex items-start gap-3 p-4 bg-zinc-50/50 rounded-2xl border border-zinc-200/60"
-              >
+          </h2>
+          <div className="space-y-3">
+            {activeProfile.strengths.map((strength, idx) => (
+              <div key={idx} className="flex items-start gap-3">
                 <CheckCircle
                   size={20}
-                  className={`shrink-0 mt-0.5 ${activeProfile.color}`}
+                  className="text-green-600 shrink-0 mt-0.5"
+                  strokeWidth={2}
                 />
-                <span className="text-sm md:text-base font-semibold text-zinc-750">
+                <p className="text-base text-zinc-800 leading-relaxed">
                   {strength}
-                </span>
+                </p>
               </div>
             ))}
           </div>
+        </section>
+
+        <section className="bg-white rounded-xl p-6 md:p-8 border border-zinc-200 shadow-xs">
+          <h2 className="text-2xl font-bold text-zinc-900 mb-4">
+            Core Behavioral Weaknesses
+          </h2>
+          <div className="space-y-3">
+            {activeProfile.weaknesses.map((weakness, idx) => (
+              <div key={idx} className="flex items-start gap-3">
+                <div className="w-5 h-5 rounded-full bg-blue-100 flex items-center justify-center shrink-0 mt-0.5">
+                  <div className="w-2 h-2 rounded-full bg-blue-600"></div>
+                </div>
+                <p className="text-base text-zinc-800 leading-relaxed">
+                  {weakness}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Life Path Advice */}
+        <section className="bg-white rounded-xl p-6 md:p-8 border border-zinc-200 shadow-xs">
+          <h2 className="text-2xl font-bold text-zinc-900 mb-4">
+            Life Path Advice
+          </h2>
+          <p className="text-base text-zinc-700 leading-relaxed font-medium">
+            {activeProfile.lifePathAdvice}
+          </p>
         </section>
 
         {/* Career Mappings */}
@@ -430,22 +467,12 @@ export default function SleepChronotypeResultSection({
         {/* <ComparisonCTA /> */}
 
         {/* Career Call to Action */}
-        <section className="bg-linear-to-r from-primary to-blue-700 rounded-3xl p-6 md:p-8 text-center text-white shadow-lg relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-xl pointer-events-none"></div>
-          <h2 className="text-xl md:text-2xl font-bold mb-3">
-            Map Your Strengths to Real Career Paths
-          </h2>
-          <p className="text-sm md:text-base text-zinc-100 mb-6 max-w-xl mx-auto leading-relaxed">
-            Discover roadmaps, skills requirements, and active industries that
-            align with your natural biological clock.
-          </p>
-          <Link href="/future">
-            <button className="px-6 py-3 bg-white text-black font-bold text-sm rounded-full hover:bg-zinc-50 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer inline-flex items-center gap-2">
-              Explore Career Options
-              <ArrowRight size={18} />
-            </button>
-          </Link>
-        </section>
+        <ExploreCareerCTA
+          title="Map Your Strengths to Real Career Paths"
+          subtitle="Discover roadmaps, skills requirements, and active industries that align with your natural biological clock."
+          buttonText="Explore Career Options"
+          href="/future"
+        />
       </article>
     </div>
   );

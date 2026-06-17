@@ -23,11 +23,11 @@ export default function QrSection() {
         { yPercent: 100 },
         {
           yPercent: 0,
-          ease: "power3.out",
+          ease: "back.out",
           duration: 1.2,
           scrollTrigger: {
             trigger: circleRef.current,
-            start: "top 90%",
+            start: "top 80%",
             toggleActions: "play reverse play reverse",
           },
         },
@@ -42,7 +42,7 @@ export default function QrSection() {
   ];
 
   return (
-    <section ref={sectionRef} className="relative py-8 xl:py-0">
+    <section ref={sectionRef} className="relative py-8 xl:py-16">
       <div className="max-w-7xl mx-auto">
         <PageTitle
           containerClassName="max-w-6xl mx-auto"

@@ -21,6 +21,7 @@ import {
   EIDomain,
 } from "@/data/EmotionalIntelligence-test";
 import ComparisonCTA from "./components/ComparisonCTA";
+import ExploreCareerCTA from "./components/ExploreCareerCTA";
 import EIRadarChart from "./components/EIRadarChart";
 import AnalyzeEmotionalPatterns from "./components/analyzeEmotionalPatterns";
 
@@ -655,22 +656,12 @@ export default function EmotionalIntelligenceResultSection({
         <ComparisonCTA />
 
         {/* Back to Home CTA */}
-        {/* <section className="bg-linear-to-r from-blue-600 to-indigo-600 rounded-3xl p-6 md:p-8 text-center text-white shadow-md relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-xl pointer-events-none"></div>
-          <h2 className="text-xl md:text-2xl font-bold mb-2">
-            Explore Your Personality Further
-          </h2>
-          <p className="text-sm text-zinc-100 mb-6 max-w-xl mx-auto">
-            Take other assessments to unlock the ultimate Triple Alignment
-            Comparison Dashboard.
-          </p>
-          <Link href="/personality-test">
-            <button className="px-6 py-3 bg-white text-black font-bold text-sm rounded-full hover:bg-zinc-50 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer inline-flex items-center gap-2">
-              View All Assessments
-              <ArrowRight size={18} />
-            </button>
-          </Link>
-        </section> */}
+        <ExploreCareerCTA
+          title="Explore Your Personality Further"
+          subtitle="Take other assessments to unlock the ultimate Triple Alignment Comparison Dashboard."
+          buttonText="View All Assessments"
+          href="/personality-test"
+        />
       </article>
     </div>
   );

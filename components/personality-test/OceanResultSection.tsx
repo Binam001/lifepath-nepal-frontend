@@ -15,6 +15,7 @@ import {
 import { calculateArchetype } from "@/data/CareermatchingForOcean";
 import OceanRadarChart from "./components/OceanRadarChart";
 import ComparisonCTA from "./components/ComparisonCTA";
+import ExploreCareerCTA from "./components/ExploreCareerCTA";
 
 interface OceanResultSectionProps {
   scores: Record<string, number>;
@@ -326,25 +327,12 @@ export default function OceanResultSection({
           </div>
         </section>
 
-        {/* Comparison CTA Dashboard Banner */}
         <ComparisonCTA />
 
-        {/* Global Action Banner */}
-        <section className="bg-linear-to-r from-blue-600 to-indigo-600 rounded-2xl p-6 md:p-8 text-center text-white shadow-md">
-          <h2 className="text-xl md:text-2xl font-bold mb-3">
-            Translate Your Trait Strengths to the Workplace
-          </h2>
-          <p className="text-base text-white/90 mb-6 max-w-xl mx-auto">
-            Leverage your natural behaviors in team building, creative
-            processes, and career pathways.
-          </p>
-          <Link href="/future">
-            <button className="px-6 py-3 bg-white text-black font-bold rounded-lg hover:bg-zinc-50 transition-all cursor-pointer inline-flex items-center gap-2 hover:scale-[1.02] active:scale-[0.98]">
-              Explore Career Options
-              <ArrowRight size={18} />
-            </button>
-          </Link>
-        </section>
+        <ExploreCareerCTA
+          title="Translate Your Trait Strengths to the Workplace"
+          subtitle="Leverage your natural behaviors in team building, creative processes, and career pathways."
+        />
       </article>
     </div>
   );

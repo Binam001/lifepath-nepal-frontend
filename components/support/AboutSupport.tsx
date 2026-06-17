@@ -57,7 +57,9 @@ const AboutSupport = () => {
             return (
               <div
                 key={index}
-                className="group relative overflow-hidden rounded-[28px] h-[70vh] w-full cursor-pointer"
+                className={`group relative overflow-hidden rounded-[28px] h-[70vh] md:h-[50vh] xl:h-[70vh] w-full cursor-pointer ${
+                  index === 2 && "md:col-span-2 xl:col-span-1"
+                }`}
                 onClick={() => {
                   if (isMobile) {
                     setActiveIndex((prev) => (prev === index ? null : index));
