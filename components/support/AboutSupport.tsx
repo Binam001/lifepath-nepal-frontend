@@ -31,7 +31,7 @@ const AboutSupport = () => {
       src: "/heroImages/future-dream-1.webp",
       label: "Their Dream",
       description:
-        "Empower youth with job training, mentorship, and practical digital skills to pursue their dream careers.",
+        "Empower children to pursue their own dreams rather than paths chosen by their parents.",
     },
     {
       src: "/heroImages/job-opportunity-1.webp",

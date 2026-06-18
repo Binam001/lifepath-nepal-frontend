@@ -34,11 +34,21 @@ export default function EmotionalIntelligenceTest() {
     selfReportQuestions.length + scenarioQuestions.length;
 
   const scale = [
-    { value: 1, label: "100%", sublabel: "Strong Disagree" },
-    { value: 2, label: "75%", sublabel: "Disagree" },
-    { value: 3, label: "50%", sublabel: "Neutral" },
-    { value: 4, label: "75%", sublabel: "Agree" },
-    { value: 5, label: "100%", sublabel: "Strong Agree" },
+    {
+      value: 1,
+      label: "100%",
+      sublabel: "Strong Disagree",
+      nepaliSublabel: "पूर्ण असहमत",
+    },
+    { value: 2, label: "75%", sublabel: "Disagree", nepaliSublabel: "असहमत" },
+    { value: 3, label: "50%", sublabel: "Neutral", nepaliSublabel: "तटस्थ" },
+    { value: 4, label: "75%", sublabel: "Agree", nepaliSublabel: "सहमत" },
+    {
+      value: 5,
+      label: "100%",
+      sublabel: "Strong Agree",
+      nepaliSublabel: "पूर्ण सहमत",
+    },
   ];
 
   useEffect(() => {
@@ -353,15 +363,26 @@ export default function EmotionalIntelligenceTest() {
 
                 <div className="mb-6 flex justify-center items-center py-4">
                   <div className="flex items-center justify-center gap-1.5 sm:gap-2.5 md:gap-3">
-                    {scale.map(({ value, label, sublabel }) => (
+                    {scale.map(({ value, label, sublabel, nepaliSublabel }) => (
                       <div
                         key={value}
-                        className="flex flex-col items-center gap-2 w-14 sm:w-16"
+                        className="flex flex-col items-center gap-2 w-14 sm:w-16 md:w-20"
                       >
                         <span
-                          className={`text-[8px] sm:text-[10px] font-bold text-zinc-500 uppercase tracking-wider text-center select-none h-4 flex items-center justify-center leading-none ${value === 3 ? "text-zinc-400" : ""}`}
+                          className={`text-[8px] md:text-[10px] [html[lang='ne']_&]:text-sm font-bold text-zinc-500 uppercase tracking-wider text-center select-none h-4 flex items-center justify-center leading-none ${value === 3 ? "text-zinc-400" : ""}`}
                         >
-                          {sublabel}
+                          <span
+                            translate="no"
+                            className="english-label notranslate"
+                          >
+                            {sublabel}
+                          </span>
+                          <span
+                            translate="no"
+                            className="nepali-label notranslate"
+                          >
+                            {nepaliSublabel}
+                          </span>
                         </span>
                         <button
                           onClick={() =>
@@ -383,7 +404,7 @@ export default function EmotionalIntelligenceTest() {
                                 : value === 2
                                   ? "border-rose-200 bg-rose-50/50 hover:bg-rose-500 hover:text-white text-zinc-800"
                                   : value === 3
-                                    ? "border-zinc-200 bg-zinc-50 hover:bg-zinc-450 hover:text-white text-zinc-800"
+                                    ? "border-zinc-200 bg-zinc-50 hover:bg-zinc-400 hover:text-zinc-200 text-zinc-800"
                                     : value === 4
                                       ? "border-emerald-100 bg-emerald-50/50 hover:bg-emerald-500 hover:text-white text-zinc-800"
                                       : "border-emerald-300 bg-emerald-50 hover:bg-emerald-600 hover:text-white text-zinc-800"

@@ -215,9 +215,14 @@ export default async function AllBooksPage({
 
                 <div className="min-w-0">
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className="rounded-md bg-blue-50 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide text-blue-700">
-                      {book.category}
-                    </span>
+                    {book.category.map((cat) => (
+                      <span
+                        key={cat}
+                        className="rounded-md bg-blue-50 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide text-blue-700"
+                      >
+                        {cat}
+                      </span>
+                    ))}
                     <span className="rounded-md bg-zinc-100 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide text-zinc-700">
                       {book.genre}
                     </span>

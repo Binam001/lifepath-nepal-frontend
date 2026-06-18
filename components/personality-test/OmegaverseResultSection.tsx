@@ -143,7 +143,7 @@ export default function OmegaverseResultSection({
           backgroundSize: "cover",
         }}
       >
-        <div className="max-w-6xl mx-auto py-8 px-4 sm:px-6">
+        <div className="max-w-6xl mx-auto py-8 px-4 md:px-8">
           <div className="flex justify-between items-center mb-6">
             <button
               onClick={handleRetake}

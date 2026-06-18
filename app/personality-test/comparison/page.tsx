@@ -167,7 +167,7 @@ export default function PersonalityComparisonPage() {
           backgroundSize: "cover",
         }}
       >
-        <div className="max-w-4xl mx-auto h-full min-h-[65vh] py-8 px-4 sm:px-6 flex flex-col">
+        <div className="max-w-4xl mx-auto h-full min-h-[65vh] md:min-h-[30vh] xl:min-h-[65vh] py-8 px-4 sm:px-6 flex flex-col">
           <div className="flex justify-between items-center">
             <Link href="/personality-test">
               <button className="px-4 py-2 bg-white/30 hover:bg-white/20 text-white border border-white/20 text-sm font-semibold rounded-full transition-all cursor-pointer flex items-center gap-2 w-fit">

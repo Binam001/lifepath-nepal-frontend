@@ -3,11 +3,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { MenuIcon } from "lucide-react";
-import { useEffect, useState } from "react";
+import { MenuIcon, User } from "lucide-react";
+import { useEffect, useState, useRef } from "react";
 import Button from "../shared/Button";
 import "next-google-translate-widget/styles";
 import GoogleTranslate from "next-google-translate-widget";
+import ProfileDropdown from "./ProfileDropdown";
 
 const myLanguages = [
   { label: "English", value: "en", flag: "us" },
@@ -44,6 +45,22 @@ export default function Header() {
   const isVisible = useScrollDirection();
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+
+  useEffect(() => {
+    if (!isProfileOpen) return;
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      if (
+        !target.closest("#profile-dropdown-container") &&
+        !target.closest("#profile-dropdown-container-mobile")
+      ) {
+        setIsProfileOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isProfileOpen]);
 
   const navItems = [
     { label: "Home", nepaliLabel: "होम", href: "/" },
@@ -53,8 +70,9 @@ export default function Header() {
     { label: "Events", nepaliLabel: "कार्यक्रमहरू", href: "/events" },
     { label: "Roadmap", nepaliLabel: "रोडम्याप", href: "/roadmap" },
     // { label: "Guide Books", nepaliLabel: "निर्देशिका पुस्तकहरू", href: "/guide-books" },
-    { label: "Reviews", nepaliLabel: "प्रतिक्रियाहरू", href: "/reviews" },
-    // { label: "Books", nepaliLabel: "पुस्तकहरू", href: "/books" },
+    { label: "Courses", nepaliLabel: "पाठ्यक्रमहरू", href: "/job-training" },
+    // { label: "Reviews", nepaliLabel: "प्रतिक्रियाहरू", href: "/reviews" },
+    { label: "Books", nepaliLabel: "पुस्तकहरू", href: "/books" },
     { label: "Help", nepaliLabel: "मद्दत", href: "/support" },
     { label: "Grow", nepaliLabel: "प्रगति", href: "/grow" },
     { label: "Contact", nepaliLabel: "सम्पर्क", href: "/contact" },
@@ -92,8 +110,30 @@ export default function Header() {
         }
       `}</style>
       <nav className="max-w-7xl mx-auto">
-        <div className="flex h-16 items-center justify-between gap-3">
-          <Link href="/" className="shrink-0 cursor-pointer">
+        <div className="relative flex h-16 items-center justify-between gap-3">
+          {/* Profile Dropdown Container (Mobile/Tablet) */}
+          <div
+            id="profile-dropdown-container-mobile"
+            className={`relative flex items-center xl:hidden ${isProfileOpen ? "z-50" : "z-10"}`}
+          >
+            <button
+              onClick={() => setIsProfileOpen((prev) => !prev)}
+              className="flex items-center justify-center p-2 rounded-full border border-zinc-200 bg-white hover:bg-zinc-50 transition-colors shadow-2xs cursor-pointer w-10 h-10 shrink-0 text-zinc-700 active:scale-95 animate-fade-in"
+              aria-label="Toggle profile menu"
+            >
+              <User size={18} />
+            </button>
+
+            <ProfileDropdown
+              isOpen={isProfileOpen}
+              onClose={() => setIsProfileOpen(false)}
+            />
+          </div>
+
+          <Link
+            href="/"
+            className="absolute left-1/2 -translate-x-1/2 xl:static xl:translate-x-0 shrink-0 cursor-pointer z-10"
+          >
             <Image
               src="/main-logo.png"
               alt="LifePath Logo"
@@ -103,7 +143,7 @@ export default function Header() {
             />
           </Link>
 
-          <div className="ml-6 hidden items-center gap-2 lg:flex">
+          <div className="ml-6 hidden items-center gap-2 xl:flex">
             {navItems.map((item) => (
               <Link
                 key={item.href}
@@ -132,22 +172,7 @@ export default function Header() {
             ))}
           </div>
 
-          <div className="ml-auto hidden items-center gap-2 xl:flex">
-            {/* <Link
-              href="/personality-test"
-              className="relative inline-flex items-center justify-center overflow-hidden rounded-full px-4 py-2 text-sm font-medium whitespace-nowrap text-white"
-            >
-              <span
-                className="absolute inset-0 bg-linear-to-r from-blue-600 to-blue-600"
-                style={{ backgroundSize: "200% 100%" }}
-              />
-              <span className="relative z-10">Find Your Lifepath</span>
-            </Link> */}
-            <GoogleTranslate
-              pageLanguage="en"
-              languages={myLanguages}
-              menuAlign="right"
-            />
+          <div className="ml-auto hidden items-center gap-3 xl:flex">
             <Button
               label={<span>Know Yourself</span>}
               href="/personality-test"
@@ -155,33 +180,45 @@ export default function Header() {
               className="px-6!"
             />
 
-            {/* <Link
-              href="/#how-it-works"
-              className="inline-flex items-center justify-center rounded-full border border-blue-200 bg-blue-50 px-4 py-2 text-sm font-medium whitespace-nowrap text-blue-700 transition-colors hover:border-blue-300 hover:bg-blue-100"
+            {/* Profile Dropdown Container */}
+            <div
+              id="profile-dropdown-container"
+              className="relative flex items-center"
             >
-              Know Yourself
-            </Link> */}
+              <button
+                onClick={() => setIsProfileOpen((prev) => !prev)}
+                className="flex items-center justify-center p-2 rounded-full border border-zinc-200 bg-white hover:bg-zinc-50 transition-colors shadow-2xs cursor-pointer w-10 h-10 shrink-0 text-zinc-700 active:scale-95"
+                aria-label="Toggle profile menu"
+              >
+                <User size={18} />
+              </button>
+
+              <ProfileDropdown
+                isOpen={isProfileOpen}
+                onClose={() => setIsProfileOpen(false)}
+              />
+            </div>
           </div>
 
           <button
-            className="cursor-pointer rounded-full text-zinc-900 transition-colors hover:bg-zinc-100 lg:hidden"
+            className="flex items-center justify-center cursor-pointer w-10 h-10 shrink-0 text-zinc-700 active:scale-95 z-10 xl:hidden"
             aria-label="Toggle menu"
             onClick={() => setIsMenuOpen((prev) => !prev)}
           >
-            <MenuIcon size={26} />
+            <MenuIcon size={18} />
           </button>
         </div>
       </nav>
 
       {isMenuOpen && (
-        <div className="border-t border-zinc-200 bg-white lg:hidden">
+        <div className="border-t border-zinc-200 xl:hidden">
           <div className="mx-auto h-screen max-w-6xl space-y-2 py-4">
             {navItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 onClick={() => setIsMenuOpen(false)}
-                className={`relative block rounded-xl px-4 py-2 text-lg font-medium transition-colors ${
+                className={`relative rounded-xl px-4 py-2 text-lg font-medium transition-colors block ${
                   isActive(item.href)
                     ? "bg-blue-50 text-blue-700"
                     : "text-zinc-700 hover:bg-zinc-50"
@@ -196,7 +233,7 @@ export default function Header() {
                   </span>
                 </span>
                 {item.label === "Events" && (
-                  <span className="absolute top-1/2 -translate-y-1/2 right-1/2 inline-flex items-center gap-0.5 rounded-full bg-red-500 px-1.5 py-0.5 text-xs font-bold text-white uppercase tracking-wider leading-none shadow-xs z-10">
+                  <span className="xl:absolute top-1/2 xl:-translate-y-1/2 right-1/2 inline-flex items-center gap-0.5 rounded-full bg-red-500 px-1.5 py-0.5 ml-8 xl:ml-0 text-xs font-bold text-white uppercase tracking-wider leading-none shadow-xs z-10">
                     <span>ongoing</span>
                     {/* <span translate="no" className="nepali-label notranslate">
                       चलिरहेको
@@ -205,13 +242,13 @@ export default function Header() {
                 )}
               </Link>
             ))}
-            <div className="py-2 border-t border-zinc-100">
+            {/* <div className="py-2 border-t border-zinc-100">
               <GoogleTranslate
                 pageLanguage="en"
                 languages={myLanguages}
                 className="w-full [&>button]:w-full [&>button]:justify-between [&>button]:py-6! [&>button]:px-4! [&>button]:text-lg! [&>button]:rounded-full [&>div]:w-full"
               />
-            </div>
+            </div> */}
             <Link
               href="/personality-test"
               onClick={() => setIsMenuOpen(false)}

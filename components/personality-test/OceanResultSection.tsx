@@ -99,7 +99,7 @@ export default function OceanResultSection({
           backgroundSize: "cover",
         }}
       >
-        <div className="max-w-6xl mx-auto h-full min-h-[65vh] py-8 px-4 sm:px-6 flex flex-col">
+        <div className="max-w-6xl mx-auto h-full min-h-[65vh] md:min-h-[30vh] xl:min-h-[65vh] py-8 px-4 sm:px-6 flex flex-col">
           <div className="flex justify-between items-center">
             <button
               onClick={handleRetake}

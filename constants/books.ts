@@ -22,7 +22,7 @@ export type Book = {
   title: string;
   author: string;
   description: string;
-  category: string;
+  category: string[];
   genre: string;
   image: string;
   pages: BookPage[];
@@ -43,44 +43,37 @@ const createPages = (slug: string, totalPages: number): BookPage[] =>
 export const genres: Genre[] = [
   {
     name: "Self Improvement",
-    image:
-      "https://images.unsplash.com/photo-1496307042754-b4aa456c4a2d",
+    image: "https://images.unsplash.com/photo-1496307042754-b4aa456c4a2d",
     icon: "sparkles",
   },
   {
     name: "Mindset & Discipline",
-    image:
-      "https://images.unsplash.com/photo-1506126613408-eca07ce68773",
+    image: "https://images.unsplash.com/photo-1506126613408-eca07ce68773",
     icon: "target",
   },
   {
     name: "Productivity",
-    image:
-      "https://images.unsplash.com/photo-1519389950473-47ba0277781c",
+    image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c",
     icon: "zap",
   },
   {
     name: "Career & Growth",
-    image:
-      "https://images.unsplash.com/photo-1521737604893-d14cc237f11d",
+    image: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d",
     icon: "rocket",
   },
   {
     name: "Psychology & Behavior",
-    image:
-      "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2",
+    image: "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2",
     icon: "brain",
   },
   {
     name: "Habits & Routine",
-    image:
-      "https://images.unsplash.com/photo-1506784983877-45594efa4cbe",
+    image: "https://images.unsplash.com/photo-1506784983877-45594efa4cbe",
     icon: "repeat",
   },
   {
     name: "Life Philosophy",
-    image:
-      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee",
+    image: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee",
     icon: "compass",
   },
 ];
@@ -93,7 +86,7 @@ export const books: Book[] = [
     author: "Elena Brooks",
     description:
       "A reflective guide about clarity, courage, and choosing direction when life feels uncertain.",
-    category: "Career Guidance",
+    category: ["Job", "Career"],
     genre: "Career & Growth",
     image: "/BooksNew/LightThePath.png",
     pages: createPages("light-the-path", 6),
@@ -111,7 +104,7 @@ export const books: Book[] = [
     author: "Mira Solis",
     description:
       "A thoughtful exploration of personal space, emotional limits, and the balance between connection and self-protection.",
-    category: "Self Development",
+    category: ["Job"],
     genre: "Psychology & Behavior",
     image: "/BooksNew/OrbitalBoundaries.png",
     pages: createPages("orbital-boundaries", 5),
@@ -129,7 +122,7 @@ export const books: Book[] = [
     author: "Sana Whitmore",
     description:
       "A book about staying grounded through change, recovering from setbacks, and building steady inner strength.",
-    category: "Self Development",
+    category: ["Life"],
     genre: "Self Improvement",
     image: "/BooksNew/RootedInResilience.png",
     pages: createPages("rooted-in-resilience", 5),
@@ -147,7 +140,7 @@ export const books: Book[] = [
     author: "Julian Hart",
     description:
       "A personal growth book about identity, design, and intentionally shaping the life you want to live.",
-    category: "Life Design",
+    category: ["Life", "Career"],
     genre: "Mindset & Discipline",
     image: "/BooksNew/TheArchitectureOfYou.png",
     pages: createPages("the-architecture-of-you", 6),
@@ -165,7 +158,7 @@ export const books: Book[] = [
     author: "Claire Rowan",
     description:
       "A relationship-centered read about patterns, distance, alignment, and the shapes people create together.",
-    category: "Relationships",
+    category: ["Life"],
     genre: "Life Philosophy",
     image: "/BooksNew/TheGeometryOfUs.png",
     pages: createPages("the-geometry-of-us", 4),
@@ -183,7 +176,7 @@ export const books: Book[] = [
     author: "Amara Wells",
     description:
       "A calm, introspective book on hope, healing, and discovering the strength already living inside you.",
-    category: "Inner Growth",
+    category: ["Life"],
     genre: "Self Improvement",
     image: "/BooksNew/TheLightFromWithin.png",
     pages: createPages("the-light-from-within", 5),
@@ -201,7 +194,7 @@ export const books: Book[] = [
     author: "Noah Sterling",
     description:
       "A reflective journey through growth, identity shifts, and the slow process of becoming who you are meant to be.",
-    category: "Personal Growth",
+    category: ["Job", "Career"],
     genre: "Productivity",
     image: "/BooksNew/ThePathofBecoming.png",
     pages: createPages("the-path-of-becoming", 6),
@@ -219,7 +212,7 @@ export const books: Book[] = [
     author: "Ivy Bennett",
     description:
       "A forward-looking book about transition, possibility, and writing the next phase of life with intention.",
-    category: "Career Guidance",
+    category: ["Job", "Career"],
     genre: "Career & Growth",
     image: "/BooksNew/TheUnwrittenChapter.png",
     pages: createPages("the-unwritten-chapter", 5),
@@ -239,7 +232,8 @@ export const bestSellerBooks = books.filter((book) => book.isBestSeller);
 export const newBooks = [...books]
   .sort(
     (left, right) =>
-      new Date(right.publishedAt).getTime() - new Date(left.publishedAt).getTime(),
+      new Date(right.publishedAt).getTime() -
+      new Date(left.publishedAt).getTime(),
   )
   .slice(0, 3);
 

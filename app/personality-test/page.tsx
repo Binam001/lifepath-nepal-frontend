@@ -178,12 +178,12 @@ export default function PersonalitySelectionPage() {
               </div>
               <div>
                 <h3 className="text-lg sm:text-xl font-extrabold text-zinc-950 mb-1">
-                  {completedCount === 4
+                  {completedCount === 3
                     ? "Congrats! You have completed 3 tests (MBTI, Omegverse, OCEAN)"
                     : "Unlock Your Triple Alignment Dashboard"}
                 </h3>
                 <p className="text-sm text-zinc-500 max-w-xl leading-relaxed">
-                  {completedCount === 4
+                  {completedCount === 3
                     ? "Now see the complete comparison aligned dashboard."
                     : "Test more to see a complete comparison aligned dashboard."}
                 </p>

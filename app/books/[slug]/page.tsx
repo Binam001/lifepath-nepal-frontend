@@ -68,10 +68,10 @@ export default async function BookDetailPage({ params }: BookDetailPageProps) {
     .sort((left, right) => {
       const leftScore =
         Number(left.genre === book.genre) * 2 +
-        Number(left.category === book.category);
+        Number(left.category.some((cat) => book.category.includes(cat)));
       const rightScore =
         Number(right.genre === book.genre) * 2 +
-        Number(right.category === book.category);
+        Number(right.category.some((cat) => book.category.includes(cat)));
 
       return rightScore - leftScore;
     })
@@ -162,7 +162,7 @@ export default async function BookDetailPage({ params }: BookDetailPageProps) {
           {/* Right Column: Book Info */}
           <div className="flex flex-col">
             <div className="flex items-center gap-4 text-xs tracking-widest text-zinc-400 uppercase">
-              <span>{book.category}</span>
+              <span>{book.category.join(", ")}</span>
               <span className="h-1 w-1 rounded-full bg-zinc-200"></span>
               <span>{book.genre}</span>
             </div>
@@ -240,7 +240,7 @@ export default async function BookDetailPage({ params }: BookDetailPageProps) {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {relatedBooks.map((relatedBook) => (
               <div key={relatedBook.id} className="w-full flex justify-center">
                 <BookCard

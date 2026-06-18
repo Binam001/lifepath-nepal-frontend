@@ -29,7 +29,7 @@ const donorData: Donor[] = [
     rank: "01",
     name: "Aakash Dahal",
     avatar: "/students/alish_img.jpeg",
-    lastDonationDate: "27 Oct, 2027",
+    lastDonationDate: "27 May, 2026",
     donationsCount: 12,
     totalAmount: 125000,
     type: "recent",
@@ -39,7 +39,7 @@ const donorData: Donor[] = [
     rank: "02",
     name: "Biraj Shrestha",
     avatar: "/students/binam.jpeg",
-    lastDonationDate: "16 Jun, 2026",
+    lastDonationDate: "16 May, 2026",
     donationsCount: 13,
     totalAmount: 450000,
     type: "top",
@@ -49,7 +49,7 @@ const donorData: Donor[] = [
     rank: "03",
     name: "Sameer Adhikari",
     avatar: "/students/Saurav.jpeg",
-    lastDonationDate: "17 Apr, 2027",
+    lastDonationDate: "17 Apr, 2026",
     donationsCount: 32,
     totalAmount: 25000,
     type: "recurring",
@@ -59,7 +59,7 @@ const donorData: Donor[] = [
     rank: "04",
     name: "Aarati Shah",
     avatar: "/students/woman3.png",
-    lastDonationDate: "16 May, 2027",
+    lastDonationDate: "16 Mar, 2026",
     donationsCount: 10,
     totalAmount: 15000,
     type: "standard",
@@ -69,7 +69,7 @@ const donorData: Donor[] = [
     rank: "05",
     name: "Aman Regmi",
     avatar: "/students/Aayush.jpeg",
-    lastDonationDate: "12 Feb, 2027",
+    lastDonationDate: "12 Feb, 2026",
     donationsCount: 5,
     totalAmount: 85000,
     type: "standard",
@@ -79,7 +79,7 @@ const donorData: Donor[] = [
     rank: "06",
     name: "Sunil Tamang",
     avatar: "/students/sujan.jpeg",
-    lastDonationDate: "05 Mar, 2027",
+    lastDonationDate: "05 Feb, 2026",
     donationsCount: 8,
     totalAmount: 60000,
     type: "standard",
@@ -89,7 +89,7 @@ const donorData: Donor[] = [
     rank: "07",
     name: "Suraj Bhandari",
     avatar: "/students/Sijan.jpeg",
-    lastDonationDate: "22 Jan, 2027",
+    lastDonationDate: "22 Jan, 2026",
     donationsCount: 15,
     totalAmount: 220000,
     type: "standard",
@@ -191,17 +191,19 @@ const DonorHighlightCard = ({
 
 const TopDonorSection = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [sortBy, setSortBy] = useState<"amount" | "donations" | "name">(
-    "amount",
-  );
+  const [sortBy, setSortBy] = useState<"date" | "amount" | "name">("date");
   const [filterType, setFilterType] = useState<
     "all" | "top" | "recent" | "recurring"
   >("all");
 
-  // Calculate dynamic rank based on total amount across all donors
+  // Calculate dynamic rank based on last donation date (most recent first)
   const rankedDonorsMap = new Map<string, string>(
     [...donorData]
-      .sort((a, b) => b.totalAmount - a.totalAmount)
+      .sort(
+        (a, b) =>
+          new Date(b.lastDonationDate).getTime() -
+          new Date(a.lastDonationDate).getTime(),
+      )
       .map((donor, idx) => [donor.id, String(idx + 1).padStart(2, "0")]),
   );
 
@@ -220,11 +222,14 @@ const TopDonorSection = () => {
       return matchesSearch && donor.type === filterType;
     })
     .sort((a, b) => {
+      if (sortBy === "date") {
+        return (
+          new Date(b.lastDonationDate).getTime() -
+          new Date(a.lastDonationDate).getTime()
+        );
+      }
       if (sortBy === "amount") {
         return b.totalAmount - a.totalAmount;
-      }
-      if (sortBy === "donations") {
-        return b.donationsCount - a.donationsCount;
       }
       return a.name.localeCompare(b.name);
     });
@@ -275,7 +280,7 @@ const TopDonorSection = () => {
             amountNumber={
               <>
                 {formatCurrency(recurringDonor.totalAmount)}
-                <span className="text-xs text-zinc-500 font-normal"> / mo</span>
+                {/* <span className="text-xs text-zinc-500 font-normal"> / mo</span> */}
               </>
             }
             icon={<RefreshCw size={13} className="text-emerald-600" />}
@@ -285,7 +290,7 @@ const TopDonorSection = () => {
         {/* Filter controls row */}
         <div className="flex flex-col md:flex-row md:items-center sm:justify-between gap-4 max-w-5xl mx-auto mb-6">
           <div>
-            <h3 className="text-xl font-bold text-zinc-900">All Donors</h3>
+            <h3 className="text-xl font-bold text-zinc-900">Recent Donors</h3>
             <p className="text-xs text-zinc-500 mt-0.5">
               Showing {filteredDonors.length} generous supporters
             </p>
@@ -316,8 +321,8 @@ const TopDonorSection = () => {
                 onChange={(e) => setSortBy(e.target.value as any)}
                 className="w-full md:w-48 pl-9 pr-8 py-2 border border-zinc-200 rounded-full text-sm bg-white focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary appearance-none cursor-pointer shadow-2xs font-medium text-zinc-700"
               >
+                <option value="date">Sort by Recent</option>
                 <option value="amount">Sort by Amount</option>
-                {/* <option value="donations">Sort by Donations</option> */}
                 <option value="name">Sort by Name</option>
               </select>
               <ChevronDown
