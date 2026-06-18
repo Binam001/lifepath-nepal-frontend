@@ -187,10 +187,10 @@ export default function Header() {
             >
               <button
                 onClick={() => setIsProfileOpen((prev) => !prev)}
-                className="flex items-center justify-center p-2 rounded-full border border-zinc-200 bg-white hover:bg-zinc-50 transition-colors shadow-2xs cursor-pointer w-10 h-10 shrink-0 text-zinc-700 active:scale-95"
+                className="flex items-center justify-center p-2 rounded-full border border-primary/50 bg-white hover:bg-zinc-50 transition-colors shadow-2xs cursor-pointer w-10 h-10 shrink-0 text-zinc-700 active:scale-95"
                 aria-label="Toggle profile menu"
               >
-                <User size={18} />
+                <User size={18} className="text-primary" />
               </button>
 
               <ProfileDropdown
