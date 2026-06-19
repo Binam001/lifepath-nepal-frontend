@@ -11,6 +11,13 @@ import { QueryProvider } from "@/app/providers/QueryProvider";
 import { RecaptchaProvider } from "@/components/providers/RecaptchaProvider";
 import SitePreloader from "@/components/ui/site-preloader";
 // import Tracker from "@/components/Tracker/Tracker";
+import GoogleTranslate from "next-google-translate-widget";
+import "next-google-translate-widget/styles";
+
+const myLanguages = [
+  { label: "English", value: "en", flag: "us" },
+  { label: "नेपाली", value: "ne", flag: "np" },
+];
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -83,6 +90,13 @@ export default function RootLayout({
       >
         <QueryProvider>
           <RecaptchaProvider>
+            {/* Background GoogleTranslate component to run translation script and clean up banner on page reload */}
+            <div style={{ display: "none" }} aria-hidden="true">
+              <GoogleTranslate
+                pageLanguage="en"
+                languages={myLanguages}
+              />
+            </div>
             {/* <Tracker /> */}
             {/* <Preloader> */}
             <SitePreloader />

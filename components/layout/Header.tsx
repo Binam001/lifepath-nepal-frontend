@@ -205,20 +205,20 @@ export default function Header() {
             aria-label="Toggle menu"
             onClick={() => setIsMenuOpen((prev) => !prev)}
           >
-            <MenuIcon size={18} />
+            <MenuIcon size={24} />
           </button>
         </div>
       </nav>
 
       {isMenuOpen && (
         <div className="border-t border-zinc-200 xl:hidden">
-          <div className="mx-auto h-screen max-w-6xl space-y-2 py-4">
+          <div className="mx-auto h-screen max-w-6xl space-y-2">
             {navItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 onClick={() => setIsMenuOpen(false)}
-                className={`relative rounded-xl px-4 py-2 text-lg font-medium transition-colors block ${
+                className={`relative rounded-xl px-2 py-2 text-lg font-medium transition-colors block ${
                   isActive(item.href)
                     ? "bg-blue-50 text-blue-700"
                     : "text-zinc-700 hover:bg-zinc-50"
@@ -233,11 +233,13 @@ export default function Header() {
                   </span>
                 </span>
                 {item.label === "Events" && (
-                  <span className="xl:absolute top-1/2 xl:-translate-y-1/2 right-1/2 inline-flex items-center gap-0.5 rounded-full bg-red-500 px-1.5 py-0.5 ml-8 xl:ml-0 text-xs font-bold text-white uppercase tracking-wider leading-none shadow-xs z-10">
-                    <span>ongoing</span>
-                    {/* <span translate="no" className="nepali-label notranslate">
+                  <span className="xl:absolute top-1/2 xl:-translate-y-1/2 right-1/2 inline-flex items-center gap-0.5 rounded-full bg-red-500 px-1.5 py-0.5 ml-4 md:ml-8 xl:ml-0 text-xs font-bold text-white uppercase tracking-wider leading-none shadow-xs z-10">
+                    <span translate="no" className="english-label notranslate">
+                      ongoing
+                    </span>
+                    <span translate="no" className="nepali-label notranslate">
                       चलिरहेको
-                    </span> */}
+                    </span>
                   </span>
                 )}
               </Link>

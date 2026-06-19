@@ -113,14 +113,14 @@ const BookSection = () => {
   );
 
   return (
-    <section className="mx-auto max-w-7xl px-4 md:px-8 py-8">
+    <section className="mx-auto max-w-7xl px-4 md:px-8 py-4">
       {/* Filter controls row */}
       <div
         className={`sticky z-30 mb-8 transition-all duration-300 bg-white/90 backdrop-blur-md py-4 border-b border-zinc-200/80 -mx-4 px-4 md:-mx-8 md:px-8 ${
           isHeaderVisible ? "top-16" : "top-0"
         }`}
       >
-        <div className="flex flex-col md:flex-row md:items-center sm:justify-between gap-4">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div className="flex items-center justify-between">
             <div className="">
               <h3 className="text-xl font-bold text-zinc-900">Lifebooks</h3>
@@ -144,9 +144,9 @@ const BookSection = () => {
             )}
           </div>
 
-          <div className="flex flex-col md:flex-row items-center gap-3 w-full md:w-auto">
+          <div className="flex flex-row items-center gap-2 md:gap-3 w-full md:w-auto">
             {/* Search Input */}
-            <div className="relative w-full sm:w-auto">
+            <div className="relative w-[65%] sm:w-auto">
               <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <Search size={16} className="text-zinc-400" />
               </span>
@@ -160,16 +160,18 @@ const BookSection = () => {
             </div>
 
             {/* Category Filter */}
-            <div className="relative w-full sm:w-auto">
+            <div className="relative w-[35%] sm:w-auto">
               <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Filter size={14} className="text-zinc-400" />
+                {!isMobile && (
+                  <Filter size={14} className="text-zinc-400 hidden md:block" />
+                )}
               </span>
               <select
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
-                className="w-full sm:w-48 pl-9 pr-8 py-2 border border-zinc-200 rounded-full text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 appearance-none cursor-pointer shadow-xs font-medium text-zinc-700"
+                className="w-full sm:w-48 pl-4 md:pl-8 pr-8 py-2 border border-zinc-200 rounded-full text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 appearance-none cursor-pointer shadow-xs font-medium text-zinc-700"
               >
-                <option value="all">All Categories</option>
+                <option value="all">All Books</option>
                 <option value="job">Job</option>
                 <option value="life">Life</option>
                 <option value="career">Career</option>
@@ -197,15 +199,15 @@ const BookSection = () => {
         </div>
       </div>
 
-      <div className="space-y-16">
+      <div className="space-y-8 md:space-y-16">
         {filteredSections.map((section) => (
           <section key={section.title}>
             <div className="mb-8 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
               <div className="max-w-2xl space-y-2">
-                <h2 className="font-montserrat text-3xl font-bold tracking-[-0.04em] text-blue-500 md:text-4xl">
+                <h2 className="font-montserrat text-3xl font-bold tracking-[-0.04em] text-primary md:text-4xl">
                   {section.title}
                 </h2>
-                <p className="text-sm leading-7 text-slate-600 md:text-base">
+                <p className="text-sm md:text-base text-slate-600">
                   {section.subtitle}
                 </p>
               </div>

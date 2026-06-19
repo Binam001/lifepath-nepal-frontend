@@ -14,6 +14,7 @@ import {
 import Button from "@/components/shared/Button";
 import DeliveryDetailForm from "@/components/cart/DeliveryDetailForm";
 import DeliveryPopupModal from "@/components/cart/DeliveryPopupModal";
+import ClearAllPopUpModal from "@/components/cart/ClearAllPopUpModal";
 
 interface CartItem {
   slug: string;
@@ -41,6 +42,7 @@ export default function CartPage() {
   const [checkoutStep, setCheckoutStep] = useState<"review" | "shipping">(
     "review",
   );
+  const [showClearConfirm, setShowClearConfirm] = useState(false);
 
   useEffect(() => {
     const updateCart = () => {
@@ -85,14 +87,12 @@ export default function CartPage() {
     window.dispatchEvent(new Event("lifepath_cart_update"));
   };
 
-
-
   return (
-    <main className="min-h-screen bg-slate-50/50 pt-28 pb-16 px-4 md:px-8">
+    <main className="min-h-screen bg-slate-50/50 pt-20 md:pt-24 pb-16 px-4 md:px-8">
       <div className="max-w-5xl mx-auto space-y-6">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div>
-            <h1 className="text-3xl md:text-4xl font-extrabold text-zinc-900 tracking-tight flex items-center gap-3">
+            <h1 className="text-2xl md:text-4xl font-semibold text-black tracking-tight flex items-center gap-3">
               <ShoppingCart className="text-primary stroke-[2.5]" />
               Shopping Cart
             </h1>
@@ -104,7 +104,7 @@ export default function CartPage() {
           {/* Step Indicator */}
         </div>
         <div className="w-full flex items-center justify-center xl:justify-start">
-          <div className="w-fit flex items-center gap-3 bg-white border border-zinc-200/80 rounded-2xl px-4 py-2.5 shadow-2xs shrink-0 self-stretch md:self-auto justify-center">
+          <div className="w-full md:w-fit flex items-center gap-3 bg-white border border-zinc-200/80 rounded-2xl px-4 py-2.5 shadow-2xs shrink-0 self-stretch md:self-auto justify-center">
             <div className="flex items-center gap-2">
               <span
                 className={`flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold transition-all ${
@@ -195,7 +195,7 @@ export default function CartPage() {
                           Items ({cartCount})
                         </span>
                         <button
-                          onClick={clearCart}
+                          onClick={() => setShowClearConfirm(true)}
                           className="text-xs font-semibold text-rose-600 hover:text-rose-700 cursor-pointer hover:underline"
                         >
                           Clear All
@@ -405,6 +405,12 @@ export default function CartPage() {
           orderDetails={lastOrder}
         />
       )}
+
+      <ClearAllPopUpModal
+        isOpen={showClearConfirm}
+        onClose={() => setShowClearConfirm(false)}
+        onConfirm={clearCart}
+      />
     </main>
   );
 }

@@ -78,7 +78,7 @@ export default function ProfileDropdown({
           onClick={onClose}
         />
         {/* Side Menu Panel */}
-        <div className="fixed top-0 left-0 bottom-0 z-60 w-72 md:w-[50vw] h-screen bg-white p-6 shadow-2xl animate-slide-in-left flex flex-col gap-5 text-left border-r border-zinc-200">
+        <div className="fixed top-0 left-0 bottom-0 z-60 w-72 md:w-[50vw] h-screen bg-white p-4 shadow-2xl animate-slide-in-left flex flex-col gap-5 text-left border-r border-zinc-200">
           {/* Drawer Header */}
           <div className="flex items-center justify-between pb-3.5 border-b border-zinc-100">
             <span className="text-lg font-bold text-zinc-900">
