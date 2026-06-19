@@ -155,7 +155,7 @@ const BookSection = () => {
                 placeholder="Search books..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full sm:w-60 pl-9 pr-4 py-2 border border-zinc-200 rounded-full text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all shadow-xs"
+                className="w-full sm:w-60 pl-8 pr-4 py-1.5 border border-zinc-200 rounded-full md:text-sm placeholder:text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all shadow-xs"
               />
             </div>
 
@@ -202,7 +202,7 @@ const BookSection = () => {
       <div className="space-y-8 md:space-y-16">
         {filteredSections.map((section) => (
           <section key={section.title}>
-            <div className="mb-8 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+            <div className="mb-4 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
               <div className="max-w-2xl space-y-2">
                 <h2 className="font-montserrat text-3xl font-bold tracking-[-0.04em] text-primary md:text-4xl">
                   {section.title}
