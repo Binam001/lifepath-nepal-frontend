@@ -316,7 +316,7 @@ export default function AnalyzeEmotionalPatterns({
             </p>
           </div>
 
-          <div className="w-full grid sm:grid-cols-3 gap-3">
+          <div className="w-full flex flex-col gap-4">
             {copingTips.map((tip, idx) => (
               <div
                 key={idx}

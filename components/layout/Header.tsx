@@ -9,6 +9,7 @@ import Button from "../shared/Button";
 import "next-google-translate-widget/styles";
 import GoogleTranslate from "next-google-translate-widget";
 import ProfileDropdown from "./ProfileDropdown";
+import OrderItemCount from "../shared/OrderItemCount";
 
 const myLanguages = [
   { label: "English", value: "en", flag: "us" },
@@ -118,10 +119,11 @@ export default function Header() {
           >
             <button
               onClick={() => setIsProfileOpen((prev) => !prev)}
-              className="flex items-center justify-center p-2 rounded-full border border-zinc-200 bg-white hover:bg-zinc-50 transition-colors shadow-2xs cursor-pointer w-10 h-10 shrink-0 text-zinc-700 active:scale-95 animate-fade-in"
+              className="relative flex items-center justify-center p-2 rounded-full border border-zinc-200 bg-white hover:bg-zinc-50 transition-colors shadow-2xs cursor-pointer w-10 h-10 shrink-0 text-zinc-700 active:scale-95 animate-fade-in"
               aria-label="Toggle profile menu"
             >
               <User size={18} />
+              <OrderItemCount className="absolute -top-1 -right-1" />
             </button>
 
             <ProfileDropdown
@@ -187,10 +189,11 @@ export default function Header() {
             >
               <button
                 onClick={() => setIsProfileOpen((prev) => !prev)}
-                className="flex items-center justify-center p-2 rounded-full border border-primary/50 bg-white hover:bg-zinc-50 transition-colors shadow-2xs cursor-pointer w-10 h-10 shrink-0 text-zinc-700 active:scale-95"
+                className="relative flex items-center justify-center p-2 rounded-full border border-primary/50 bg-white hover:bg-zinc-50 transition-colors shadow-2xs cursor-pointer w-10 h-10 shrink-0 text-zinc-700 active:scale-95"
                 aria-label="Toggle profile menu"
               >
                 <User size={18} className="text-primary" />
+                <OrderItemCount className="absolute -top-1 -right-1" />
               </button>
 
               <ProfileDropdown

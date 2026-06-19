@@ -169,6 +169,11 @@ html[lang="ne"] *,
     "NotoSansDevanagari-Regular", var(--font-poppins), sans-serif !important;
 }
 
+button,
+a {
+  cursor: pointer;
+}
+
 .glass-morphism {
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(12px);
@@ -614,4 +619,3 @@ font:focus,
 .animate-fade-in {
   animation: fade-in 0.2s ease-out forwards;
 }
-

@@ -1,8 +1,11 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
 import { X } from "lucide-react";
 import GoogleTranslate from "next-google-translate-widget";
 import "next-google-translate-widget/styles";
+import OrderItemCount from "../shared/OrderItemCount";
 
 const myLanguages = [
   { label: "English", value: "en", flag: "us" },
@@ -32,7 +35,7 @@ const dropDownMenu: MenuCategory[] = [
     items: [
       {
         type: "link",
-        name: "My Personality Result",
+        name: "Know Yourself's Result",
         href: "/personality-test/comparison",
       },
     ],
@@ -119,9 +122,12 @@ export default function ProfileDropdown({
                         key={item.href}
                         href={item.href || "#"}
                         onClick={onClose}
-                        className="flex items-center gap-2 rounded-xl px-3 py-2.5 text-base font-semibold text-zinc-700 hover:bg-zinc-50 hover:text-zinc-950 transition-colors"
+                        className="flex items-center justify-between gap-2 rounded-xl px-3 py-2.5 text-base font-semibold text-zinc-700 hover:bg-zinc-50 hover:text-zinc-950 transition-colors w-full"
                       >
                         <span>{item.name}</span>
+                        {item.href === "/cart" && (
+                          <OrderItemCount className="px-1.5 font-extrabold shadow-xs" />
+                        )}
                       </Link>
                     );
                   })}
@@ -161,9 +167,12 @@ export default function ProfileDropdown({
                     key={item.href}
                     href={item.href || "#"}
                     onClick={onClose}
-                    className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-50 hover:text-zinc-950 transition-colors"
+                    className="flex items-center justify-between gap-2 rounded-xl px-3 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-50 hover:text-zinc-950 transition-colors w-full"
                   >
                     <span>{item.name}</span>
+                    {item.href === "/cart" && (
+                      <OrderItemCount className="px-1.5 font-extrabold shadow-xs" />
+                    )}
                   </Link>
                 );
               })}

@@ -1,128 +1,14 @@
-"use client";
-
 import { Timer, UserCheck } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
-import React, { useState } from "react";
 import Button from "../shared/Button";
-
-const courses = [
-  {
-    id: 1,
-    slug: "advanced-digital-marketing-bootcamp",
-    title: "Brand Developer",
-    img: "/job-training/brand.png",
-    duration: "5 months",
-    price: "80000",
-    originalPrice: "100000",
-    includes: [
-      "Psychology class",
-      "Personality Development",
-      "Life Books",
-      "Personal Guidance",
-      "Interview Practice",
-      "Placement Opportunity",
-    ],
-  },
-  {
-    id: 2,
-    slug: "full-stack-web-development-bootcamp",
-    title: "Full Stack Web Developer",
-    img: "/job-training/fullstack.png",
-    duration: "5 months",
-    price: "80000",
-    originalPrice: "100000",
-    includes: [
-      "Psychology class",
-      "Personality Development",
-      "Life Books",
-      "Personal Guidance",
-      "Interview Practice",
-      "Placement Opportunity",
-    ],
-  },
-  {
-    id: 3,
-    slug: "digital-marketing-bootcamp",
-    title: "Social Media Manager",
-    img: "/job-training/social.png",
-    duration: "5 months",
-    price: "80000",
-    originalPrice: "100000",
-    includes: [
-      "Psychology class",
-      "Personality Development",
-      "Life Books",
-      "Personal Guidance",
-      "Interview Practice",
-      "Placement Opportunity",
-    ],
-  },
-  {
-    id: 4,
-    slug: "graphic-designing-bootcamp",
-    title: "Graphic Designer",
-    img: "/job-training/graphic.png",
-    duration: "3 months",
-    price: "50000",
-    originalPrice: "60000",
-    includes: [
-      "Psychology class",
-      "Personality Development",
-      "Life Books",
-      "Portfolio Review",
-      "Internship Guidance",
-      "Placement Opportunity",
-    ],
-  },
-  {
-    id: 5,
-    slug: "web-development-bootcamp",
-    title: "Web Designer",
-    img: "/job-training/webdev.png",
-    duration: "3 months",
-    price: "50000",
-    originalPrice: "60000",
-    includes: [
-      "Psychology class",
-      "Personality Development",
-      "Life Books",
-      "Personal Guidance",
-      "Interview Practice",
-      "Placement Opportunity",
-    ],
-  },
-  {
-    id: 6,
-    slug: "creative-designer",
-    title: "Creative Designer",
-    img: "/job-training/sales.png",
-    duration: "3 months",
-    price: "50000",
-    originalPrice: "60000",
-    includes: [
-      "Psychology class",
-      "Personality Development",
-      "Life Books",
-      "Personal Guidance",
-      "Interview Practice",
-      "Placement Opportunity",
-    ],
-  },
-];
+import { courseLists } from "@/constants/courseLists";
 
 const CourseCardSection = () => {
-  const [searchQuery] = useState("");
-
-  const filteredCourses = courses.filter((course) =>
-    course.title.toLowerCase().includes(searchQuery.toLowerCase()),
-  );
-
   return (
     <div>
       <section className="max-w-7xl mx-auto py-8 px-4 md:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-4">
-          {filteredCourses.map((course) => (
+          {courseLists.map((course) => (
             <div
               key={course.id}
               className="bg-white rounded-lg overflow-hidden hover:shadow-lg transition-all duration-300 border border-zinc-200 hover:border-blue-500 flex flex-col relative"

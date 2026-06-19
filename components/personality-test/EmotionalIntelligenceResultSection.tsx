@@ -501,7 +501,7 @@ export default function EmotionalIntelligenceResultSection({
         />
 
         {/* Micro-Inconsistencies Diagnostic */}
-        {result.microInconsistencies.length > 0 && (
+        {/* {result.microInconsistencies.length > 0 && (
           <section className="bg-white rounded-3xl p-6 md:p-8 border border-zinc-200 shadow-sm space-y-6">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-red-50 text-red-650 rounded-xl flex items-center justify-center shrink-0 border border-red-100">
@@ -518,7 +518,6 @@ export default function EmotionalIntelligenceResultSection({
               </div>
             </div>
 
-            {/* Explanatory note */}
             <div className="bg-blue-50/40 border border-blue-100/60 rounded-2xl p-4 md:p-5 text-sm text-zinc-700 space-y-2">
               <p className="font-bold text-blue-900 text-sm">
                 How to understand this feedback:
@@ -567,7 +566,6 @@ export default function EmotionalIntelligenceResultSection({
                     key={idx}
                     className="p-5 bg-zinc-50 rounded-2xl border border-zinc-200 space-y-4 hover:border-zinc-300 transition-all hover:shadow-xs"
                   >
-                    {/* Header Row */}
                     <div className="flex items-center justify-between gap-4 border-b border-zinc-200 pb-2">
                       <span className="text-xs font-bold text-zinc-500 uppercase">
                         Domain: {domainLabels[sObj.domain]}
@@ -577,9 +575,8 @@ export default function EmotionalIntelligenceResultSection({
                       </span>
                     </div>
 
-                    {/* Dual Columns */}
                     <div className="grid md:grid-cols-2 gap-6 text-sm">
-                      {/* Self-Report Box */}
+                  
                       <div className="space-y-2">
                         <p className="font-bold text-zinc-500 uppercase tracking-wider text-xs">
                           Phase 1: Self-Perception Statement
@@ -603,7 +600,6 @@ export default function EmotionalIntelligenceResultSection({
                         </div>
                       </div>
 
-                      {/* Scenario Option Box */}
                       <div className="space-y-2">
                         <p className="font-bold text-zinc-500 uppercase tracking-wider text-xs">
                           Phase 2: Situational Scenario
@@ -626,7 +622,6 @@ export default function EmotionalIntelligenceResultSection({
                       </div>
                     </div>
 
-                    {/* Path to Improvement */}
                     {bestOption && bestOption.id !== userScenarioOptId && (
                       <div className="bg-amber-50/60 border border-amber-200/50 p-4 rounded-xl text-sm space-y-1.5 animate-fade-in">
                         <div className="flex items-center gap-1.5 text-amber-850 font-bold">
@@ -650,7 +645,7 @@ export default function EmotionalIntelligenceResultSection({
               })}
             </div>
           </section>
-        )}
+        )} */}
 
         {/* Synthesis CTA */}
         <ComparisonCTA />

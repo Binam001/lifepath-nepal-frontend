@@ -440,66 +440,6 @@ export default function DonationFormSection() {
                     )}
                   </div>
 
-                  {/* Photo (optional) */}
-                  <div>
-                    <label
-                      htmlFor="photo"
-                      className="mb-1 block text-sm font-medium text-zinc-700"
-                    >
-                      Your Photo{" "}
-                      <span className="text-zinc-400">(optional)</span>
-                    </label>
-                    <div
-                      onDragOver={(e) => handleDragOver(e, "photo")}
-                      onDragLeave={() => handleDragLeave("photo")}
-                      onDrop={(e) => handleDrop(e, "photo")}
-                      className={`relative mt-1 flex justify-center rounded-lg border-2 border-dashed px-6 pt-5 pb-6 transition-colors ${
-                        errors.photo
-                          ? "border-red-400 bg-red-50/5"
-                          : isDraggingPhoto
-                            ? "border-blue-500 bg-blue-50"
-                            : "border-zinc-300 bg-white"
-                      }`}
-                    >
-                      <div className="space-y-1 text-center">
-                        <Camera
-                          className="mx-auto h-10 w-10 text-zinc-400"
-                          strokeWidth={1}
-                        />
-                        <div className="flex items-center justify-center text-sm text-zinc-600">
-                          <label
-                            htmlFor="photo"
-                            className="relative cursor-pointer rounded-md bg-white font-medium text-blue-600 hover:text-blue-500 focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-2 focus-within:outline-none"
-                          >
-                            <span>Upload a file</span>
-                            <input
-                              ref={photoInputRef}
-                              id="photo"
-                              name="photo"
-                              type="file"
-                              accept="image/jpeg,image/png,image/webp"
-                              onChange={(e) => handleFileChange(e, "photo")}
-                              className="sr-only"
-                            />
-                          </label>
-                          <p className="pl-1 hidden sm:block">
-                            or drag and drop
-                          </p>
-                        </div>
-                        <p className="text-xs text-zinc-500">
-                          {formData.photo
-                            ? formData.photo.name
-                            : "JPG, PNG, WEBP (max 2 MB)"}
-                        </p>
-                      </div>
-                    </div>
-                    {errors.photo && (
-                      <p className="mt-1 text-sm text-red-500 font-medium">
-                        {errors.photo}
-                      </p>
-                    )}
-                  </div>
-
                   {/* Scan to Pay instruction & button */}
                   <div className="flex flex-col sm:flex-row items-center gap-3 rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-3 mt-4">
                     <p className="flex-1 text-sm tracking-tight text-zinc-600">
@@ -572,6 +512,66 @@ export default function DonationFormSection() {
                     {errors.screenshot && (
                       <p className="mt-1 text-sm text-red-500 font-medium">
                         {errors.screenshot}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Photo (optional) */}
+                  <div>
+                    <label
+                      htmlFor="photo"
+                      className="mb-1 block text-sm font-medium text-zinc-700"
+                    >
+                      Your Photo{" "}
+                      <span className="text-zinc-400">(optional)</span>
+                    </label>
+                    <div
+                      onDragOver={(e) => handleDragOver(e, "photo")}
+                      onDragLeave={() => handleDragLeave("photo")}
+                      onDrop={(e) => handleDrop(e, "photo")}
+                      className={`relative mt-1 flex justify-center rounded-lg border-2 border-dashed px-6 pt-5 pb-6 transition-colors ${
+                        errors.photo
+                          ? "border-red-400 bg-red-50/5"
+                          : isDraggingPhoto
+                            ? "border-blue-500 bg-blue-50"
+                            : "border-zinc-300 bg-white"
+                      }`}
+                    >
+                      <div className="space-y-1 text-center">
+                        <Camera
+                          className="mx-auto h-10 w-10 text-zinc-400"
+                          strokeWidth={1}
+                        />
+                        <div className="flex items-center justify-center text-sm text-zinc-600">
+                          <label
+                            htmlFor="photo"
+                            className="relative cursor-pointer rounded-md bg-white font-medium text-blue-600 hover:text-blue-500 focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-2 focus-within:outline-none"
+                          >
+                            <span>Upload a file</span>
+                            <input
+                              ref={photoInputRef}
+                              id="photo"
+                              name="photo"
+                              type="file"
+                              accept="image/jpeg,image/png,image/webp"
+                              onChange={(e) => handleFileChange(e, "photo")}
+                              className="sr-only"
+                            />
+                          </label>
+                          <p className="pl-1 hidden sm:block">
+                            or drag and drop
+                          </p>
+                        </div>
+                        <p className="text-xs text-zinc-500">
+                          {formData.photo
+                            ? formData.photo.name
+                            : "JPG, PNG, WEBP (max 2 MB)"}
+                        </p>
+                      </div>
+                    </div>
+                    {errors.photo && (
+                      <p className="mt-1 text-sm text-red-500 font-medium">
+                        {errors.photo}
                       </p>
                     )}
                   </div>

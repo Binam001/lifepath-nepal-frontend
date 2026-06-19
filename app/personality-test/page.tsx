@@ -103,6 +103,30 @@ export default function PersonalitySelectionPage() {
       bookLabel: "Learn more about OCEAN",
     },
     {
+      id: "ei",
+      title: "Emotional Intelligence (EQ)",
+      tagline: "3-Layer Behavior Assessment",
+      description:
+        "Evaluate your EQ across 5 domains. This test synthesizes self-report perception with scenario-based behavioral responses to identify self-awareness gaps, blind spots, and imposter patterns.",
+      duration: "8 Minutes",
+      questionsCount: 40,
+      badge: "Self-Awareness",
+      mainColor: "primary",
+      secondaryColor: "primary/10",
+      icon: Brain,
+      formatLabel: "5 EQ Core Domains",
+      details: [
+        "Self-Awareness",
+        "Self-Regulation",
+        "Motivation",
+        "Empathy",
+        "Social Skills",
+      ],
+      buttonLabel: "Find Your EQ",
+      bookUrl: "/ei-book",
+      bookLabel: "Learn more about EQ",
+    },
+    {
       id: "sleep-chronotype",
       title: "Sleep Chronotype Test",
       tagline: "Biological Clock & Daily Energy Peaks",
@@ -125,30 +149,6 @@ export default function PersonalitySelectionPage() {
       bookUrl: "/chronotype-book",
       bookLabel: "Learn more about Chronotypes",
     },
-    // {
-    //   id: "ei",
-    //   title: "Emotional Intelligence (EQ)",
-    //   tagline: "3-Layer Behavior Assessment",
-    //   description:
-    //     "Evaluate your EQ across 5 domains. This test synthesizes self-report perception with scenario-based behavioral responses to identify self-awareness gaps, blind spots, and imposter patterns.",
-    //   duration: "8 Minutes",
-    //   questionsCount: 40,
-    //   badge: "Self-Awareness",
-    //   mainColor: "primary",
-    //   secondaryColor: "primary/10",
-    //   icon: Brain,
-    //   formatLabel: "5 EQ Core Domains",
-    //   details: [
-    //     "Self-Awareness",
-    //     "Self-Regulation",
-    //     "Motivation",
-    //     "Empathy",
-    //     "Social Skills",
-    //   ],
-    //   buttonLabel: "Find Your EQ",
-    //   bookUrl: "/ei-book",
-    //   bookLabel: "Learn more about EQ",
-    // },
   ];
 
   return (

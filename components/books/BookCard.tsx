@@ -1,8 +1,10 @@
+"use client";
+
 import Image from "next/image";
-import Link from "next/link";
 import React from "react";
 import Button from "../shared/Button";
 import { useResponsive } from "@/hooks/useMediaQuery";
+import AddToCartButton from "./AddToCartButton";
 
 type BookCardProps = {
   slug: string;
@@ -27,24 +29,6 @@ export default function BookCard({
   priceNpr,
 }: BookCardProps) {
   const { isMobile } = useResponsive();
-
-  const handleAddToCart = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    const existingCart = localStorage.getItem("lifepath_cart");
-    const cart = existingCart ? JSON.parse(existingCart) : [];
-    const existingItem = cart.find((item: any) => item.slug === slug);
-
-    if (existingItem) {
-      existingItem.qty += 1;
-    } else {
-      cart.push({ slug, title, priceNpr, image, qty: 1 });
-    }
-
-    localStorage.setItem("lifepath_cart", JSON.stringify(cart));
-    window.dispatchEvent(new Event("lifepath_cart_update"));
-  };
 
   return (
     <div className="group relative flex flex-col md:flex-row items-stretch gap-3 md:gap-6 w-full bg-white rounded-3xl border border-zinc-200 p-2 md:p-4 transition-all hover:shadow-lg hover:border-zinc-300">
@@ -115,10 +99,12 @@ export default function BookCard({
               href={`/books/${slug}`}
               className="flex-1 md:flex-initial w-full! md:w-fit! whitespace-nowrap!"
             />
-            <Button
-              label="Add to Cart"
-              size="sm"
-              onClick={handleAddToCart}
+
+            <AddToCartButton
+              slug={slug}
+              title={title}
+              priceNpr={priceNpr}
+              image={image}
               className="flex-1 md:flex-initial w-full! md:w-fit!"
             />
           </div>
