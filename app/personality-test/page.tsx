@@ -25,6 +25,8 @@ export default function PersonalitySelectionPage() {
     const omegaverse = localStorage.getItem("omegaverse_saved_result");
     const ei = localStorage.getItem("ei_saved_result");
     const sleep = localStorage.getItem("sleep_chronotype_saved_result");
+    const iq = localStorage.getItem("iq_saved_result");
+    const riasec = localStorage.getItem("riasec_saved_result");
 
     let count = 0;
     if (mbti) count++;
@@ -32,6 +34,8 @@ export default function PersonalitySelectionPage() {
     if (omegaverse) count++;
     if (ei) count++;
     if (sleep) count++;
+    if (iq) count++;
+    if (riasec) count++;
 
     setCompletedCount(count);
   }, []);
@@ -148,6 +152,54 @@ export default function PersonalitySelectionPage() {
       buttonLabel: "Find Your Rhythm",
       bookUrl: "/chronotype-book",
       bookLabel: "Learn more about Chronotypes",
+    },
+    // {
+    //   id: "iq",
+    //   title: "Cognitive Ability Test (IQ)",
+    //   tagline: "Standard Normal Distribution Test",
+    //   description:
+    //     "Evaluate your abstract logic, sequence identification, verbal analogies, and applied mental arithmetic. Your performance is dynamically mapped against standard normal population baselines.",
+    //   duration: "10 Minutes",
+    //   questionsCount: 24,
+    //   badge: "Cognitive Math",
+    //   mainColor: "primary",
+    //   secondaryColor: "primary/10",
+    //   icon: Brain,
+    //   formatLabel: "4 Cognitive Dimensions",
+    //   details: [
+    //     "Logical Deduction",
+    //     "Sequence Patterning",
+    //     "Word Analogy",
+    //     "Mental Arithmetic",
+    //   ],
+    //   buttonLabel: "Find Your IQ",
+    //   bookUrl: "/iq-book",
+    //   bookLabel: "Learn more about IQ",
+    // },
+    {
+      id: "riasec",
+      title: "Career Interests Test (Holland Code / RIASEC)",
+      tagline: "Vocational Interests Alignment Model",
+      description:
+        "Evaluate your interest scores across six basic personality types: Realistic, Investigative, Artistic, Social, Enterprising, and Conventional. Find your 3-letter Holland Code to map ideal career pathways.",
+      duration: "6 Minutes",
+      questionsCount: 30,
+      badge: "Vocational Model",
+      mainColor: "primary",
+      secondaryColor: "primary/10",
+      icon: Compass,
+      formatLabel: "6 Holland Themes",
+      details: [
+        "Realistic (Doers)",
+        "Investigative (Thinkers)",
+        "Artistic (Creators)",
+        "Social (Helpers)",
+        "Enterprising (Persuaders)",
+        "Conventional (Organizers)",
+      ],
+      buttonLabel: "Find Your Workspace",
+      bookUrl: "/riasec-book",
+      bookLabel: "Learn more about Holland Code",
     },
   ];
 
@@ -283,7 +335,9 @@ export default function PersonalitySelectionPage() {
 
                   {test.id === "ocean" ||
                   test.id === "ei" ||
-                  test.id === "sleep-chronotype" ? (
+                  test.id === "sleep-chronotype" ||
+                  test.id === "iq" ||
+                  test.id === "riasec" ? (
                     <button
                       disabled
                       className="w-full py-3.5 px-6 font-bold rounded-full border border-zinc-200 text-zinc-400 bg-zinc-50 text-sm flex items-center justify-center gap-1.5 cursor-not-allowed"

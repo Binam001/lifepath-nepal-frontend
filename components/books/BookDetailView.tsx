@@ -151,7 +151,7 @@ export default function BookDetailView({ book }: BookDetailViewProps) {
 
             {/* Actions */}
             <div className="mt-8 border-t border-zinc-200 pt-8">
-              <div className="flex flex-col md:flex-row gap-4">
+              <div className="flex flex-col md:flex-row md:items-center gap-4">
                 <div className="flex items-baseline gap-1">
                   <span className="text-lg text-zinc-400">Rs.</span>
                   <span className="text-2xl font-light text-zinc-900">

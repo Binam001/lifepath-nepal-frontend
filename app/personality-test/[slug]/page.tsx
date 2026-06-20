@@ -6,6 +6,8 @@ import OmegaverseTest from "@/components/personality-test/Omegaverse-test";
 import OceanTest from "@/components/personality-test/OceanTest";
 import EmotionalIntelligenceTest from "@/components/personality-test/EmotionalIntelligenceTest";
 import SleepChronotypeTest from "@/components/personality-test/SleepChronotypeTest";
+import IQTest from "@/components/personality-test/IQTest";
+import RiasecTest from "@/components/personality-test/RiasecTest";
 import { AlertCircle, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
@@ -32,6 +34,14 @@ export default function PersonalityQuizPage() {
 
   if (slug === "sleep-chronotype") {
     return <SleepChronotypeTest />;
+  }
+
+  if (slug === "iq") {
+    return <IQTest />;
+  }
+
+  if (slug === "riasec") {
+    return <RiasecTest />;
   }
 
   return (
