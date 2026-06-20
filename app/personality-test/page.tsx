@@ -179,9 +179,9 @@ export default function PersonalitySelectionPage() {
     {
       id: "riasec",
       title: "Career Interests Test (Holland Code / RIASEC)",
-      tagline: "Vocational Interests Alignment Model",
+      tagline: "Discover work you actually enjoy",
       description:
-        "Evaluate your interest scores across six basic personality types: Realistic, Investigative, Artistic, Social, Enterprising, and Conventional. Find your 3-letter Holland Code to map ideal career pathways.",
+        "The best careers align with your interests, not just your skills. Discover your 3-letter Holland Code to unlock the specific career paths and work environments where you will naturally thrive.",
       duration: "6 Minutes",
       questionsCount: 30,
       badge: "Vocational Model",
